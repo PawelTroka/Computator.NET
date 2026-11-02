@@ -1,0 +1,63 @@
+Computator.NET Mono desktop — runtime-dependent Linux package
+
+This archive contains the complete net48 application, Roslyn runtime compiler,
+examples, localization and mathematical reference assets. End users do not need
+a .NET SDK, Node, Python, a C# compiler or a system GSL installation.
+
+Use a package built AND validated for your Ubuntu version and x86_64 CPU. The
+supported build baseline is recorded in mono-package.json. Native libraries
+from different Ubuntu versions are not interchangeable (in particular libtiff).
+This package does not claim support for other Linux distributions or ARM CPUs.
+
+Runtime prerequisites on Ubuntu @UBUNTU_VERSION@:
+  sudo apt-get install --no-install-recommends mono-runtime \
+    libmono-system-windows-forms4.0-cil libmono-system-design4.0-cil \
+    libmono-system-numerics4.0-cil libmono-system-runtime-serialization4.0-cil \
+    libmono-microsoft-csharp4.0-cil libmono-system-net-http4.0-cil \
+    libmono-system-data4.0-cil libmono-system-xml-linq4.0-cil \
+    libmono-posix4.0-cil \
+    libpangocairo-1.0-0 libcairo2 libjpeg-turbo8 @TIFF_PACKAGE@ libgif7 @PNG_PACKAGE@ \
+    libexif12 libx11-6 libxtst6 libxinerama1 @CUPS_PACKAGE@ fonts-dejavu-core x11-utils
+
+Mono 6.8 or later, its Framework runtime assemblies, and a working X11/XWayland
+desktop are required. Run as your normal desktop user. A Wayland session needs
+XWayland; this is an X11 WinForms application. Printing requires a configured
+CUPS service/printer; the runtime dependency above supplies its client library.
+The distribution is not a sandbox:
+TSL/custom functions execute trusted user code with your account's permissions.
+
+Extract to a permanent user-writable directory, then run:
+  ./bin/computator --check
+  ./bin/computator
+
+The archive also includes the matching Mono runtime compatibility facade DLLs
+(including netstandard and ValueTuple), their exact package provenance and Mono
+copyright/license notice. These forwarders are runtime components; the archive
+contains no C# compiler, SDK or development tools.
+
+The launcher verifies every payload file and the actual loaded GSL 2.8/libgdiplus
+libraries before launching. It creates a process-scoped Mono configuration,
+leaves the system Mono configuration untouched, and writes runtime evidence to
+${XDG_CACHE_HOME:-$HOME/.cache}/Computator.NET/runtime-check.json.
+It selects the bundled GSL and the source-pinned Pango-enabled libgdiplus.
+Their remaining native dependencies come from the explicitly listed system
+packages. This archive does not bundle Mono or the full operating-system stack.
+
+Optional desktop-menu registration for your account (no terminal emulator is
+required; x11-utils supplies the xmessage startup-error dialog):
+  ./bin/install-desktop-entry
+Startup errors appear in a small dialog and are retained in a private
+startup-errors.*.log file beside runtime-check.json. A dialog closes after
+60 seconds if unanswered. Successful launches remove their temporary log.
+Keep the application directory in place after registration. To remove the menu
+entry, delete ~/.local/share/applications/computator-net.desktop and
+~/.local/share/icons/hicolor/256x256/apps/computator.png (or the corresponding
+XDG_DATA_HOME paths). Removing the extracted application does not delete your
+settings or documents. No system files or global dllmaps are modified.
+
+Full inventory and source identity: mono-package.json.
+Computator.NET GPL license and corresponding source: share/.
+GSL license, pinned source/build recipes and provenance: native/linux-x64/gsl/.
+libgdiplus license, pinned source/build recipe and provenance: native/linux-x64/gdiplus/.
+Native provenance records build-time dependencies; runtime-check.json records
+what this computer actually selected. A successful copy is not runtime proof.

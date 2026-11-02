@@ -22,6 +22,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         {
 #if __MonoCS__
             referenceText = new MonoReferenceText { Dock = DockStyle.Fill };
+            referenceText.ReadingFocusLeft += (_, _) => ReferenceFocusLeft?.Invoke(this, EventArgs.Empty);
             browserHost = new ToolStripControlHost(referenceText)
             {
                 AutoSize = false, Margin = Padding.Empty, Padding = Padding.Empty
@@ -67,6 +68,8 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         }
 
 #if __MonoCS__
+        internal event EventHandler ReferenceFocusLeft;
+
         private void ShowMonoReference(Control owner)
         {
             if (!owner.IsHandleCreated || !owner.Visible) return;
@@ -115,19 +118,15 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             }
             SetReadingSize(new Size(Math.Max(1, width), Math.Max(1, maximumHeight)));
             Show(owner, owner.PointToClient(new Point(x, y)));
+            FitMonoReferenceHeight();
         }
 
         private void FitMonoReferenceHeight()
         {
-            if (!Visible || referenceText.TextLength == 0 || maximumHeight <= 0) return;
-            // The reference is plain text on Mono: use the actual RichTextBox
-            // layout instead of Windows' HTML document dimensions.
-            var end = referenceText.GetPositionFromCharIndex(referenceText.TextLength - 1);
-            if (end.Y < 0 || end.Y >= referenceText.ClientSize.Height) return;
+            if (!Visible || referenceText.Text.Length == 0 || maximumHeight <= 0) return;
             var chrome = Height - referenceText.ClientSize.Height;
             var height = Math.Min(maximumHeight,
-                Math.Max(140, end.Y + referenceText.Font.Height * 2 + chrome));
-            if (height >= Height) return;
+                Math.Max(140, referenceText.PreferredDocumentHeight(referenceText.Width) + chrome));
             SetReadingSize(new Size(Width, height));
             Location = new Point(
                 Math.Max(workingArea.Left + 2, Math.Min(Left, workingArea.Right - Width - 2)),

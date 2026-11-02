@@ -13,9 +13,9 @@ import xml.etree.ElementTree as ET
 from versioning import check
 
 REPORTS = {
-    'TestResults/Computator.NET.Core.Tests.trx': 2346,
+    'TestResults/Computator.NET.Core.Tests.trx': 2369,
     'TestResults/Computator.NET.Core.IntegrationTests.trx': 947,
-    'TestResults/Computator.NET.Desktop.Tests.trx': 620,
+    'TestResults/Computator.NET.Desktop.Tests.trx': 652,
     'TestResults/Computator.NET.WebApi.IntegrationTests.trx': 166,
     'TestResults/portable.trx': 1819,
     'TestResults/reference.trx': 210,

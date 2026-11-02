@@ -23,7 +23,10 @@ def add_stream(archive: zipfile.ZipFile, name: str, stream) -> None:
 
 def package_sources(native: Path, checkout: Path, upstream: Path, pins: dict, destination: Path) -> None:
     with upstream.open('rb') as stream:
-        upstream_hash = hashlib.file_digest(stream, 'sha512').hexdigest()
+        checksum = hashlib.sha512()
+        for block in iter(lambda: stream.read(1024 * 1024), b''):
+            checksum.update(block)
+        upstream_hash = checksum.hexdigest()
     if upstream_hash != pins['sha512']:
         raise ValueError('The corresponding-source archive does not match the reviewed GNU SHA-512.')
     commit = subprocess.check_output(['git', '-C', str(checkout), 'rev-parse', 'HEAD'], text=True).strip()
@@ -50,9 +53,9 @@ Contents:
 - build/native: Computator.NET's native build script, pins, triplets and probes.
 
 Rebuild (Windows x64, Linux x64 or macOS x64/ARM64):
-1. Extract this archive into an empty working directory. Install Git, Python 3.11
+1. Extract this archive into an empty working directory. Install Git, Python 3.10
    or newer, a supported
-   C/C++ toolchain (MSVC on Windows) and .NET SDK 10.0.402 or a compatible patch.
+   C/C++ toolchain (MSVC on Windows) and the .NET SDK selected by global.json.
 2. The automated driver verifies Git HEAD and fetches the pinned vcpkg commit
    into artifacts/native-tools/vcpkg. Keep that directory absent before the first
    run, or use a clean checkout of that exact commit there. vcpkg-source.tar

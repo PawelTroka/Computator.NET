@@ -3,6 +3,13 @@
 ###############################################################################
 * text=auto
 
+# Unix distribution recipes and pinned patches must retain their reviewed bytes.
+build/mono/*.sh text eol=lf
+build/mono/*.py text eol=lf
+build/mono/*.json text eol=lf
+build/mono/*.patch text eol=lf
+build/mono/*.txt text eol=lf
+
 # Materialized reference content has a deterministic byte representation on all
 # developer/CI platforms; do not convert it to CRLF in Windows checkouts.
 Computator.NET.Core/Static/functions.xml text eol=lf

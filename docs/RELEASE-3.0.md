@@ -10,8 +10,11 @@ SDK minimum is now 10.0.403 and runtime packages are 10.0.14, including the
 The old API 3D skip is no longer allowed: the supported web surface contract is
 numerical JSON with browser WebGL, rather than server-side WPF image rendering.
 The separate portable local browser host is still an experimental managed subset,
-with charts and the full native catalog unavailable. Mono help still uses text
-and equation alternatives. Full Mac desktop parity, signing/Store certification
+with charts and the full native catalog unavailable. The Mono release-preparation
+candidate in [#321](https://github.com/PawelTroka/Computator.NET/pull/321) adds rich
+offline reference help and runtime-dependent Linux archives with private GSL 2.8/
+libgdiplus, verified against the actual extracted application. Native Mac desktop
+and relocated-bundle acceptance is tracked in the same PR. Full Mac desktop parity, signing/Store certification
 and the remaining release acceptance gates below are not implied by this work.
 Earlier dated results and benchmark runtime identities below are historical;
 use the exact final candidate's CI and artifacts for its acceptance evidence.
@@ -67,8 +70,9 @@ The acceptance implementation and its contract tests are not machine-execution e
 - [ ] On clean disposable Windows machines without a development SDK, test installation, launch, repair, uninstall, failed-upgrade rollback and upgrade from the original official 2.3.2 EXE and its embedded MSI. Verify MSI/Burn registrations, shortcuts, file associations and preservation/migration of user data using the exact candidate MSI and EXE hashes.
 - [ ] Sign with owner-controlled release credentials; validate MSIX installation and Start-menu/file activation, upgrade from the actual previous Store package, settings/native-cache writes, offline use and uninstall policy. Complete Store certification before submission/release claims.
 - [ ] Verify the final package's adopted GSL 2.8 payload, matching source/build archive and notices, actual resolver reports, intended native/managed ABI and numerical jobs, and difficult-input behavior. Keep the existing published releases available for rollback.
+- [ ] For each advertised Mono platform/architecture, retain the final archive hash, complete native/source provenance, actual production startup/input/paint and full shared acceptance report. Recheck read-only Ubuntu 22.04/24.04 packages without build tools and relocated native Intel/Apple Silicon Mac bundles. Complete physical-machine clipboard/IME, printing, accessibility and display/DPI acceptance; Mac owner signing/notarization remains a separate distribution decision. See [Mono desktop](MONO-DESKTOP.md).
 - [ ] Verify genuine AppVeyor and Travis final-commit runs with native provider URLs/build IDs and completion evidence if those providers are advertised as active gates.
-- [ ] Approve release notes that state the remaining scope: symbolic calculation and server-side WPF 3D image rendering remain unavailable; browser surfaces use numerical JSON and client rendering. The portable CLI/local browser backend are subsets, and the full Windows numerical/graphics engine is not yet a Mac/Linux desktop application.
+- [ ] Approve release notes that state the remaining scope: symbolic calculation and server-side WPF 3D image rendering remain unavailable; browser surfaces use numerical JSON and client rendering. The portable CLI/local browser backend are subsets. The Mono desktop builds the shared engine with explicit editor, software-rendering and runtime-lifetime differences; advertise only the native platform/package combinations that have passed their release gates.
 
 The supported web deployment is a trusted local service: both hosts bind to loopback, the frontend uses the protected proxy, and the shared token stays server-side. JSON computation/chart requests execute in owned workers that are retired on cancellation or deadline; legacy routes retain their compatibility behavior. These workers run with the user's permissions and are not a public multi-user sandbox. Public hosting still requires a separately reviewed isolation and authorization design.
 

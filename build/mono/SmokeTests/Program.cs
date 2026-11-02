@@ -67,6 +67,21 @@ internal static partial class Program
     [STAThread]
     private static int Main(string[] args)
     {
+        if (args.Length == 3 && args[0] == "--application-directory")
+        {
+            var applicationDirectory = Path.GetFullPath(args[1]).TrimEnd(Path.DirectorySeparatorChar);
+            var expected = Environment.GetEnvironmentVariable("COMPUTATOR_MONO_EXPECTED_APPLICATION_DIRECTORY");
+            if (string.IsNullOrEmpty(expected) || Path.GetFullPath(expected).TrimEnd(Path.DirectorySeparatorChar) != applicationDirectory ||
+                !File.Exists(Path.Combine(applicationDirectory, "Computator.NET.exe")))
+                throw new InvalidOperationException("Packaged acceptance requires an explicit matching application directory.");
+            var domain = AppDomain.CreateDomain("Computator.NET.Mono.PackageAcceptance", null, new AppDomainSetup
+            {
+                ApplicationBase = applicationDirectory,
+                ConfigurationFile = Assembly.GetExecutingAssembly().Location + ".config"
+            });
+            try { return domain.ExecuteAssembly(Assembly.GetExecutingAssembly().Location, new[] { Path.GetFullPath(args[2]) }); }
+            finally { AppDomain.Unload(domain); }
+        }
         if (args.Length != 1)
         {
             Console.Error.WriteLine("Usage: mono Computator.NET.Mono.SmokeTests.exe /absolute/path/results");
@@ -74,7 +89,8 @@ internal static partial class Program
         }
         outputDirectory = Path.GetFullPath(args[0]);
         Directory.CreateDirectory(outputDirectory);
-        Environment.SetEnvironmentVariable("MONO_WINFORMS_XIM_STYLE", "disabled");
+        if (Environment.GetEnvironmentVariable("COMPUTATOR_MONO_XIM_ACCEPTANCE") != "enabled")
+            Environment.SetEnvironmentVariable("MONO_WINFORMS_XIM_STYLE", "disabled");
         CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
         CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("en");
         Application.SetCompatibleTextRenderingDefault(false);
@@ -99,13 +115,16 @@ internal static partial class Program
         Run("desktop-script-and-custom-functions", DesktopScripts);
         Run("desktop-numerical-method-catalog", NumericalMethodCatalog);
         Run("native-gsl-generated-import-and-error-recovery", NativeGsl);
-        Run("mono-function-reference-readable-text", FunctionReference);
+        Run("mono-correctly-rounded-numeric-input", CorrectlyRoundedNumericInput);
+        Run("mono-numeric-input-font-layout", NumericInputsFitActualFonts);
+        Run("mono-function-reference-rich-offline-content", FunctionReference);
         Run("mono-autocomplete-real-x11-layout-and-selection", AutocompleteRealX11);
         Run("unicode-editor-documents-and-renaming", EditorDocuments);
         Run("unshown-editor-tabs-have-backed-documents", UnshownEditorDocuments);
         Run("desktop-visible-custom-functions-file-and-script-workflow", DesktopWorkflow);
         Run("desktop-literal-find-and-replace", DesktopFindReplace);
         Run("unix-document-save-and-alias-protection", UnixDocumentSafety);
+        Run("unix-document-hardlink-and-replacement-identity", UnixDocumentIdentity);
         Run("real-chart-samples-and-png-rendering", RealChart);
         Run("complex-chart-png-and-domain-colors", ComplexChart);
         Run("native-mono-3d-surface-and-visible-x11-interaction", Native3D);
@@ -113,6 +132,7 @@ internal static partial class Program
         Run("native-mono-3d-common-grid-parity-contract", Native3DCommonGridContract);
         Run("native-mono-3d-large-finite-constant-surfaces", Native3DLargeConstants);
         Run("native-mono-3d-rejected-point-input-budget", Native3DPointInputBudget);
+        Run("native-mono-3d-script-surface-and-point-plots", Native3DScriptPlots);
         WriteResults();
         var failed = Results.Count(result => result.Failure != null);
         var skipped = Results.Count(result => result.SkippedReason != null);
@@ -142,6 +162,9 @@ internal static partial class Program
             "Desktop and portable numerical methods must share one implementation.");
         foreach (var assembly in new[] { typeof(MainView).Assembly, typeof(Chart2D).Assembly, typeof(ExpressionsEvaluator).Assembly, typeof(PortableEngine).Assembly })
         {
+            var expected = Environment.GetEnvironmentVariable("COMPUTATOR_MONO_EXPECTED_APPLICATION_DIRECTORY");
+            if (!string.IsNullOrEmpty(expected))
+                Equal(Path.GetFullPath(Path.GetDirectoryName(assembly.Location)), Path.GetFullPath(expected).TrimEnd(Path.DirectorySeparatorChar));
             var forbidden = assembly.GetReferencedAssemblies().Where(reference => new[]
                 { "PresentationFramework", "PresentationCore", "WindowsFormsIntegration", "Scintilla5.NET", "ICSharpCode.AvalonEdit" }.Contains(reference.Name));
             Check(!forbidden.Any(), assembly.GetName().Name + " references unsupported Windows UI assemblies.");
@@ -703,7 +726,7 @@ internal static partial class Program
             "3D chart is not a usable visible native control.");
         var screenshot = new Bitmap(rectangle.Width, rectangle.Height);
         using (var graphics = Graphics.FromImage(screenshot))
-            graphics.CopyFromScreen(rectangle.Location, Point.Empty, rectangle.Size);
+            NativeDesktopCapture.CopyFromScreen(graphics, rectangle.Location, Point.Empty, rectangle.Size, control);
         screenshot.Save(Path.Combine(outputDirectory, name), ImageFormat.Png);
         return screenshot;
     }
@@ -727,7 +750,7 @@ internal static partial class Program
                 control.Refresh();
                 Application.DoEvents();
                 using (var graphics = Graphics.FromImage(image))
-                    graphics.CopyFromScreen(control.Location, Point.Empty, image.Size);
+                    NativeDesktopCapture.CopyFromScreen(graphics, control.Location, Point.Empty, image.Size, control);
                 AssertImageHasVariation(image, 16);
             }
             else control.DrawToBitmap(image, new Rectangle(Point.Empty, image.Size));

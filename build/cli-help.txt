@@ -33,6 +33,15 @@ EVERYDAY TARGETS
   Portable-Build      Any OS: build the managed engine tests and portable CLI.
   Portable-Test       Any OS: build and test the managed engine subset.
   Portable-Validate   Any OS: engine tests, publish CLI, exercise its process API.
+  Mono-Build          Linux/macOS: compile the explicit net48 Mono desktop.
+  Mono-Validate       Linux: real Mono desktop startup, input, maths and charts.
+  Mono-Linux-Package  Ubuntu 22.04/24.04 x64: build the runtime-dependent archive.
+  Mono-Linux-Package-Validate  Also test the actual extracted Linux release payload.
+  Mono-Mac-Prepare    Native macOS: prepare the private X11 drawing stack.
+  Mono-Mac-Validate   Native macOS: exercise the Mono desktop; see docs/MONO-DESKTOP.md.
+  Mono-Mac-Package    Native macOS: validate, then build the runtime-dependent .app/ZIP.
+  Mono-Mac-Package-Validate  Relocate and test that exact Mac bundle and native closure.
+  Mono-Mac-Archive-Validate  Test an existing ZIP with --mono-mac-archive=<path>.
   Web-Build           Any OS: locked npm install, audit, TypeScript and Vite build.
   Web-Validate        Any OS: publish frontend and run Chromium/Firefox tests.
   Web-IDE-Validate    Windows: exercise actual source-host IDE startup.

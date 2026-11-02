@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "version": "6.2",
+  "archive": "https://dl.winehq.org/mono/sources/libgdiplus/libgdiplus-6.2.tar.gz",
+  "sha512": "7e7d37f2de8e89da62af642be3d308b5208f4478799b9442054e0c5d3d6d9a6486cf539d72e7201cc7878e302d6aacb5b34cfbf79b71c937d8fc4d74da427b03",
+  "upstreamCommit": "5a6d5d7990a7a4955b4c856f89edaf4a366484ba",
+  "fixtures": {
+    "archive": "https://gitlab.winehq.org/mono/libgdiplus/-/archive/5a6d5d7990a7a4955b4c856f89edaf4a366484ba/libgdiplus-5a6d5d7990a7a4955b4c856f89edaf4a366484ba.tar.gz",
+    "sha512": "757a3e55bf92ecc800ec6783df17940d586c5775ad6665d1ee2e03246b49a07ef58ebc2f954b0cee2650ee8c0d66cd03eddc8b4b926de73fca9650dc9f143fb6"
+  },
+  "license": "MIT",
+  "patches": {
+    "libgdiplus-pango-fontmap.patch": "9c02d9c8e320c97e8a6c331b55a2f77fe315bb865a5f996c6ffa178c69b75617"
+  },
+  "configure": ["--with-pango", "--disable-static"]
+}

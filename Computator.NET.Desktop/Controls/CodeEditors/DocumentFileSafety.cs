@@ -108,12 +108,22 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             if (!IsWindows)
             {
 #if __MonoCS__
-                // Tab keys are case-insensitive, while a Unix filesystem can
-                // hold both names. Never silently reuse one document's buffer.
-                if (caseVariant)
-                    throw new IOException("These document names differ only by case. The Mono editor cannot safely combine them on a case-sensitive filesystem. Choose a different file name.");
-#endif
+                using (var first = OpenExisting(left, FileShare.ReadWrite | FileShare.Delete))
+                {
+                    if (first == null && !caseVariant) return false;
+                    using (var second = OpenExisting(right, FileShare.ReadWrite | FileShare.Delete))
+                    {
+                        if (first == null && second == null) return caseVariant;
+                        var same = first != null && second != null && MonoFileIdentity.Read(first.SafeFileHandle, out _)
+                            .Equals(MonoFileIdentity.Read(second.SafeFileHandle, out _));
+                        if (caseVariant && !same)
+                            throw new IOException("These names differ only by case but identify different Unix files. Choose another name to keep the documents separate.");
+                        return same;
+                    }
+                }
+#else
                 return caseVariant;
+#endif
             }
 
             using (var first = OpenWindowsFile(left, 0, 7, 0x02000000))
@@ -289,7 +299,12 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         {
             var links = 1U;
             DocumentFileIdentity? identity = IsWindows
-                ? GetIdentity(stream.SafeFileHandle, out links) : null;
+                ? GetIdentity(stream.SafeFileHandle, out links)
+#if __MonoCS__
+                : MonoFileIdentity.Read(stream.SafeFileHandle, out links);
+#else
+                : null;
+#endif
             using (var bytes = new MemoryStream())
             {
                 stream.CopyTo(bytes);

@@ -1,0 +1,71 @@
+name: Mono Linux package acceptance
+on:
+  pull_request:
+  push:
+    branches: [master]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mono-linux-package-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  ubuntu-package:
+    name: Ubuntu ${{ matrix.version }} x64 archive
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            version: '22.04'
+          - os: ubuntu-24.04
+            version: '24.04'
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: global.json
+      - name: Install build and X11 acceptance prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends mono-devel build-essential patch pkg-config zip unzip \
+            libglib2.0-dev libcairo2-dev libpango1.0-dev libfontconfig1-dev libfreetype-dev \
+            libjpeg-turbo8-dev libtiff-dev libgif-dev libpng-dev libexif-dev libx11-dev \
+            libxtst6 libxinerama1 fonts-dejavu-core xvfb xauth xdotool x11-utils
+      - name: Build and validate the distributable archive through Cake
+        run: ./build.sh --target=Mono-Linux-Package-Validate
+      - name: Prove the archive on the minimal runtime dependency set
+        run: |
+          docker build --build-arg UBUNTU_VERSION=${{ matrix.version }} -t computator-mono-runtime:${{ matrix.version }} - < build/mono/runtime.Dockerfile
+          docker image inspect computator-mono-runtime:${{ matrix.version }} > artifacts/mono-package/runtime-image.json
+          evidence="$PWD/artifacts/mono-package/runtime-only"
+          mkdir -p "$evidence"
+          cp -a artifacts/mono-package/evidence-Release/harness "$evidence/"
+          cp artifacts/mono-package/evidence-Release/legacy-settings.dat "$evidence/"
+          docker run --rm --init --user "$(id -u):$(id -g)" \
+            -v "$PWD:$PWD:ro" -v "$evidence:$evidence:rw" -w "$PWD" \
+            computator-mono-runtime:${{ matrix.version }} bash build/mono/accept-package-runtime.sh \
+            "$PWD/artifacts/mono-package/unpacked-Release" "$evidence"
+          python3 build/mono/validate-evidence.py "$evidence/mono-results.xml"
+      - name: Retain archive and exact runtime/native evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: mono-linux-${{ matrix.os }}-x64
+          path: |
+            artifacts/mono-package/Release/*.tar.gz
+            artifacts/mono-package/**/*.json
+            artifacts/mono-package/**/*.xml
+            artifacts/mono-package/**/*.png
+            artifacts/mono-package/**/*.log
+            artifacts/mono-package/**/*.sha256
+            artifacts/mono-package/**/runtime-packages.txt
+            artifacts/mono-package/**/mono-version.txt
+            artifacts/mono-native/**/native-test-suite.log
+            artifacts/mono-native/**/gdiplus-provenance.json
+            artifacts/gsl/**/gsl-provenance.json
+          retention-days: 7

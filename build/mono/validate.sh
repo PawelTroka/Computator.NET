@@ -17,7 +17,7 @@ mkdir -p -- "$results"
 cd -- "$repository"
 
 if [[ "$(uname -s)" != Linux ]]; then
-    printf '%s\n' 'This acceptance runner currently validates Linux + X11. macOS runtime support is not verified.' >&2
+    printf '%s\n' 'This runner requires Linux/X11. On native macOS use Cake Mono-Mac-Validate; see docs/MONO-DESKTOP.md.' >&2
     exit 2
 fi
 for dependency in mono mcs xvfb-run timeout; do
@@ -69,6 +69,12 @@ rm -f -- "$results/production-complex-before.png" "$results/production-complex-a
     "$results/complex-visible-render-failure.png" "$results/complex-visible-after-render-failure.png"
 rm -f -- "$results/autocomplete-after.png"
 rm -f -- "$results/find-replace.png" "$results/find-replace-dialog.png"
+
+mcs -nologo -out:"$validation_temp/NativeToolProcessTests.exe" \
+    build/mono/NativeToolProcess.cs build/mono/NativeToolProcessTests.cs
+mono_runtime=$(command -v mono)
+timeout --kill-after=5s 30s "$mono_runtime" "$validation_temp/NativeToolProcessTests.exe" \
+    "$mono_runtime" "$results/native-tool-process" 2>&1 | tee "$results/native-tool-process-contracts.log"
 
 status=0
 COMPUTATOR_DATA_DIRECTORY="$validation_temp/startup" \

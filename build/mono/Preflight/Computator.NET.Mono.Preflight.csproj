@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../ModernDesktop.props" />
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>Computator.NET.Mono.Preflight</AssemblyName>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\..\macos\MonoXimContract.cs" Link="MonoXimContract.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Runtime.Serialization" />
+  </ItemGroup>
+  <Target Name="RequireMonoCompatibilityTarget" BeforeTargets="PrepareForBuild">
+    <Error Condition="'$(ComputatorMono)' != 'true'" Text="Build the Mono package preflight with -p:ComputatorMono=true." />
+  </Target>
+</Project>

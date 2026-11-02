@@ -5,7 +5,6 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 internal static class Program
@@ -111,7 +110,7 @@ public sealed class StartupRunner : MarshalByRefObject
                         // Mono's Form.DrawToBitmap can omit all native children.
                         // Read the real X11 pixels after a complete paint cycle.
                         using (var graphics = Graphics.FromImage(bitmap))
-                            graphics.CopyFromScreen(form.Location, Point.Empty, bitmap.Size);
+                            NativeDesktopCapture.CopyFromScreen(graphics, form.Location, Point.Empty, bitmap.Size, form);
                         var colors = new System.Collections.Generic.HashSet<int>();
                         for (var x = 0; x < bitmap.Width; x += 7)
                             for (var y = 0; y < bitmap.Height; y += 7)
@@ -216,39 +215,15 @@ public sealed class StartupRunner : MarshalByRefObject
                 ? "(none)" : System.Threading.SynchronizationContext.Current.GetType().FullName);
     }
 
-    [DllImport("libX11.so.6")]
-    private static extern IntPtr XOpenDisplay(IntPtr displayName);
-    [DllImport("libX11.so.6")]
-    private static extern int XCloseDisplay(IntPtr display);
-    [DllImport("libX11.so.6")]
-    private static extern int XSync(IntPtr display, int discard);
-    [DllImport("libXtst.so.6")]
-    private static extern int XTestFakeMotionEvent(IntPtr display, int screen, int x, int y, ulong delay);
-    [DllImport("libXtst.so.6")]
-    private static extern int XTestFakeButtonEvent(IntPtr display, uint button, int press, ulong delay);
-
     private static void ClickProductionDrawOnX11(Button draw)
     {
-        var center = draw.PointToScreen(new Point(draw.Width / 2, draw.Height / 2));
-        var display = XOpenDisplay(IntPtr.Zero);
-        if (display == IntPtr.Zero)
-            throw new InvalidOperationException("Cannot open X11 display for production Draw acceptance.");
-        try
-        {
-            if (XTestFakeMotionEvent(display, 0, center.X, center.Y, 0) == 0)
-                throw new InvalidOperationException("Cannot position native pointer over production Draw.");
-            XSync(display, 0);
-            Application.DoEvents();
-            if (XTestFakeButtonEvent(display, 1, 1, 0) == 0)
-                throw new InvalidOperationException("Native X11 Draw press failed.");
-            XSync(display, 0);
-            Application.DoEvents();
-            if (XTestFakeButtonEvent(display, 1, 0, 0) == 0)
-                throw new InvalidOperationException("Native X11 Draw release failed.");
-            XSync(display, 0);
-            Application.DoEvents();
-        }
-        finally { XCloseDisplay(display); }
+        var owner = draw.FindForm();
+        if (owner == null) throw new InvalidOperationException("Production Draw has no owned form.");
+        var clicks = 0;
+        EventHandler observed = (_, _) => clicks++;
+        draw.Click += observed;
+        try { NativeX11Input.ClickOnce(owner.Handle, draw.Handle, () => clicks, Application.DoEvents); }
+        finally { draw.Click -= observed; }
     }
 
     private static Bitmap CaptureX11Pixels(Control control)
@@ -258,7 +233,7 @@ public sealed class StartupRunner : MarshalByRefObject
             throw new InvalidOperationException("Invalid native screen rectangle for " + control.Name);
         var image = new Bitmap(rectangle.Width, rectangle.Height);
         using (var graphics = Graphics.FromImage(image))
-            graphics.CopyFromScreen(rectangle.Location, Point.Empty, rectangle.Size);
+            NativeDesktopCapture.CopyFromScreen(graphics, rectangle.Location, Point.Empty, rectangle.Size, control);
         return image;
     }
 

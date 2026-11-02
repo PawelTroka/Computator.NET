@@ -41,7 +41,12 @@ namespace Computator.NET.Core.Functions
                 x = (T)(object)(string.Empty);//TODO: find better way to provide something which is not null for reference types
 
             if (x.IsNumericType())
+#if __MonoCS__
+                x = (T)((object)Computator.NET.Core.Compilation.MonoDoubleParser.Parse(result,
+                    System.Globalization.NumberStyles.Float | System.Globalization.NumberStyles.AllowThousands));
+#else
                 x = (T)((object)double.Parse(result, System.Globalization.CultureInfo.InvariantCulture));
+#endif
 
             if (x is string)
                 x = (T)((object)(result));
@@ -286,10 +291,10 @@ namespace Computator.NET.Core.Functions
             plot(function, XMin, XMax, YMin, YMax, quality);
         }
 
-#if !__MonoCS__
 
         public static void plot(params System.Func<double, double, double>[] fxys)
         {
+            if (System.Type.GetType("Mono.Runtime") != null) { MonoPlotSurfaceCollection(fxys); return; }
             var chart3d = _chartFactory.CreateChart3D();
             chart3d.Mode = (fxys.Length > 1)
                 ? Computator.NET.DataTypes.Charts.Chart3DMode.Points
@@ -306,6 +311,7 @@ namespace Computator.NET.Core.Functions
 
         public static void plot(System.Collections.Generic.IEnumerable<double> x, System.Collections.Generic.IEnumerable<double> y, System.Collections.Generic.IEnumerable<double> z)
         {
+            if (System.Type.GetType("Mono.Runtime") != null) { MonoPlotPointSequences(x, y, z); return; }
             var xa = System.Linq.Enumerable.ToArray(x);
             var ya = System.Linq.Enumerable.ToArray(y);
             var za = System.Linq.Enumerable.ToArray(z);
@@ -322,7 +328,6 @@ namespace Computator.NET.Core.Functions
 
             chart3d.ShowPlotDialog();
         }
-#endif
 
 
         public static void plot(System.Func<double, double> fx, double XMin = -5, double XMax = 5, double YMin = -5,
@@ -369,6 +374,72 @@ double YMax = 5, double quality = 0.5)
            chart2d.ShowPlotDialog();
         }
 
+        // These private helpers also travel in ToCode. Runtime detection is
+        // intentional: a generated Roslyn script need not inherit MSBuild's
+        // __MonoCS__ symbol. The Windows public method bodies stay unchanged.
+        private static void MonoPlotSurfaceCollection(System.Func<double, double, double>[] fxys)
+        {
+            if (fxys == null) throw new System.ArgumentNullException("fxys");
+            if (fxys.Length == 0) throw new System.ArgumentException("At least one surface is required.", "fxys");
+            if (fxys.Length > 8) throw new System.ArgumentOutOfRangeException("fxys", "A Mono chart can contain at most eight surfaces.");
+            foreach (var fxy in fxys)
+                if (fxy == null) throw new System.ArgumentException("A surface cannot be null.", "fxys");
+            var chart = _chartFactory.CreateChart3D();
+            try
+            {
+                chart.Mode = fxys.Length > 1
+                    ? Computator.NET.DataTypes.Charts.Chart3DMode.Points
+                    : Computator.NET.DataTypes.Charts.Chart3DMode.Surface;
+                chart.SetChartAreaValues(-5, 5, -5, 5);
+                foreach (var fxy in fxys)
+                    chart.AddFunction(new Computator.NET.DataTypes.Functions.Function(fxy, Computator.NET.DataTypes.Functions.FunctionType.Real3D));
+                chart.ShowPlotDialog();
+            }
+            finally
+            {
+                // The software renderer creates an independent preview window.
+                var temporary = chart as System.IDisposable;
+                if (temporary != null) temporary.Dispose();
+            }
+        }
+
+        private static void MonoPlotPointSequences(System.Collections.Generic.IEnumerable<double> x,
+            System.Collections.Generic.IEnumerable<double> y, System.Collections.Generic.IEnumerable<double> z)
+        {
+            var chart = _chartFactory.CreateChart3D();
+            try
+            {
+                chart.AddPoints(MonoScriptPlotPoints(x, y, z));
+                chart.ShowPlotDialog();
+            }
+            finally
+            {
+                var temporary = chart as System.IDisposable;
+                if (temporary != null) temporary.Dispose();
+            }
+        }
+
+        private static System.Collections.Generic.IEnumerable<Computator.NET.DataTypes.Charts.Point3D> MonoScriptPlotPoints(
+            System.Collections.Generic.IEnumerable<double> x, System.Collections.Generic.IEnumerable<double> y,
+            System.Collections.Generic.IEnumerable<double> z)
+        {
+            if (x == null) throw new System.ArgumentNullException("x");
+            if (y == null) throw new System.ArgumentNullException("y");
+            if (z == null) throw new System.ArgumentNullException("z");
+            var inputs = 0;
+            using (var xs = x.GetEnumerator())
+            using (var ys = y.GetEnumerator())
+            using (var zs = z.GetEnumerator())
+                while (xs.MoveNext() && ys.MoveNext() && zs.MoveNext())
+                {
+                    // Stop at the renderer's input budget, counting nonfinite
+                    // triples too. Do not materialize unbounded source arrays.
+                    if (++inputs > 20000)
+                        throw new System.ArgumentOutOfRangeException("x", "A Mono point plot supports at most 20,000 input points.");
+                    yield return new Computator.NET.DataTypes.Charts.Point3D(xs.Current, ys.Current, zs.Current);
+                }
+        }
+
         #endregion
 
         private static System.Action<string> CONSOLE_OUTPUT;
@@ -398,7 +469,13 @@ double YMax = 5, double quality = 0.5)
 
         public static T convert<T>(string result)
         {
-            if (string.IsNullOrEmpty(result))
+" +
+#if __MonoCS__
+@"            if (typeof(T) == typeof(double))
+                return global::Computator.NET.Core.Functions.ScriptingFunctions.convert<T>(result);
+" +
+#endif
+@"            if (string.IsNullOrEmpty(result))
                 return (T)(object)(string.Empty);
 
             var x = default(T);
@@ -651,10 +728,10 @@ double YMax = 5, double quality = 0.5)
             plot(function, XMin, XMax, YMin, YMax, quality);
         }
 
-#if !__MonoCS__
 
         public static void plot(params System.Func<double, double, double>[] fxys)
         {
+            if (System.Type.GetType(""Mono.Runtime"") != null) { MonoPlotSurfaceCollection(fxys); return; }
             var chart3d = _chartFactory.CreateChart3D();
             chart3d.Mode = (fxys.Length > 1)
                 ? Computator.NET.DataTypes.Charts.Chart3DMode.Points
@@ -671,6 +748,7 @@ double YMax = 5, double quality = 0.5)
 
         public static void plot(System.Collections.Generic.IEnumerable<double> x, System.Collections.Generic.IEnumerable<double> y, System.Collections.Generic.IEnumerable<double> z)
         {
+            if (System.Type.GetType(""Mono.Runtime"") != null) { MonoPlotPointSequences(x, y, z); return; }
             var xa = System.Linq.Enumerable.ToArray(x);
             var ya = System.Linq.Enumerable.ToArray(y);
             var za = System.Linq.Enumerable.ToArray(z);
@@ -687,7 +765,6 @@ double YMax = 5, double quality = 0.5)
 
             chart3d.ShowPlotDialog();
         }
-#endif
 
 
         public static void plot(System.Func<double, double> fx, double XMin = -5, double XMax = 5, double YMin = -5,
@@ -732,6 +809,72 @@ double YMax = 5, double quality = 0.5)
             for (int i = 0; i < xys.Length - 1; i++)
                 chart2d.AddDataPoints(System.Linq.Enumerable.ToList(xys[i]), System.Linq.Enumerable.ToList(xys[i + 1]));
            chart2d.ShowPlotDialog();
+        }
+
+        // These private helpers also travel in ToCode. Runtime detection is
+        // intentional: a generated Roslyn script need not inherit MSBuild's
+        // __MonoCS__ symbol. The Windows public method bodies stay unchanged.
+        private static void MonoPlotSurfaceCollection(System.Func<double, double, double>[] fxys)
+        {
+            if (fxys == null) throw new System.ArgumentNullException(""fxys"");
+            if (fxys.Length == 0) throw new System.ArgumentException(""At least one surface is required."", ""fxys"");
+            if (fxys.Length > 8) throw new System.ArgumentOutOfRangeException(""fxys"", ""A Mono chart can contain at most eight surfaces."");
+            foreach (var fxy in fxys)
+                if (fxy == null) throw new System.ArgumentException(""A surface cannot be null."", ""fxys"");
+            var chart = _chartFactory.CreateChart3D();
+            try
+            {
+                chart.Mode = fxys.Length > 1
+                    ? Computator.NET.DataTypes.Charts.Chart3DMode.Points
+                    : Computator.NET.DataTypes.Charts.Chart3DMode.Surface;
+                chart.SetChartAreaValues(-5, 5, -5, 5);
+                foreach (var fxy in fxys)
+                    chart.AddFunction(new Computator.NET.DataTypes.Functions.Function(fxy, Computator.NET.DataTypes.Functions.FunctionType.Real3D));
+                chart.ShowPlotDialog();
+            }
+            finally
+            {
+                // The software renderer creates an independent preview window.
+                var temporary = chart as System.IDisposable;
+                if (temporary != null) temporary.Dispose();
+            }
+        }
+
+        private static void MonoPlotPointSequences(System.Collections.Generic.IEnumerable<double> x,
+            System.Collections.Generic.IEnumerable<double> y, System.Collections.Generic.IEnumerable<double> z)
+        {
+            var chart = _chartFactory.CreateChart3D();
+            try
+            {
+                chart.AddPoints(MonoScriptPlotPoints(x, y, z));
+                chart.ShowPlotDialog();
+            }
+            finally
+            {
+                var temporary = chart as System.IDisposable;
+                if (temporary != null) temporary.Dispose();
+            }
+        }
+
+        private static System.Collections.Generic.IEnumerable<Computator.NET.DataTypes.Charts.Point3D> MonoScriptPlotPoints(
+            System.Collections.Generic.IEnumerable<double> x, System.Collections.Generic.IEnumerable<double> y,
+            System.Collections.Generic.IEnumerable<double> z)
+        {
+            if (x == null) throw new System.ArgumentNullException(""x"");
+            if (y == null) throw new System.ArgumentNullException(""y"");
+            if (z == null) throw new System.ArgumentNullException(""z"");
+            var inputs = 0;
+            using (var xs = x.GetEnumerator())
+            using (var ys = y.GetEnumerator())
+            using (var zs = z.GetEnumerator())
+                while (xs.MoveNext() && ys.MoveNext() && zs.MoveNext())
+                {
+                    // Stop at the renderer's input budget, counting nonfinite
+                    // triples too. Do not materialize unbounded source arrays.
+                    if (++inputs > 20000)
+                        throw new System.ArgumentOutOfRangeException(""x"", ""A Mono point plot supports at most 20,000 input points."");
+                    yield return new Computator.NET.DataTypes.Charts.Point3D(xs.Current, ys.Current, zs.Current);
+                }
         }
 
         #endregion

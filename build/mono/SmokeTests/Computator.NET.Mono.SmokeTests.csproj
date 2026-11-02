@@ -7,6 +7,10 @@
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="../NativeDesktopCapture.cs" Link="NativeDesktopCapture.cs" />
+    <Compile Include="../NativeX11Input.cs" Link="NativeX11Input.cs" />
+    <Compile Include="../NativeToolProcess.cs" Link="NativeToolProcess.cs" />
+    <Compile Include="../../macos/MacDesktopCapture.cs" Link="MacDesktopCapture.cs" />
     <Compile Include="..\..\validation\LocalizationResourceContract.cs" Link="LocalizationResourceContract.cs" />
     <None Include="..\..\..\Computator.NET.Localization\**\*.resx"
           Exclude="..\..\..\Computator.NET.Localization\**\*.pl.resx"
@@ -20,6 +24,7 @@
     <ProjectReference Include="..\..\..\Computator.NET.Engine\Computator.NET.Engine.csproj" />
     <ProjectReference Include="..\..\..\Computator.NET\Computator.NET.csproj" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\StartupProbe\Computator.NET.Mono.StartupProbe.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\Preflight\Computator.NET.Mono.Preflight.csproj" ReferenceOutputAssembly="false" />
   </ItemGroup>
   <Target Name="RequireMonoCompatibilityTarget" BeforeTargets="PrepareForBuild">
     <Error Condition="'$(ComputatorMono)' != 'true'" Text="Build Mono acceptance tests with -p:ComputatorMono=true. The Windows test suites remain separate." />

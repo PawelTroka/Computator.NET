@@ -1,311 +1,318 @@
-# Reduced Mono desktop
+# Mono desktop and release packages
 
-This opt-in target restores the historical reduced desktop alongside the default
-.NET 10 Windows application. It builds the **current sources**, including the
-shared Engine extracted in #146, with Framework `net48` references and runs them
-on Framework Mono. It does not run the Windows `.NET 10` binary through Mono.
+This opt-in target builds the current Computator.NET desktop and shared Engine
+for Framework `net48`, then runs it on Framework Mono. The default Windows
+application remains .NET 10 WinForms/WPF. Launching the Windows .NET 10 binary
+with Mono is not supported. The portable CLI and local browser preview are
+separate applications with their own documented subsets.
 
-The implementation is related to [issue #209](https://github.com/PawelTroka/Computator.NET/issues/209).
-No default solution target, Windows installer, release package or automatic
-publication is switched to Mono.
+## Linux release candidate
 
-## Build and run on Linux
+The distribution is a runtime-dependent archive for **Ubuntu 22.04 x64** or
+**Ubuntu 24.04 x64**. Choose the archive matching the operating system: the
+private drawing library links to the baseline's native codecs, including its
+specific libtiff ABI. Other Linux distributions and ARM are not certified by
+these packages.
 
-Use the .NET SDK pinned in the repository's `global.json`. The SDK supplies the
-current C# compiler for the build; Mono supplies the Framework runtime when the
-application runs. The application also ships its NuGet Roslyn assemblies so
-interactive TSL compilation does not invoke an installed SDK or `csc` process.
+The archive includes the complete Mono application, Roslyn runtime compiler,
+Framework compatibility facade DLLs, localization, TSL examples, all reference
+content, GSL/CBLAS 2.8 and a private Pango-enabled libgdiplus 6.2. The manifest
+records payload hashes, source commit/tree, native selections and dependency
+provenance. Corresponding source, recipes and license notices accompany the
+native libraries and bundled runtime facades.
 
-On Ubuntu 24.04, install the GUI and native runtime prerequisites:
+End users need Mono 6.8 or newer, its listed Framework runtime assemblies
+(including Mono.Posix), and the baseline's GUI/native prerequisites. They do
+**not** need a .NET SDK, C# compiler, Node, npm, Python or system GSL. The
+archive's `README.txt` contains the exact apt package list for that baseline.
+Use a working X11 display or XWayland on a Wayland desktop, and run as your
+ordinary desktop user.
+
+After extraction into a permanent location:
 
 ```sh
-sudo apt-get update
-sudo apt-get install -y --no-install-recommends \
-  mono-devel libgdiplus libgsl-dev libxtst6 fonts-dejavu-core xvfb xauth xdotool x11-utils
+./bin/computator --check
+./bin/computator
+# Optional per-user desktop-menu registration:
+./bin/install-desktop-entry
 ```
 
-`libgsl-dev` supplies the unversioned library name used by Mono's P/Invoke loader.
-`libgdiplus` is used by Framework Mono's System.Drawing implementation. `libxtst6` supplies the XTEST input extension client used by the real-pointer 3D GUI acceptance. Xvfb and
-xauth are needed for headless acceptance; normal interactive use requires an X11
-display, or an XWayland display on a Wayland desktop.
+The launcher verifies the full inventory and actual native imports before
+starting the application. It generates a process-specific Mono configuration
+outside the package and records actual selected library paths/hashes in
+`${XDG_CACHE_HOME:-$HOME/.cache}/Computator.NET/runtime-check.json`. It does not
+edit `/etc/mono/config`, replace system libraries or install files machine-wide.
+Keep the extracted directory in place after registering its desktop entry.
+The installed application payload can remain read-only; profiles, generated
+configuration and acceptance evidence live elsewhere.
 
-From the repository root:
+TSL/custom functions are trusted local code with the user's account permissions.
+These packages do not add a sandbox or guarantee cancellation of arbitrary
+desktop scripts.
+
+## Building and validating Linux packages
+
+Use the SDK pinned in `global.json` and the canonical Cake entry point. Package
+builds additionally require Mono development/runtime assemblies, Python 3.10+,
+the native compiler/build tools and development headers listed in
+`.github/workflows/mono-linux-package.yml`. Xvfb, XTEST, xauth and xdotool support
+the real headless display/input acceptance; they are not a replacement UI.
 
 ```sh
-# Canonical Cake entry point: build and run the acceptance probes.
-./build.sh --target=Mono-Validate
-
-# Build only, through the same Cake graph.
+# Current sources, separate net48 outputs:
 ./build.sh --target=Mono-Build
+# Source-tree startup and full shared GUI/numerical acceptance:
+./build.sh --target=Mono-Validate
+# Source-build the pinned native libraries, then create the matching archive:
+./build.sh --target=Mono-Linux-Package
+# Also extract and exercise that exact archive using its production DLLs/content:
+./build.sh --target=Mono-Linux-Package-Validate
+```
 
-# The minimal direct MSBuild equivalent for the application alone.
-dotnet build Computator.NET/Computator.NET.csproj \
-  -c Release -p:ComputatorMono=true
+Configuration defaults to Release; add `--configuration=Debug` if needed.
+Packages appear under `artifacts/mono-package/Release/`. Validation deliberately
+requires new unpack/evidence directories; retain or move a previous run before
+repeating it. `COMPUTATOR_MONO_PACKAGE_OUTPUT` and
+`COMPUTATOR_MONO_PACKAGE_ARCHIVE` select custom package destinations for the
+packaging leaf script; call `build/mono/validate-package.sh` with those explicit
+paths when using overrides.
 
-# Start the built application on your desktop's display.
+The source-built libgdiplus uses full, hash-pinned native test fixtures and a
+small Pango private-font-map cache invalidation patch. All 36 native tests must
+pass; missing fixtures and font failures are not excluded. GSL 2.8 is tested
+against its own candidate prefix, rather than an accidentally discovered system
+`gsl-config`. The matching sources, patches, build records and hashes remain in
+the archive.
+
+Hosted package acceptance also runs the same extracted payload read-only as a
+normal user in a minimal Ubuntu runtime container without development tools.
+It requires startup, nonblank actual GUI painting, normal shutdown, all shared
+acceptance cases and an unchanged final package inventory. Container evidence is
+bounded X11 acceptance; it does not certify a physical printer or every desktop
+environment.
+
+## Source builds and runtime boundaries
+
+`ComputatorMono=true` propagates through the application project references.
+`Directory.Build.props` separates `obj/mono/` and `bin/mono/` before restore/build
+paths are derived. Windows and Mono builds do not reuse each other's assets.
+The single SLNX links the scripts, sources and three opt-in probe projects;
+those probes remain outside the default Windows project inventory.
+
+```sh
+dotnet build Computator.NET/Computator.NET.csproj -c Release -p:ComputatorMono=true
+# Development output uses the host drawing/native loader configuration:
 mono Computator.NET/bin/mono/Release/net48/Computator.NET.exe
 ```
 
-Pass `--configuration=Debug` to Cake or `-c Debug` to `dotnet build` for a Debug
-build. The compatibility leaf scripts also accept `Release` or `Debug`:
+For release acceptance use the archive launcher: a raw development executable
+does not select the source-pinned private native payload automatically. In
+particular, Ubuntu 22.04's libgdiplus 6.0.4 returned zero text widths after emoji
+input and poisoned the editor's drawing context. The package avoids that stack;
+Unicode checks remain mandatory. See the earlier
+[dependency experiment](evidence/mono-drawing-2026-11-02.json).
 
-```sh
-bash build/mono/build.sh Release
-bash build/mono/validate.sh Release --no-build
-```
-
-`COMPUTATOR_DOTNET=/absolute/path/to/dotnet` selects an SDK executable for these
-leaf scripts. Standard `DOTNET_CLI_HOME` and `NUGET_PACKAGES` overrides can be
-used on restricted build hosts; they are not application runtime requirements.
-
-The output directory must be kept intact. Besides the executable, it contains
-the shared application assemblies, runtime compiler and numerical dependencies,
-binding redirects, `DataVisualizationX.dll`, localization satellites and the
-existing `Static` and `TSL Examples` content. Launch the executable with `mono`,
-not `dotnet`.
-
-For a separate trial profile, use the existing profile override:
-
-```sh
-COMPUTATOR_DATA_DIRECTORY="$PWD/artifacts/mono-trial-profile" \
-  mono Computator.NET/bin/mono/Release/net48/Computator.NET.exe
-```
-
-The old `build-mono/` scripts remain archival. `Install-Linux` does not install
-this build machine-wide. There is no Mono installer or signed application bundle
-in this change.
-
-## Shared source and dependency boundaries
-
-`ComputatorMono=true` is a global MSBuild property and propagates through the
-application's project references. `Directory.Build.props` selects separate
-`obj/mono/` and `bin/mono/` directories before NuGet/MSBuild derive their paths.
-Switching between Windows and Mono builds therefore does not reuse the other
-target's restore assets, generated resources or output files.
-
-The existing solution links the Mono probes and scripts as developer files.
-Its default build project inventory remains unchanged: the two Framework-only
-acceptance projects are built explicitly by `Mono-Validate`, and the solution
-inventory guard checks that they remain discoverable without adding them to the
-ordinary Windows build.
-
-| Boundary | Mono implementation | Default implementation |
+| Boundary | Mono implementation | Windows implementation |
 | --- | --- | --- |
-| Runtime target | `net48`, selected explicitly | `net10.0-windows` for desktop; `net10.0` for Engine/CLI |
-| TSL and scientific algorithms | Same Engine project and linked TSL, matrix, integral, derivative and root sources | Existing shared Engine |
-| Runtime compiler | Current pinned Roslyn, Framework runtime metadata/facades, `Assembly.Load(byte[])` | Existing Roslyn and collectible `AssemblyLoadContext` |
-| UI | Framework Mono WinForms/System.Drawing | Microsoft WinForms and WPF |
-| 2D charts | Existing `libraries/net46/DataVisualizationX.dll` | Existing WinForms.DataVisualization package |
-| Complex charts | Existing managed sampling, domain coloring and System.Drawing renderer | Same chart source |
-| 3D charts | Bounded WinForms/System.Drawing software surface and point renderer with camera input, axes and PNG export | Existing WPF implementation |
-| Code editor | Existing TROKA/ICSharpCode TextEditor | Existing Scintilla, AvalonEdit and TextEditor options |
-| Function reference | Readable text from the existing reference, including equation alternative text | Existing HTML reference rendering |
-| Native GSL | Host's `libgsl` via Mono P/Invoke | Existing validated Windows loader and package/fallback policy |
-| Settings | Existing bounded JSON and data-only NRBF importer, with compatible packages | Existing .NET 10 importer |
+| Runtime | Explicit Framework `net48` graph | .NET 10 desktop |
+| Scientific functions/TSL | Current shared Engine, algorithms and catalogue | Same shared sources |
+| Runtime compiler | Pinned Roslyn, compatible runtime metadata/facades, `Assembly.Load(byte[])` | Roslyn and collectible `AssemblyLoadContext` |
+| UI | Mono WinForms/System.Drawing on X11 | Microsoft WinForms and WPF |
+| Editor | Existing TROKA/ICSharpCode TextEditor | TextEditor, Scintilla and AvalonEdit |
+| 2D/complex charts | Existing managed sources and Framework chart component | Existing Windows chart controls |
+| 3D | WinForms software surface/point renderer using the same evaluator | WPF renderer |
+| Reference | Managed rich rendering of the existing authored HTML fragments, shipped equation/diagram PNGs and selectable Text tab | Existing HTML reference presentation |
+| Packaged native math | Source-pinned GSL/CBLAS 2.8 selected by process config | Reviewed Windows GSL payload/loader policy |
+| Document safety | Shared atomic writes plus Mono.Posix physical file identity | Windows physical file identity |
 
-The principal application package versions remain centralized and unchanged.
-The opt-in graph adds Framework reference assemblies and compatible packages for
-resource reading, runtime identification, JSON and NRBF records. It excludes
-AvalonEdit, Scintilla5.NET, the modern chart package and WPF source/reference
-items. Compatibility code adapts unavailable BCL APIs; it does not introduce a
-second mathematical catalogue or a new scripting language implementation.
+No second scientific catalogue or scripting language is introduced. The compiler
+supports the repository's C# syntax, but Mono scripts/plugins bind to Framework
+4.8, not .NET 10-only runtime APIs. WPF and the advanced Windows editors are
+excluded from this graph.
 
-The shared compiler supports the repository's current C# 14 syntax, but scripts
-and plugins in this target bind against Framework 4.8 and the application's
-Framework-compatible assemblies. A newer compiler does not supply .NET 10-only
-runtime APIs or WPF. External code that depends on those APIs or runtime-only
-language features must be adapted before it can run on Mono.
+The rich reference uses the same descriptions and verified offline assets as
+Windows/web: styled prose, inline and display equations, diagrams,
+examples and notes. Image paths are confined to the shipped manifests and their
+hashes/dimensions are checked before decode. External/file images are not fetched.
+Source links remain inert. Signatures stay in autocomplete, following the shared
+reference's existing rule against repeating them in the article. This implements the authored reference vocabulary;
+it is not a general embedded web browser.
 
-The few mathematical BCL gaps have explicit narrow adapters. Adjacent-double
-operations and sign copying preserve IEEE-754 bit semantics. Framework inverse
-hyperbolic sine uses GSL's existing implementation, including very small and very
-large real inputs. Modern builds continue to call their original BCL methods.
+Document saves retain byte comparisons, flushed staging, atomic replacement and
+backups. Mono.Posix supplies the runtime's OS-specific `fstat` layout rather than
+guessing Linux/macOS native structures. Hard-link aliases are detected and unsafe
+hard-link writes or external same-byte file replacements are refused. Case-only
+paths referring to the same file on a case-insensitive volume can reopen; distinct
+case-only files on a case-sensitive volume are refused because tab keys cannot
+distinguish them. Symbolic-link overwrites remain rejected.
 
-## Runtime limitations
+## macOS release preparation
 
-### Generated assembly lifetime
+The native Intel and Apple Silicon lanes are under active acceptance in
+[#321](https://github.com/PawelTroka/Computator.NET/pull/321). A Linux cross-build
+or a passing Mac portable-engine test does not certify the Mono GUI. Mac release
+readiness requires successful native production startup, actual drawing/input,
+the complete shared acceptance suite and the relocated application bundle on
+each advertised architecture.
 
-Framework Mono cannot unload an individual compiled assembly from the application's
-default domain. Expressions and scripts retain the existing unique assembly
-identities and shared numerical types, but their generated assemblies remain
-loaded until the application exits. Disposing an evaluation does not promise
-modern collectible-load-context behavior. Every compilation receives a fresh
-assembly identity, so repeated compilation can consume additional memory even
-when the source is identical. Restart the compatibility application to release
-it. The .NET 10 lifetime implementation is retained.
+The implementation retains WinForms and selects its X11 driver through XQuartz,
+with a matching private drawing/native dependency closure. It does not use the
+legacy 32-bit Carbon driver, substitute the browser preview or introduce Cocoa/
+another UI framework. Signed/notarized distribution and physical input-method,
+clipboard, printing, accessibility and monitor/DPI acceptance remain separate
+release gates. Consult the PR's exact-commit reports for current progress.
 
-TSL keeps the application's existing trusted-code execution model. This target
-adds neither sandboxing nor a cancellation/process-isolation guarantee.
+Native builds use the repository's SDK/Cake pins, Python 3.11+, native Homebrew
+for that architecture, Xcode command-line tools and the development prerequisites
+in `build/macos/prepare.sh`. End users need the matching Mono runtime and XQuartz,
+not those build tools or Homebrew drawing libraries. The source-pinned private
+libgdiplus, GSL/CBLAS and non-system drawing dylib closure are bundled; the
+launcher supplies private font/module configuration. The bundle's README and
+Info.plist record its actual minimum macOS version, derived from the copied
+Mach-O binaries with a floor of macOS 15.0.
 
-### Native libraries
+```sh
+# Check/build the private native stack without modifying global Mono dllmaps:
+./build.sh --target=Mono-Mac-Prepare
+# Optional explicit installation of missing build dependencies/XQuartz:
+./build.sh --target=Mono-Mac-Prepare --mono-install-dependencies=true
+# With an authenticated XQuartz DISPLAY:
+./build.sh --target=Mono-Mac-Validate
+./build.sh --target=Mono-Mac-Package-Validate
+```
 
-The current hosted GUI acceptance runs on Ubuntu 24.04 with libgdiplus 6.1.
-Older drawing stacks need separate acceptance: on Ubuntu 22.04, libgdiplus
-6.0.4 returned zero text widths and poisoned the drawing context when displaying
-an emoji in the legacy editor, before any find/replace action. Do not remove
-Unicode cases or treat a successful compile as evidence that this stack works.
+The last target requires source-native acceptance, produces
+`artifacts/macos/package/Release/Computator.NET-mono-osx-arm64.zip` on Apple
+Silicon (`osx-x64` on Intel), then validates a relocated, read-only `.app` in a
+path containing spaces. It checks bootstrap files and Resources inventory,
+runtime/native imports, actual production startup and the complete shared
+suite. Test capture helpers stay outside the installation. On disposable CI,
+original drawing candidates and build-host font/module data are temporarily
+hidden and restored; process traces must select the packaged drawing closure.
+The ordinary launcher never changes display modes or hides system dependencies.
 
-A controlled Ubuntu 22.04 experiment passed the unchanged 51-case suite using
-libgdiplus 6.1 built with its Pango text backend in a user-owned prefix. A
-process-specific Mono configuration selected that exact library; the system
-libgdiplus was not replaced. This changes both the version and text backend and
-does not identify a particular upstream commit as the cause. See the
-[recorded dependency experiment](evidence/mono-drawing-2026-11-02.json).
+Package validation also starts the ordinary shell launcher as a fresh process.
+An external XRes tool matches its native window to the actual Mono process;
+the fixture verifies the application directory, captures real client pixels,
+requests a normal close, and requires exit zero with no surviving children.
+XRes and the capture/analysis tools are test prerequisites outside the `.app`.
+Finder launch and automatic XQuartz startup remain physical-Mac acceptance.
 
-`GslConfig.GslDllName` becomes the logical name `gsl` in the Mono build. Both the
-host wrapper and emitted expression/script P/Invokes use it. A mapping attached
-only to `Computator.NET.Core.dll` would not cover generated assemblies with
-unique names, which is why this target does not rely on such a `dllmap`.
+The Apple Silicon compatibility lane also runs the **same macOS 15-built ZIP**
+on macOS 26. It prepares an external test harness/runtime there, then checks the
+original archive rather than substituting a new package with a newer deployment
+minimum. To repeat that check with a downloaded candidate:
 
-The system GSL installation must match the Mono process architecture and be
-visible to its native loader. `COMPUTATOR_GSL_DIRECTORY` selects the Windows
-distribution format and is rejected explicitly on Mono. The Mono build does not
-select the embedded historical Windows native fallback or stage a Windows GSL
-package. Its native numerical results are validated against the actual host
-library, separately from the existing pinned Windows GSL 2.8 distribution gate.
+```sh
+./build.sh --target=Mono-Mac-Archive-Validate --mono-mac-archive=/path/to/Computator.NET-mono-osx-arm64.zip
+```
 
-### Numerical acceptance
+This lane must pass before claiming macOS 26 acceptance; its own reports retain
+the archive hash and native runtime identity.
 
-Acceptance covers the actual numerical-method delegates exposed by the desktop.
-The original Mono acceptance discovered that Accord 3.8's scalar Monte Carlo
-overload returned `1` for the constant function `f(x) = 2` over `[0, 1]`, instead
-of the exact integral `2`. Its scalar loop increments the counter twice and uses
-an integer random value for each sample coordinate.
+The executable inside the bundle is `Contents/MacOS/Computator.NET`; its
+`--preflight` option prints native dependency/architecture evidence without
+starting the desktop. The `.app` can be moved as a whole. Rewritten dylibs carry
+local ad-hoc integrity signatures; these do not identify an owner or establish
+Gatekeeper/notarization acceptance.
 
-The shared `Integral.monteCarloMethod` now adapts the scalar function to Accord's
-multidimensional overload, which uses uniform coordinates and counts each sample
-once. The same fix applies to generated TSL, with no package change. Acceptance
-requires this case to pass alongside the other seven integral, five derivative
-and five root methods, and additionally checks the generated expression. It no
-longer treats the incorrect result as a known limitation. Nonconstant Monte Carlo
-estimates still have stochastic sampling error; these checks do not certify every
-numerical method or input as correct.
+### Hands-on acceptance on an Apple Silicon Mac
 
-### Desktop behavior
+Use the accepted `osx-arm64` candidate on an M1/M2 or newer Mac. Record the
+archive SHA-256, macOS version and `Contents/MacOS/Computator.NET --preflight`
+JSON alongside the trial results. Read the bundle's actual OS/runtime
+prerequisites first; test copied documents/profiles rather than the only copy
+of real work.
 
-Native Mono 3D uses the existing explicit real f(x,y) evaluator and presents a
-WinForms software-rendered surface. It does not load WPF or require a GPU or
-embedded browser. 3D charts are interactive on X11: **left-drag** rotates,
-**mouse wheel** zooms, **right-drag** pans, **arrow keys** rotate, **+/-** zoom
-and **Home** resets the camera. The plot includes labeled x/y/z numeric axes.
-Camera changes and resize render cached samples without recompilation.
-Both visible painting and PNG export preserve rotation, zoom and right-drag pan;
-when exporting at another size, the pan offsets are scaled with the output viewport.
+- Launch the relocated `.app` from Finder and from a terminal. Quit normally,
+  relaunch, and check settings/documents persist without a leftover application.
+- Calculate `ProtonMuonMassRatio - 8.88024331`; the result must be exactly zero.
+  In a script, `write(convert<real>("8.88024331") - ProtonMuonMassRatio);`
+  must also write zero. Exercise ordinary real/complex calculations and one
+  native special function.
+- Load a `.tslf`, call its function in calculations and a script, change its
+  definition without saving, then save/reopen and repeat. Verify errors highlight
+  the displayed editor and recovery works after correcting the definition.
+- Open function and constant help, including a long article and a diagram.
+  Switch Description/Text, scroll, copy text and return to typing; open/close a
+  modal dialog and ensure completion/help do not remain above it.
+- Draw/export 2D and complex charts. Run
+  `plot(new System.Func<double,double,double>[] { (x,y) => x*x+y*y });`
+  and `plot(new double[] {0,1,2}, new double[] {0,1,0}, new double[] {0,1,4});`.
+  Rotate/pan/zoom the 3D plot, resize it and compare its export.
+- Test native file dialogs, Unicode filenames/text, clipboard, the installed
+  input method, keyboard shortcuts, accessibility, Retina/other monitors and a
+  real printer. Keep prolonged-use/memory observations with the exact candidate.
 
-Sampling is synchronous and capped at **17–97 vertices per axis** (Quality 0–100),
-**eight functions per chart**, **20,000 points per series** and **40,000 points total**.
-The chart supports finite explicit real height surfaces, including compiled
-user-defined two-argument functions, color-coded depth-sorted triangulation,
-missing-value holes, point series, image export and normal edit/plot/print menus.
-Invalid bounds and oversized exports fail explicitly rather than allocating
-unbounded images. All-nonfinite surfaces display a diagnostic rather than a
-misleading zero-height mesh. Sampling executes trusted local TSL without process
-isolation; slow user functions can still block the UI while being sampled.
+These physical checks complement the native hosted reports. They do not sign,
+notarize or publish the candidate.
 
-Limitations: this renderer uses a painter's algorithm, not a hardware z-buffer.
-Overlapping/intersecting surfaces can have incorrect triangle ordering; performance
-is limited compared with WebGL/WPF for dense meshes. Implicit F(x,y,z)=0 surfaces,
-lighting, surface mouse picking and true hardware acceleration are not supported.
-This is **native Linux/Mono** only; the separately developed WebGL browser viewer
-in [PR #294](https://github.com/PawelTroka/Computator.NET/pull/294) is not reused
-or bundled. The complex-chart defect [#295](https://github.com/PawelTroka/Computator.NET/issues/295)
-remains a separate workstream.
+## Acceptance and remaining limits
 
-Only TextEditor is offered on Mono. Its settings value remains `2`, matching the
-Windows edition. Known historical/default editor values are normalized to the
-available editor on Mono; invalid settings are still rejected. JSON persistence
-and the safe record-based legacy importer remain in use.
+The production startup probe invokes the real application entry point with its
+own application directory/configuration, waits for the initialized main window,
+captures actual native display pixels and closes normally. The separate shared
+suite composes production services/controls and checks independent numerical,
+document, image and real-input results. The packaged harness resides outside the
+installation and verifies that production assemblies and reference content come
+from the extracted application's directory.
 
-Mono's WebBrowser did not populate a document on the validated Linux GUI stack.
-The compatibility reference therefore uses a read-only text control. It preserves
-the existing description and readable equation alternative text, without claiming
-the Windows HTML/SVG reference presentation. Printing, clipboard integration,
-monitor/DPI transitions, accessibility and the full editor interaction matrix
-require additional manual acceptance on each advertised desktop environment.
+As of the initial Linux candidate `bb3ee2a3`, Ubuntu 24.04 hosted package checks
+passed all 36 native drawing tests, 52 extracted-package cases and 52 read-only
+runtime-container cases, with no skips. An earlier Ubuntu 22.04 archive at
+`be8b5509` passed the same two 52-case executions locally. These are dated
+checkpoints, not evidence for later source changes. Configuration contracts also
+execute the actual managed preflight and reject tampering, wrong architecture,
+unrecorded files, unsafe mappings and writes back through redirected caches.
+Use the final candidate's fresh workflow reports and archive hashes for release.
 
-Document loading/saving retains byte comparisons, flushed staging, atomic
-replacement and backups. Mono rejects case-only path aliases that its
-case-insensitive tab keys cannot distinguish. Symbolic-link overwrites are
-rejected. Unix physical-file identity and hard-link counts do not currently have
-the Windows native file-identity implementation; these builds do not claim that
-stronger alias-detection guarantee.
+The current suite requires at least 55 cases, including restored compiled 3D
+plot commands, exact decimal-input rounding and numeric-control font layout.
+The layout regression shows the real chart-bounds view and checks all four
+numeric controls against their actual font heights at 9.75, 12 and 16 points,
+including repeated layout and scaling, to catch clipped digits.
 
-## macOS status
+Mono's BCL and UTF8 parser can
+round `8.88024331` one ULP high. The application's fast literal path and
+`FromMathString`, and script/file `convert<double>` / `read<double>` now retain
+their invariant grammar/exception behavior while using the already-shipped
+Roslyn parser for correctly rounded finite values. Generic conversion retains
+its existing grouping syntax.
+Stored/generated constants are unchanged. This adapter does not replace Mono's
+BCL: an explicit `System.Double.Parse` call in user code retains that runtime's
+behavior. Regression checks cover all 429 authored/emitted constants, signs,
+negative zero, midpoint ties, normal/subnormal boundaries and regional cultures.
 
-No macOS GUI execution is certified by a Linux cross-build. The Mono framework
-target is available for investigation on macOS, but this change's automated GUI
-acceptance is Linux/X11. A maintained Mono runtime alone is insufficient evidence
-that this WinForms application's macOS UI works.
+XQuartz rootless X11 readback can be black, clipped or inconsistent with the
+native compositor. Mac acceptance therefore correlates the actual X11 window's
+native ID and geometry with CoreGraphics, then crops a single real full-display
+capture using measured pixel/point scales. It preserves popup occlusion and
+rejects off-display requests. Calibration requires known colors and an actual
+XTEST-triggered repaint. Linux retains its existing X11 screen readback. No
+paint/input assertion is satisfied with a synthetic offscreen control image.
 
-Framework Mono 6.14.1's released driver source still selects Carbon for Darwin
-unless an override is supplied, and its Carbon source explicitly identifies a
-64-bit limitation. Its `MONO_MWF_MAC_FORCE_X11` override provides an X11 route to
-investigate with XQuartz, matching-architecture Mono/libgdiplus/GSL and a working
-`DISPLAY`. A future macOS acceptance run must test the exact machine architecture
-and package combination, startup, editor workflows, native calculations and both
-supported chart renderers. No Apple Silicon/Intel Mac parity, native Cocoa UI,
-signing or notarization is claimed here.
+Coverage includes expressions, scripts, unsaved custom functions, native GSL and
+recovery, numerical delegates, JSON/trusted NRBF migration, file identity,
+Unicode editing, localized controls, 2D/complex charts, explicit 3D surfaces and
+actual XTEST camera interaction. Offscreen `DrawToBitmap` output alone is not
+evidence that a visible native window works.
 
-## Reproducible acceptance and evidence
+Framework Mono cannot unload individual generated assemblies from the default
+domain. Repeated compilation can grow memory until application exit. This target
+does not promise .NET 10 collectible-load-context behavior.
 
-`Mono-Validate` builds the production application and two small Framework probes.
-The startup probe invokes the real entry point with the application's own base
-directory/configuration, waits for a visible initialized main window, captures
-it and closes it. The separate acceptance executable composes production
-services/controls and asserts independent numerical, document and image results.
-It also rejects accidentally running on modern .NET or referencing the excluded
-Windows UI assemblies.
+The 3D software renderer supports explicit real `f(x,y)`, bounded meshes, point
+series, axes, rotation, pan, zoom and PNG export. It uses a painter's algorithm;
+intersecting geometry may order incorrectly. Implicit surfaces, hardware
+acceleration, lighting and surface picking are unavailable. Slow trusted functions
+can still block synchronous sampling. Symbolic calculations remain unavailable.
 
-The scripts use fresh temporary application profiles, time-limit both processes,
-return a nonzero status for failures and write logs, screenshots and machine-readable
-results under `artifacts/mono/Release/` (or `Debug/`). The dedicated Linux workflow
-retains those results even when a check fails. Existing .NET 10 workflows remain
-separate regression gates.
+Before advertising a release, also test backed-up real profiles/documents,
+long-running use, printing with a real configured CUPS printer, clipboard/IME,
+accessibility, keyboard layout and display/DPI changes on the advertised desktop
+systems. Automated evidence does not close those physical-machine gates.
 
-### Verified development environment
-
-The restoration was built and exercised on Ubuntu 24.04.3 x64 with .NET SDK
-10.0.402, Mono 6.8.0.105, libgdiplus 6.1, system GSL 2.7.1 and Xvfb.
-
-| Development verification, 19 October 2026 | Observed result |
-| --- | --- |
-| `./build.sh --target=Mono-Validate` | Completed successfully; Framework build had zero errors and six existing warnings |
-| Production entry point, own application directory and binding redirects | Main window rendered with visible inputs/menus, then closed normally |
-| Mono acceptance report | 41 recorded cases: 40 passed, zero failed, one explicit inherited Monte Carlo limitation |
-| Numerical method catalogue | Seven integral, five derivative and five root delegates passed independent known-answer checks; Monte Carlo recorded separately |
-| Reference fallback | All 1,220 checked-in descriptions rendered; visible text, signature and equation alternatives checked |
-| Direct executable with actual X11 keyboard/pointer events | Entered `x*x`, clicked Add to chart, observed a parabola and closed with exit code 0 |
-| Default .NET 10 Engine regression suite | 605 passed, zero failed, zero skipped |
-| Default .NET 10 Desktop.Tests and production dependency cross-build | Succeeded on Linux with Windows targeting; zero errors |
-
-The suite also exercises expressions, scripts, custom functions, current C#
-syntax, native GSL calls and recovery, compatibility math edge cases, JSON and
-trusted NRBF migration, Unix document safety, visible editor/numerical workflows,
-2D and complex PNG rendering, plus numerical 3D surfaces, custom functions,
-missing samples, mode switching, clearing, exports and an actual visible X11
-WinForms chart before/after a real XTEST pointer drag. The 3D acceptance retains
-`mono-3d-visible-before.png`, `mono-3d-visible-rotated.png`,
-`mono-3d-paraboloid.png`, `mono-3d-export.png` and `mono-3d-points.png`.
-Its on-screen captures use actual X11 pixels; a successful offscreen render or blank `DrawToBitmap` capture is
-not used as evidence of usable UI.
-
-A clean hosted run also exposed an assembly-discovery ordering bug: filename
-hints could match debug-symbol or configuration sidecars before the actual
-assembly. Mono factory discovery now accepts `.dll` and `.exe` candidates only.
-The regression creates matching `.pdb` and `.dll.config` files deliberately and
-checks both the fallback factory and the ordinary production assembly hint.
-
-Consult the pull request's exact-commit checks and retained workflow evidence for
-subsequent CI results. The local Windows-targeted build is a cross-build, not a
-Windows GUI execution. These results record one concrete Mono combination, not
-every Linux distribution or newer runtime version.
-
-## Source references
-
-- [Historical Unix chart target before #139](https://github.com/PawelTroka/Computator.NET/blob/9fab48a5dc8e1b01366efb286c7b99acb8e93931/Computator.NET.Charting/Computator.NET.Charting.csproj)
-- [Framework modernization #139](https://github.com/PawelTroka/Computator.NET/pull/139)
-- [.NET 10 migration #140](https://github.com/PawelTroka/Computator.NET/pull/140)
-- [Shared Engine and CLI extraction #146](https://github.com/PawelTroka/Computator.NET/pull/146)
-- [Mono compatibility, including the WPF boundary](https://www.mono-project.com/docs/about-mono/compatibility/)
-- [Framework Mono 6.14.1 driver selection](https://github.com/wine-mono/mono/blob/mono-6.14.1/mcs/class/System.Windows.Forms/System.Windows.Forms/XplatUI.cs)
-- [Framework Mono 6.14.1 Carbon limitation](https://github.com/wine-mono/mono/blob/mono-6.14.1/mcs/class/System.Windows.Forms/System.Windows.Forms/XplatUICarbon.cs)
+The old `build-mono/` scripts are archival. `Install-Linux` remains an explicitly
+disabled machine-wide installation task; the archive's per-user integration is
+the supported packaging path. No Cake target implicitly signs, publishes or
+notarizes a release.

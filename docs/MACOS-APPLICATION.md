@@ -4,6 +4,16 @@ Original investigation: **28 October 2026**, with historical baseline `master` a
 `fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c`. Related objective:
 [issue #292](https://github.com/PawelTroka/Computator.NET/issues/292).
 
+**2 November update:** native Mono desktop release preparation now lives in
+[#321](https://github.com/PawelTroka/Computator.NET/pull/321), with a private
+X11/Pango drawing stack, GSL 2.8, native Intel/Apple Silicon acceptance and
+runtime-dependent application bundles. Follow [MONO-DESKTOP.md](MONO-DESKTOP.md)
+for current build/package commands and exact-commit acceptance status. The
+browser-route recommendation below records the original investigation; its
+portable preview remains a separate supported subset, not a replacement for the
+requested Mono desktop. Neither a diagnostic nor an unaccepted bundle is a
+certified native Mac release.
+
 ## Decision and scope
 
 The portable preview now uses the shared Cake graph. `PortableWeb-Publish` calls
@@ -267,10 +277,10 @@ and leaves Windows release evidence and the original GUI suites intact. The
 pull request records actual run URLs, tested commits, failures and final results;
 the presence of workflow YAML alone is not evidence that it passed.
 
-This development environment is Linux x64 and has no physical Mac/display.
-Independently reproducible local evidence includes the production frontend
-build, portable dependency graph, published application execution and the
-unchanged Engine regression suite. Native hosted Mac results must be read as
+The original 28 October investigation ran on Linux x64 without a physical
+Mac/display. Its local evidence covered the production frontend build, portable
+dependency graph, published application execution and then-current Engine
+regression suite. Current native hosted Mac results must be read as
 execution on those exact runners. **A green hosted/headless result is not
 physical Mac or complete desktop certification.**
 

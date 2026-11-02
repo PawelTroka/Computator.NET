@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Numerics;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using Computator.NET.Charting.ComplexCharting;
@@ -43,9 +42,8 @@ internal static partial class Program
         Check(draw != null && draw.Visible && draw.Enabled, "Real desktop Draw button is not available.");
         var paintCalls = 0;
         chart.Paint += (sender, args) => paintCalls++;
-        for (var attempt = 0; attempt < 5; attempt++)
-            ClickActualX11Button(draw); // Real pointer/button events, as in production.
-        Console.WriteLine("X11 Draw clicks delivered (five attempted), initial chart paints: " + paintCalls);
+        ClickActualX11Button(draw); // One acknowledged real pointer/button pair.
+        Console.WriteLine("X11 Draw clicked once, initial chart paints: " + paintCalls);
 
         // The production chart uses async sampling. Pump the real message loop
         // until its background calculation and native invalidation have completed.
@@ -250,7 +248,7 @@ internal static partial class Program
             "Complex chart has no X11 rectangle.");
         var bitmap = new Bitmap(rect.Width, rect.Height);
         using (var graphics = Graphics.FromImage(bitmap))
-            graphics.CopyFromScreen(rect.Location, Point.Empty, rect.Size);
+            NativeDesktopCapture.CopyFromScreen(graphics, rect.Location, Point.Empty, rect.Size, chart);
         if (name != null)
             bitmap.Save(System.IO.Path.Combine(outputDirectory, name), ImageFormat.Png);
         return bitmap;
@@ -269,36 +267,15 @@ internal static partial class Program
         }
         return count;
     }
-    [DllImport("libX11.so.6", EntryPoint = "XOpenDisplay")]
-    private static extern IntPtr ComplexXOpenDisplay(IntPtr displayName);
-    [DllImport("libX11.so.6", EntryPoint = "XCloseDisplay")]
-    private static extern int ComplexXCloseDisplay(IntPtr display);
-    [DllImport("libX11.so.6", EntryPoint = "XSync")]
-    private static extern int ComplexXSync(IntPtr display, int discard);
-    [DllImport("libXtst.so.6", EntryPoint = "XTestFakeMotionEvent")]
-    private static extern int ComplexXTestFakeMotionEvent(IntPtr display, int screen, int x, int y, ulong delay);
-    [DllImport("libXtst.so.6", EntryPoint = "XTestFakeButtonEvent")]
-    private static extern int ComplexXTestFakeButtonEvent(IntPtr display, uint button, int press, ulong delay);
-
     private static void ClickActualX11Button(Control button)
     {
-        var center = button.PointToScreen(new Point(button.Width / 2, button.Height / 2));
-        var display = ComplexXOpenDisplay(IntPtr.Zero);
-        Check(display != IntPtr.Zero, "Cannot open native X11 display for Draw mouse input.");
-        try
-        {
-            Check(ComplexXTestFakeMotionEvent(display, 0, center.X, center.Y, 0) != 0,
-                "Native mouse motion to Draw button failed.");
-            ComplexXSync(display, 0);
-            Application.DoEvents();
-            Check(ComplexXTestFakeButtonEvent(display, 1, 1, 0) != 0, "X11 Draw mouse press failed.");
-            ComplexXSync(display, 0);
-            Application.DoEvents();
-            Check(ComplexXTestFakeButtonEvent(display, 1, 0, 0) != 0, "X11 Draw mouse release failed.");
-            ComplexXSync(display, 0);
-            Application.DoEvents();
-        }
-        finally { ComplexXCloseDisplay(display); }
+        var owner = button.FindForm();
+        Check(owner != null, "Native Draw has no owned form.");
+        var clicks = 0;
+        EventHandler observed = (_, _) => clicks++;
+        button.Click += observed;
+        try { NativeX11Input.ClickOnce(owner.Handle, button.Handle, () => clicks, Application.DoEvents); }
+        finally { button.Click -= observed; }
     }
 
 }
