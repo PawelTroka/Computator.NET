@@ -64,6 +64,15 @@ class AuthoringTests(unittest.TestCase):
                 self.assertIn('u″+[1−n(n+1)/x²]u=0',article['description'])
                 self.assertNotIn('Underlying cylindrical equation',article['description'])
                 self.assertEqual(article['url'],'https://dlmf.nist.gov/10.47')
+    def test_unitary_article_requires_squareness_and_explains_legacy_row_test(self):
+        inventory={'items':[{'signature':'isUnitary<T>(M)',
+            'menu':'bool isUnitary<T>(Matrix<T> M)','type':'MatrixFunctions'}], 'constants':[]}
+        description=articles(inventory)[0]['description']
+        self.assertIn('Requires a square matrix',description)
+        self.assertIn('Rectangular matrices return false',description)
+        self.assertIn('isUnitary(matrix({{1,0}})) returns false',description)
+        self.assertIn('isIndentity(M*HermitianTranspose(M))',description)
+        self.assertNotIn('does not require a square matrix',description)
     def test_double_factorial_overloads_document_the_native_overflow_contract(self):
         inventory={'items':[
             {'signature':'DoubleFactorial(n)','menu':'real DoubleFactorial(integer n)','type':'ElementaryFunctions'},
