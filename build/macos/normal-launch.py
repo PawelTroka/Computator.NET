@@ -149,12 +149,12 @@ def main():
               'ownedProcessSnapshots': []}
     environment = os.environ.copy()
     for name in ('MONO_ENV_OPTIONS', 'MONO_CFG_DIR', 'MONO_PATH', 'DYLD_INSERT_LIBRARIES', 'DYLD_LIBRARY_PATH',
-                 'DYLD_FALLBACK_LIBRARY_PATH', 'COMPUTATOR_GSL_DIRECTORY'):
+                 'DYLD_FALLBACK_LIBRARY_PATH', 'DYLD_PRINT_LIBRARIES', 'COMPUTATOR_GSL_DIRECTORY'):
         environment.pop(name, None)
     environment.update(PATH='/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin', COMPUTATOR_MONO=str(mono),
                        COMPUTATOR_DATA_DIRECTORY=str(evidence / 'profile'), COMPUTATOR_NONINTERACTIVE='1',
                        XDG_CONFIG_HOME=str(evidence / 'config'), XDG_CACHE_HOME=str(evidence / 'cache'),
-                       DYLD_PRINT_LIBRARIES='1')
+                       COMPUTATOR_MONO_TRACE_LIBRARIES='1')
     report['runtimePath'] = environment['PATH']
     child = None
     try:
