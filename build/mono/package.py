@@ -119,6 +119,8 @@ def inventory(root):
 
 
 def write_manifest(root, metadata):
+    if 'application' in metadata:
+        metadata['application']['files'] = len(list(payload_files(root / 'app')))
     metadata.update(schemaVersion=1, files=inventory(root))
     (root / MANIFEST).write_text(json.dumps(metadata, indent=2, sort_keys=True) + '\n', encoding='utf-8')
 
