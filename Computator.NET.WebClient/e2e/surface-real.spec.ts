@@ -1,5 +1,29 @@
 import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
+import { assertSurfaceFraming } from '../tests/helpers/surface-framing';
+
+test('real API default tall surface remains fully framed on resize and in PNG exports', async ({ page }, info) => {
+  await page.goto('/');
+  await page.locator('#expressionTextArea textarea').fill('x*x+y*y');
+  const pending = page.waitForResponse(response => new URL(response.url()).pathname === '/api/v2/chart' &&
+    response.request().method() === 'POST', { timeout: 35000 });
+  await page.getByRole('button', { name: 'Draw chart!', exact: true }).click();
+  const reply = await pending;
+  expect(reply.status(), await reply.text()).toBe(200);
+  const samples = await reply.json();
+  expect(samples.x[0]).toBe(-5); expect(samples.x.at(-1)).toBe(5);
+  expect(samples.y[0]).toBe(-5); expect(samples.y.at(-1)).toBe(5);
+  expect(samples.z[0][0]).toBe(50); expect(samples.z[32][32]).toBe(0);
+  const surface = page.getByTestId('surface-chart');
+  await expect(page.getByText('Interactive surface ready.', { exact: false })).toBeVisible({ timeout: 25000 });
+  await assertSurfaceFraming(page, surface, info, 'real-default-paraboloid');
+  await page.setViewportSize({ width: 600, height: 760 });
+  await expect.poll(() => surface.evaluate(node => {
+    const graph = node as HTMLElement & { _fullLayout?: { width?: number } };
+    return Math.abs((graph._fullLayout?.width ?? 0) - node.clientWidth);
+  })).toBeLessThan(4);
+  await assertSurfaceFraming(page, surface, info, 'real-narrow-paraboloid');
+});
 
 // Runs only against the actual Windows mathematical API and published web host.
 // No route mocks or predetermined server responses are used.

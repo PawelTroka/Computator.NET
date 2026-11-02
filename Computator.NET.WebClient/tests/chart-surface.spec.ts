@@ -1,5 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
+import { assertSurfaceFraming } from './helpers/surface-framing';
 
 const coordinates = Array.from({ length: 9 }, (_, i) => i - 4);
 const grid = {
@@ -14,6 +15,30 @@ async function edit(page: Page, code: string) {
 }
 test.beforeEach(async ({ page }) => {
   await page.route('**/api/autocomplete/**', route => route.fulfill({ json: [], headers }));
+});
+
+test('default and responsive 3D framing contains a tall paraboloid and its PNG export', async ({ page }, info) => {
+  let calls = 0;
+  await page.route('**/api/v2/chart', route => { calls++; return route.fulfill({ json: grid, headers }); });
+  await page.goto('/'); await edit(page, 'x*x+y*y');
+  await page.getByRole('button', { name: 'Draw chart!', exact: true }).click();
+  const surface = page.getByTestId('surface-chart');
+  await expect(surface).toBeVisible();
+  const webgl = await page.evaluate(() => Boolean(document.createElement('canvas').getContext('webgl')));
+  if (!webgl) {
+    await expect(page.getByRole('alert')).toContainText('WebGL is unavailable.');
+    return;
+  }
+  await expect(page.getByText('Interactive surface ready.', { exact: false })).toBeVisible({ timeout: 20000 });
+  await expect(page.getByText('Axes use a normalized display scale;', { exact: false })).toBeVisible();
+  await assertSurfaceFraming(page, surface, info, 'default-paraboloid');
+  await page.setViewportSize({ width: 600, height: 760 });
+  await expect.poll(() => surface.evaluate(node => {
+    const graph = node as HTMLElement & { _fullLayout?: { width?: number } };
+    return Math.abs((graph._fullLayout?.width ?? 0) - node.clientWidth);
+  })).toBeLessThan(4);
+  await assertSurfaceFraming(page, surface, info, 'narrow-paraboloid');
+  expect(calls).toBe(1);
 });
 
 test('surface uses real WebGL rotation, zoom, labels and exported PNG without a second API call on resize', async ({ page }) => {
