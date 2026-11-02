@@ -70,7 +70,8 @@ def digest(path):
 def run(*args): return subprocess.check_output(args,text=True).strip()
 inputs={'schemaVersion':1,'architecture':run('uname','-m'),
         'deploymentTarget':os.environ.get('MACOSX_DEPLOYMENT_TARGET'),
-        'compilerEnvironment':{key:os.environ.get(key,'') for key in ('CFLAGS','CPATH','LIBRARY_PATH','SDKROOT','ARCHFLAGS')},
+        'compilerEnvironment':{key:os.environ.get(key,'') for key in
+            ('CC','CXX','CFLAGS','CXXFLAGS','CPP','AR','RANLIB','CPATH','LIBRARY_PATH','SDKROOT','ARCHFLAGS')},
         'compiler':run('clang','--version'),
         'xcode':run('xcodebuild','-version'),'recipeFiles':{},'dependencies':{}}
 for name in ('build/macos/prepare.sh','build/macos/native-dependencies.json',
