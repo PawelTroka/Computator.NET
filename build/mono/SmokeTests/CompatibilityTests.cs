@@ -392,13 +392,20 @@ internal static partial class Program
             var path = Path.Combine(directory, "document.tsl");
             var caseVariant = Path.Combine(directory, "DOCUMENT.tsl");
             File.WriteAllText(path, "original");
-            File.WriteAllText(caseVariant, "different file");
-            var error = Expect<TargetInvocationException>(() => sameFile.Invoke(null, new object[] { path, caseVariant }));
-            Check(error.InnerException is IOException, "Case-only aliases must fail visibly on Unix rather than sharing one buffer.");
+            var caseSensitive = !File.Exists(caseVariant);
+            TargetInvocationException error;
+            if (caseSensitive)
+            {
+                File.WriteAllText(caseVariant, "different file");
+                error = Expect<TargetInvocationException>(() => sameFile.Invoke(null, new object[] { path, caseVariant }));
+                Check(error.InnerException is IOException, "Distinct case-only Unix files must never share one buffer.");
+            }
+            else Check((bool)sameFile.Invoke(null, new object[] { path, caseVariant }), "Case-insensitive volume aliases must reuse the same physical document.");
+            Console.WriteLine("Document fixture volume case-sensitive: " + caseSensitive);
             var baseline = capture.Invoke(null, new object[] { path });
             baseline = write.Invoke(null, new object[] { path, "saved π", baseline, null, null, null });
             Equal(File.ReadAllText(path), "saved π");
-            Equal(File.ReadAllText(caseVariant), "different file");
+            Equal(File.ReadAllText(caseVariant), caseSensitive ? "different file" : "saved π");
             File.WriteAllText(path, "external");
             error = Expect<TargetInvocationException>(() => write.Invoke(null, new object[] { path, "must not overwrite", baseline, null, null, null }));
             Check(error.InnerException is IOException, "An externally edited document must fail its save baseline check.");

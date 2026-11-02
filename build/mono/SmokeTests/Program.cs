@@ -69,9 +69,9 @@ internal static partial class Program
     {
         if (args.Length == 3 && args[0] == "--application-directory")
         {
-            var applicationDirectory = Path.GetFullPath(args[1]);
+            var applicationDirectory = Path.GetFullPath(args[1]).TrimEnd(Path.DirectorySeparatorChar);
             var expected = Environment.GetEnvironmentVariable("COMPUTATOR_MONO_EXPECTED_APPLICATION_DIRECTORY");
-            if (string.IsNullOrEmpty(expected) || Path.GetFullPath(expected) != applicationDirectory ||
+            if (string.IsNullOrEmpty(expected) || Path.GetFullPath(expected).TrimEnd(Path.DirectorySeparatorChar) != applicationDirectory ||
                 !File.Exists(Path.Combine(applicationDirectory, "Computator.NET.exe")))
                 throw new InvalidOperationException("Packaged acceptance requires an explicit matching application directory.");
             var domain = AppDomain.CreateDomain("Computator.NET.Mono.PackageAcceptance", null, new AppDomainSetup
@@ -161,7 +161,7 @@ internal static partial class Program
         {
             var expected = Environment.GetEnvironmentVariable("COMPUTATOR_MONO_EXPECTED_APPLICATION_DIRECTORY");
             if (!string.IsNullOrEmpty(expected))
-                Equal(Path.GetFullPath(Path.GetDirectoryName(assembly.Location)), Path.GetFullPath(expected));
+                Equal(Path.GetFullPath(Path.GetDirectoryName(assembly.Location)), Path.GetFullPath(expected).TrimEnd(Path.DirectorySeparatorChar));
             var forbidden = assembly.GetReferencedAssemblies().Where(reference => new[]
                 { "PresentationFramework", "PresentationCore", "WindowsFormsIntegration", "Scintilla5.NET", "ICSharpCode.AvalonEdit" }.Contains(reference.Name));
             Check(!forbidden.Any(), assembly.GetName().Name + " references unsupported Windows UI assemblies.");

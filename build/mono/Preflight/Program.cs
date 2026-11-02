@@ -251,7 +251,7 @@ internal static class Program
         }
         foreach (var key in new[] { "cairo", "x11" })
         {
-            var modules = loaded.Where(p => IsLibrary(key, Path.GetFileName(p))).Select(RealPath).Distinct(StringComparer.Ordinal).ToArray();
+            var modules = LoadedLibraries().Where(p => IsLibrary(key, Path.GetFileName(p))).Select(RealPath).Distinct(StringComparer.Ordinal).ToArray();
             if (modules.Length != 1) throw new InvalidOperationException("The process has a missing or mixed " + key + " dependency.");
             if (key == "cairo") Symbol(Open(modules[0]), "cairo_xlib_surface_create");
             if (!manifest.Native.ContainsKey(key)) report.Libraries.Add(new Library { Name = key, Path = modules[0], Sha256 = Hash(modules[0]), ExternalPrerequisite = true });
@@ -260,6 +260,16 @@ internal static class Program
         // the responsibility of the package's real production/startup acceptance.
         Assembly.Load("System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
         Assembly.Load("Microsoft.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a");
+        var posix = Assembly.Load("Mono.Posix, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756");
+        var stat = posix.GetType("Mono.Unix.Native.Stat", true);
+        var fstat = posix.GetType("Mono.Unix.Native.Syscall", true).GetMethod("fstat", new[] { typeof(int), stat.MakeByRefType() });
+        using (var input = File.OpenRead(PackagePath("mono-package.json")))
+        {
+            var values = new[] { (object)input.SafeFileHandle.DangerousGetHandle().ToInt32(), Activator.CreateInstance(stat) };
+            if (fstat == null || (int)fstat.Invoke(null, values) != 0)
+                throw new InvalidOperationException("The matching Mono.Posix runtime component is required for safe document handling.");
+        }
+        report.UnixFileIdentity = true;
     }
 
     private static bool IsLibrary(string key, string name)
@@ -387,6 +397,7 @@ internal static class Program
         [DataMember(Name = "rosetta")] public bool Rosetta;
         [DataMember(Name = "mono")] public string Mono;
         [DataMember(Name = "verifiedFiles")] public int VerifiedFiles;
+        [DataMember(Name = "unixFileIdentity")] public bool UnixFileIdentity;
         [DataMember(Name = "libraries")] public List<Library> Libraries;
     }
     [DataContract] private sealed class Library
