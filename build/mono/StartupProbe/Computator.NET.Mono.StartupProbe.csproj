@@ -8,6 +8,7 @@
        must load its dependencies from its own build output. -->
   <ItemGroup>
     <Compile Include="../NativeDesktopCapture.cs" Link="NativeDesktopCapture.cs" />
+    <Compile Include="../NativeX11Input.cs" Link="NativeX11Input.cs" />
     <Compile Include="../../macos/MacDesktopCapture.cs" Link="MacDesktopCapture.cs" />
   </ItemGroup>
   <Target Name="RequireMonoCompatibilityTarget" BeforeTargets="PrepareForBuild">

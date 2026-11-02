@@ -8,6 +8,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="../NativeDesktopCapture.cs" Link="NativeDesktopCapture.cs" />
+    <Compile Include="../NativeX11Input.cs" Link="NativeX11Input.cs" />
     <Compile Include="../../macos/MacDesktopCapture.cs" Link="MacDesktopCapture.cs" />
     <Compile Include="..\..\validation\LocalizationResourceContract.cs" Link="LocalizationResourceContract.cs" />
     <None Include="..\..\..\Computator.NET.Localization\**\*.resx"
