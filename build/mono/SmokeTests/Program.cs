@@ -130,6 +130,7 @@ internal static partial class Program
         Run("native-mono-3d-common-grid-parity-contract", Native3DCommonGridContract);
         Run("native-mono-3d-large-finite-constant-surfaces", Native3DLargeConstants);
         Run("native-mono-3d-rejected-point-input-budget", Native3DPointInputBudget);
+        Run("native-mono-3d-script-surface-and-point-plots", Native3DScriptPlots);
         WriteResults();
         var failed = Results.Count(result => result.Failure != null);
         var skipped = Results.Count(result => result.SkippedReason != null);
