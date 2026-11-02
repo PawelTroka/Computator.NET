@@ -36,6 +36,14 @@ def sha(path):
     return digest.hexdigest()
 
 
+def download_verified(url,expected,destination):
+    if destination.exists() or destination.is_symlink():
+        raise ValueError('Native source inputs must have distinct destinations; refusing to overwrite '+str(destination))
+    urllib.request.urlretrieve(url,destination)
+    if sha(destination)!=expected:
+        raise ValueError('Native source input hash mismatch: '+url)
+
+
 def verify_bundle(bundle):
     bundle = bundle.absolute()
     resources = bundle / "Contents/Resources"
@@ -345,30 +353,26 @@ def retain_sources(provenance, prepared, resources):
             shutil.copy2(receipt, directory / receipt.name)
         filename = Path(url.split("?", 1)[0]).name
         archive = directory / filename
-        urllib.request.urlretrieve(url, archive)
-        if sha(archive) != expected:
-            raise ValueError("Corresponding native source hash mismatch: " + formula)
+        download_verified(url,expected,archive)
         patches=[]
         for patch_index,(patch_url,patch_sha) in enumerate(external_patches(content,str(recipe))):
             patch_name=Path(patch_url.split('?',1)[0]).name or 'source.patch'
             patch_file=directory/('patch-'+str(patch_index)+'-'+patch_name)
-            urllib.request.urlretrieve(patch_url,patch_file)
-            if sha(patch_file)!=patch_sha:
-                raise ValueError('Corresponding external source patch hash mismatch: '+formula)
+            download_verified(patch_url,patch_sha,patch_file)
             patches.append({'url':patch_url,'sha256':patch_sha,'file':patch_file.relative_to(resources).as_posix(),
                             'scope':'literal patch input retained; applicability remains in the installed recipe'})
         for patch in local_patch_pins(content,formula,parts[index+2],sha(recipe),frozen):
             patch_file=directory/('local-'+Path(patch['path']).name)
-            urllib.request.urlretrieve(patch['url'],patch_file)
-            if sha(patch_file)!=patch['sha256']:
-                raise ValueError('Frozen local tap patch differs from its checksum: '+formula)
+            download_verified(patch['url'],patch['sha256'],patch_file)
             patches.append({**patch,'file':patch_file.relative_to(resources).as_posix()})
         resources_retained=[]
         for name,resource_url,resource_sha,scope in recipe_resources(content,str(recipe)):
+            if scope in ('test-only','linux-only'):
+                resources_retained.append({'name':name,'url':resource_url,'sha256':resource_sha,'scope':scope,
+                    'excludedFromMacBuildInputs':True,'reason':'Not an input to the shipped macOS libraries; declaration preserved in recipe.'})
+                continue
             resource_file=directory/('resource-'+name+'-'+Path(resource_url.split('?',1)[0]).name)
-            urllib.request.urlretrieve(resource_url,resource_file)
-            if sha(resource_file)!=resource_sha:
-                raise ValueError('Installed recipe resource hash mismatch: '+formula+'/'+name)
+            download_verified(resource_url,resource_sha,resource_file)
             resources_retained.append({'name':name,'url':resource_url,'sha256':resource_sha,'scope':scope,
                                        'file':resource_file.relative_to(resources).as_posix()})
         licenses = []
@@ -487,13 +491,19 @@ def recipe_resources(content,label):
         if end is None: raise ValueError('Unreviewed resource block in '+label)
         url,digest=source_stanza('\n'.join(lines[index+1:end]),label+' resource '+start[2])
         in_test=start[3]=='test'
+        linux_only=False
         for before in range(index):
             test=re.fullmatch(r'(\s*)test\s+do\s*',lines[before])
             if test and len(test[1])<len(start[1]):
                 closing=next((number for number in range(before+1,len(lines))
                               if lines[number].strip()=='end' and len(lines[number])-len(lines[number].lstrip())==len(test[1])),None)
                 if closing is not None and closing>index: in_test=True
-        result.append((start[2],url,digest,'test-only' if in_test else 'declared-outside-test; conditional/build use preserved in recipe'))
+            linux=re.fullmatch(r'(\s*)on_linux\s+do\s*',lines[before])
+            if linux and len(linux[1])<len(start[1]):
+                closing=next((number for number in range(before+1,len(lines))
+                              if lines[number].strip()=='end' and len(lines[number])-len(lines[number].lstrip())==len(linux[1])),None)
+                if closing is not None and closing>index: linux_only=True
+        result.append((start[2],url,digest,'test-only' if in_test else 'linux-only' if linux_only else 'declared-outside-test; conditional/build use preserved in recipe'))
     return result
 
 
@@ -643,7 +653,12 @@ def main():
                     "--gdiplus", metadata["native"]["gdiplus"]], check=True)
     verify_bundle(bundle)
     if args.archive:
-        print("Archive SHA256:", archive_bundle(bundle, args.archive))
+        archive_sha=archive_bundle(bundle,args.archive)
+        args.archive.with_suffix('.zip.json').write_text(json.dumps({'schemaVersion':1,'rid':rid,
+            'source':metadata['source'],'archive':{'name':args.archive.name,'sha256':archive_sha,'size':args.archive.stat().st_size},
+            'scope':'unsigned-native-mono-candidate','packagedRuntimeAccepted':False,
+            'sourceCheckoutAccepted':bool(accepted_source),'ownerSigned':False,'notarized':False},indent=2)+'\n')
+        print("Archive SHA256:",archive_sha)
     print("Prepared unsigned runtime-dependent Mono app:", bundle)
     print("Complete current-head source application acceptance:",bool(accepted_source))
 
