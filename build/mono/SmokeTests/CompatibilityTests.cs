@@ -415,6 +415,42 @@ internal static partial class Program
         finally { Directory.Delete(directory, true); }
     }
 
+    private static void UnixDocumentIdentity()
+    {
+        var safety = typeof(TextEditorCodeEditor).Assembly.GetType("Computator.NET.Desktop.Controls.CodeEditors.DocumentFileSafety", true);
+        var capture = safety.GetMethod("Capture", BindingFlags.Static | BindingFlags.NonPublic);
+        var write = safety.GetMethod("Write", BindingFlags.Static | BindingFlags.NonPublic);
+        var same = safety.GetMethod("AreSameFile", BindingFlags.Static | BindingFlags.NonPublic);
+        var directory = Path.Combine(Path.GetTempPath(), "computator-mono-identity-" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(directory);
+        try
+        {
+            var original = Path.Combine(directory, "original.tsl");
+            var alias = Path.Combine(directory, "hardlink.tsl");
+            File.WriteAllText(original, "identical original bytes");
+            if (link(original, alias) != 0) throw new IOException("Could not create the native hard-link fixture.");
+            Check((bool)same.Invoke(null, new object[] { original, alias }), "Physical Unix aliases must share one document buffer.");
+            var baseline = capture.Invoke(null, new object[] { original });
+            var error = Expect<TargetInvocationException>(() => write.Invoke(null, new object[] { original, "must not separate aliases", baseline, null, null, null }));
+            Check(error.InnerException is IOException, "Atomic save must not silently break a Unix hard link.");
+            Equal(File.ReadAllText(original), "identical original bytes");
+            Equal(File.ReadAllText(alias), "identical original bytes");
+            File.Delete(alias);
+            baseline = capture.Invoke(null, new object[] { original });
+            var replacement = Path.Combine(directory, "replacement.tsl");
+            File.WriteAllText(replacement, "identical original bytes");
+            File.Move(original, alias);
+            File.Move(replacement, original);
+            error = Expect<TargetInvocationException>(() => write.Invoke(null, new object[] { original, "must not overwrite replacement", baseline, null, null, null }));
+            Check(error.InnerException is IOException, "An external same-byte inode replacement must invalidate the save baseline.");
+            Equal(File.ReadAllText(original), "identical original bytes");
+        }
+        finally { Directory.Delete(directory, true); }
+    }
+
+    [DllImport("libc", SetLastError = true, CharSet = CharSet.Ansi)]
+    private static extern int link(string target, string linkPath);
+
     [DllImport("libc", SetLastError = true, CharSet = CharSet.Ansi)]
     private static extern int symlink(string target, string linkPath);
 }
