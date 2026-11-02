@@ -154,8 +154,51 @@ def resolve_dependency(name, owner):
         return (owner.parent / name.removeprefix("@loader_path/")).resolve(strict=True)
     if name.startswith("/"):
         return Path(name).resolve(strict=True)
+    if name.startswith('@rpath/'):
+        relative=name.removeprefix('@rpath/')
+        if not relative or '/' in relative or relative in ('.','..'):
+            raise ValueError('Only a reviewed single-library @rpath name is supported: '+name)
+        candidates=[]
+        for base in load_rpaths(owner):
+            if base=='@loader_path' or base.startswith('@loader_path/'):
+                directory=owner.parent/base.removeprefix('@loader_path').lstrip('/')
+            elif base.startswith('/'):
+                directory=Path(base)
+            else:
+                raise ValueError('Unreviewed Mach-O runpath '+base+' in '+str(owner))
+            candidate=directory/relative
+            if candidate.is_file():
+                candidates.append(candidate.resolve(strict=True))
+        # Homebrew CMake siblings (observed in Brotli/WebP) can retain @rpath
+        # install IDs without an owner LC_RPATH. Resolve only the exact sibling
+        # in the SAME installed formula/version keg, whose LC_ID_DYLIB equals
+        # the requested ABI name. Never search arbitrary host library folders.
+        if not candidates and 'Cellar' in owner.parts:
+            index=owner.parts.index('Cellar')
+            keg=Path(*owner.parts[:index+3])
+            candidate=owner.parent/relative
+            if candidate.is_file():
+                candidate=candidate.resolve(strict=True)
+                identities=run('otool','-D',str(candidate)).splitlines()[1:]
+                if candidate.is_relative_to(keg) and name in [item.strip() for item in identities]:
+                    candidates.append(candidate)
+        candidates=list(dict.fromkeys(candidates))
+        if len(candidates)!=1:
+            raise ValueError('Mach-O runpath must resolve one explicit installed ABI: '+name+' in '+str(owner))
+        return candidates[0]
     # Guessing a different ABI from a same-named library is never acceptable.
     raise ValueError(f"Unresolved Mach-O dependency {name} in {owner}; add an explicit reviewed resolution.")
+
+
+def load_rpaths(owner):
+    paths=[]
+    for block in re.split(r'\nLoad command \d+\n',run('otool','-l',str(owner))):
+        if re.search(r'\bcmd LC_RPATH\b',block):
+            match=re.search(r'^\s*path (.+?) \(offset \d+\)\s*$',block,re.M)
+            if not match:
+                raise ValueError('Cannot read actual LC_RPATH in '+str(owner))
+            paths.append(match[1])
+    return paths
 
 
 def copy_closure(selected, target, architecture):
@@ -202,6 +245,9 @@ def copy_closure(selected, target, architecture):
         provenance.append({"originalPath": str(source), "originalSha256": sha(source),
                            "packagedFile": copied.name, "packagedSha256": sha(copied),
                            "macOSDeploymentMinimum": ".".join(map(str,deployment_minimum(copied))),
+                           "originalRunpaths":load_rpaths(source),
+                           "resolvedDependencies":[{"loadCommand":link,"path":str(resolve_dependency(link,source))}
+                                                   for link in links if resolve_dependency(link,source) is not None],
                            "originalDependencies": links, "packagedDependencies": dependencies(copied)})
     return provenance
 

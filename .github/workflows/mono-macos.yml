@@ -49,7 +49,14 @@ jobs:
         run: bash ./build.sh --target=Mono-Mac-Package-Validate
       - name: Build an explicitly unaccepted diagnostic bundle after a GUI gate failure
         if: failure() && steps.application.outcome == 'failure'
-        run: bash ./build.sh --target=Mono-Mac-Package --exclusive
+        run: |
+          architecture=$(uname -m)
+          rid=osx-x64; test "$architecture" != arm64 || rid=osx-arm64
+          if test -e "artifacts/macos/package/Release/$rid/Computator.NET.app"; then
+            echo 'The normal package task already ran. Preserve its original failure and partial staging.'
+          else
+            bash ./build.sh --target=Mono-Mac-Package --exclusive
+          fi
       - name: Stop only the owned XQuartz server
         if: always()
         run: bash build/macos/stop-display.sh artifacts/macos/display
