@@ -46,9 +46,13 @@ jobs:
           echo "COMPUTATOR_MAC_DISPLAY_ENV=$PWD/artifacts/macos/display/display.env" >> "$GITHUB_ENV"
       - name: Compile, package and accept the actual relocated Mono WinForms app through Cake
         id: application
+        env:
+          COMPUTATOR_GITHUB_TOKEN: ${{ github.token }}
         run: bash ./build.sh --target=Mono-Mac-Package-Validate
       - name: Build an explicitly unaccepted diagnostic bundle after a GUI gate failure
         if: failure() && steps.application.outcome == 'failure'
+        env:
+          COMPUTATOR_GITHUB_TOKEN: ${{ github.token }}
         run: |
           architecture=$(uname -m)
           rid=osx-x64; test "$architecture" != arm64 || rid=osx-arm64

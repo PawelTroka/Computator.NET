@@ -46,6 +46,13 @@ def download_verified(url,expected,destination):
         raise ValueError('Native source input hash mismatch: '+url)
 
 
+class ImmutableGitSourceRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self,request,file,code,message,headers,new_url):
+        # A scoped CI token must never follow a redirect to another host or
+        # endpoint. These exact immutable public contents URLs need no redirect.
+        raise ValueError('Immutable Git source API reads must not redirect')
+
+
 def pinned_git_blob(commit,path,destination,expected_sha256=None):
     if (not re.fullmatch('[0-9a-f]{40}',commit) or not path.startswith(('Formula/','Patches/'))
             or '\\' in path or ':' in path or any(part in ('','.','..') for part in path.split('/'))):
@@ -53,8 +60,12 @@ def pinned_git_blob(commit,path,destination,expected_sha256=None):
     if destination.exists() or destination.is_symlink():
         raise ValueError('Refusing to overwrite a retained Git source input: '+str(destination))
     url='https://api.github.com/repos/Homebrew/homebrew-core/contents/'+urllib.parse.quote(path,safe='/')+'?ref='+commit
-    request=urllib.request.Request(url,headers={'Accept':'application/vnd.github+json','User-Agent':'Computator.NET-native-source-verification'})
-    with urllib.request.urlopen(request,timeout=30) as response:
+    headers={'Accept':'application/vnd.github+json','User-Agent':'Computator.NET-native-source-verification'}
+    token=os.environ.get('COMPUTATOR_GITHUB_TOKEN','')
+    if token: headers['Authorization']='Bearer '+token
+    request=urllib.request.Request(url,headers=headers)
+    opener=urllib.request.build_opener(ImmutableGitSourceRedirect())
+    with opener.open(request,timeout=30) as response:
         payload=response.read(2*1024*1024+1)
     if len(payload)>2*1024*1024: raise ValueError('Pinned Git input exceeds the bounded metadata limit')
     item=json.loads(payload)
@@ -68,6 +79,7 @@ def pinned_git_blob(commit,path,destination,expected_sha256=None):
         raise ValueError('Pinned Git file differs from its blob identity or declared SHA256')
     with destination.open('xb') as stream: stream.write(data)
     return {'commit':commit,'path':path,'gitBlobSha1':blob,'sha256':digest,'declaredSha256':expected_sha256,
+            'authenticatedApiRead':bool(token),
             'basis':'immutable receipt commit and verified Git blob'+('; declared SHA256 also checked' if expected_sha256 else '; SHA256 computed from verified bytes')}
 
 
