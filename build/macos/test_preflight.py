@@ -19,6 +19,10 @@ class MacRuntimePreflightContracts(shared.RuntimePreflightContracts):
         # Match its explicit X11 selection and select data from THIS isolated
         # bundle copy before the positive native verify used by the stale-report
         # regression. Never inherit another candidate's drawing/data selection.
+        for key in ('COMPUTATOR_GSL_DIRECTORY','MONO_GAC_PREFIX','MONO_WINFORMS_XIM_STYLE',
+                    'DYLD_LIBRARY_PATH','DYLD_FALLBACK_LIBRARY_PATH','DYLD_FRAMEWORK_PATH',
+                    'DYLD_FALLBACK_FRAMEWORK_PATH','DYLD_INSERT_LIBRARIES','DYLD_PRINT_LIBRARIES'):
+            environment.pop(key,None)
         environment.update(MONO_MWF_MAC_FORCE_X11='1',COMPUTATOR_NONINTERACTIVE='1',
             FONTCONFIG_FILE=str(self.package/'native/fonts.conf'),FONTCONFIG_PATH=str(self.package/'native'),
             GIO_MODULE_DIR=str(self.package/'native/gio-modules'),GIO_EXTRA_MODULES='',
