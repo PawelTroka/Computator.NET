@@ -44,7 +44,7 @@ def main():
     if platform.system() != 'Linux' or platform.machine().lower() not in ('x86_64', 'amd64') or actual != args.baseline:
         raise ValueError('Build natively on the requested Ubuntu x86_64 baseline; detected ' + actual)
     pins = json.loads((ROOT / 'build/mono/gdiplus-source.json').read_text())
-    work = ROOT / 'artifacts/mono-native' / args.baseline / ('libgdiplus-' + pins['version'])
+    work = ROOT / 'artifacts/mono-native' / args.baseline / ('libgdiplus-' + pins['version'] + '-pango')
     work.mkdir(parents=True, exist_ok=True)
     archive = ROOT / ('artifacts/mono-native/downloads/libgdiplus-' + pins['version'] + '.tar.gz')
     fixtures = archive.with_name('libgdiplus-' + pins['version'] + '-git.tar.gz')
@@ -72,6 +72,13 @@ def main():
                     target.parent.mkdir(parents=True, exist_ok=True)
                     with tar.extractfile(member) as stream, target.open('xb') as output:
                         shutil.copyfileobj(stream, output)
+    patch = ROOT / 'build/mono/libgdiplus-pango-fontmap.patch'
+    if hashlib.sha256(patch.read_bytes()).hexdigest() != pins['patches'][patch.name]:
+        raise ValueError('libgdiplus source patch differs from the reviewed pin.')
+    marker = work / 'fontmap-patch-applied'
+    if not marker.exists():
+        run('patch', '--batch', '-p1', '-i', patch, cwd=source)
+        marker.write_text('Pango private-font map cache invalidation; upstream testfont regression.\n')
     prefix = work / 'prefix'
     configure = [source / 'configure', '--prefix=' + str(prefix), *pins['configure']]
     run(*configure, cwd=source)
@@ -100,11 +107,15 @@ def main():
     shutil.copy2(fixtures, destination / fixtures.name)
     shutil.copy2(ROOT / 'build/mono/build_gdiplus.py', destination / 'build_gdiplus.py')
     shutil.copy2(ROOT / 'build/mono/gdiplus-source.json', destination / 'gdiplus-source.json')
+    shutil.copy2(patch, destination / patch.name)
+    shutil.copy2(source / 'tests/test-suite.log', destination / 'native-test-suite.log')
     (destination / 'SOURCE.libgdiplus.txt').write_text(
         f'libgdiplus {pins["version"]}, MIT license. Complete source is libgdiplus-{pins["version"]}.tar.gz.\n'
         'The reviewed SHA512, source origin and configure options are in gdiplus-source.json.\n'
         'Build on the recorded Ubuntu baseline with the included build_gdiplus.py recipe.\n'
-        'Missing test images are restored from the exact release Git archive; no production patches.\n'
+        'Missing test images are restored from the exact release Git archive.\n'
+        'Patch libgdiplus-pango-fontmap.patch invalidates the Pango private-font cache after font registration.\n'
+        'The unchanged upstream testfont fails before this patch and passes afterward.\n'
         'System Cairo/Pango/X11 and image codecs are runtime prerequisites.\n')
     (destination / 'dependencies.txt').write_text(needed + '\n' + dependencies + '\n')
     metadata = {

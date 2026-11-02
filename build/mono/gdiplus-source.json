@@ -9,5 +9,8 @@
     "sha512": "757a3e55bf92ecc800ec6783df17940d586c5775ad6665d1ee2e03246b49a07ef58ebc2f954b0cee2650ee8c0d66cd03eddc8b4b926de73fca9650dc9f143fb6"
   },
   "license": "MIT",
+  "patches": {
+    "libgdiplus-pango-fontmap.patch": "9c02d9c8e320c97e8a6c331b55a2f77fe315bb865a5f996c6ffa178c69b75617"
+  },
   "configure": ["--with-pango", "--disable-static"]
 }

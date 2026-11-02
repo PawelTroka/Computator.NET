@@ -137,7 +137,7 @@ def verify(root):
     native = metadata.get('native', {})
     if native:
         required = {'gsl', 'cblas', 'gdiplus'}
-        allowed = required | {'cairo', 'x11', 'xtst', 'xinerama'}
+        allowed = required | {'cairo', 'x11', 'xtst', 'xinerama', 'xext'}
         if metadata.get('rid') not in RIDS or not required.issubset(native) or not set(native).issubset(allowed):
             raise ValueError('Incomplete native runtime selection.')
         for name in native.values():
