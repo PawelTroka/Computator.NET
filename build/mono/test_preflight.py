@@ -43,13 +43,22 @@ class RuntimePreflightContracts(unittest.TestCase):
         self.output.parent.mkdir()
         self.addCleanup(self.manifest_path.write_bytes, self.original_manifest)
 
-    def prepare(self, output=None):
+    def process_environment(self):
         environment = os.environ.copy()
         for key in ('MONO_ENV_OPTIONS', 'MONO_CFG_DIR'):
             environment.pop(key, None)
+        manifest = json.loads(self.original_manifest)
+        if manifest.get('rid', '').startswith('linux-'):
+            # The fixture is a COPY of the input package. Its GSL dependency
+            # search must not retain the caller's original private CBLAS path.
+            environment['LD_LIBRARY_PATH'] = ':'.join(dict.fromkeys(
+                str((self.package / path).parent) for path in manifest['native'].values()))
+        return environment
+
+    def prepare(self, output=None):
         return subprocess.run([MONO, str(self.executable), 'prepare', '--package-root',
                                str(self.package), '--config', str(output or self.output)],
-                              env=environment, text=True, capture_output=True, timeout=60)
+                              env=self.process_environment(), text=True, capture_output=True, timeout=60)
 
     def reject(self, result, message):
         self.assertNotEqual(0, result.returncode, result.stdout + result.stderr)
@@ -125,12 +134,12 @@ class RuntimePreflightContracts(unittest.TestCase):
         report = self.output.parent / 'runtime-check.json'
         command = [MONO, '--config', str(self.output), str(self.executable), 'verify', '--package-root',
                    str(self.package), '--report', str(report)]
-        first = subprocess.run(command, text=True, capture_output=True, timeout=60)
+        first = subprocess.run(command, env=self.process_environment(), text=True, capture_output=True, timeout=60)
         self.assertEqual(0, first.returncode, first.stdout + first.stderr)
         prior = json.loads(report.read_text())
         self.assertTrue(prior['passed'])
         self.alter_manifest(lambda value: value['files'].append(value['files'][0]))
-        second = subprocess.run(command, text=True, capture_output=True, timeout=60)
+        second = subprocess.run(command, env=self.process_environment(), text=True, capture_output=True, timeout=60)
         self.assertNotEqual(0, second.returncode)
         current = json.loads(report.read_text())
         self.assertFalse(current['passed'], 'A stale success report must never survive a failed current verification.')

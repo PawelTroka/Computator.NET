@@ -278,6 +278,29 @@ def bundle_icon(resources):
         subprocess.run(["/usr/bin/iconutil","--convert","icns",str(iconset),"--output",str(resources/"Computator.NET.icns")],check=True)
 
 
+def runtime_data(provenance,resources):
+    dictionaries=[]
+    for item in provenance:
+        source=Path(item['originalPath'])
+        parts=source.parts
+        if 'Cellar' not in parts:
+            continue
+        index=parts.index('Cellar')
+        if parts[index+1]!='libthai':
+            continue
+        dictionary=Path(*parts[:index+3])/'share/libthai/thbrk.tri'
+        if not dictionary.is_file() or dictionary.is_symlink():
+            raise ValueError('The copied libthai requires its exact regular dictionary data: '+str(dictionary))
+        target=resources/'native/libthai/thbrk.tri'
+        target.parent.mkdir(parents=True,exist_ok=True)
+        shutil.copy2(dictionary,target)
+        dictionaries.append({'library':item['packagedFile'],'path':target.relative_to(resources).as_posix(),
+                             'originalPath':str(dictionary),'sha256':sha(target),'size':target.stat().st_size})
+    if len(dictionaries)>1:
+        raise ValueError('More than one libthai dictionary provider was selected')
+    return dictionaries
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True, help="new .app path")
@@ -319,6 +342,7 @@ def main():
         selected["xim"] = entries["computator_xim"]
     destination = resources / "native" / rid
     provenance = copy_closure(selected, destination, architecture)
+    dictionaries=runtime_data(provenance,resources)
     minimum=max((15,0,0),*(tuple(map(int,item['macOSDeploymentMinimum'].split('.'))) for item in provenance))
     minimum_text='.'.join(map(str,minimum[:2] if minimum[2]==0 else minimum))
     corresponding_sources = retain_sources(provenance, prepared, resources)
@@ -340,6 +364,20 @@ def main():
         "No external GIO loadable modules are required by the accepted numerical/drawing desktop workflows. "
         "The launcher selects this private directory, rather than loading build-host Homebrew modules.\n")
     metadata = json.loads((resources / "mono-package.json").read_text())
+    accepted_source=None
+    reports=ROOT/'artifacts/macos'/('acceptance-'+architecture)/args.configuration
+    for report_path in sorted(reports.glob('run-*/acceptance.json'),reverse=True):
+        report=json.loads(report_path.read_text())
+        if (report.get('passed') and report.get('checkoutCommit')==metadata['source']['commit']
+                and not report.get('checkoutDirty') and report.get('architecture')==architecture):
+            accepted_source=report
+            break
+    # An exclusive diagnostic Cake task may stage a red GUI build to investigate
+    # authoring. Such an archive is explicitly unaccepted, never a release pass.
+    metadata['sourceCheckoutAcceptance']=accepted_source or {
+        'passed':False,'scope':'diagnostic-unaccepted-source-checkout',
+        'reason':'No complete current-head native application acceptance report exists.'}
+    (resources/'share/source-checkout-acceptance.json').write_text(json.dumps(metadata['sourceCheckoutAcceptance'],indent=2)+'\n')
     metadata.update(rid=rid, native={name: (Path("native") / rid / path.name).as_posix() for name, path in selected.items()},
                     runtime={"monoTestedVersion": "6.14.1", "monoMinimumVersion": "6.14.1", "xquartzVersion": "2.8.6", "framework": "net48",
                              "macOSMinimum": minimum_text,
@@ -359,6 +397,7 @@ def main():
                                     "sha256": sha(bundle / name)}
                                    for name in ("Contents/Info.plist", "Contents/MacOS/Computator.NET")]
     metadata["runtimeData"] = {"fontconfig": "native/fonts.conf", "fonts": "macOS system/user font directories",
+                               "thaiDictionaries": dictionaries,
                                "gioModules": "native/gio-modules", "xLocale": "/opt/X11/share/X11/locale",
                                "icu": "data dylib included when present in the Mach-O dependency closure"}
     (resources / "mono-package.json").write_text(json.dumps(metadata, indent=2) + "\n")
@@ -369,6 +408,7 @@ def main():
     if args.archive:
         print("Archive SHA256:", archive_bundle(bundle, args.archive))
     print("Prepared unsigned runtime-dependent Mono app:", bundle)
+    print("Complete current-head source application acceptance:",bool(accepted_source))
 
 
 if __name__ == "__main__":

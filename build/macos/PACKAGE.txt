@@ -27,6 +27,10 @@ Run Contents/MacOS/Computator.NET --preflight from a terminal for diagnostic JSO
 Set COMPUTATOR_NONINTERACTIVE=1 to send launch failures only to stderr.
 Custom functions and scripts execute trusted local code with your permissions.
 
+Check share/source-checkout-acceptance.json: passed=false identifies a diagnostic
+archive from an incomplete GUI gate. Such an archive is not accepted for release.
+Packaged-runtime, physical Mac and publisher-signing gates remain separate.
+
 License, application source, native corresponding source archives/build recipes,
 native provenance and SHA256 inventory are retained in Contents/Resources/share
 and Contents/Resources/mono-package.json.

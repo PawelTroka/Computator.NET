@@ -45,7 +45,11 @@ jobs:
           bash build/macos/start-display.sh artifacts/macos/display
           echo "COMPUTATOR_MAC_DISPLAY_ENV=$PWD/artifacts/macos/display/display.env" >> "$GITHUB_ENV"
       - name: Compile, package and accept the actual relocated Mono WinForms app through Cake
+        id: application
         run: bash ./build.sh --target=Mono-Mac-Package-Validate
+      - name: Build an explicitly unaccepted diagnostic bundle after a GUI gate failure
+        if: failure() && steps.application.outcome == 'failure'
+        run: bash ./build.sh --target=Mono-Mac-Package --exclusive
       - name: Stop only the owned XQuartz server
         if: always()
         run: bash build/macos/stop-display.sh artifacts/macos/display
