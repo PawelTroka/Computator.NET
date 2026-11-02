@@ -37,7 +37,7 @@ jobs:
           mkdir -p "$evidence"
           cp -a artifacts/mono-package/evidence-Release/harness "$evidence/"
           cp artifacts/mono-package/evidence-Release/legacy-settings.dat "$evidence/"
-          docker run --rm --user "$(id -u):$(id -g)" \
+          docker run --rm --init --user "$(id -u):$(id -g)" \
             -v "$PWD:$PWD:ro" -v "$evidence:$evidence:rw" -w "$PWD" \
             computator-mono-runtime:24.04 bash build/mono/accept-package-runtime.sh \
             "$PWD/artifacts/mono-package/unpacked-Release" "$evidence"

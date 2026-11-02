@@ -8,7 +8,7 @@ internal static partial class Program
     private static void CompiledUiTranslations(string culture, string regionalCulture)
     {
         var count = LocalizationResourceContract.Verify(typeof(Strings).Assembly,
-            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Localization"), culture, regionalCulture);
+            Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location), "Localization"), culture, regionalCulture);
         Console.WriteLine("Verified {0} compiled {1} UI strings and {2} regional fallbacks.", count, culture, regionalCulture);
     }
 }

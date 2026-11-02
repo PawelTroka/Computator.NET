@@ -17,11 +17,13 @@ Runtime prerequisites on Ubuntu 24.04:
     libmono-system-data4.0-cil libmono-system-xml-linq4.0-cil \
     libmono-posix4.0-cil \
     libpangocairo-1.0-0 libcairo2 libjpeg-turbo8 libtiff6 libgif7 libpng16-16t64 \
-    libexif12 libx11-6 libxtst6 libxinerama1 fonts-dejavu-core
+    libexif12 libx11-6 libxtst6 libxinerama1 libcups2t64 fonts-dejavu-core
 
 Mono 6.8 or later, its Framework runtime assemblies, and a working X11/XWayland
 desktop are required. Run as your normal desktop user. A Wayland session needs
-XWayland; this is an X11 WinForms application. The distribution is not a sandbox:
+XWayland; this is an X11 WinForms application. Printing requires a configured
+CUPS service/printer; the runtime dependency above supplies its client library.
+The distribution is not a sandbox:
 TSL/custom functions execute trusted user code with your account's permissions.
 
 Extract to a permanent user-writable directory, then run:
