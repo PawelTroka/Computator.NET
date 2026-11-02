@@ -30,7 +30,7 @@ class CandidateAcceptanceContracts(unittest.TestCase):
         for name in ('relocated-native-runtime.json', 'native-runtime-data.json', 'launcher-preflight.json',
                      'preflight-contracts.log', 'normal-launch/normal-launch.json', 'normal-launch-contracts.log',
                      'normal-launch-image-contracts/image-contracts.json', 'mono-results.xml', 'candidate-contracts.log',
-                     'capture-process-contracts.log'):
+                     'capture-process-contracts.log', 'native-tool-process-contracts.log'):
             (self.evidence/name).write_text('retained actual-report fixture\n')
         self.archive = self.base/'Computator.NET-mono-osx-arm64.zip'
         self.reset()

@@ -26,6 +26,10 @@ mkdir -p "$validation_temp/startup" "$validation_temp/smoke" "$validation_temp/c
     build/macos/MacDesktopCapture.cs build/macos/MacCaptureProcessTests.cs
 "$COMPUTATOR_MONO" "$validation_temp/MacCaptureProcessTests.exe" "$COMPUTATOR_MONO" "$results/capture-process-contracts" \
     2>&1 | tee "$results/capture-process-contracts.log"
+"$COMPUTATOR_MCS" -nologo -out:"$validation_temp/NativeToolProcessTests.exe" \
+    build/mono/NativeToolProcess.cs build/mono/NativeToolProcessTests.cs
+"$COMPUTATOR_MONO" "$validation_temp/NativeToolProcessTests.exe" "$COMPUTATOR_MONO" "$results/native-tool-process-contracts" \
+    2>&1 | tee "$results/native-tool-process-contracts.log"
 "$COMPUTATOR_MCS" -nologo -out:"$validation_temp/XimContractTests.exe" build/macos/MonoXimContract.cs build/macos/MonoXimContractTests.cs
 "$COMPUTATOR_MONO" "$validation_temp/XimContractTests.exe" | tee "$results/xim-metadata-contracts.log"
 "$COMPUTATOR_MONO" --version | tee "$results/runtime.log"
