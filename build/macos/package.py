@@ -16,6 +16,7 @@ import shutil
 import stat
 import subprocess
 import sys
+import tempfile
 import urllib.request
 import zipfile
 
@@ -244,6 +245,20 @@ def retain_sources(provenance, prepared, resources):
     return packages
 
 
+def bundle_icon(resources):
+    # Reuse the project's existing artwork; do not invent a new application icon.
+    with tempfile.TemporaryDirectory(prefix="computator-mac-icon-") as temporary:
+        iconset=Path(temporary)/"Computator.NET.iconset"
+        iconset.mkdir()
+        for size in (16,32,128,256,512):
+            for scale in (1,2):
+                name=f"icon_{size}x{size}"+("@2x" if scale==2 else "")+".png"
+                subprocess.run(["/usr/bin/sips","--resampleHeightWidth",str(size*scale),str(size*scale),
+                                str(resources/"share/computator.png"),"--out",str(iconset/name)],check=True,
+                               stdout=subprocess.DEVNULL)
+        subprocess.run(["/usr/bin/iconutil","--convert","icns",str(iconset),"--output",str(resources/"Computator.NET.icns")],check=True)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True, help="new .app path")
@@ -291,6 +306,7 @@ def main():
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(ROOT / "build/macos" / source, target)
     (bundle / "Contents/MacOS/Computator.NET").chmod(0o755)
+    bundle_icon(resources)
     # Fontconfig must not retain a dependency on the build account's Homebrew.
     (resources / "native/fonts.conf").write_text('<?xml version="1.0"?>\n<!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">\n'
         '<fontconfig><dir>/System/Library/Fonts</dir><dir>/Library/Fonts</dir><dir>~/Library/Fonts</dir>'
@@ -311,6 +327,7 @@ def main():
     with (bundle / "Contents/Info.plist").open("wb") as stream:
         plistlib.dump({"CFBundleName": "Computator.NET", "CFBundleDisplayName": "Computator.NET",
                       "CFBundleIdentifier": "net.computator.mono", "CFBundleExecutable": "Computator.NET",
+                      "CFBundleIconFile": "Computator.NET.icns",
                       "CFBundlePackageType": "APPL", "CFBundleVersion": version,
                       "CFBundleShortVersionString": version, "LSMinimumSystemVersion": "15.0",
                       "NSHighResolutionCapable": True}, stream)
