@@ -49,6 +49,8 @@ internal static partial class Program
                 host.Closed += (_, e) => Console.WriteLine("Completion closed: " + e.CloseReason + Environment.NewLine + Environment.StackTrace);
                 help.Closed += (_, e) => Console.WriteLine("Reference closed: " + e.CloseReason + Environment.NewLine + Environment.StackTrace);
                 input.LostFocus += (_, _) => Console.WriteLine("Editor LostFocus, help focus=" + help.ContainsFocus + ", pointer=" + Control.MousePosition);
+                input.GotFocus += (_, _) => Console.WriteLine("Editor GotFocus");
+                input.MouseDown += (_, _) => Console.WriteLine("Editor MouseDown, focus=" + input.Focused + ", pointer=" + Control.MousePosition);
                 window.LostFocus += (_, _) => Console.WriteLine("Owner LostFocus, help focus=" + help.ContainsFocus + ", pointer=" + Control.MousePosition);
             }
             try

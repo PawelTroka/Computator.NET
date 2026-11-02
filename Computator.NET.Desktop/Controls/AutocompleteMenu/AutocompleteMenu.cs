@@ -879,7 +879,13 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         {
             _timer.Stop();
             (Host.ListView as AutocompleteListView).CloseToolTip();
+#if __MonoCS__
+            // Closing a hidden Mono dropdown can restore an obsolete focus
+            // owner. A later editor mouse-down must not lose its new focus.
+            if (Host.Visible) Host.Close();
+#else
             Host.Close();
+#endif
             _forcedOpened = false;
         }
 
