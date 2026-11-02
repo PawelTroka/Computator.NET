@@ -266,8 +266,13 @@ execute the actual managed preflight and reject tampering, wrong architecture,
 unrecorded files, unsafe mappings and writes back through redirected caches.
 Use the final candidate's fresh workflow reports and archive hashes for release.
 
-The current suite requires at least 54 cases, including restored compiled 3D
-plot commands and exact decimal-input rounding. Mono's BCL and UTF8 parser can
+The current suite requires at least 55 cases, including restored compiled 3D
+plot commands, exact decimal-input rounding and numeric-control font layout.
+The layout regression shows the real chart-bounds view and checks all four
+numeric controls against their actual font heights at 9.75, 12 and 16 points,
+including repeated layout and scaling, to catch clipped digits.
+
+Mono's BCL and UTF8 parser can
 round `8.88024331` one ULP high. The application's fast literal path and
 `FromMathString`, and script/file `convert<double>` / `read<double>` now retain
 their invariant grammar/exception behavior while using the already-shipped
