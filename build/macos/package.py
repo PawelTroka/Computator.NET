@@ -121,12 +121,21 @@ def extract_bundle(archive, output):
 
 
 def dependencies(path):
-    result = []
-    for line in run("otool", "-L", str(path)).splitlines()[1:]:
-        match = re.match(r"\s+(.+?) \(compatibility version", line)
-        if match:
-            result.append(match.group(1))
-    return result
+    # otool -L also prints LC_ID_DYLIB. Parse command kinds so a self install
+    # identity is never mistaken for a dependency (including outside Cellar).
+    kinds={'LC_LOAD_DYLIB','LC_LOAD_WEAK_DYLIB','LC_REEXPORT_DYLIB','LC_LOAD_UPWARD_DYLIB','LC_LAZY_LOAD_DYLIB'}
+    return command_names(path,kinds)
+
+
+def command_names(path,kinds):
+    names=[]
+    for block in re.split(r'\nLoad command \d+\n',run('otool','-l',str(path))):
+        command=re.search(r'^\s*cmd (LC_[A-Z_0-9]+)\s*$',block,re.M)
+        if command and command[1] in kinds:
+            name=re.search(r'^\s*name (.+?) \(offset \d+\)\s*$',block,re.M)
+            if not name: raise ValueError('Cannot read an actual Mach-O dylib name in '+str(path))
+            names.append(name[1])
+    return names
 
 
 def deployment_minimum(path):
@@ -179,8 +188,8 @@ def resolve_dependency(name, owner):
             candidate=owner.parent/relative
             if candidate.is_file():
                 candidate=candidate.resolve(strict=True)
-                identities=run('otool','-D',str(candidate)).splitlines()[1:]
-                if candidate.is_relative_to(keg) and name in [item.strip() for item in identities]:
+                identities=command_names(candidate,{'LC_ID_DYLIB'})
+                if candidate.is_relative_to(keg) and name in identities:
                     candidates.append(candidate)
         candidates=list(dict.fromkeys(candidates))
         if len(candidates)!=1:
@@ -235,6 +244,9 @@ def copy_closure(selected, target, architecture):
             if dependency is not None:
                 subprocess.run(["install_name_tool", "-change", link,
                                 "@loader_path/" + dependency.name, str(copied)], check=True)
+        original_rpaths=load_rpaths(source)
+        for search in dict.fromkeys(original_rpaths):
+            subprocess.run(['install_name_tool','-delete_rpath',search,str(copied)],check=True)
         # Apple Silicon requires valid code signatures after modifying Mach-O.
         # This is local integrity signing with no owner identity or notarization.
         subprocess.run(["codesign", "--force", "--sign", "-", "--timestamp=none", str(copied)], check=True)
@@ -242,10 +254,14 @@ def copy_closure(selected, target, architecture):
         for link in dependencies(copied):
             if not link.startswith(("/usr/lib/", "/System/Library/", "@loader_path/")):
                 raise ValueError(f"Relocated library retains a host dependency: {link}")
+        if load_rpaths(copied):
+            raise ValueError('Relocated library retains an undeclared native runpath: '+str(copied))
         provenance.append({"originalPath": str(source), "originalSha256": sha(source),
                            "packagedFile": copied.name, "packagedSha256": sha(copied),
                            "macOSDeploymentMinimum": ".".join(map(str,deployment_minimum(copied))),
-                           "originalRunpaths":load_rpaths(source),
+                           "originalInstallIds":command_names(source,{'LC_ID_DYLIB'}),
+                           "packagedInstallIds":command_names(copied,{'LC_ID_DYLIB'}),
+                           "originalRunpaths":original_rpaths,"packagedRunpaths":load_rpaths(copied),
                            "resolvedDependencies":[{"loadCommand":link,"path":str(resolve_dependency(link,source))}
                                                    for link in links if resolve_dependency(link,source) is not None],
                            "originalDependencies": links, "packagedDependencies": dependencies(copied)})
