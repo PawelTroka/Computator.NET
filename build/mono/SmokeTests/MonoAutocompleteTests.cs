@@ -42,6 +42,13 @@ internal static partial class Program
                 .GetField("toolTip", BindingFlags.Instance | BindingFlags.NonPublic)
                 .GetValue(list);
             var reference = help.Items.OfType<ToolStripControlHost>().Single().Control;
+            if (Environment.GetEnvironmentVariable("COMPUTATOR_REFERENCE_FOCUS_TRACE") == "1")
+            {
+                host.Closed += (_, e) => Console.WriteLine("Completion closed: " + e.CloseReason + Environment.NewLine + Environment.StackTrace);
+                help.Closed += (_, e) => Console.WriteLine("Reference closed: " + e.CloseReason + Environment.NewLine + Environment.StackTrace);
+                input.LostFocus += (_, _) => Console.WriteLine("Editor LostFocus, help focus=" + help.ContainsFocus + ", pointer=" + Control.MousePosition);
+                window.LostFocus += (_, _) => Console.WriteLine("Owner LostFocus, help focus=" + help.ContainsFocus + ", pointer=" + Control.MousePosition);
+            }
             try
             {
                 Settings.Default.TooltipType = TooltipType.Default;
