@@ -113,17 +113,17 @@ COMPUTATOR_DATA_DIRECTORY="$evidence/profile-startup" \
 "$python_command" build/macos/run-bounded.py --seconds 180 --child-env DYLD_PRINT_LIBRARIES=1 "$mono" --config "$evidence/mono.config" \
     "$evidence/harness/Computator.NET.Mono.StartupProbe.exe" "$resources/app/Computator.NET.exe" "$evidence" \
     2>&1 | tee "$evidence/startup.log"
+"$python_command" build/macos/normal-launch.py --bundle "$bundle" --mono "$mono" \
+    --config "$evidence/mono.config" --capture-helper "$evidence/harness/libcomputator-mac-display.dylib" \
+    --x11-tool "$evidence/harness/normal-launch/normal-launch-x11" \
+    --image-probe "$evidence/harness/normal-launch/NormalLaunchImageProbe.exe" \
+    --evidence "$evidence/normal-launch"
 COMPUTATOR_DATA_DIRECTORY="$evidence/profile-smoke" COMPUTATOR_MONO_LEGACY_FIXTURE="$evidence/legacy-settings.dat" \
 COMPUTATOR_MONO_EXPECTED_APPLICATION_DIRECTORY="$resources/app" \
 "$python_command" build/macos/run-bounded.py --seconds 480 --child-env DYLD_PRINT_LIBRARIES=1 "$mono" --config "$evidence/mono.config" \
     "$evidence/harness/Computator.NET.Mono.SmokeTests.exe" --application-directory "$resources/app" "$evidence" \
     2>&1 | tee "$evidence/smoke.log"
 "$python_command" build/macos/verify-acceptance.py "$evidence" "$architecture"
-"$python_command" build/macos/normal-launch.py --bundle "$bundle" --mono "$mono" \
-    --config "$evidence/mono.config" --capture-helper "$evidence/harness/libcomputator-mac-display.dylib" \
-    --x11-tool "$evidence/harness/normal-launch/normal-launch-x11" \
-    --image-probe "$evidence/harness/normal-launch/NormalLaunchImageProbe.exe" \
-    --evidence "$evidence/normal-launch"
 "$python_command" build/macos/package.py --verify --output "$bundle"
 "$python_command" build/macos/verify-package-runtime.py "$resources" "$evidence" "$mono_prefix"
 "$python_command" - "$resources" "$evidence" "$archive" "$repository" <<'PY'
