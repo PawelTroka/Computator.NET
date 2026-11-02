@@ -41,7 +41,12 @@ namespace Computator.NET.Core.Functions
                 x = (T)(object)(string.Empty);//TODO: find better way to provide something which is not null for reference types
 
             if (x.IsNumericType())
+#if __MonoCS__
+                x = (T)((object)Computator.NET.Core.Compilation.MonoDoubleParser.Parse(result,
+                    System.Globalization.NumberStyles.Float | System.Globalization.NumberStyles.AllowThousands));
+#else
                 x = (T)((object)double.Parse(result, System.Globalization.CultureInfo.InvariantCulture));
+#endif
 
             if (x is string)
                 x = (T)((object)(result));
@@ -464,7 +469,13 @@ double YMax = 5, double quality = 0.5)
 
         public static T convert<T>(string result)
         {
-            if (string.IsNullOrEmpty(result))
+" +
+#if __MonoCS__
+@"            if (typeof(T) == typeof(double))
+                return global::Computator.NET.Core.Functions.ScriptingFunctions.convert<T>(result);
+" +
+#endif
+@"            if (string.IsNullOrEmpty(result))
                 return (T)(object)(string.Empty);
 
             var x = default(T);

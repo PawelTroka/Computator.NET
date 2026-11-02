@@ -188,6 +188,7 @@
     <File Path="build/macos/test_preflight.py" />
     <File Path="build/macos/validate-package.sh" />
     <File Path="build/macos/verify-package-runtime.py" />
+    <File Path="build/macos/verify-runtime-data.py" />
     <File Path=".github/workflows/mono-macos.yml" />
     <File Path="build/macos/MacDesktopCapture.cs" />
     <File Path="build/macos/MacDrawableCapture.cs" />
@@ -197,6 +198,7 @@
     <File Path="build/macos/build-display-probe.sh" />
     <File Path="build/macos/build-xim-shim.sh" />
     <File Path="build/macos/display-mode.c" />
+    <File Path="build/macos/display-owner.py" />
     <File Path="build/macos/mono-xim-arm64.S" />
     <File Path="build/macos/mono-xim.c" />
     <File Path="build/macos/native-dependencies.json" />

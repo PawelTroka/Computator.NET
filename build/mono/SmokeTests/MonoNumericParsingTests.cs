@@ -10,12 +10,14 @@ using Computator.NET.Core.Autocompletion.DataSource;
 using Computator.NET.Core.Compilation;
 using Computator.NET.Core.Constants;
 using Computator.NET.Core.Evaluation;
+using Computator.NET.Core.Functions;
 using Computator.NET.DataTypes;
 using Computator.NET.Engine;
 
 internal static partial class Program
 {
     private sealed class NumericRoslynEvaluator : ExpressionsEvaluator { }
+    private sealed class NumericGeneratedScript : ScriptEvaluator { protected override bool UsePrecompiledBuiltins => false; }
 
     private static void CorrectlyRoundedNumericInput()
     {
@@ -51,6 +53,7 @@ internal static partial class Program
                 var output = new StringBuilder();
                 new ScriptEvaluator().Evaluate(code, "").Evaluate(text => output.Append(text));
                 Equal(output.ToString(), string.Concat(expectedBits.Select(bits => unchecked((ulong)bits).ToString("x16") + "|")) + "4021c2af4049f211");
+                VerifyNumericConversions(culture);
             }
 
             var catalog = new FunctionsDetailsFileSource().Details;
@@ -68,6 +71,7 @@ internal static partial class Program
                 if (value is double)
                 {
                     CheckSameNumericBits((double)value, text.FromMathString(), field.Name + " parsed description");
+                    CheckSameNumericBits((double)value, ScriptingFunctions.convert<double>(text), field.Name + " input conversion");
                     CheckSameNumericBits((double)value, (double)generated, field.Name + " generated source");
                 }
                 else
@@ -88,5 +92,49 @@ internal static partial class Program
     private static void CheckSameNumericBits(double expected, double actual, string context)
     {
         Check((double.IsNaN(expected) && double.IsNaN(actual)) || BitConverter.DoubleToInt64Bits(expected) == BitConverter.DoubleToInt64Bits(actual), context);
+    }
+
+    private static void VerifyNumericConversions(string culture)
+    {
+        const long nearest = 0x4021c2af4049f211L;
+        var inputs = new[] { "8.88024331", " +8.88024331e0 ", "8,88,0,24,3,31e-8", "-8.88024331", "-0", "5e-324", "1,25", "1,,2" };
+        var expected = new[] { nearest, nearest, nearest, unchecked((long)0xc021c2af4049f211UL), long.MinValue, 1L,
+            BitConverter.DoubleToInt64Bits(125d), BitConverter.DoubleToInt64Bits(12d) };
+        for (var i = 0; i < inputs.Length; i++)
+            Check(BitConverter.DoubleToInt64Bits(ScriptingFunctions.convert<double>(inputs[i])) == expected[i], "Public numeric input conversion rounded incorrectly: " + inputs[i]);
+
+        // convert/read retain the legacy Float|AllowThousands contract; the
+        // displayed-number parser above intentionally rejects these commas.
+        foreach (var text in new[] { "NaN", "Infinity", "-Infinity", "+Infinity", "1e9999", "1.2,3", "1_234", "not a number" })
+        {
+            double before = 0; Exception error = null;
+            try { before = double.Parse(text, CultureInfo.InvariantCulture); } catch (Exception caught) { error = caught; }
+            if (error == null) CheckSameNumericBits(before, ScriptingFunctions.convert<double>(text), "Conversion special value " + text);
+            else
+            {
+                Exception actual = null;
+                try { ScriptingFunctions.convert<double>(text); } catch (Exception caught) { actual = caught; }
+                Check(actual != null && actual.GetType() == error.GetType(), "Conversion changed its exception contract: " + text);
+            }
+        }
+        Equal(ScriptingFunctions.convert<string>("1,234"), "1,234");
+        Expect<InvalidCastException>(() => ScriptingFunctions.convert<int>("12"));
+        Expect<InvalidCastException>(() => ScriptingFunctions.convert<double>(null));
+        Expect<InvalidCastException>(() => ScriptingFunctions.convert<double>(""));
+        Check(ScriptingFunctions.convert<Complex>("1+2i") == new Complex(1, 2), "Non-double conversion changed.");
+
+        var path = System.IO.Path.Combine(outputDirectory, "numeric-read-" + culture + ".txt");
+        System.IO.File.WriteAllText(path, "8.88024331\n");
+        var file = new Computator.NET.Core.Evaluation.File(path);
+        try { Check(BitConverter.DoubleToInt64Bits(ScriptingFunctions.read<double>(file)) == nearest, "Actual numeric file read rounded incorrectly."); }
+        finally { file.close(); }
+        var code = "foreach(var input in new string[] {" + string.Join(",", inputs.Select(text => "\"" + text + "\"")) +
+            "}) { write(System.BitConverter.DoubleToInt64Bits(convert<real>(input)).ToString(\"x16\")); write(\"|\"); }" +
+            "var f=new File(@\"" + path.Replace("\"", "\"\"") + "\"); try { write(System.BitConverter.DoubleToInt64Bits(read<real>(f)).ToString(\"x16\")); } finally { f.close(); }";
+        foreach (var evaluator in new ScriptEvaluator[] { new ScriptEvaluator(), new NumericGeneratedScript() })
+        {
+            var output = new StringBuilder(); evaluator.Evaluate(code, "").Evaluate(text => output.Append(text));
+            Equal(output.ToString(), string.Concat(expected.Select(bits => unchecked((ulong)bits).ToString("x16") + "|")) + "4021c2af4049f211");
+        }
     }
 }
