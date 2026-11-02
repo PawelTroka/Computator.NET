@@ -76,7 +76,11 @@ def main() -> None:
     if not cmake.is_file() or not ctest.is_file():
         raise RuntimeError('The pinned CMake tool package is incomplete.')
     run(cmake, '-S', SOURCE / 'probe', '-B', probe_build,
-        '-DCMAKE_BUILD_TYPE=Release', '-DCMAKE_PREFIX_PATH=' + str(prefix))
+        '-DCMAKE_BUILD_TYPE=Release', '-DCMAKE_PREFIX_PATH=' + str(prefix),
+        # Read the candidate's gsl_version.h. A system gsl-config can otherwise
+        # report an unrelated installed version even when libraries come here.
+        '-DGSL_ROOT_DIR=' + str(prefix), '-DGSL_USE_PKGCONFIG=OFF',
+        '-DGSL_CONFIG_EXECUTABLE:FILEPATH=')
     run(cmake, '--build', probe_build, '--config', 'Release', '--parallel', '2')
     probe_environment = dict(environment)
     if os_name == 'win':

@@ -263,7 +263,7 @@ def linux_package(args):
     gsl = gsl_contract(args.native_directory, args.rid)
     gdiplus = json.loads((args.gdiplus_directory / 'gdiplus-provenance.json').read_text())
     gdiplus_pins = json.loads((ROOT / 'build/mono/gdiplus-source.json').read_text())
-    if (gdiplus.get('schemaVersion') != 1 or gdiplus.get('version') != '6.1'
+    if (gdiplus.get('schemaVersion') != 1 or gdiplus.get('version') != gdiplus_pins['version']
             or gdiplus.get('rid') != args.rid or not gdiplus.get('pango') or gdiplus.get('baseline') != args.baseline
             or gdiplus.get('source') != gdiplus_pins):
         raise ValueError('libgdiplus must be a matching source-pinned Pango build for the selected distro baseline.')

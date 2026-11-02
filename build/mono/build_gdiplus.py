@@ -24,6 +24,17 @@ def capture(*args):
     return subprocess.check_output(list(map(str, args)), text=True).strip()
 
 
+def download(pins, target):
+    target.parent.mkdir(parents=True, exist_ok=True)
+    if not target.exists():
+        temporary = target.with_suffix('.download')
+        with urllib.request.urlopen(pins['archive'], timeout=90) as response, temporary.open('xb') as stream:
+            shutil.copyfileobj(response, stream)
+        temporary.rename(target)
+    if hashlib.sha512(target.read_bytes()).hexdigest() != pins['sha512']:
+        raise ValueError('libgdiplus archive differs from the reviewed source pin: ' + target.name)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--baseline', required=True, choices=('ubuntu-22.04', 'ubuntu-24.04'))
@@ -33,24 +44,34 @@ def main():
     if platform.system() != 'Linux' or platform.machine().lower() not in ('x86_64', 'amd64') or actual != args.baseline:
         raise ValueError('Build natively on the requested Ubuntu x86_64 baseline; detected ' + actual)
     pins = json.loads((ROOT / 'build/mono/gdiplus-source.json').read_text())
-    work = ROOT / 'artifacts/mono-native' / args.baseline
+    work = ROOT / 'artifacts/mono-native' / args.baseline / ('libgdiplus-' + pins['version'])
     work.mkdir(parents=True, exist_ok=True)
-    archive = ROOT / 'artifacts/mono-native/downloads/libgdiplus-6.1.tar.gz'
-    archive.parent.mkdir(parents=True, exist_ok=True)
-    if not archive.exists():
-        temporary = archive.with_suffix('.download')
-        with urllib.request.urlopen(pins['archive'], timeout=90) as response, temporary.open('xb') as stream:
-            shutil.copyfileobj(response, stream)
-        temporary.rename(archive)
-    if hashlib.sha512(archive.read_bytes()).hexdigest() != pins['sha512']:
-        raise ValueError('libgdiplus archive differs from the reviewed source pin.')
+    archive = ROOT / ('artifacts/mono-native/downloads/libgdiplus-' + pins['version'] + '.tar.gz')
+    fixtures = archive.with_name('libgdiplus-' + pins['version'] + '-git.tar.gz')
+    download(pins, archive)
+    download(pins['fixtures'], fixtures)
     source = work / 'source'
     if not source.exists():
         source.mkdir()
         with tarfile.open(archive, 'r:gz') as tar:
             # Use Python's safe data filter; source archive is additionally hash pinned.
             tar.extractall(source, filter='data')
-    source /= 'libgdiplus-6.1'
+    source /= 'libgdiplus-' + pins['version']
+    # Upstream make-dist omits several test images. Restore only missing tests/
+    # files from the exact release Git tree; never modify production sources or
+    # weaken assertions. Keep both complete source archives in the candidate.
+    with tarfile.open(fixtures, 'r:gz') as tar:
+        for member in tar.getmembers():
+            parts = Path(member.name).parts
+            if member.isfile() and len(parts) > 2 and parts[1] == 'tests':
+                relative = Path(*parts[1:])
+                if '..' in relative.parts:
+                    raise ValueError('Invalid pinned test fixture path.')
+                target = source / relative
+                if not target.exists():
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    with tar.extractfile(member) as stream, target.open('xb') as output:
+                        shutil.copyfileobj(stream, output)
     prefix = work / 'prefix'
     configure = [source / 'configure', '--prefix=' + str(prefix), *pins['configure']]
     run(*configure, cwd=source)
@@ -76,13 +97,15 @@ def main():
     shutil.copy2(source / 'LICENSE', destination / 'LICENSE.libgdiplus')
     shutil.copy2(source / 'COPYING', destination / 'COPYING.libgdiplus')
     shutil.copy2(archive, destination / archive.name)
+    shutil.copy2(fixtures, destination / fixtures.name)
     shutil.copy2(ROOT / 'build/mono/build_gdiplus.py', destination / 'build_gdiplus.py')
     shutil.copy2(ROOT / 'build/mono/gdiplus-source.json', destination / 'gdiplus-source.json')
     (destination / 'SOURCE.libgdiplus.txt').write_text(
-        'libgdiplus 6.1, MIT license. Complete corresponding upstream source is libgdiplus-6.1.tar.gz.\n'
+        f'libgdiplus {pins["version"]}, MIT license. Complete source is libgdiplus-{pins["version"]}.tar.gz.\n'
         'The reviewed SHA512, source origin and configure options are in gdiplus-source.json.\n'
         'Build on the recorded Ubuntu baseline with the included build_gdiplus.py recipe.\n'
-        'No patches are applied. System Cairo/Pango/X11 and image codecs are runtime prerequisites.\n')
+        'Missing test images are restored from the exact release Git archive; no production patches.\n'
+        'System Cairo/Pango/X11 and image codecs are runtime prerequisites.\n')
     (destination / 'dependencies.txt').write_text(needed + '\n' + dependencies + '\n')
     metadata = {
         'schemaVersion': 1, 'version': pins['version'], 'rid': 'linux-x64',
