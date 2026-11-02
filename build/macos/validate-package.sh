@@ -40,6 +40,7 @@ unset COMPUTATOR_GSL_DIRECTORY MONO_CFG_DIR MONO_ENV_OPTIONS MONO_WINFORMS_XIM_S
 export MONO_MWF_MAC_FORCE_X11=1 COMPUTATOR_MONO_XIM_ACCEPTANCE=enabled COMPUTATOR_NONINTERACTIVE=1
 export FONTCONFIG_FILE="$resources/native/fonts.conf" FONTCONFIG_PATH="$resources/native"
 export GIO_MODULE_DIR="$resources/native/gio-modules" GIO_EXTRA_MODULES= XLOCALEDIR=/opt/X11/share/X11/locale
+export LIBTHAI_DICTDIR="$resources/native/libthai"
 export MONO_PATH="$resources/app:$resources/app/Facades"
 export XDG_CONFIG_HOME="$evidence/config" XDG_CACHE_HOME="$evidence/cache"
 export COMPUTATOR_MAC_COMPOSITOR_EVIDENCE_DIRECTORY="$evidence/compositor"
@@ -80,6 +81,7 @@ export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
 # Both the ordinary launcher and the shared AppDomains consume the immutable
 # relocated payload; generated configs/reports/profile data stay outside it.
 chmod -R a-w "$bundle"
+"$python_command" build/macos/verify-runtime-data.py "$resources" "$evidence"
 COMPUTATOR_MONO="$mono" COMPUTATOR_DATA_DIRECTORY="$evidence/profile-launcher" \
     "$bundle/Contents/MacOS/Computator.NET" --preflight > "$evidence/launcher-preflight.json" 2> "$evidence/launcher-preflight.log"
 COMPUTATOR_DATA_DIRECTORY="$evidence/profile-startup" \

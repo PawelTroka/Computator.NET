@@ -46,6 +46,7 @@ else:
     cellar=brew/'Cellar'
     for formula,suffixes in {'fontconfig':('etc/fonts','share/fontconfig'),
                               'pango':('etc/pango','lib/pango'),
+                              'libthai':('share/libthai',),
                               'glib':('lib/gio/modules','share/glib-2.0/schemas'),
                               'icu4c@78':('share/icu',),'icu4c':('share/icu',)}.items():
         for keg in (cellar/formula).glob('*'):

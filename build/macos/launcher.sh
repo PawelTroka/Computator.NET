@@ -34,6 +34,7 @@ export MONO_PATH="$resources/app:$resources/app/Facades"
 export FONTCONFIG_FILE="$resources/native/fonts.conf"
 export FONTCONFIG_PATH="$resources/native"
 export GIO_MODULE_DIR="$resources/native/gio-modules" GIO_EXTRA_MODULES=
+export LIBTHAI_DICTDIR="$resources/native/libthai"
 export XLOCALEDIR=/opt/X11/share/X11/locale
 preflight="$resources/app/Computator.NET.Mono.Preflight.exe"
 "$mono" "$preflight" prepare --package-root "$resources" --config "$temporary/mono.config" >&2 || fail 'The package integrity or native dependency preflight failed.'
