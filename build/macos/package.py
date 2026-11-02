@@ -316,6 +316,7 @@ def retain_sources(provenance, prepared, resources):
     target = resources / "share/native-sources"
     target.mkdir()
     packages = {}
+    frozen=json.loads((prepared/'logs/homebrew-installed.json').read_text())
     for item in provenance:
         source = Path(item["originalPath"])
         parts = source.parts
@@ -356,6 +357,20 @@ def retain_sources(provenance, prepared, resources):
                 raise ValueError('Corresponding external source patch hash mismatch: '+formula)
             patches.append({'url':patch_url,'sha256':patch_sha,'file':patch_file.relative_to(resources).as_posix(),
                             'scope':'literal patch input retained; applicability remains in the installed recipe'})
+        for patch in local_patch_pins(content,formula,parts[index+2],sha(recipe),frozen):
+            patch_file=directory/('local-'+Path(patch['path']).name)
+            urllib.request.urlretrieve(patch['url'],patch_file)
+            if sha(patch_file)!=patch['sha256']:
+                raise ValueError('Frozen local tap patch differs from its checksum: '+formula)
+            patches.append({**patch,'file':patch_file.relative_to(resources).as_posix()})
+        resources_retained=[]
+        for name,resource_url,resource_sha,scope in recipe_resources(content,str(recipe)):
+            resource_file=directory/('resource-'+name+'-'+Path(resource_url.split('?',1)[0]).name)
+            urllib.request.urlretrieve(resource_url,resource_file)
+            if sha(resource_file)!=resource_sha:
+                raise ValueError('Installed recipe resource hash mismatch: '+formula+'/'+name)
+            resources_retained.append({'name':name,'url':resource_url,'sha256':resource_sha,'scope':scope,
+                                       'file':resource_file.relative_to(resources).as_posix()})
         licenses = []
         for path in keg.rglob("*"):
             if path.is_file() and not path.is_symlink() and re.match(r"^(COPYING|LICENSE|NOTICE|COPYRIGHT)(\.|$)", path.name, re.I):
@@ -365,7 +380,7 @@ def retain_sources(provenance, prepared, resources):
                 licenses.append(destination.relative_to(resources).as_posix())
         packages[formula] = {"installedVersion": parts[index + 2], "url": url, "sha256": expected,
                              "sourceArchive": archive.relative_to(resources).as_posix(), "licenses": licenses,
-                             "recipeSha256":sha(recipe),"externalPatches":patches}
+                             "recipeSha256":sha(recipe),"externalPatches":patches,"resources":resources_retained}
     shutil.copy2(prepared / "downloads/libgdiplus-6.2.tar.gz", target / "libgdiplus-6.2.tar.gz")
     shutil.copy2(prepared / "downloads/libgdiplus-6.2-complete-git.tar.gz", target / "libgdiplus-6.2-complete-git.tar.gz")
     shutil.copy2(ROOT / "build/macos/native-dependencies.json", target / "native-dependencies.json")
@@ -408,12 +423,12 @@ def source_stanza(content,label):
 
 
 def external_patches(content,label):
-    lines=content.splitlines();patches=[]
+    lines=ruby_code(content).splitlines();patches=[]
     for index,line in enumerate(lines):
         if not re.match(r'^\s*patch\b',line):
             continue
         if re.fullmatch(r'\s*patch(?:\s+:[A-Za-z0-9_]+,)?\s+:DATA\s*(?:#.*)?',line):
-            if '__END__' not in lines:
+            if not re.search(r'^__END__\s*$',content,re.M):
                 raise ValueError('Inline recipe patch data is absent: '+label)
             continue
         start=re.fullmatch(r'(\s*)patch(?:\s+:[A-Za-z0-9_]+)?\s+do\s*(?:#.*)?',line)
@@ -424,8 +439,66 @@ def external_patches(content,label):
                   and len(lines[number])-len(lines[number].lstrip())==len(start[1])),None)
         if end is None:
             raise ValueError('Unreviewed external patch block in installed recipe '+label)
-        patches.append(source_stanza('\n'.join(lines[index+1:end]),label+' patch'))
+        body='\n'.join(lines[index+1:end])
+        if re.fullmatch(r'\s*file\s+"Patches/[^"#]+"\s*',body):
+            continue  # Bound to the frozen tap metadata by local_patch_pins.
+        patches.append(source_stanza(body,label+' patch'))
     return patches
+
+
+def local_patch_pins(content,formula,version,recipe_sha,frozen):
+    code=ruby_code(content)
+    declarations=re.findall(r'^\s*file\s+"(Patches/[^"#]+)"\s*$',code,re.M)
+    if not declarations:
+        return []
+    matches=[entry for entry in frozen.get('formulae',[]) if entry.get('name')==formula]
+    if len(matches)!=1: raise ValueError('No exact frozen installed formula metadata: '+formula)
+    metadata=matches[0]
+    expected_version=metadata['versions']['stable']+('_'+str(metadata['revision']) if metadata.get('revision') else '')
+    head=metadata.get('tap_git_head','')
+    if (metadata.get('tap')!='homebrew/core' or expected_version!=version
+            or metadata.get('ruby_source_checksum',{}).get('sha256')!=recipe_sha or not re.fullmatch('[0-9a-f]{40}',head)):
+        raise ValueError('Frozen local patch metadata does not match the actual installed recipe/version: '+formula)
+    result=[]
+    for path in declarations:
+        if (not path.startswith('Patches/') or '\\' in path or ':' in path or
+                any(part in ('','.','..') for part in path.split('/'))):
+            raise ValueError('Unsafe local recipe patch path')
+        entries=[item for item in metadata.get('patches',[]) if item.get('file')==path]
+        digest=metadata.get('local_patch_checksums',{}).get(path,'')
+        if len(entries)!=1 or not re.fullmatch('[0-9a-f]{64}',digest) or entries[0].get('strip') not in ('p0','p1','p2'):
+            raise ValueError('No exact pinned local patch checksum/strip level: '+path)
+        result.append({'path':path,'tapCommit':head,'sha256':digest,'strip':entries[0]['strip'],
+                       'url':'https://raw.githubusercontent.com/Homebrew/homebrew-core/'+head+'/'+path,
+                       'scope':'local patch from the recipe-bound immutable tap commit'})
+    if set(declarations)!={item['file'] for item in metadata.get('patches',[]) if 'file' in item}:
+        raise ValueError('Frozen local patch set differs from the installed recipe: '+formula)
+    return result
+
+
+def recipe_resources(content,label):
+    lines=ruby_code(content).splitlines();result=[]
+    for index,line in enumerate(lines):
+        if not re.match(r'^\s*resource\s+',line): continue
+        start=re.fullmatch(r'(\s*)resource\s+"([A-Za-z0-9._+-]+)"(?:,\s*:(test))?\s+do\s*(?:#.*)?',line)
+        if not start: raise ValueError('Unreviewed resource declaration in '+label)
+        end=next((number for number in range(index+1,min(len(lines),index+257))
+                  if lines[number].strip()=='end' and len(lines[number])-len(lines[number].lstrip())==len(start[1])),None)
+        if end is None: raise ValueError('Unreviewed resource block in '+label)
+        url,digest=source_stanza('\n'.join(lines[index+1:end]),label+' resource '+start[2])
+        in_test=start[3]=='test'
+        for before in range(index):
+            test=re.fullmatch(r'(\s*)test\s+do\s*',lines[before])
+            if test and len(test[1])<len(start[1]):
+                closing=next((number for number in range(before+1,len(lines))
+                              if lines[number].strip()=='end' and len(lines[number])-len(lines[number].lstrip())==len(test[1])),None)
+                if closing is not None and closing>index: in_test=True
+        result.append((start[2],url,digest,'test-only' if in_test else 'declared-outside-test; conditional/build use preserved in recipe'))
+    return result
+
+
+def ruby_code(content):
+    return re.split(r'^__END__\s*$',content,maxsplit=1,flags=re.M)[0]
 
 
 def bundle_icon(resources):

@@ -204,6 +204,31 @@ diff --git a/input.c b/input.c
         with self.assertRaisesRegex(ValueError,'adjacent literal source SHA256'):
             mac.external_patches(recipe,'patched')
 
+    def test_data_patch_context_is_not_evaluated_as_ruby_patch_declarations(self):
+        recipe='patch :DATA\n__END__\n patch do\n garbage source context\n end\n'
+        self.assertEqual([],mac.external_patches(recipe,'inline'))
+
+    def test_glib_local_patch_is_bound_to_the_exact_recipe_version_and_tap_commit(self):
+        recipe='patch do\n file "Patches/glib/hardcoded-paths.diff"\nend\n'
+        self.assertEqual([],mac.external_patches(recipe,'glib'))
+        frozen={'formulae':[{'name':'glib','tap':'homebrew/core','versions':{'stable':'2.90.1'},'revision':0,
+            'ruby_source_checksum':{'sha256':'a'*64},'tap_git_head':'b'*40,
+            'patches':[{'strip':'p1','file':'Patches/glib/hardcoded-paths.diff'}],
+            'local_patch_checksums':{'Patches/glib/hardcoded-paths.diff':'c'*64}}]}
+        pins=mac.local_patch_pins(recipe,'glib','2.90.1','a'*64,frozen)
+        self.assertEqual('c'*64,pins[0]['sha256'])
+        self.assertIn('/'+('b'*40)+'/Patches/glib/',pins[0]['url'])
+        for version,digest in (('2.90.2','a'*64),('2.90.1','d'*64)):
+            with self.assertRaisesRegex(ValueError,'actual installed recipe/version'):
+                mac.local_patch_pins(recipe,'glib',version,digest,frozen)
+
+    def test_build_and_explicit_test_resources_keep_independent_archive_pins(self):
+        recipe='resource "gobject-introspection" do\n url "https://example.invalid/build.tar.xz"\n sha256 "'+('a'*64)+'"\nend\nresource "test-font", :test do\n url "https://example.invalid/test.ttf"\n sha256 "'+('b'*64)+'"\nend\n'
+        values=mac.recipe_resources(recipe,'resources')
+        self.assertEqual(2,len(values))
+        self.assertEqual('a'*64,values[0][2])
+        self.assertEqual('test-only',values[1][3])
+
 
 if __name__=='__main__':
     unittest.main()
