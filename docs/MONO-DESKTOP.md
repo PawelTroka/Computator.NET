@@ -208,7 +208,9 @@ of real work.
 - Launch the relocated `.app` from Finder and from a terminal. Quit normally,
   relaunch, and check settings/documents persist without a leftover application.
 - Calculate `ProtonMuonMassRatio - 8.88024331`; the result must be exactly zero.
-  Exercise ordinary real/complex calculations and one native special function.
+  In a script, `write(convert<real>("8.88024331") - ProtonMuonMassRatio);`
+  must also write zero. Exercise ordinary real/complex calculations and one
+  native special function.
 - Load a `.tslf`, call its function in calculations and a script, change its
   definition without saving, then save/reopen and repeat. Verify errors highlight
   the displayed editor and recovery works after correcting the definition.
@@ -248,8 +250,10 @@ Use the final candidate's fresh workflow reports and archive hashes for release.
 The current suite requires at least 54 cases, including restored compiled 3D
 plot commands and exact decimal-input rounding. Mono's BCL and UTF8 parser can
 round `8.88024331` one ULP high. The application's fast literal path and
-`FromMathString` now retain their invariant grammar/exception behavior while
-using the already-shipped Roslyn parser for correctly rounded finite values.
+`FromMathString`, and script/file `convert<double>` / `read<double>` now retain
+their invariant grammar/exception behavior while using the already-shipped
+Roslyn parser for correctly rounded finite values. Generic conversion retains
+its existing grouping syntax.
 Stored/generated constants are unchanged. This adapter does not replace Mono's
 BCL: an explicit `System.Double.Parse` call in user code retains that runtime's
 behavior. Regression checks cover all 429 authored/emitted constants, signs,
