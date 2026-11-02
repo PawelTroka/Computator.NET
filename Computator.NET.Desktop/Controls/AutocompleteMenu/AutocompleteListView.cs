@@ -204,6 +204,10 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             toolTip.Close();
         }
 
+#if __MonoCS__
+        internal bool ReferenceContainsFocus => toolTip.Visible && toolTip.ContainsFocus;
+#endif
+
         //  private void ToolTip_Click(object sender, EventArgs e)
         //  {
         //      toolTip.Focus();

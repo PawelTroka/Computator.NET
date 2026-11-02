@@ -93,7 +93,8 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         {
             var target = Menu.TargetControlWrapper?.TargetControl;
             return (target != null && target.ContainsFocus) ||
-                   ContainsFocus || Bounds.Contains(Control.MousePosition);
+                   ContainsFocus || Bounds.Contains(Control.MousePosition) ||
+                   (ListView as AutocompleteListView)?.ReferenceContainsFocus == true;
         }
 #endif
 

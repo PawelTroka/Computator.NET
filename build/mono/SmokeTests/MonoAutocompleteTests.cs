@@ -217,7 +217,8 @@ internal static partial class Program
         var descriptionPoint = tabs.PointToScreen(new Point(descriptionTab.Left + descriptionTab.Width / 2, descriptionTab.Top + descriptionTab.Height / 2));
         MoveAndClickX11(descriptionPoint.X, descriptionPoint.Y);
         Check(menu.Visible && help.Visible && tabs.SelectedIndex == 0, "Returning to Description closed the help.");
-        var scrollPoint = description.PointToScreen(new Point(description.ClientSize.Width - 5, description.ClientSize.Height - 8));
+        var scrollPoint = description.PointToScreen(new Point(description.Width - SystemInformation.VerticalScrollBarWidth / 2,
+            description.Height - SystemInformation.HorizontalScrollBarHeight / 2));
         MoveAndClickX11(scrollPoint.X, scrollPoint.Y);
         PumpX11();
         Check(menu.Visible && help.Visible && description.AutoScrollPosition.Y < 0,

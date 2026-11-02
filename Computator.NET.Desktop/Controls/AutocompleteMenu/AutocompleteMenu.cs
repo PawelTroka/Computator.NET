@@ -586,8 +586,16 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 #if __MonoCS__
             // Mono raises TextBox.LostFocus before the clicked dropdown child
             // receives its mouse event. Keep the pending click alive.
-            if (Host.Visible && (Host.ContainsFocus || Host.Bounds.Contains(Control.MousePosition)))
+            var target = TargetControlWrapper?.TargetControl;
+            var readingReference = target != null && target.Visible && target.Enabled &&
+                (Host.ListView as AutocompleteListView)?.ReferenceContainsFocus == true;
+            if (Host.Visible && (Host.ContainsFocus || Host.Bounds.Contains(Control.MousePosition) || readingReference))
+            {
+                // Reading help is a focus transfer within this completion UI.
+                // Stop pending editor work rather than rebuilding that article.
+                if (readingReference) _timer.Stop();
                 return;
+            }
 #endif
             if (!Host.Focused) Close();
         }
