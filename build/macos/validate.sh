@@ -30,11 +30,11 @@ git rev-parse HEAD >> "$results/runtime.log"
 run="$results/run-$(date -u +%Y%m%dT%H%M%SZ)-$$"
 mkdir -p "$run"
 export COMPUTATOR_MAC_COMPOSITOR_EVIDENCE_DIRECTORY="$run/compositor"
-status=0
+calibration_status=0
 # Calibration proves the actual selected drawing stack and screen pixels before
 # the separate full application and shared acceptance executables are launched.
 COMPUTATOR_MAC_DRAWABLE_EVIDENCE_DIRECTORY="$results/prerequisites" \
-MONO_LOG_LEVEL=debug MONO_LOG_MASK=dll bash build/macos/probe-xquartz.sh --gui --output "$results/prerequisites" || status=1
+MONO_LOG_LEVEL=debug MONO_LOG_MASK=dll bash build/macos/probe-xquartz.sh --gui --output "$results/prerequisites" || calibration_status=$?
 application="$repository/Computator.NET/bin/mono/$configuration/net48/Computator.NET.exe"
 startup="$repository/build/mono/StartupProbe/bin/mono/$configuration/net48/Computator.NET.Mono.StartupProbe.exe"
 smoke="$repository/build/mono/SmokeTests/bin/mono/$configuration/net48/Computator.NET.Mono.SmokeTests.exe"
@@ -44,18 +44,22 @@ for executable in "$application" "$startup" "$smoke"; do [[ -f $executable ]] ||
 "$COMPUTATOR_MONO" "$validation_temp/LegacyFixture.exe" "$validation_temp/legacy-settings.dat"
 # Each invocation owns a fresh directory. Do not permit old screenshots/reports
 # to survive as evidence of a failed current invocation.
+startup_status=0
 COMPUTATOR_DATA_DIRECTORY="$validation_temp/startup" XDG_CONFIG_HOME="$validation_temp/config" XDG_CACHE_HOME="$validation_temp/cache" \
 python3 build/macos/run-bounded.py --seconds 150 "$COMPUTATOR_MONO" --debug "$startup" "$application" "$run" \
-    2>&1 | tee "$run/startup.log" || status=1
+    2>&1 | tee "$run/startup.log" || startup_status=$?
+smoke_status=0
 COMPUTATOR_DATA_DIRECTORY="$validation_temp/smoke" COMPUTATOR_MONO_LEGACY_FIXTURE="$validation_temp/legacy-settings.dat" \
 XDG_CONFIG_HOME="$validation_temp/config" XDG_CACHE_HOME="$validation_temp/cache" \
 python3 build/macos/run-bounded.py --seconds 420 "$COMPUTATOR_MONO" --debug "$smoke" "$run" \
-    2>&1 | tee "$run/smoke.log" || status=1
-python3 build/macos/verify-acceptance.py "$run" "$architecture" || status=1
+    2>&1 | tee "$run/smoke.log" || smoke_status=$?
+report_status=0
+python3 build/macos/verify-acceptance.py "$run" "$architecture" || report_status=$?
 native_status=0
 python3 build/macos/run-bounded.py --seconds 240 make -C "$native/build-libgdiplus" check \
     2>&1 | tee "$run/native-conformance.log" || native_status=$?
-python3 - "$native/build-libgdiplus/tests" "$run/native-conformance.json" "$native_status" <<'PY'
+native_report_status=0
+python3 - "$native/build-libgdiplus/tests" "$run/native-conformance.json" "$native_status" <<'PY' || native_report_status=$?
 import json,pathlib,sys
 tests=pathlib.Path(sys.argv[1]); results=[]
 for report in sorted(tests.glob('*.trs')):
@@ -67,5 +71,24 @@ pathlib.Path(sys.argv[2]).write_text(json.dumps({'schemaVersion':1,'scope':'unch
 if not passed: raise SystemExit('Native libgdiplus conformance did not pass all 36 unchanged upstream tests.')
 print('Native libgdiplus conformance: 36 passed, no failures or skips.')
 PY
-[[ $native_status == 0 ]] || status=1
+status=0
+for component in "$calibration_status" "$startup_status" "$smoke_status" "$report_status" "$native_status" "$native_report_status"; do
+    [[ $component == 0 ]] || status=1
+done
+python3 - "$run" "$calibration_status" "$startup_status" "$smoke_status" "$report_status" "$native_status" "$native_report_status" <<'PY'
+import json,pathlib,sys
+root=pathlib.Path(sys.argv[1])
+stages=dict(zip(('calibration','startup','sharedSuite','applicationReport','nativeTests','nativeReport'),map(int,sys.argv[2:])))
+passed=all(value==0 for value in stages.values())
+result={'schemaVersion':1,'scope':'native-macos-source-validation-process-exit-codes','passed':passed,'stages':stages}
+(root/'stage-exit-codes.json').write_text(json.dumps(result,indent=2)+'\n')
+application=root/'acceptance.json'
+if application.is_file():
+    report=json.loads(application.read_text())
+    report['applicationAssertionsPassed']=report.get('passed') is True
+    report['stageExitCodes']=stages
+    report['passed']=report['applicationAssertionsPassed'] and passed
+    application.write_text(json.dumps(report,indent=2)+'\n')
+print('Native source validation exit codes:',json.dumps(result,sort_keys=True),flush=True)
+PY
 exit "$status"
