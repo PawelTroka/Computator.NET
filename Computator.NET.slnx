@@ -126,6 +126,23 @@
   </Folder>
   <Folder Name="/Build/Mono compatibility (opt-in)/">
     <File Path="build/MonoDesktop.props" />
+    <File Path=".github/workflows/mono-linux-package.yml" />
+    <File Path="build/mono/LINUX-PACKAGE.txt" />
+    <File Path="build/mono/Preflight/Computator.NET.Mono.Preflight.csproj" />
+    <File Path="build/mono/Preflight/Program.cs" />
+    <File Path="build/mono/SmokeTests/SidecarFixtureRunner.cs" />
+    <File Path="build/mono/accept-package-runtime.sh" />
+    <File Path="build/mono/build_gdiplus.py" />
+    <File Path="build/mono/gdiplus-source.json" />
+    <File Path="build/mono/install-user.sh" />
+    <File Path="build/mono/launcher.sh" />
+    <File Path="build/mono/libgdiplus-pango-fontmap.patch" />
+    <File Path="build/mono/package-linux.sh" />
+    <File Path="build/mono/package.py" />
+    <File Path="build/mono/runtime.Dockerfile" />
+    <File Path="build/mono/test_package.py" />
+    <File Path="build/mono/validate-evidence.py" />
+    <File Path="build/mono/validate-package.sh" />
     <File Path="build/mono/LegacyFixtureWriter.cs" />
     <File Path="build/mono/SmokeTests/CompatibilityTests.cs" />
     <File Path="build/mono/SmokeTests/EditorSearchTests.cs" />

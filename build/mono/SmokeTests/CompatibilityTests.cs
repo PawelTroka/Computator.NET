@@ -27,22 +27,19 @@ internal static partial class Program
 {
     private static void RuntimeFactorySidecars()
     {
-        // A unique hint matches only sidecars, making the old loader fail
-        // deterministically rather than depending on directory enumeration order.
-        var hint = "MonoChartingSidecarRegression-" + Guid.NewGuid().ToString("N");
-        var paths = new[] { ".pdb", ".dll.config" }.Select(extension =>
-            Path.Combine(Computator.NET.DataTypes.Configuration.AppInformation.Directory, hint + extension)).ToArray();
+        // The installed package is read-only. Discovery fixtures belong to an
+        // isolated application domain/directory, never beside installed DLLs.
+        var directory = Path.Combine(Path.GetTempPath(), "computator-mono-sidecars-" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(directory);
+        var source = Path.GetDirectoryName(typeof(Computator.NET.Charting.ChartFactory).Assembly.Location);
+        var domain = AppDomain.CreateDomain("Computator.NET.Mono.SidecarFixture", null, new AppDomainSetup
+        { ApplicationBase = directory, ConfigurationFile = typeof(Program).Assembly.Location + ".config" });
         try
         {
-            foreach (var path in paths) File.WriteAllText(path, "Not a managed assembly.");
-            var fallback = RuntimeObjectFactory.CreateInstance<Computator.NET.DataTypes.Charts.IChartFactory>(hint);
-            Check(fallback != null, "Ignoring debug sidecars must retain the real chart-factory fallback.");
-            Same(fallback.GetType().Assembly, typeof(Computator.NET.Charting.ChartFactory).Assembly,
-                "Runtime discovery must select the production chart factory.");
-            var hinted = RuntimeObjectFactory.CreateInstance<Computator.NET.DataTypes.Charts.IChartFactory>("Charting");
-            Check(hinted is Computator.NET.Charting.ChartFactory, "The ordinary Charting assembly hint stopped working.");
+            var runner = (SidecarFixtureRunner)domain.CreateInstanceFromAndUnwrap(typeof(Program).Assembly.Location, typeof(SidecarFixtureRunner).FullName);
+            runner.Verify(source);
         }
-        finally { foreach (var path in paths) if (File.Exists(path)) File.Delete(path); }
+        finally { AppDomain.Unload(domain); Directory.Delete(directory, true); }
     }
 
     private static void FrameworkAdjacentValues()
@@ -163,10 +160,11 @@ internal static partial class Program
 
     private static void FunctionReference()
     {
-        var renderer = typeof(TextEditorCodeEditor).Assembly.GetType("Computator.NET.Desktop.Controls.AutocompleteMenu.MonoReferenceText", true)
+        var assembly = typeof(TextEditorCodeEditor).Assembly;
+        var renderer = assembly.GetType("Computator.NET.Desktop.Controls.AutocompleteMenu.MonoReferenceText", true)
             .GetMethod("Render", BindingFlags.Static | BindingFlags.NonPublic);
         var catalog = new FunctionsDetailsFileSource().Details;
-        Check(catalog.Count > 0, "The checked-in function reference was not copied into the runtime output.");
+        Check(catalog.Count == 1251, "The complete checked-in reference was not copied into the runtime output.");
         foreach (var info in catalog.Values)
         {
             string rendered;
@@ -175,26 +173,33 @@ internal static partial class Program
             Check(!string.IsNullOrWhiteSpace(rendered) && rendered.Contains(info.Title), "Reference lost its title: " + info.Signature);
             Check(!rendered.Contains("<div") && !rendered.Contains("<p>") && !rendered.Contains("<img"), "Reference exposed raw markup: " + info.Signature);
         }
-        Console.WriteLine("  verified checked-in reference articles: " + catalog.Count);
-        var type = typeof(TextEditorCodeEditor).Assembly.GetType("Computator.NET.Desktop.Controls.AutocompleteMenu.WebBrowserForm", true);
+        Console.WriteLine("  verified checked-in reference articles and image hashes: " + catalog.Count);
+        var type = assembly.GetType("Computator.NET.Desktop.Controls.AutocompleteMenu.WebBrowserForm", true);
         using (var form = (System.Windows.Forms.Form)Activator.CreateInstance(type))
         {
-            var info = new FunctionInfo
+            foreach (var signature in new[] { "sin(x)", "Normal.CDF(mean,stddev,x)", "ElementaryCharge", "Laguerre(n,α,x)", "Ackley(xi1,xi2, ...)" })
             {
-                Title = "Sine reference",
-                Signature = "sin(real x)",
-                Description = "<p>Readable sine description.</p><p><img src=\"equation.png\" alt=\"sin(x)^2 + cos(x)^2 = 1\" /></p><p>x<sup>2</sup> + a<sub>1</sub></p>"
-            };
-            type.GetMethod("SetFunctionInfo", new[] { typeof(FunctionInfo) }).Invoke(form, new object[] { info });
-            form.Show();
+                var info = catalog[signature];
+                type.GetMethod("SetFunctionInfo", new[] { typeof(FunctionInfo) }).Invoke(form, new object[] { info });
+                form.Size = new System.Drawing.Size(signature.StartsWith("Laguerre", StringComparison.Ordinal) ? 390 : 740, 620);
+                form.Show();
+                System.Windows.Forms.Application.DoEvents();
+                var description = (System.Windows.Forms.ScrollableControl)form.Controls.Find("referenceDescription", true).Single();
+                var text = (System.Windows.Forms.RichTextBox)form.Controls.Find("referenceText", true).Single();
+                Check(description.Visible && description.Width > 100 && description.Height > 100, "The formatted reference has no visible reading area.");
+                Check(description.AutoScrollMinSize.Height > 100, "The actual rich document did not receive a measured layout.");
+                Check(text.ReadOnly && !text.DetectUrls && text.Text.Contains(info.Title), "Readable, selectable reference text was lost.");
+                Check(!form.Controls.OfType<System.Windows.Forms.WebBrowser>().Any(), "Mono reference unexpectedly depends on an embedded browser.");
+                Capture(form, "function-reference-" + signature.Split('(')[0].Replace('.', '-') + ".png");
+            }
+            // Replacing a long article must reset the scroll position and layout.
+            var shortInfo = new FunctionInfo { Title = "Short description", Description = "<p>Readable ending.</p>" };
+            type.GetMethod("SetFunctionInfo", new[] { typeof(FunctionInfo) }).Invoke(form, new object[] { shortInfo });
             System.Windows.Forms.Application.DoEvents();
-            var text = form.Controls.OfType<System.Windows.Forms.RichTextBox>().Single();
-            Check(text.ReadOnly && text.Text.StartsWith("Text reference", StringComparison.Ordinal), "Mono reference must disclose its readable text format.");
-            Check(text.Text.Contains(info.Signature), "Reference must identify the function overload signature.");
-            Check(text.Text.Contains("Readable sine description.") && text.Text.Contains("sin(x)^2 + cos(x)^2 = 1"), "Reference prose or equation alternative text was lost.");
-            Check(text.Text.Contains("x^(2) + a_(1)"), "Reference superscripts/subscripts lost their mathematical meaning.");
-            Check(!form.Controls.OfType<System.Windows.Forms.WebBrowser>().Any(), "Mono reference unexpectedly depends on the unrendered embedded browser.");
-            Capture(form, "function-reference.png");
+            var shortDescription = (System.Windows.Forms.ScrollableControl)form.Controls.Find("referenceDescription", true).Single();
+            Check(shortDescription.AutoScrollPosition == System.Drawing.Point.Empty, "A new article retained the preceding scroll offset.");
+            Check(shortDescription.AutoScrollMinSize.Height < 200, "A short description retained the preceding article's blank height.");
+            Capture(form, "function-reference-short.png");
         }
     }
 

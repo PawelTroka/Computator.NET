@@ -1,93 +1,137 @@
 #if __MonoCS__
 using System;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Xml;
-using System.Xml.Linq;
 using Computator.NET.Core.Autocompletion;
 
 namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 {
-    // Mono's WebBrowser does not render documents on the tested Linux runtime.
-    // Read the same offline reference and mathematical image alternatives using
-    // a managed control, without taking a dependency on an obsolete HTML engine.
-    internal sealed class MonoReferenceText : RichTextBox
+    internal sealed class MonoReferenceText : UserControl
     {
+        private readonly ReferenceCanvas canvas;
+        private readonly RichTextBox readableText;
+        private readonly TabControl tabs;
+        private readonly Font readingFont;
+        public bool ReadOnly => true;
+
         public MonoReferenceText()
         {
-            ReadOnly = true;
-            DetectUrls = false;
-            BorderStyle = BorderStyle.None;
-            Font = new Font(FontFamily.GenericSansSerif, 10f);
-            BackColor = Color.White;
-            ForeColor = Color.Black;
             Dock = DockStyle.Fill;
-            ScrollBars = RichTextBoxScrollBars.Vertical;
-            AccessibleName = "Text reference";
+            readingFont = new Font(FontFamily.GenericSansSerif, 12f);
+            Font = readingFont;
+            AccessibleName = "Function reference";
+            tabs = new TabControl { Dock = DockStyle.Fill, TabStop = false };
+            var description = new TabPage("Description") { Padding = Padding.Empty };
+            var text = new TabPage("Text") { Padding = Padding.Empty };
+            canvas = new ReferenceCanvas { Name = "referenceDescription", Dock = DockStyle.Fill, Font = Font };
+            readableText = new RichTextBox
+            {
+                Name = "referenceText", Dock = DockStyle.Fill, ReadOnly = true, DetectUrls = false,
+                BorderStyle = BorderStyle.None, BackColor = Color.White, ForeColor = Color.Black,
+                Font = Font, ScrollBars = RichTextBoxScrollBars.Vertical, AccessibleName = "Reference text"
+            };
+            description.Controls.Add(canvas); text.Controls.Add(readableText);
+            tabs.TabPages.Add(description); tabs.TabPages.Add(text); Controls.Add(tabs);
         }
 
         public void ShowDocument(FunctionInfo info)
         {
-            Text = Render(info);
-            SelectionStart = 0;
-            SelectionLength = 0;
-            ScrollToCaret();
+            var document = MonoReferenceDocument.Parse(info);
+            canvas.ShowDocument(document);
+            base.Text = document.PlainText;
+            AccessibleDescription = document.PlainText;
+            readableText.Text = document.PlainText;
+            readableText.SelectionStart = readableText.SelectionLength = 0;
+            readableText.ScrollToCaret();
+            tabs.SelectedIndex = 0;
         }
-
+        internal int PreferredDocumentHeight(int width) => canvas.MeasureHeight(Math.Max(64, width - 24)) + tabs.ItemSize.Height + 10;
         internal static string Render(FunctionInfo info)
         {
-            if (info == null) throw new ArgumentNullException(nameof(info));
-            using (var input = new StringReader("<reference-root>" + info.Description + "</reference-root>"))
-            using (var reader = XmlReader.Create(input, new XmlReaderSettings
-                { DtdProcessing = DtdProcessing.Prohibit, XmlResolver = null }))
-            {
-                var root = XElement.Load(reader, LoadOptions.PreserveWhitespace);
-                var text = new StringBuilder("Text reference").AppendLine().AppendLine()
-                    .AppendLine(info.Title).AppendLine();
-                if (!string.IsNullOrWhiteSpace(info.Signature))
-                    text.AppendLine(info.Signature).AppendLine();
-                AppendNodes(text, root);
-                return text.ToString().Trim();
-            }
+            using (var document = MonoReferenceDocument.Parse(info)) return document.PlainText;
         }
-
-        private static void AppendNodes(StringBuilder text, XElement parent)
+        protected override void OnFontChanged(EventArgs e)
         {
-            foreach (var node in parent.Nodes())
+            base.OnFontChanged(e);
+            if (canvas != null) canvas.Font = Font;
+            if (readableText != null) readableText.Font = Font;
+        }
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            if (disposing) readingFont?.Dispose();
+        }
+        private sealed class ReferenceCanvas : ScrollableControl
+        {
+            private MonoReferenceDocument document;
+            private MonoReferenceLayout layout;
+            private int layoutWidth;
+            private float layoutDpi;
+            internal ReferenceCanvas()
             {
-                if (node is XText content) { text.Append(content.Value); continue; }
-                if (!(node is XElement element)) continue;
-                var classes = ((string)element.Attribute("class") ?? "")
-                    .Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
-                if (classes.Contains("reference-signature")) continue;
-                var tag = element.Name.LocalName;
-                if (tag == "script" || tag == "style") continue;
-                if (tag == "img") { text.Append((string)element.Attribute("alt")); continue; }
-                if (tag == "br") { text.AppendLine(); continue; }
-                if (tag == "sup" || tag == "sub")
+                BackColor = Color.White; ForeColor = Color.Black; AutoScroll = true;
+                TabStop = true; AccessibleName = "Reference description";
+                SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
+            }
+            internal void ShowDocument(MonoReferenceDocument value)
+            {
+                layout?.Dispose(); layout = null; document?.Dispose(); document = value;
+                AutoScrollPosition = Point.Empty; Invalidate();
+            }
+            internal int MeasureHeight(int width)
+            {
+                if (document == null) return 0;
+                using (var bitmap = new Bitmap(1, 1))
                 {
-                    text.Append(tag == "sup" ? "^(" : "_(");
-                    AppendNodes(text, element);
-                    text.Append(')');
-                    continue;
+                    if (IsHandleCreated)
+                        using (var screen = CreateGraphics()) bitmap.SetResolution(screen.DpiX, screen.DpiY);
+                    using (var graphics = Graphics.FromImage(bitmap))
+                    using (var measured = document.Layout(graphics, Font, width)) return measured.ContentSize.Height;
                 }
-                var block = tag == "p" || tag == "div" || tag == "section" || tag == "pre" ||
-                    tag == "li" || tag == "tr" || tag == "blockquote" ||
-                    tag == "h1" || tag == "h2" || tag == "h3" || tag == "h4";
-                if (block && text.Length > 0 && text[text.Length - 1] != '\n') text.AppendLine();
-                if (tag == "li") text.Append("• ");
-                AppendNodes(text, element);
-                if (tag == "a")
+            }
+            protected override void OnPaint(PaintEventArgs e)
+            {
+                base.OnPaint(e);
+                if (document == null) return;
+                var width = Math.Max(64, ClientSize.Width - SystemInformation.VerticalScrollBarWidth);
+                if (layout == null || layoutWidth != width || layoutDpi != e.Graphics.DpiY)
                 {
-                    var href = (string)element.Attribute("href");
-                    if (!string.IsNullOrEmpty(href) && href != element.Value)
-                        text.Append(" (").Append(href).Append(')');
+                    layout?.Dispose(); layout = document.Layout(e.Graphics, Font, width); layoutWidth = width; layoutDpi = e.Graphics.DpiY;
+                    AutoScrollMinSize = layout.ContentSize;
                 }
-                if (tag == "td" || tag == "th") text.Append("  ");
-                if (block) text.AppendLine();
+                layout.Draw(e.Graphics, AutoScrollPosition);
+            }
+            protected override void OnFontChanged(EventArgs e)
+            {
+                layout?.Dispose(); layout = null; base.OnFontChanged(e); Invalidate();
+            }
+            protected override void OnKeyDown(KeyEventArgs e)
+            {
+                var current = new Point(-AutoScrollPosition.X, -AutoScrollPosition.Y);
+                switch (e.KeyCode)
+                {
+                    case Keys.Down: current.Y += Font.Height * 2; break;
+                    case Keys.Up: current.Y -= Font.Height * 2; break;
+                    case Keys.PageDown: current.Y += Math.Max(Font.Height, ClientSize.Height - Font.Height); break;
+                    case Keys.PageUp: current.Y -= Math.Max(Font.Height, ClientSize.Height - Font.Height); break;
+                    case Keys.Home: current = Point.Empty; break;
+                    case Keys.End: current.Y = AutoScrollMinSize.Height; break;
+                    case Keys.Left: current.X -= Font.Height * 2; break;
+                    case Keys.Right: current.X += Font.Height * 2; break;
+                    default: base.OnKeyDown(e); return;
+                }
+                AutoScrollPosition = new Point(Math.Max(0, current.X), Math.Max(0, current.Y)); e.Handled = true;
+            }
+            protected override bool IsInputKey(Keys keyData)
+            {
+                var key = keyData & Keys.KeyCode;
+                return key == Keys.Up || key == Keys.Down || key == Keys.Left || key == Keys.Right ||
+                    key == Keys.PageUp || key == Keys.PageDown || key == Keys.Home || key == Keys.End || base.IsInputKey(keyData);
+            }
+            protected override void Dispose(bool disposing)
+            {
+                if (disposing) { layout?.Dispose(); document?.Dispose(); layout = null; document = null; }
+                base.Dispose(disposing);
             }
         }
     }
