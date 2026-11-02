@@ -227,6 +227,7 @@ internal static partial class Program
             "The actual tooltip scrollbar failed to scroll the illustrated reference or dismissed it.");
         CaptureAutocompleteX11(window, host, help, "autocomplete-reference-scrolled.png");
 
+        var editorPoint = input.PointToScreen(new Point(8, input.Height / 2));
         using (var other = new TextBox { Location = new Point(24, 220), Size = new Size(200, 24) })
         {
             window.Controls.Add(other);
@@ -236,13 +237,15 @@ internal static partial class Program
             Check(other.Focused, "The real X11 click did not reach the unrelated editor.");
             WaitForX11(() => !menu.Visible && !help.Visible,
                 "Leaving the reference for an unrelated editor left autocomplete/help floating above it.");
+            // Keep the other native control alive until focus has really moved
+            // back; destroying the focused X11 window would invalidate this test.
+            MoveAndClickX11(editorPoint.X, editorPoint.Y);
+            Check(input.Focused, "The real editor did not regain focus after reading the reference.");
+            KeyX11("End"); KeyX11("ctrl+space");
+            WaitForX11(() => menu.Visible && help.Visible, "Completion did not reopen for the modal reference test.");
             window.Controls.Remove(other);
         }
 
-        var editorPoint = input.PointToScreen(new Point(8, input.Height / 2));
-        MoveAndClickX11(editorPoint.X, editorPoint.Y);
-        KeyX11("End"); KeyX11("ctrl+space");
-        WaitForX11(() => menu.Visible && help.Visible, "Completion did not reopen for the modal reference test.");
         MoveAndClickX11(textPoint.X, textPoint.Y);
         Check(help.ContainsFocus, "The modal reference test must start from actual help focus.");
         using (var dialog = new Form { Text = "Mono reference modal acceptance", Size = new Size(240, 120), ShowInTaskbar = false })
