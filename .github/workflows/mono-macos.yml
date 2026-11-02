@@ -118,7 +118,7 @@ jobs:
           application=json.loads(raw.read_text())
           git=lambda name: subprocess.check_output(['git','rev-parse',name],text=True).strip()
           if (report.get('packagedRuntimeAccepted') is not True or report.get('rid')!='osx-arm64'
-                  or report.get('sharedCases',0)<54 or source.get('trackedChanges') is not False
+                  or report.get('sharedCases',0)<55 or source.get('trackedChanges') is not False
                   or source.get('commit')!=git('HEAD') or source.get('tree')!=git('HEAD^{tree}')
                   or application.get('passed') is not True or application.get('checkoutDirty') is not False
                   or application.get('checkoutCommit')!=source['commit']
@@ -150,7 +150,7 @@ jobs:
           raw=reports[0].parent/'acceptance.json'
           application=json.loads(raw.read_text())
           if (accepted.get('packagedRuntimeAccepted') is not True or accepted.get('source')!=original['source']
-                  or accepted.get('archive')!=original['archive'] or accepted.get('sharedCases',0)<54
+                  or accepted.get('archive')!=original['archive'] or accepted.get('sharedCases',0)<55
                   or application.get('passed') is not True or application.get('checkoutDirty') is not False
                   or application.get('checkoutCommit')!=original['source']['commit']
                   or application.get('sharedCases')!=accepted['sharedCases']
