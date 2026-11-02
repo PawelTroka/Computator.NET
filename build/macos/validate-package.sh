@@ -7,6 +7,7 @@ configuration=${1:-Release}
 }
 repository=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)
 cd "$repository"
+python_command=$(command -v python3)
 architecture=$(uname -m)
 rid=osx-x64; [[ $architecture != arm64 ]] || rid=osx-arm64
 native="$repository/artifacts/macos/native-$architecture"
@@ -70,24 +71,27 @@ PY
 # hide the original candidates and host font/module data and restore even on red.
 if [[ ${GITHUB_ACTIONS:-} == true ]]; then
     state="$evidence/isolated-build-dependencies.json"
-    trap 'python3 "$repository/build/macos/isolate-build-dependencies.py" restore --state "$state"' EXIT
+    trap '"$python_command" "$repository/build/macos/isolate-build-dependencies.py" restore --state "$state"' EXIT
     python3 build/macos/isolate-build-dependencies.py prepare --state "$state" --native-root "$native" --brew-prefix "$(brew --prefix)"
 fi
+# Runtime child processes cannot discover the build SDK, Node or mcs via PATH.
+# The external test orchestrator uses its already selected absolute Python path.
+export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
 # Both the ordinary launcher and the shared AppDomains consume the immutable
 # relocated payload; generated configs/reports/profile data stay outside it.
 chmod -R a-w "$bundle"
 COMPUTATOR_MONO="$mono" COMPUTATOR_DATA_DIRECTORY="$evidence/profile-launcher" \
     "$bundle/Contents/MacOS/Computator.NET" --preflight > "$evidence/launcher-preflight.json" 2> "$evidence/launcher-preflight.log"
 COMPUTATOR_DATA_DIRECTORY="$evidence/profile-startup" \
-python3 build/macos/run-bounded.py --seconds 180 --child-env DYLD_PRINT_LIBRARIES=1 "$mono" --config "$evidence/mono.config" \
+"$python_command" build/macos/run-bounded.py --seconds 180 --child-env DYLD_PRINT_LIBRARIES=1 "$mono" --config "$evidence/mono.config" \
     "$evidence/harness/Computator.NET.Mono.StartupProbe.exe" "$resources/app/Computator.NET.exe" "$evidence" \
     2>&1 | tee "$evidence/startup.log"
 COMPUTATOR_DATA_DIRECTORY="$evidence/profile-smoke" COMPUTATOR_MONO_LEGACY_FIXTURE="$evidence/legacy-settings.dat" \
 COMPUTATOR_MONO_EXPECTED_APPLICATION_DIRECTORY="$resources/app" \
-python3 build/macos/run-bounded.py --seconds 480 --child-env DYLD_PRINT_LIBRARIES=1 "$mono" --config "$evidence/mono.config" \
+"$python_command" build/macos/run-bounded.py --seconds 480 --child-env DYLD_PRINT_LIBRARIES=1 "$mono" --config "$evidence/mono.config" \
     "$evidence/harness/Computator.NET.Mono.SmokeTests.exe" --application-directory "$resources/app" "$evidence" \
     2>&1 | tee "$evidence/smoke.log"
-python3 build/macos/verify-acceptance.py "$evidence" "$architecture"
-python3 build/macos/package.py --verify --output "$bundle"
-python3 build/macos/verify-package-runtime.py "$resources" "$evidence" "$mono_prefix"
+"$python_command" build/macos/verify-acceptance.py "$evidence" "$architecture"
+"$python_command" build/macos/package.py --verify --output "$bundle"
+"$python_command" build/macos/verify-package-runtime.py "$resources" "$evidence" "$mono_prefix"
 echo "Relocated native Mono package acceptance passed: $evidence"
