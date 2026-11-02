@@ -21,6 +21,8 @@ test('default and responsive 3D framing contains a tall paraboloid and its PNG e
   let calls = 0;
   await page.route('**/api/v2/chart', route => { calls++; return route.fulfill({ json: grid, headers }); });
   await page.goto('/'); await edit(page, 'x*x+y*y');
+  for (const [name, value] of [['XMIN', '-4'], ['XMAX', '4'], ['YMIN', '-4'], ['YMAX', '4']])
+    await page.getByRole('spinbutton', { name, exact: true }).fill(value);
   await page.getByRole('button', { name: 'Draw chart!', exact: true }).click();
   const surface = page.getByTestId('surface-chart');
   await expect(surface).toBeVisible();

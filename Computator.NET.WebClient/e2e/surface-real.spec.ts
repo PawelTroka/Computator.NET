@@ -5,15 +5,19 @@ import { assertSurfaceFraming } from '../tests/helpers/surface-framing';
 test('real API default tall surface remains fully framed on resize and in PNG exports', async ({ page }, info) => {
   await page.goto('/');
   await page.locator('#expressionTextArea textarea').fill('x*x+y*y');
+  // Reproduce the clipped 32-high surface from integration review. Larger
+  // ranges can trigger Plotly's automatic cube fallback and hide this defect.
+  for (const [name, value] of [['XMIN', '-4'], ['XMAX', '4'], ['YMIN', '-4'], ['YMAX', '4']])
+    await page.getByRole('spinbutton', { name, exact: true }).fill(value);
   const pending = page.waitForResponse(response => new URL(response.url()).pathname === '/api/v2/chart' &&
     response.request().method() === 'POST', { timeout: 35000 });
   await page.getByRole('button', { name: 'Draw chart!', exact: true }).click();
   const reply = await pending;
   expect(reply.status(), await reply.text()).toBe(200);
   const samples = await reply.json();
-  expect(samples.x[0]).toBe(-5); expect(samples.x.at(-1)).toBe(5);
-  expect(samples.y[0]).toBe(-5); expect(samples.y.at(-1)).toBe(5);
-  expect(samples.z[0][0]).toBe(50); expect(samples.z[32][32]).toBe(0);
+  expect(samples.x[0]).toBe(-4); expect(samples.x.at(-1)).toBe(4);
+  expect(samples.y[0]).toBe(-4); expect(samples.y.at(-1)).toBe(4);
+  expect(samples.z[0][0]).toBe(32); expect(samples.z[32][32]).toBe(0);
   const surface = page.getByTestId('surface-chart');
   await expect(page.getByText('Interactive surface ready.', { exact: false })).toBeVisible({ timeout: 25000 });
   await assertSurfaceFraming(page, surface, info, 'real-default-paraboloid');
