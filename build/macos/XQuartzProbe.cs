@@ -51,6 +51,11 @@ internal static class XQuartzProbe
             // Cairo can pull in another Xlib build. Detect an accidentally mixed
             // Homebrew/XQuartz client stack after all the drawing dependencies load.
             ReportLibrary("libX11");
+            string cairo = ReportLibrary("libcairo");
+            IntPtr cairoHandle = dlopen(cairo, 2);
+            Require(cairoHandle != IntPtr.Zero, "Cannot inspect the actual Cairo library.");
+            try { Require(dlsym(cairoHandle, "cairo_xlib_surface_create") != IntPtr.Zero, "The loaded Cairo does not support Xlib drawing."); }
+            finally { dlclose(cairoHandle); }
             Console.WriteLine("PASS native-dependencies: actual 64-bit Mono loading, drawing, X11 export and GSL answers.");
 
             if (args[0] != "headless") CheckDisplay();
@@ -84,10 +89,14 @@ internal static class XQuartzProbe
             // not the computer's hostname. This is inside the actual Mono process.
             string machine = Marshal.PtrToStringAnsi(IntPtr.Add(buffer, 4 * 256));
             Require(machine == "arm64" || machine == "x86_64", "Unexpected process architecture: " + machine);
+            string expected = Environment.GetEnvironmentVariable("COMPUTATOR_EXPECTED_MAC_ARCHITECTURE");
+            Require(String.IsNullOrEmpty(expected) || machine == expected,
+                "The actual Mono process architecture " + machine + " differs from native acceptance " + expected);
             Console.WriteLine("Mono process uname machine: " + machine + "; pointer bits: " + (8 * IntPtr.Size));
             int translated;
             UIntPtr size = new UIntPtr(4);
             int result = sysctlbyname("sysctl.proc_translated", out translated, ref size, IntPtr.Zero, UIntPtr.Zero);
+            Require(result != 0 || translated == 0, "Native acceptance must not run an Intel Mono process through Rosetta.");
             Console.WriteLine("Rosetta translation: " + (result == 0 ? (translated != 0 ? "yes" : "no") : "not reported"));
         }
         finally { Marshal.FreeHGlobal(buffer); }

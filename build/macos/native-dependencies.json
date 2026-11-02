@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "monoVersion": "6.14.1",
+  "gslVersion": "2.8",
+  "libgdiplus": {
+    "version": "6.2",
+    "url": "https://dl.winehq.org/mono/sources/libgdiplus/libgdiplus-6.2.tar.gz",
+    "sha256": "683adb7d99d03f6ee7985173a206a2243f76632682334ced4cae2fcd20c83bc9"
+  },
+  "xquartz": {
+    "version": "2.8.6",
+    "url": "https://github.com/XQuartz/XQuartz/releases/download/XQuartz-2.8.6/XQuartz-2.8.6.pkg",
+    "sha256": "9ac35a505095bfbd3009c3b4772f0c6421e2f79c4210ab908459270d1c447909"
+  }
+}
