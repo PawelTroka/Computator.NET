@@ -51,6 +51,10 @@ if [[ -n ${COMPUTATOR_MAC_DISPLAY_ENV:-} ]]; then source "$COMPUTATOR_MAC_DISPLA
 # Historical settings construct a real System.Drawing.Font. The external
 # fixture therefore needs the same selected archived drawing stack as the app.
 "$mono" --config "$evidence/mono.config" "$evidence/harness/LegacyFixture.exe" "$evidence/legacy-settings.dat"
+"$mcs" -nologo -r:System.Drawing -r:System.Windows.Forms -out:"$evidence/harness/MacCaptureProcessTests.exe" \
+    build/macos/MacDesktopCapture.cs build/macos/MacCaptureProcessTests.cs
+"$mono" --config "$evidence/mono.config" "$evidence/harness/MacCaptureProcessTests.exe" "$mono" "$evidence/capture-process-contracts" \
+    2>&1 | tee "$evidence/capture-process-contracts.log"
 # The capture helper is acceptance-only, outside the installation. Rewrite its
 # X11 import to the SAME relocated library selected by the production preflight.
 cp "$native/display/libcomputator-mac-display.dylib" "$evidence/harness/libcomputator-mac-display.dylib"
