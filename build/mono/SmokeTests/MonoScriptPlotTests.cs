@@ -49,8 +49,8 @@ internal static partial class Program
         });
         var range = "System.Linq.Enumerable.Range(0,81)";
         var xValues = "System.Linq.Enumerable.Select(" + range + ", i => (double)(i%9-4))";
-        var yValues = "System.Linq.Enumerable.Select(" + range + ", i => (double)(i/9-4))";
-        var zValues = "System.Linq.Enumerable.Select(" + range + ", i => (double)((i%9-4)*(i%9-4)+(i/9-4)*(i/9-4)))";
+        var yValues = "System.Linq.Enumerable.Select(" + range + ", i => System.Math.Floor(i/9.0)-4)";
+        var zValues = "System.Linq.Enumerable.Select(" + range + ", i => (i%9-4)*(i%9-4)+(System.Math.Floor(i/9.0)-4)*(System.Math.Floor(i/9.0)-4))";
         WithCompiledScriptPlot("plot(" + xValues + "," + yValues + "," + zValues + ");", "mono-script-xyz-points", chart =>
         {
             Check(chart.Mode == Chart3DMode.Points && chart.FiniteSurfaceSamples == 0, "Point-only script output must be a real point plot.");
@@ -86,6 +86,8 @@ internal static partial class Program
         var y = (double[])grid.GetType().GetField("Y", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(grid);
         var z = (double[])grid.GetType().GetField("Z", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(grid);
         Check(x.Length >= 17 && x.Length <= 97 && y.Length == x.Length && z.Length == x.Length*y.Length, "The renderer's bounded surface grid was not retained.");
+        Check((int)grid.GetType().GetField("FiniteCount", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(grid) == z.Length,
+            "A finite polynomial script must not introduce missing surface samples.");
         for (var row = 0; row < y.Length; row++)
             for (var column = 0; column < x.Length; column++) Near(z[row*x.Length+column], expected(x[column],y[row]), 1e-10);
     }
