@@ -199,8 +199,12 @@ namespace Computator.NET.Core.Evaluation
         {
             if (text == "∞" || text == "+∞") return double.PositiveInfinity;
             if (text == "-∞") return double.NegativeInfinity;
+#if __MonoCS__
+            return Computator.NET.Core.Compilation.MonoDoubleParser.Parse(text);
+#else
             return double.Parse(text, System.Globalization.NumberStyles.Float,
                 System.Globalization.CultureInfo.InvariantCulture);
+#endif
         }
 
         public static string ToMathString(this System.Numerics.Complex z)
