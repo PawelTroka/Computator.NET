@@ -27,6 +27,11 @@ Extract to a permanent user-writable directory, then run:
   ./bin/computator --check
   ./bin/computator
 
+The archive also includes the matching Mono runtime compatibility facade DLLs
+(including netstandard and ValueTuple), their exact package provenance and Mono
+copyright/license notice. These forwarders are runtime components; the archive
+contains no C# compiler, SDK or development tools.
+
 The launcher verifies every payload file and the actual loaded GSL 2.8/libgdiplus
 libraries before launching. It creates a process-scoped Mono configuration,
 leaves the system Mono configuration untouched, and writes runtime evidence to

@@ -34,7 +34,8 @@ report=$cache/runtime-check.json
 # A host override for the Windows native package cannot select Unix libraries.
 unset COMPUTATOR_GSL_DIRECTORY MONO_CFG_DIR MONO_ENV_OPTIONS MONO_PATH
 LD_LIBRARY_PATH=$root/native/linux-x64/gsl:$root/native/linux-x64/gdiplus
-export LD_LIBRARY_PATH
+MONO_PATH=$root/app/Facades:$root/app
+export LD_LIBRARY_PATH MONO_PATH
 preflight=$root/app/Computator.NET.Mono.Preflight.exe
 mono "$preflight" prepare --package-root "$root" --config "$config"
 mono --config "$config" "$preflight" verify --package-root "$root" --report "$report"

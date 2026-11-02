@@ -148,7 +148,7 @@ def verify(root):
     native = metadata.get('native', {})
     if native:
         required = {'gsl', 'cblas', 'gdiplus'}
-        allowed = required | {'cairo', 'x11', 'xtst', 'xinerama', 'xext', 'xcursor', 'xfixes'}
+        allowed = required | {'cairo', 'x11', 'xtst', 'xinerama', 'xext', 'xcursor', 'xfixes', 'xim'}
         if metadata.get('rid') not in RIDS or not required.issubset(native) or not set(native).issubset(allowed):
             raise ValueError('Incomplete native runtime selection.')
         for name in native.values():
@@ -296,12 +296,31 @@ def linux_package(args):
     native = root / 'native' / args.rid
     copy_tree(args.native_directory, native / 'gsl')
     copy_tree(args.gdiplus_directory, native / 'gdiplus')
+    # Ubuntu splits compatibility forwarders into mono-devel even though they
+    # are runtime assemblies. Ship the matching, licensed DLLs, never mcs/SDKs.
+    facades = Path('/usr/lib/mono/4.5/Facades')
+    if not (facades / 'netstandard.dll').is_file() or not (facades / 'System.ValueTuple.dll').is_file():
+        raise ValueError('Build using a complete Mono runtime facade set.')
+    copy_tree(facades, root / 'app/Facades')
+    copyright_file = Path('/usr/share/doc/mono-runtime/copyright')
+    if not copyright_file.is_file():
+        raise ValueError('The build runtime is missing its redistributable copyright/license notice.')
+    shutil.copy2(copyright_file, root / 'share/COPYRIGHT.Mono')
+    runtime_version = subprocess.check_output(['dpkg-query', '-W', '-f=${Version}', 'mono-devel'], text=True).strip()
+    source_version = subprocess.check_output(['dpkg-query', '-W', '-f=${source:Version}', 'mono-devel'], text=True).strip()
+    facade_metadata = {
+        'schemaVersion': 1, 'package': 'mono-devel', 'version': runtime_version, 'baseline': args.baseline,
+        'source': 'https://launchpad.net/ubuntu/+source/mono/' + source_version,
+        'scope': 'Runtime compatibility facade DLLs only; no development tools or compiler.',
+        'files': {path.name: digest(path) for path in sorted((root / 'app/Facades').glob('*.dll'))}}
+    (root / 'share/mono-facades-provenance.json').write_text(json.dumps(facade_metadata, indent=2) + '\n')
     (root / 'bin').mkdir()
     for source, target in [('launcher.sh', 'bin/computator'), ('install-user.sh', 'bin/install-desktop-entry')]:
         shutil.copyfile(ROOT / 'build/mono' / source, root / target)
         (root / target).chmod(0o755)
     shutil.copyfile(ROOT / 'build/mono/LINUX-PACKAGE.txt', root / 'README.txt')
-    metadata.update(rid=args.rid, baseline=args.baseline,
+    metadata.update(rid=args.rid, baseline=args.baseline, managedRuntime={'facades': 'app/Facades',
+                    'provenance': 'share/mono-facades-provenance.json'},
                     native={'gsl': f'native/{args.rid}/gsl/' + gsl['entryPoint'],
                             'cblas': f'native/{args.rid}/gsl/libgslcblas.so',
                             'gdiplus': f'native/{args.rid}/gdiplus/' + gdiplus['entryPoint']},

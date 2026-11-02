@@ -13,7 +13,7 @@ export HOME=$evidence/home XDG_CONFIG_HOME=$evidence/config XDG_CACHE_HOME=$evid
 mkdir -p "$HOME"
 unset COMPUTATOR_GSL_DIRECTORY MONO_CFG_DIR MONO_ENV_OPTIONS
 export LD_LIBRARY_PATH="$unpacked/native/linux-x64/gsl:$unpacked/native/linux-x64/gdiplus"
-export MONO_PATH="$unpacked/app"
+export MONO_PATH="$unpacked/app/Facades:$unpacked/app"
 export PATH=/usr/bin:/bin
 dpkg-query -W > "$evidence/runtime-packages.txt"
 mono --version > "$evidence/mono-version.txt"

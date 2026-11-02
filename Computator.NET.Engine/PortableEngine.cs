@@ -109,6 +109,8 @@ public sealed partial class PortableEngine
                 Assembly.Load("Accord").Location
             };
             var facades = Path.Combine(System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory(), "Facades");
+            var packagedFacades = Path.Combine(AppContext.BaseDirectory, "Facades");
+            if (Directory.Exists(packagedFacades)) facades = packagedFacades;
             if (Directory.Exists(facades)) paths.AddRange(Directory.EnumerateFiles(facades, "*.dll"));
             runtime = paths;
         }

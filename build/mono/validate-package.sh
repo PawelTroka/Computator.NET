@@ -34,7 +34,7 @@ preflight=$unpacked/app/Computator.NET.Mono.Preflight.exe
 mono "$preflight" prepare --package-root "$unpacked" --config "$evidence/mono.config"
 unset COMPUTATOR_GSL_DIRECTORY MONO_CFG_DIR MONO_ENV_OPTIONS
 export LD_LIBRARY_PATH="$unpacked/native/linux-x64/gsl:$unpacked/native/linux-x64/gdiplus"
-export MONO_PATH="$unpacked/app"
+export MONO_PATH="$unpacked/app/Facades:$unpacked/app"
 export XDG_CONFIG_HOME="$evidence/config" XDG_CACHE_HOME="$evidence/cache"
 # Deliberately exclude all dotnet/Node/private build-tool directories from runtime
 # execution. The clean runtime-only CI container separately proves package deps.
