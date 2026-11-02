@@ -188,6 +188,7 @@
     <File Path="build/macos/test_preflight.py" />
     <File Path="build/macos/validate-package.sh" />
     <File Path="build/macos/verify-package-runtime.py" />
+    <File Path="build/macos/verify-runtime-data.py" />
     <File Path=".github/workflows/mono-macos.yml" />
     <File Path="build/macos/MacDesktopCapture.cs" />
     <File Path="build/macos/MacDrawableCapture.cs" />
