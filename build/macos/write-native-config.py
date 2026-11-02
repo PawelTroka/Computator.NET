@@ -17,12 +17,12 @@ config = ET.parse(mono / "etc/mono/config")
 def library(formula, name):
     prefix = Path(subprocess.check_output(["brew", "--prefix", formula], text=True).strip())
     result = (prefix / "lib" / name).resolve(strict=True)
-    subprocess.run(["lipo", "-verify_arch", platform.machine(), str(result)], check=True)
+    subprocess.run(["lipo", str(result), "-verify_arch", platform.machine()], check=True)
     return result
 
 
 gdiplus = (root / "libgdiplus/lib/libgdiplus.dylib").resolve(strict=True)
-subprocess.run(["lipo", "-verify_arch", platform.machine(), str(gdiplus)], check=True)
+subprocess.run(["lipo", str(gdiplus), "-verify_arch", platform.machine()], check=True)
 x11 = library("libx11", "libX11.6.dylib")
 xtst = library("libxtst", "libXtst.6.dylib")
 gsl = library("gsl", "libgsl.dylib")

@@ -18,13 +18,13 @@ for owner, prefix, count in (("Integral", "integration", 8), ("Derivative", "der
         raise SystemExit(f"Unexpected {owner} catalog; review native acceptance discovery before release.")
     expected.extend(f"desktop-{prefix}-{name}" for name in methods)
 if len(expected) < 51:
-    raise SystemExit("The complete baseline51-case shared Mono suite was not discovered.")
+    raise SystemExit("The complete baseline 51-case shared Mono suite was not discovered.")
 report = ET.parse(output / "mono-results.xml").getroot()
 cases = report.findall("testcase")
 observed = [case.get("name") for case in cases]
 if len(expected) != len(set(expected)) or len(observed) != len(set(observed)) or set(expected) != set(observed):
-    raise SystemExit(f"Incomplete shared suite: expected{len(expected)}actual{len(observed)}; "
-                     f"missing{set(expected)-set(observed)} unexpected{set(observed)-set(expected)}")
+    raise SystemExit(f"Incomplete shared suite: expected {len(expected)}, actual {len(observed)}; "
+                     f"missing {set(expected)-set(observed)}, unexpected {set(observed)-set(expected)}")
 if any(case.find("failure") is not None or case.find("skipped") is not None for case in cases):
     raise SystemExit("Every shared Mono acceptance case must pass on this native Mac; failures/skips are not release evidence.")
 startup = (output / "startup.log").read_text()
@@ -42,4 +42,4 @@ manifest = {"schemaVersion": 1, "scope": "native-macos-mono-winforms-xquartz-app
             "physicalMacAcceptance": False, "signingNotarization": False,
             "cases": observed}
 (output / "acceptance.json").write_text(json.dumps(manifest, indent=2) + "\n")
-print(f"Verified all{len(cases)}shared application cases and actual native XQuartz startup on{architecture}.")
+print(f"Verified all {len(cases)} shared application cases and actual native XQuartz startup on {architecture}.")

@@ -10,12 +10,12 @@ parser.add_argument("--seconds", type=int, required=True)
 parser.add_argument("command", nargs=argparse.REMAINDER)
 args = parser.parse_args()
 if not args.command or not 1 <= args.seconds <= 900:
-    parser.error("a command and a timeout between1and900seconds are required")
+    parser.error("a command and a timeout between 1 and 900 seconds are required")
 process = subprocess.Popen(args.command, start_new_session=True)
 try:
     result = process.wait(timeout=args.seconds)
 except subprocess.TimeoutExpired:
-    print(f"FAIL: owned GUI process exceeded {args.seconds}seconds.", file=sys.stderr)
+    print(f"FAIL: owned GUI process exceeded {args.seconds} seconds.", file=sys.stderr)
     result = 124
 finally:
     # Descendants must not survive an apparently successful probe either.
