@@ -15,22 +15,28 @@ normal=json.loads((evidence/'normal-launch/normal-launch.json').read_text())
 if (normal.get('passed') is not True or normal.get('launcherExitCode')!=0
         or normal.get('source')!=manifest['source']):
     raise SystemExit('The fresh ordinary launcher did not accept and normally close this exact package.')
-observed=set();counts={}
+observed=set();counts={};resolved={};unexpected=set()
+allowed=(str(resources/'native')+'/',str(mono)+'/',
+         '/usr/lib/','/System/Library/','/Library/Apple/')
 for filename in ('startup.log','smoke.log','normal-launch/launcher.stderr.log'):
+    ordinary=filename=='normal-launch/launcher.stderr.log'
     current=set()
     for line in (evidence/filename).read_text().splitlines():
         match=re.match(r'^dyld\[(\d+)\]: (?:<[^>]+> )?(/.*)$',line)
-        if match:
-            observed.add(match[2])
-            if filename!='normal-launch/launcher.stderr.log' or int(match[1])==normal['applicationProcess']['pid']:
-                current.add(match[2])
+        if match and (not ordinary or int(match[1])==normal['applicationProcess']['pid']):
+            current.add(match[2])
     counts[filename]=len(current)
     if len(current)<10:
         raise SystemExit('Insufficient actual application dyld trace to establish relocated native loading: '+filename)
-allowed=(str(resources/'native')+'/',str(evidence/'harness')+'/',str(mono)+'/',
-         '/usr/lib/','/System/Library/','/Library/Apple/')
-resolved={path:str(Path(path).resolve()) for path in observed}
-unexpected=sorted(path for path in observed if not resolved[path].startswith(allowed))
+    # Shared probes intentionally load the external capture helper. The actual
+    # ordinary GUI must establish its own private closure without that allowance.
+    current_allowed=allowed if ordinary else allowed+(str(evidence/'harness')+'/',)
+    for path in current:
+        resolved[path]=str(Path(path).resolve())
+        if not resolved[path].startswith(current_allowed):
+            unexpected.add(path)
+    observed.update(current)
+unexpected=sorted(unexpected)
 result={'schemaVersion':1,'scope':'actual-relocated-macos-process-native-loading',
         'passed':not unexpected,'loadedImages':sorted(observed),'canonicalImagePaths':resolved,'unexpectedImages':unexpected,
         'applicationTraceCounts':counts,'normalLaunchApplicationPid':normal['applicationProcess']['pid'],
