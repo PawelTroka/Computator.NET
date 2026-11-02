@@ -27,7 +27,7 @@ mono=${COMPUTATOR_MONO:-$default_mono}
 /usr/sbin/pkgutil --pkg-info org.xquartz.X11 2>/dev/null | grep 'version: 2.8.6' > /dev/null || fail 'Use the tested XQuartz2.8.6 package for this release candidate.'
 temporary=$(mktemp -d "${TMPDIR:-/tmp}/computator-mac-launch.XXXXXXXX")
 trap 'rm -rf -- "$temporary"' EXIT
-unset MONO_ENV_OPTIONS MONO_CFG_DIR MONO_PATH COMPUTATOR_GSL_DIRECTORY
+unset MONO_ENV_OPTIONS MONO_CFG_DIR MONO_PATH COMPUTATOR_GSL_DIRECTORY MONO_WINFORMS_XIM_STYLE
 unset MONO_GAC_PREFIX DYLD_LIBRARY_PATH DYLD_FALLBACK_LIBRARY_PATH DYLD_FRAMEWORK_PATH DYLD_FALLBACK_FRAMEWORK_PATH DYLD_INSERT_LIBRARIES
 export MONO_MWF_MAC_FORCE_X11=1
 export MONO_PATH="$resources/app:$resources/app/Facades"
