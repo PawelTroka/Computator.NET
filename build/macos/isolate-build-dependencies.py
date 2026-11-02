@@ -8,6 +8,7 @@ import json
 import os
 from pathlib import Path
 import platform
+import re
 
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('operation',choices=('prepare','restore'))
@@ -17,10 +18,17 @@ parser.add_argument('--brew-prefix',type=Path)
 args=parser.parse_args()
 if platform.system()!='Darwin' or os.environ.get('GITHUB_ACTIONS')!='true':
     parser.error('dependency hiding is restricted to the disposable native GitHub Mac runner')
+repository=Path(__file__).resolve().parents[2]
+expected_native=(repository/'artifacts/macos'/('native-'+platform.machine())).resolve()
+expected_brew=Path('/opt/homebrew' if platform.machine()=='arm64' else '/usr/local').resolve()
 if args.operation=='restore':
     state=json.loads(args.state.read_text())
     for entry in reversed(state['paths']):
         original,hidden=Path(entry['original']),Path(entry['hidden'])
+        if (not original.is_absolute() or not (original.is_relative_to(expected_native) or original.is_relative_to(expected_brew))
+                or hidden.parent!=original.parent or not re.fullmatch(re.escape(original.name)+r'\.computator-acceptance-hidden-\d+',hidden.name)
+                or hidden.is_symlink()):
+            raise SystemExit('Refusing an unsafe dependency restoration path.')
         if hidden.exists():
             if original.exists() or original.is_symlink():
                 raise SystemExit('Refusing to replace a new path while restoring build dependencies: '+str(original))
@@ -32,7 +40,7 @@ else:
         parser.error('prepare requires explicit native/Brew roots and a new state file')
     native=args.native_root.resolve(strict=True)
     brew=args.brew_prefix.resolve(strict=True)
-    if native.name not in ('native-arm64','native-x86_64') or native.parent.name!='macos' or str(brew) not in ('/opt/homebrew','/usr/local'):
+    if native!=expected_native or brew!=expected_brew:
         parser.error('unexpected owned native root or architecture-specific Homebrew prefix')
     candidates=[native/'libgdiplus',native/'xim',brew/'etc/fonts',brew/'etc/pango']
     cellar=brew/'Cellar'
