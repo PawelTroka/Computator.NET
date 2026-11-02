@@ -52,5 +52,6 @@ COMPUTATOR_MONO_EXPECTED_APPLICATION_DIRECTORY="$unpacked/app" \
     xvfb-run -a -s '-screen 0 1440x1000x24' timeout --kill-after=10s 300s \
     mono --config "$evidence/mono.config" "$evidence/harness/Computator.NET.Mono.SmokeTests.exe" \
     "$evidence" 2>&1 | tee "$evidence/smoke.log"
+python3 "$repository/build/mono/validate-evidence.py" "$evidence/mono-results.xml"
 python3 "$repository/build/mono/package.py" --verify --output "$unpacked"
 printf 'Extracted package acceptance passed. Evidence: %s\n' "$evidence"

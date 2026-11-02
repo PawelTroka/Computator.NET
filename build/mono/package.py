@@ -22,6 +22,9 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parents[2]
 MANIFEST = 'mono-package.json'
 RIDS = ('linux-x64', 'osx-x64', 'osx-arm64')
+MAX_FILES = 10000
+MAX_FILE_BYTES = 512 * 1024 * 1024
+MAX_TOTAL_BYTES = 2 * 1024 * 1024 * 1024
 REQUIRED_APP = (
     'Computator.NET.exe', 'Computator.NET.exe.config', 'Computator.NET.Core.dll',
     'Computator.NET.Desktop.dll', 'Computator.NET.Charting.dll', 'Computator.NET.Engine.dll',
@@ -127,9 +130,13 @@ def verify(root):
     if metadata.get('schemaVersion') != 1:
         raise ValueError('Unsupported Mono package manifest.')
     expected = {}
+    total = 0
     for entry in metadata['files']:
         path = confined(root, entry['path'])
-        if entry['path'] in expected or not re.fullmatch('[0-9a-f]{64}', entry['sha256']):
+        total += entry['size']
+        if (entry['path'] in expected or not re.fullmatch('[0-9a-f]{64}', entry['sha256'])
+                or entry['size'] < 0 or entry['size'] > MAX_FILE_BYTES or total > MAX_TOTAL_BYTES
+                or len(expected) >= MAX_FILES):
             raise ValueError('Invalid or duplicated inventory entry.')
         if not path.is_file() or path.stat().st_size != entry['size'] or digest(path) != entry['sha256']:
             raise ValueError('Missing or changed package file: ' + entry['path'])
@@ -252,9 +259,12 @@ def extract(target, output):
     with tarfile.open(target, 'r:gz') as tar:
         members = tar.getmembers()
         names = set()
+        total = 0
         for member in members:
             relative_path(member.name)
-            if not member.isfile() or member.name in names:
+            total += member.size
+            if (not member.isfile() or member.name in names or len(names) >= MAX_FILES
+                    or member.size < 0 or member.size > MAX_FILE_BYTES or total > MAX_TOTAL_BYTES):
                 raise ValueError('Only unique regular files are allowed in the distribution archive.')
             names.add(member.name)
         # Inventory validation follows before any executable from the payload is used.
