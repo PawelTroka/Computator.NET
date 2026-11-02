@@ -116,6 +116,7 @@ internal static partial class Program
         Run("desktop-numerical-method-catalog", NumericalMethodCatalog);
         Run("native-gsl-generated-import-and-error-recovery", NativeGsl);
         Run("mono-correctly-rounded-numeric-input", CorrectlyRoundedNumericInput);
+        Run("mono-numeric-input-font-layout", NumericInputsFitActualFonts);
         Run("mono-function-reference-rich-offline-content", FunctionReference);
         Run("mono-autocomplete-real-x11-layout-and-selection", AutocompleteRealX11);
         Run("unicode-editor-documents-and-renaming", EditorDocuments);

@@ -61,6 +61,21 @@ internal static partial class Program
                         Application.DoEvents();
                         Check(group.Size == stable, "Repeated Mono numeric layout grew its supposedly fixed input grid.");
                     }
+                    ranges.Scale(new SizeF(.75f, .75f));
+                    ranges.XAxisLabel = "x";
+                    ranges.YAxisLabel = "y";
+                    window.PerformLayout();
+                    Application.DoEvents();
+                    Capture(window, "numeric-input-font-" + stage + "-scaled.png");
+                    foreach (var number in numbers)
+                    {
+                        Check(number.ClientSize.Height >= number.Font.Height,
+                            "Scaling and reflow clipped the actual numeric font: " + number.Name);
+                        var rectangle = number.RectangleToScreen(number.ClientRectangle);
+                        for (var ancestor = number.Parent; ancestor != null; ancestor = ancestor.Parent)
+                            Check(ancestor.RectangleToScreen(ancestor.ClientRectangle).Contains(rectangle),
+                                "Scaled numeric input is clipped by " + ancestor.GetType().Name + ": " + number.Name);
+                    }
                 }
                 window.Close();
             }
