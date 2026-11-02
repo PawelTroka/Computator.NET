@@ -164,6 +164,46 @@ Load command 2
             with self.assertRaisesRegex(ValueError,'one explicit installed ABI'):
                 mac.resolve_dependency('@rpath/libprobe.1.dylib',self.base/'owner.dylib')
 
+    def test_pinned_stanza_accepts_multiple_mirrors_without_downloading_them(self):
+        recipe='''class Brotli < Formula
+  url "https://example.invalid/brotli-1.2.1.tar.gz"
+  mirror "http://example.invalid/first.tar.gz"
+  mirror "https://example.invalid/second.tar.gz"
+  sha256 "'''+('a'*64)+'''"
+end
+'''
+        self.assertEqual(('https://example.invalid/brotli-1.2.1.tar.gz','a'*64),mac.source_stanza(recipe,'brotli'))
+
+    def test_pinned_stanza_accepts_literal_version_comments_and_transport(self):
+        recipe='url "https://example.invalid/source.tar.xz", using: :homebrew_curl\n# fixed upstream version\nversion "1.0"\n\nsha256 "'+('b'*64)+'"\n'
+        self.assertEqual(('https://example.invalid/source.tar.xz','b'*64),mac.source_stanza(recipe,'source'))
+
+    def test_unreviewed_main_git_source_cannot_be_replaced_by_a_test_resource(self):
+        recipe='url "https://example.invalid/project.git", tag: "v1", revision: "123"\nresource "test" do\n url "https://example.invalid/test.tar.gz"\n sha256 "'+('c'*64)+'"\nend\n'
+        with self.assertRaisesRegex(ValueError,'Unreviewed source URL'):
+            mac.source_stanza(recipe,'source')
+
+    def test_source_pin_does_not_cross_an_unreviewed_ruby_statement(self):
+        recipe='url "https://example.invalid/source.tar.gz"\non_macos do\nsha256 "'+('d'*64)+'"\nend\n'
+        with self.assertRaisesRegex(ValueError,'adjacent literal source SHA256'):
+            mac.source_stanza(recipe,'source')
+
+    def test_external_patch_archives_have_independent_pins_and_inline_data_is_preserved(self):
+        recipe='''patch do
+  url "https://example.invalid/fixed.patch"
+  sha256 "'''+('e'*64)+'''"
+end
+patch :p0, :DATA
+__END__
+diff --git a/input.c b/input.c
+'''
+        self.assertEqual([('https://example.invalid/fixed.patch','e'*64)],mac.external_patches(recipe,'patched'))
+
+    def test_external_patch_without_reviewed_literal_hash_is_rejected(self):
+        recipe='patch do\n url "https://example.invalid/moving.patch"\nend\n'
+        with self.assertRaisesRegex(ValueError,'adjacent literal source SHA256'):
+            mac.external_patches(recipe,'patched')
+
 
 if __name__=='__main__':
     unittest.main()

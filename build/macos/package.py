@@ -328,16 +328,18 @@ def retain_sources(provenance, prepared, resources):
             continue
         recipe = keg / ".brew" / (formula + ".rb")
         content = recipe.read_text()
+        receipt = keg / "INSTALL_RECEIPT.json"
+        diagnostics=ROOT/'artifacts/macos'/('source-recipes-'+platform.machine())
+        diagnostics.mkdir(parents=True,exist_ok=True)
+        (diagnostics/(formula+'.json')).write_text(json.dumps({'schemaVersion':1,'installedKeg':str(keg),
+            'recipePath':str(recipe),'recipeSha256':sha(recipe),'recipeText':content,
+            'receipt':json.loads(receipt.read_text()) if receipt.is_file() else None},indent=2)+'\n')
         # Installed recipes, unlike today's rolling formula API, describe the
         # binaries actually copied. Reject unpinned/interpolated source recipes.
-        match = re.search(r'\burl "(https://[^"#]+)"\s*\n\s*(?:mirror [^\n]+\n\s*)?sha256 "([0-9a-f]{64})"', content)
-        if not match:
-            raise ValueError(f"No literal pinned source archive in installed formula {recipe}")
-        url, expected = match.groups()
+        url,expected=source_stanza(content,str(recipe))
         directory = target / formula
         directory.mkdir()
         shutil.copy2(recipe, directory / recipe.name)
-        receipt = keg / "INSTALL_RECEIPT.json"
         if receipt.is_file():
             shutil.copy2(receipt, directory / receipt.name)
         filename = Path(url.split("?", 1)[0]).name
@@ -345,6 +347,15 @@ def retain_sources(provenance, prepared, resources):
         urllib.request.urlretrieve(url, archive)
         if sha(archive) != expected:
             raise ValueError("Corresponding native source hash mismatch: " + formula)
+        patches=[]
+        for patch_index,(patch_url,patch_sha) in enumerate(external_patches(content,str(recipe))):
+            patch_name=Path(patch_url.split('?',1)[0]).name or 'source.patch'
+            patch_file=directory/('patch-'+str(patch_index)+'-'+patch_name)
+            urllib.request.urlretrieve(patch_url,patch_file)
+            if sha(patch_file)!=patch_sha:
+                raise ValueError('Corresponding external source patch hash mismatch: '+formula)
+            patches.append({'url':patch_url,'sha256':patch_sha,'file':patch_file.relative_to(resources).as_posix(),
+                            'scope':'literal patch input retained; applicability remains in the installed recipe'})
         licenses = []
         for path in keg.rglob("*"):
             if path.is_file() and not path.is_symlink() and re.match(r"^(COPYING|LICENSE|NOTICE|COPYRIGHT)(\.|$)", path.name, re.I):
@@ -353,7 +364,8 @@ def retain_sources(provenance, prepared, resources):
                 shutil.copy2(path, destination)
                 licenses.append(destination.relative_to(resources).as_posix())
         packages[formula] = {"installedVersion": parts[index + 2], "url": url, "sha256": expected,
-                             "sourceArchive": archive.relative_to(resources).as_posix(), "licenses": licenses}
+                             "sourceArchive": archive.relative_to(resources).as_posix(), "licenses": licenses,
+                             "recipeSha256":sha(recipe),"externalPatches":patches}
     shutil.copy2(prepared / "downloads/libgdiplus-6.2.tar.gz", target / "libgdiplus-6.2.tar.gz")
     shutil.copy2(prepared / "downloads/libgdiplus-6.2-complete-git.tar.gz", target / "libgdiplus-6.2-complete-git.tar.gz")
     shutil.copy2(ROOT / "build/macos/native-dependencies.json", target / "native-dependencies.json")
@@ -367,6 +379,53 @@ def retain_sources(provenance, prepared, resources):
         "cache after registration. The ARM64 XIM shim bridges only the five reviewed Mono6.14.1 varargs imports. "
         "Build scripts and shim sources are in the included Computator.NET source archive.\n")
     return packages
+
+
+def source_stanza(content,label):
+    lines=content.splitlines()
+    first=next((index for index,line in enumerate(lines) if re.match(r'^\s*url\b',line)),None)
+    if first is None:
+        raise ValueError('No literal pinned source archive in installed recipe '+label)
+    # Inspect the FIRST source stanza only. Never silently substitute a later
+    # test resource or livecheck URL when the actual main source is unreviewed.
+    match=re.fullmatch(r'\s*url\s+"(https://[^"#]+)"(?:,\s*using:\s*:[a-z_]+)?\s*(?:#.*)?',lines[first])
+    if not match:
+        raise ValueError('Unreviewed source URL form in installed recipe '+label)
+    url=match[1]
+    for line in lines[first+1:first+33]:
+        stripped=line.strip()
+        if not stripped or stripped.startswith('#'):
+            continue
+        checksum=re.fullmatch(r'sha256\s+"([0-9a-f]{64})"\s*(?:#.*)?',stripped)
+        if checksum:
+            return url,checksum[1]
+        if re.fullmatch(r'mirror\s+"(?:https?|ftp)://[^"#]+"\s*(?:#.*)?',stripped):
+            continue
+        if re.fullmatch(r'version\s+"[A-Za-z0-9._+-]+"\s*(?:#.*)?',stripped):
+            continue
+        break
+    raise ValueError('No adjacent literal source SHA256 in installed recipe '+label)
+
+
+def external_patches(content,label):
+    lines=content.splitlines();patches=[]
+    for index,line in enumerate(lines):
+        if not re.match(r'^\s*patch\b',line):
+            continue
+        if re.fullmatch(r'\s*patch(?:\s+:[A-Za-z0-9_]+,)?\s+:DATA\s*(?:#.*)?',line):
+            if '__END__' not in lines:
+                raise ValueError('Inline recipe patch data is absent: '+label)
+            continue
+        start=re.fullmatch(r'(\s*)patch(?:\s+:[A-Za-z0-9_]+)?\s+do\s*(?:#.*)?',line)
+        if not start:
+            raise ValueError('Unreviewed external patch form in installed recipe '+label)
+        end=next((number for number in range(index+1,min(len(lines),index+65))
+                  if lines[number].strip()=='end' and lines[number].startswith(start[1])
+                  and len(lines[number])-len(lines[number].lstrip())==len(start[1])),None)
+        if end is None:
+            raise ValueError('Unreviewed external patch block in installed recipe '+label)
+        patches.append(source_stanza('\n'.join(lines[index+1:end]),label+' patch'))
+    return patches
 
 
 def bundle_icon(resources):
