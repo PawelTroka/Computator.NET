@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+unset COMPUTATOR_GITHUB_TOKEN # Only package authoring reads immutable Git inputs.
 configuration=${1:-Release}
 if [[ $# -gt 2 || ${2:---no-build} != --no-build || ! $configuration =~ ^(Release|Debug)$ || $(uname -s) != Darwin ]]; then
     echo 'Usage (on the actual Mac): bash build/macos/validate.sh [Release|Debug] [--no-build]' >&2; exit 2
