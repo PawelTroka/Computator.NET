@@ -17,6 +17,8 @@ using Settings = Computator.NET.Core.Properties.Settings;
 
 internal static partial class Program
 {
+    private static readonly Lazy<System.Collections.Generic.IDictionary<string, FunctionInfo>> AutocompleteReferenceCatalog =
+        new Lazy<System.Collections.Generic.IDictionary<string, FunctionInfo>>(() => new FunctionsDetailsFileSource().Details);
     // This is a real Mono/WinForms-on-X11 acceptance test. The xdotool events
     // come from XTEST, rather than invoking protected OnKeyDown/OnMouseClick
     // methods or testing a fabricated bitmap of a hidden control.
@@ -176,7 +178,7 @@ internal static partial class Program
 
     private static AutocompleteItem Completion(string signature, string title)
     {
-        var shipped = new FunctionsDetailsFileSource().Details;
+        var shipped = AutocompleteReferenceCatalog.Value;
         FunctionInfo source;
         var description = shipped.TryGetValue(signature, out source) ? source.Description :
             "<p>Readable help for " + signature + " with a complete function description.</p>";
@@ -225,11 +227,43 @@ internal static partial class Program
             "The actual tooltip scrollbar failed to scroll the illustrated reference or dismissed it.");
         CaptureAutocompleteX11(window, host, help, "autocomplete-reference-scrolled.png");
 
-        // Return through the native input queue and prove the original editor
-        // still owns subsequent selection/insertion, rather than a hidden copy.
+        using (var other = new TextBox { Location = new Point(24, 220), Size = new Size(200, 24) })
+        {
+            window.Controls.Add(other);
+            var otherPoint = other.PointToScreen(new Point(8, other.Height / 2));
+            MoveAndClickX11(otherPoint.X, otherPoint.Y);
+            InspectX11WindowStack(window, input, host, (Control)menu.ListView, help);
+            Check(other.Focused && !menu.Visible && !help.Visible,
+                "Leaving the reference for an unrelated editor left autocomplete/help floating above it.");
+            window.Controls.Remove(other);
+        }
+
         var editorPoint = input.PointToScreen(new Point(8, input.Height / 2));
         MoveAndClickX11(editorPoint.X, editorPoint.Y);
-        input.Focus();
+        KeyX11("End"); KeyX11("ctrl+space");
+        WaitForX11(() => menu.Visible && help.Visible, "Completion did not reopen for the modal reference test.");
+        MoveAndClickX11(textPoint.X, textPoint.Y);
+        Check(help.ContainsFocus, "The modal reference test must start from actual help focus.");
+        using (var dialog = new Form { Text = "Mono reference modal acceptance", Size = new Size(240, 120), ShowInTaskbar = false })
+        using (var pulse = new System.Windows.Forms.Timer { Interval = 100 })
+        {
+            Exception failure = null; var ticks = 0;
+            pulse.Tick += (_, _) =>
+            {
+                try { Check(!menu.Visible && !help.Visible, "A modal owner dialog left autocomplete/reference visible."); }
+                catch (Exception error) { failure = error; }
+                if (++ticks >= 3 || failure != null) dialog.Close();
+            };
+            dialog.Shown += (_, _) => pulse.Start();
+            dialog.ShowDialog(window); pulse.Stop();
+            if (failure != null) throw failure;
+            Check(ticks >= 3, "The modal reference guard was not observed across queued UI work.");
+        }
+
+        // Return through the native input queue and prove the original editor
+        // still owns subsequent selection/insertion, rather than a hidden copy.
+        MoveAndClickX11(editorPoint.X, editorPoint.Y);
+        Check(input.Focused, "The actual X11 editor click failed to restore keyboard focus.");
         KeyX11("End");
         KeyX11("ctrl+space");
         WaitForX11(() => menu.Visible && input.Focused, "Editor focus/completion did not recover after reading help.");
