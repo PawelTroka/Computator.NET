@@ -74,7 +74,8 @@ internal static partial class Program
         }
         outputDirectory = Path.GetFullPath(args[0]);
         Directory.CreateDirectory(outputDirectory);
-        Environment.SetEnvironmentVariable("MONO_WINFORMS_XIM_STYLE", "disabled");
+        if (Environment.GetEnvironmentVariable("COMPUTATOR_MONO_XIM_ACCEPTANCE") != "enabled")
+            Environment.SetEnvironmentVariable("MONO_WINFORMS_XIM_STYLE", "disabled");
         CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
         CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("en");
         Application.SetCompatibleTextRenderingDefault(false);
