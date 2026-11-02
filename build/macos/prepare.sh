@@ -65,13 +65,13 @@ if [[ ! -f "$prefix/lib/libgdiplus.dylib" ]]; then
 import pathlib,sys
 p=pathlib.Path(sys.argv[1]); s=p.read_text(); old='no_libpng16=yes'
 if s.count(old)!=1: raise SystemExit('Unexpected upstream Darwin PNG gate; review source before building.')
-p.write_text(s.replace(old,'no_libpng16=no'))
+p.write_text(s.replace(old,'no_libpng16='))
 PY
     export CPPFLAGS="-I$brew_prefix/include -I$(brew --prefix jpeg-turbo)/include"
     export LDFLAGS="-L$brew_prefix/lib -L$(brew --prefix jpeg-turbo)/lib"
     (
         cd "$build"
-        ./configure --prefix="$prefix" --with-x --with-pango \
+        ./configure --prefix="$prefix" --with-pango \
             --x-includes="$(brew --prefix libx11)/include" --x-libraries="$(brew --prefix libx11)/lib" \
             --with-libjpeg="$(brew --prefix jpeg-turbo)" --with-libtiff="$(brew --prefix libtiff)" --with-libgif="$(brew --prefix giflib)"
         grep -q '^#define HAVE_X11 1' config.h

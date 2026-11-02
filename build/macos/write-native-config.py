@@ -41,7 +41,9 @@ for entry in list(config.getroot()):
 for name, target in mappings.items():
     ET.SubElement(config.getroot(), "dllmap", {"dll": name, "target": str(target), "os": "osx"})
 path = root / "mono.config"
-config.write(path, encoding="utf-8", xml_declaration=True)
+# Framework Mono's native config reader rejects ElementTree's declaration on
+# affected builds. Use the same headerless format as the runtime's own config.
+config.write(path, encoding="utf-8", xml_declaration=False)
 q = shlex.quote
 launcher = root / "bin/mono"
 launcher.write_text("#!/bin/bash\nset -euo pipefail\n"
