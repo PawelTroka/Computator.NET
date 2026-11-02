@@ -5,6 +5,7 @@ Run natively after Mono-Mac-Validate. Mono and XQuartz are prerequisites; all
 non-system drawing/numerical dylibs are copied, relocated and inventoried.
 """
 import argparse
+import base64
 import datetime
 import hashlib
 import json
@@ -19,6 +20,7 @@ import subprocess
 import sys
 import tempfile
 import urllib.request
+import urllib.parse
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -42,6 +44,31 @@ def download_verified(url,expected,destination):
     urllib.request.urlretrieve(url,destination)
     if sha(destination)!=expected:
         raise ValueError('Native source input hash mismatch: '+url)
+
+
+def pinned_git_blob(commit,path,destination,expected_sha256=None):
+    if (not re.fullmatch('[0-9a-f]{40}',commit) or not path.startswith(('Formula/','Patches/'))
+            or '\\' in path or ':' in path or any(part in ('','.','..') for part in path.split('/'))):
+        raise ValueError('Unsafe immutable Homebrew source reference')
+    if destination.exists() or destination.is_symlink():
+        raise ValueError('Refusing to overwrite a retained Git source input: '+str(destination))
+    url='https://api.github.com/repos/Homebrew/homebrew-core/contents/'+urllib.parse.quote(path,safe='/')+'?ref='+commit
+    request=urllib.request.Request(url,headers={'Accept':'application/vnd.github+json','User-Agent':'Computator.NET-native-source-verification'})
+    with urllib.request.urlopen(request,timeout=30) as response:
+        payload=response.read(2*1024*1024+1)
+    if len(payload)>2*1024*1024: raise ValueError('Pinned Git input exceeds the bounded metadata limit')
+    item=json.loads(payload)
+    if (item.get('type')!='file' or item.get('path')!=path or item.get('encoding')!='base64'
+            or not re.fullmatch('[0-9a-f]{40}',item.get('sha',''))):
+        raise ValueError('Pinned Git response does not describe the exact requested file')
+    data=base64.b64decode(''.join(item['content'].split()),validate=True)
+    blob=hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+    digest=hashlib.sha256(data).hexdigest()
+    if item.get('size')!=len(data) or blob!=item['sha'] or (expected_sha256 is not None and digest!=expected_sha256):
+        raise ValueError('Pinned Git file differs from its blob identity or declared SHA256')
+    with destination.open('xb') as stream: stream.write(data)
+    return {'commit':commit,'path':path,'gitBlobSha1':blob,'sha256':digest,'declaredSha256':expected_sha256,
+            'basis':'immutable receipt commit and verified Git blob'+('; declared SHA256 also checked' if expected_sha256 else '; SHA256 computed from verified bytes')}
 
 
 def verify_bundle(bundle):
@@ -361,23 +388,29 @@ def retain_sources(provenance, prepared, resources):
             download_verified(patch_url,patch_sha,patch_file)
             patches.append({'url':patch_url,'sha256':patch_sha,'file':patch_file.relative_to(resources).as_posix(),
                             'scope':'literal patch input retained; applicability remains in the installed recipe'})
-        frozen_recipe=None
+        frozen_recipe=None;patch_proofs={};patch_files={};formula_proof=None
         if re.search(r'^\s*file\s+"Patches/',ruby_code(content),re.M):
             matching=[entry for entry in frozen.get('formulae',[]) if entry.get('name')==formula]
             if len(matching)!=1: raise ValueError('No frozen local-patch formula metadata: '+formula)
-            metadata=matching[0];head=metadata.get('tap_git_head','');source_path=metadata.get('ruby_source_path','')
+            metadata=matching[0]
+            receipt_data=json.loads(receipt.read_text()) if receipt.is_file() else {}
+            head=receipt_data.get('source',{}).get('tap_git_head','');source_path=metadata.get('ruby_source_path','')
             formula_hash=metadata.get('ruby_source_checksum',{}).get('sha256','')
             if (not re.fullmatch('[0-9a-f]{40}',head) or not re.fullmatch('[0-9a-f]{64}',formula_hash)
                     or not source_path.startswith('Formula/') or not source_path.endswith('.rb')
                     or '\\' in source_path or ':' in source_path or any(part in ('','.','..') for part in source_path.split('/'))):
                 raise ValueError('Unsafe frozen formula reference for '+formula)
             frozen_file=directory/('frozen-upstream-'+formula+'.rb')
-            download_verified('https://raw.githubusercontent.com/Homebrew/homebrew-core/'+head+'/'+source_path,formula_hash,frozen_file)
+            formula_proof=pinned_git_blob(head,source_path,frozen_file,formula_hash)
             frozen_recipe=frozen_file.read_text()
+            for path in re.findall(r'^\s*file\s+"(Patches/[^"#]+)"\s*$',ruby_code(content),re.M):
+                patch_file=directory/('local-'+Path(path).name)
+                declared=(metadata.get('local_patch_checksums') or {}).get(path)
+                patch_proofs[path]=pinned_git_blob(head,path,patch_file,declared)
+                patch_files[path]=patch_file
         for patch in local_patch_pins(content,formula,parts[index+2],sha(recipe),frozen,frozen_recipe,
-                                      json.loads(receipt.read_text()) if receipt.is_file() else None):
-            patch_file=directory/('local-'+Path(patch['path']).name)
-            download_verified(patch['url'],patch['sha256'],patch_file)
+                                      json.loads(receipt.read_text()) if receipt.is_file() else None,patch_proofs):
+            patch_file=patch_files[patch['path']]
             patches.append({**patch,'file':patch_file.relative_to(resources).as_posix()})
         resources_retained=[]
         for name,resource_url,resource_sha,scope in recipe_resources(content,str(recipe)):
@@ -398,7 +431,8 @@ def retain_sources(provenance, prepared, resources):
                 licenses.append(destination.relative_to(resources).as_posix())
         packages[formula] = {"installedVersion": parts[index + 2], "url": url, "sha256": expected,
                              "sourceArchive": archive.relative_to(resources).as_posix(), "licenses": licenses,
-                             "recipeSha256":sha(recipe),"externalPatches":patches,"resources":resources_retained}
+                             "recipeSha256":sha(recipe),"frozenFormulaProof":formula_proof,
+                             "externalPatches":patches,"resources":resources_retained}
     shutil.copy2(prepared / "downloads/libgdiplus-6.2.tar.gz", target / "libgdiplus-6.2.tar.gz")
     shutil.copy2(prepared / "downloads/libgdiplus-6.2-complete-git.tar.gz", target / "libgdiplus-6.2-complete-git.tar.gz")
     shutil.copy2(ROOT / "build/macos/native-dependencies.json", target / "native-dependencies.json")
@@ -464,7 +498,7 @@ def external_patches(content,label):
     return patches
 
 
-def local_patch_pins(content,formula,version,recipe_sha,frozen,frozen_recipe=None,receipt=None):
+def local_patch_pins(content,formula,version,recipe_sha,frozen,frozen_recipe=None,receipt=None,patch_proofs=None):
     code=ruby_code(content)
     declarations=re.findall(r'^\s*file\s+"(Patches/[^"#]+)"\s*$',code,re.M)
     if not declarations:
@@ -473,30 +507,42 @@ def local_patch_pins(content,formula,version,recipe_sha,frozen,frozen_recipe=Non
     if len(matches)!=1: raise ValueError('No exact frozen installed formula metadata: '+formula)
     metadata=matches[0]
     expected_version=metadata['versions']['stable']+('_'+str(metadata['revision']) if metadata.get('revision') else '')
-    head=metadata.get('tap_git_head','')
+    info_head=metadata.get('tap_git_head','')
     original_sha=metadata.get('ruby_source_checksum',{}).get('sha256')
     source=(receipt or {}).get('source',{})
+    head=source.get('tap_git_head','')
     if (metadata.get('tap')!='homebrew/core' or expected_version!=version
-            or not re.fullmatch('[0-9a-f]{40}',head)
-            or source.get('tap')!='homebrew/core' or source.get('tap_git_head')!=head
+            or not re.fullmatch('[0-9a-f]{40}',head) or not re.fullmatch('[0-9a-f]{40}',info_head)
+            or source.get('tap')!='homebrew/core'
             or source.get('versions',{}).get('stable')!=metadata['versions']['stable']):
         raise ValueError('Frozen local patch metadata does not match the actual installed recipe/version: '+formula)
+    if (not re.fullmatch('[0-9a-f]{64}',original_sha or '')
+            or hashlib.sha256(content.encode()).hexdigest()!=recipe_sha):
+        raise ValueError('Installed recipe bytes differ from their recorded SHA256: '+formula)
     if original_sha!=recipe_sha:
         if (frozen_recipe is None or hashlib.sha256(frozen_recipe.encode()).hexdigest()!=original_sha
-                or remove_literal_bottle(frozen_recipe)!=content):
-            raise ValueError('Frozen formula differs from installed build instructions after the exact reviewed bottle-block removal: '+formula)
+                or content not in staged_formula_variants(frozen_recipe)):
+            raise ValueError('Frozen formula differs from installed build instructions after the exact reviewed staging transformations: '+formula)
     result=[]
     for path in declarations:
         if (not path.startswith('Patches/') or '\\' in path or ':' in path or
                 any(part in ('','.','..') for part in path.split('/'))):
             raise ValueError('Unsafe local recipe patch path')
         entries=[item for item in metadata.get('patches',[]) if item.get('file')==path]
-        digest=metadata.get('local_patch_checksums',{}).get(path,'')
-        if len(entries)!=1 or not re.fullmatch('[0-9a-f]{64}',digest) or entries[0].get('strip') not in ('p0','p1','p2'):
+        declared=(metadata.get('local_patch_checksums') or {}).get(path)
+        proof=(patch_proofs or {}).get(path,{})
+        digest=proof.get('sha256','')
+        if (len(entries)!=1 or entries[0].get('strip') not in ('p0','p1','p2')
+                or proof.get('commit')!=head or proof.get('path')!=path
+                or not re.fullmatch('[0-9a-f]{40}',proof.get('gitBlobSha1',''))
+                or not re.fullmatch('[0-9a-f]{64}',digest)
+                or (declared is not None and digest!=declared)):
             raise ValueError('No exact pinned local patch checksum/strip level: '+path)
         result.append({'path':path,'tapCommit':head,'sha256':digest,'strip':entries[0]['strip'],
                        'url':'https://raw.githubusercontent.com/Homebrew/homebrew-core/'+head+'/'+path,
-                       'scope':'local patch from the recipe-bound immutable tap commit'})
+                       'scope':'local patch from the recipe-bound immutable receipt tap commit',
+                       'infoTapCommit':info_head,'gitBlobSha1':proof['gitBlobSha1'],
+                       'sha256Basis':'declared checksum plus verified receipt Git blob' if declared else 'computed from verified receipt Git blob; older API has no declared SHA256'})
     if set(declarations)!={item['file'] for item in metadata.get('patches',[]) if 'file' in item}:
         raise ValueError('Frozen local patch set differs from the installed recipe: '+formula)
     return result
@@ -523,6 +569,33 @@ def remove_literal_bottle(content):
     # See Homebrew/brew Library/Homebrew/formula_installer.rb's staging gsub;
     # our accepted body is deliberately limited to literal bottle metadata.
     return ''.join(lines[:start]+lines[after:])
+
+
+REVIEWED_STAGED_RECIPE_SHA256={
+    # The complete immutable GLib 2.88.3 and 2.90.1 recipes inspected alongside
+    # actual installed recipes/receipts on the Intel and ARM macOS runners.
+    '658003a495be4141e3f5856ff34a1334c58fe7a0fc745afbc84258394472a6db',
+    'e6c6094ef287cd9dd51af16a4e69cb899b732cdf92da900eb9371339099df005',
+}
+
+
+def staged_formula_variants(pinned_content):
+    content=remove_literal_bottle(pinned_content)
+    variants={content}
+    if hashlib.sha256(pinned_content.encode()).hexdigest() not in REVIEWED_STAGED_RECIPE_SHA256:
+        return variants
+    old='    mkdir_p "{{HOMEBREW_PREFIX}}/lib/gio/modules"\n'
+    new='    mkdir_p "lib/gio/modules", base: :homebrew_prefix\n'
+    # Brew's install_steps DSL resolves both literal forms to the same prefix.
+    # Accept this exact observed non-build declaration only in the two complete
+    # reviewed upstream recipes. Never normalize arbitrary installed content,
+    # build statements, whitespace, heredocs or DATA. Homebrew install_steps.rb
+    # resolves both forms to HOMEBREW_PREFIX/lib/gio/modules.
+    block='  post_install_steps do\n'+old+'  end\n'
+    if block in ruby_code(content):
+        if content.count(block)!=1: raise ValueError('Duplicate reviewed post-install declaration')
+        variants.add(content.replace(block,'  post_install_steps do\n'+new+'  end\n',1))
+    return variants
 
 
 def recipe_resources(content,label):

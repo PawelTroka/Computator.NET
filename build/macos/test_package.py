@@ -1,5 +1,8 @@
 """Portable bundle-integrity/archive contracts; these do not certify a Mac GUI."""
 import importlib.util
+import base64
+import hashlib
+import io
 import json
 import os
 from pathlib import Path
@@ -210,18 +213,70 @@ diff --git a/input.c b/input.c
 
     def test_glib_local_patch_is_bound_to_the_exact_recipe_version_and_tap_commit(self):
         recipe='patch do\n file "Patches/glib/hardcoded-paths.diff"\nend\n'
+        digest=hashlib.sha256(recipe.encode()).hexdigest()
+        patch_path='Patches/glib/hardcoded-paths.diff'
         self.assertEqual([],mac.external_patches(recipe,'glib'))
         frozen={'formulae':[{'name':'glib','tap':'homebrew/core','versions':{'stable':'2.90.1'},'revision':0,
-            'ruby_source_checksum':{'sha256':'a'*64},'tap_git_head':'b'*40,
-            'patches':[{'strip':'p1','file':'Patches/glib/hardcoded-paths.diff'}],
-            'local_patch_checksums':{'Patches/glib/hardcoded-paths.diff':'c'*64}}]}
+            'ruby_source_checksum':{'sha256':digest},'tap_git_head':'b'*40,
+            'patches':[{'strip':'p1','file':patch_path}],
+            'local_patch_checksums':{patch_path:'c'*64}}]}
         receipt={'source':{'tap':'homebrew/core','tap_git_head':'b'*40,'versions':{'stable':'2.90.1'}}}
-        pins=mac.local_patch_pins(recipe,'glib','2.90.1','a'*64,frozen,receipt=receipt)
+        proof={patch_path:{'commit':'b'*40,'path':patch_path,'gitBlobSha1':'d'*40,'sha256':'c'*64}}
+        pins=mac.local_patch_pins(recipe,'glib','2.90.1',digest,frozen,receipt=receipt,patch_proofs=proof)
         self.assertEqual('c'*64,pins[0]['sha256'])
         self.assertIn('/'+('b'*40)+'/Patches/glib/',pins[0]['url'])
-        for version,digest in (('2.90.2','a'*64),('2.90.1','d'*64)):
-            with self.assertRaisesRegex(ValueError,'actual installed recipe/version|Frozen formula differs'):
-                mac.local_patch_pins(recipe,'glib',version,digest,frozen,receipt=receipt)
+        for version,changed_digest in (('2.90.2',digest),('2.90.1','d'*64)):
+            with self.assertRaisesRegex(ValueError,'actual installed recipe/version|recorded SHA256'):
+                mac.local_patch_pins(recipe,'glib',version,changed_digest,frozen,receipt=receipt,patch_proofs=proof)
+        # The receipt can be older than the globally installed tap snapshot;
+        # only the exact verified receipt tree supplies the actual patch bytes.
+        receipt['source']['tap_git_head']='e'*40
+        proof[patch_path]['commit']='e'*40
+        del frozen['formulae'][0]['local_patch_checksums']
+        pins=mac.local_patch_pins(recipe,'glib','2.90.1',digest,frozen,receipt=receipt,patch_proofs=proof)
+        self.assertEqual('e'*40,pins[0]['tapCommit'])
+        self.assertIn('older API has no declared SHA256',pins[0]['sha256Basis'])
+        proof[patch_path]['commit']='b'*40
+        with self.assertRaisesRegex(ValueError,'exact pinned local patch'):
+            mac.local_patch_pins(recipe,'glib','2.90.1',digest,frozen,receipt=receipt,patch_proofs=proof)
+
+    def test_pinned_git_file_checks_immutable_tree_blob_and_optional_declared_checksum(self):
+        data=b'actual source bytes\n'
+        blob=hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+        digest=hashlib.sha256(data).hexdigest()
+        item={'type':'file','path':'Patches/glib/fix.diff','encoding':'base64','size':len(data),
+              'content':base64.b64encode(data).decode(),'sha':blob}
+        for name,changed,expected in (
+                ('valid',{},digest),('older-schema',{},None),
+                ('wrong-blob',{'sha':'f'*40},digest),('wrong-path',{'path':'Patches/wrong'},digest),
+                ('wrong-size',{'size':len(data)+1},digest),('wrong-sha256',{},'0'*64)):
+            target=self.base/(name+'.source')
+            with self.subTest(name=name),mock.patch.object(mac.urllib.request,'urlopen',
+                    return_value=io.BytesIO(json.dumps({**item,**changed}).encode())) as opened:
+                if name in ('valid','older-schema'):
+                    proof=mac.pinned_git_blob('a'*40,item['path'],target,expected)
+                    self.assertEqual(data,target.read_bytes())
+                    self.assertEqual(blob,proof['gitBlobSha1'])
+                    self.assertEqual(digest,proof['sha256'])
+                    self.assertIn('?ref='+('a'*40),opened.call_args[0][0].full_url)
+                else:
+                    with self.assertRaisesRegex(ValueError,'exact requested file|blob identity'):
+                        mac.pinned_git_blob('a'*40,item['path'],target,expected)
+                    self.assertFalse(target.exists())
+
+    def test_post_install_equivalence_requires_the_complete_reviewed_raw_recipe(self):
+        old='  post_install_steps do\n    mkdir_p "{{HOMEBREW_PREFIX}}/lib/gio/modules"\n  end\n'
+        new='  post_install_steps do\n    mkdir_p "lib/gio/modules", base: :homebrew_prefix\n  end\n'
+        raw='class Probe < Formula\n'+old+'  def install\n    system "make"\n  end\nend\n'
+        self.assertEqual({raw},mac.staged_formula_variants(raw))
+        with mock.patch.object(mac,'REVIEWED_STAGED_RECIPE_SHA256',{hashlib.sha256(raw.encode()).hexdigest()}):
+            self.assertEqual({raw,raw.replace(old,new)},mac.staged_formula_variants(raw))
+            changed=raw.replace('system "make"','system "changed-build"')
+            self.assertEqual({changed},mac.staged_formula_variants(changed))
+            # Even the exact declaration in arbitrary heredoc/DATA content
+            # cannot be rewritten without the complete reviewed raw hash.
+            heredoc=raw+'__END__\n'+old
+            self.assertEqual({heredoc},mac.staged_formula_variants(heredoc))
 
     def test_only_literal_bottle_metadata_and_its_one_separator_may_be_removed(self):
         content='class Probe < Formula\n  url "https://example.invalid/source.tar.gz"\n\n  bottle do\n    rebuild 1\n    sha256 arm64_sequoia: "'+('a'*64)+'"\n  end\n\n  def install\n    system "make"\n  end\nend\n__END__\n\n patch context\n'
