@@ -124,6 +124,8 @@ namespace Computator.NET.Core.Compilation
                 Assembly.Load("netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51").Location
             };
             var facades = Path.Combine(RuntimeEnvironment.GetRuntimeDirectory(), "Facades");
+            var packagedFacades = Path.Combine(AppContext.BaseDirectory, "Facades");
+            if (Directory.Exists(packagedFacades)) facades = packagedFacades;
             if (Directory.Exists(facades)) paths.AddRange(Directory.EnumerateFiles(facades, "*.dll"));
             return paths.Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
         }

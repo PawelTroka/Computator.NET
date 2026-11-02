@@ -1,0 +1,13 @@
+--- a/src/font.c
++++ b/src/font.c
+@@ -243,6 +243,10 @@ GdipPrivateAddFontFile (GpFontCollection *fontCollection, GDIPCONST WCHAR *filename)
+ 
+ 	fclose (fileHandle);
+ 	FcConfigAppFontAddFile (fontCollection->config, file);
++#if USE_PANGO_RENDERING
++	pango_fc_font_map_config_changed ((PangoFcFontMap *)fontCollection->pango_font_map);
++#endif
++
+ 
+ 	GdipFree (file);
+ 	return Ok;
