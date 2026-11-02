@@ -191,6 +191,13 @@ original drawing candidates and build-host font/module data are temporarily
 hidden and restored; process traces must select the packaged drawing closure.
 The ordinary launcher never changes display modes or hides system dependencies.
 
+Package validation also starts the ordinary shell launcher as a fresh process.
+An external XRes tool matches its native window to the actual Mono process;
+the fixture verifies the application directory, captures real client pixels,
+requests a normal close, and requires exit zero with no surviving children.
+XRes and the capture/analysis tools are test prerequisites outside the `.app`.
+Finder launch and automatic XQuartz startup remain physical-Mac acceptance.
+
 The Apple Silicon compatibility lane also runs the **same macOS 15-built ZIP**
 on macOS 26. It prepares an external test harness/runtime there, then checks the
 original archive rather than substituting a new package with a newer deployment
