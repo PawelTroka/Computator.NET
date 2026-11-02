@@ -2,6 +2,7 @@
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Drawing;
+using Computator.NET.DataTypes.Charts;
 
 namespace Computator.NET.Core.Abstract.Controls
 {
@@ -38,7 +39,7 @@ namespace Computator.NET.Core.Abstract.Controls
     }
 
 
-    public interface ICanFileEdit : ICanOpenFiles
+    public interface ICanFileEdit : ICanOpenFiles, IPrinting
     {
         bool Focused { get; }
         void NewDocument();

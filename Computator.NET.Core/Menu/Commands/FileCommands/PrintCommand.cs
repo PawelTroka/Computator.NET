@@ -5,6 +5,7 @@ using Computator.NET.Core.Model;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Charts;
+using Computator.NET.DataTypes.Events;
 using Computator.NET.Localization.Menu;
 
 namespace Computator.NET.Core.Menu.Commands.FileCommands
@@ -37,9 +38,9 @@ namespace Computator.NET.Core.Menu.Commands.FileCommands
 
         public override void Execute()
         {
-            switch ((int) _sharedViewState.CurrentView)
+            switch (_sharedViewState.CurrentView)
             {
-                case 0:
+                case ViewName.Charting:
                     //if (_calculationsMode == CalculationsMode.Real)
                     if(_charts.ContainsKey(_sharedViewState.CalculationsMode))
                     {
@@ -49,13 +50,12 @@ namespace Computator.NET.Core.Menu.Commands.FileCommands
                     //  SendStringAsKey("^P");
                     break;
 
-                case 4:
-                    //scriptingCodeEditor();
-
+                case ViewName.Scripting:
+                    _scriptingCodeEditor.Print();
                     break;
 
-                case 5:
-                    //this.customFunctionsCodeEditor
+                case ViewName.CustomFunctions:
+                    _customFunctionsCodeEditor.Print();
                     break;
 
                 default:
