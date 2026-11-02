@@ -13,6 +13,7 @@ RUN apt-get update && \
       libmono-system-numerics4.0-cil libmono-system-runtime-serialization4.0-cil \
       libmono-microsoft-csharp4.0-cil libmono-system-net-http4.0-cil \
       libmono-system-data4.0-cil libmono-system-xml-linq4.0-cil \
+      libmono-posix4.0-cil \
       libpangocairo-1.0-0 libcairo2 libjpeg-turbo8 $codecs libgif7 libexif12 \
       libx11-6 libxtst6 libxinerama1 fonts-dejavu-core \
       xvfb xauth xdotool x11-utils && \
