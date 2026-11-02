@@ -6,12 +6,13 @@ if [ "$#" -ne 0 ]; then echo 'Usage: install-desktop-entry' >&2; exit 2; fi
 root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 # Desktop Entry Exec escaping differs from shell escaping. Quote the path and
 # escape its reserved characters, including literal percent field-code markers.
-escaped=$(printf '%s' "$root/bin/computator" | sed 's/\\/\\\\/g; s/"/\\"/g; s/`/\\`/g; s/\$/\\$/g; s/%/%%/g')
+escaped=$(printf '%s' "$root/bin/computator" | sed 's/\\/\\\\/g; s/"/\\"/g; s/`/\\`/g; s/\$/\\$/g; s/%/%%/g' | sed 's/\\/\\\\/g')
 case "$root" in
     *'
 '*) echo 'Desktop integration does not support newline characters in the installation path.' >&2; exit 2 ;;
 esac
 data=${XDG_DATA_HOME:-${HOME:?HOME must be set}/.local/share}
+case "$data" in /*) ;; *) echo 'XDG_DATA_HOME must be an absolute directory.' >&2; exit 2;; esac
 mkdir -p -- "$data/applications" "$data/icons/hicolor/256x256/apps"
 icon=$data/icons/hicolor/256x256/apps/computator.png
 cp -- "$root/share/computator.png" "$icon"
@@ -23,7 +24,12 @@ cat > "$temporary" <<EOF
 Type=Application
 Name=Computator.NET
 Comment=Numerical calculations, scripts and charts
-Exec="$escaped"
+EOF
+# Keep the executable name fixed: some desktop parsers validate it before
+# expanding literal %% codes. The installation path is one separately quoted
+# argument; it never becomes shell source, even when it contains reserved chars.
+printf '%s%s%s\n' 'Exec=/bin/sh -c "exec \\"\\$1\\"" computator "' "$escaped" '"' >> "$temporary"
+cat >> "$temporary" <<EOF
 Icon=computator
 Terminal=true
 Categories=Education;Science;Math;
