@@ -51,7 +51,7 @@ if [[ -n ${COMPUTATOR_MAC_DISPLAY_ENV:-} ]]; then source "$COMPUTATOR_MAC_DISPLA
 # X11 import to the SAME relocated library selected by the production preflight.
 cp "$native/display/libcomputator-mac-display.dylib" "$evidence/harness/libcomputator-mac-display.dylib"
 python3 - "$resources" "$evidence" <<'PY'
-import json,pathlib,subprocess,sys,xml.sax.saxutils
+import hashlib,json,pathlib,shlex,shutil,subprocess,sys,xml.sax.saxutils
 resources,evidence=map(pathlib.Path,sys.argv[1:])
 manifest=json.loads((resources/'mono-package.json').read_text())
 helper=evidence/'harness/libcomputator-mac-display.dylib'
@@ -67,6 +67,15 @@ entry='<dllmap dll="computator_mac_display" target='+xml.sax.saxutils.quoteattr(
 config.write_text(value.replace('</configuration>',entry+'</configuration>'))
 (evidence/'capture-helper.json').write_text(json.dumps({'scope':'test-only-outside-bundle','x11':str(resources/manifest['native']['x11']),
     'helper':str(helper),'dependencies':subprocess.check_output(['otool','-L',str(helper)],text=True)},indent=2)+'\n')
+tool=pathlib.Path(shutil.which('xdotool') or '').resolve(strict=True)
+if not tool.is_file(): raise SystemExit('The external native keyboard acceptance tool is missing.')
+bindir=evidence/'harness/bin';bindir.mkdir()
+wrapper=bindir/'xdotool'
+wrapper.write_text('#!/bin/sh\nunset DYLD_PRINT_LIBRARIES\nexec '+shlex.quote(str(tool))+' "$@"\n')
+wrapper.chmod(0o755)
+(evidence/'keyboard-tool.json').write_text(json.dumps({'scope':'test-only-outside-application-process',
+    'path':str(tool),'sha256':hashlib.sha256(tool.read_bytes()).hexdigest(),
+    'wrapper':str(wrapper),'inheritedDyldTracingCleared':True},indent=2)+'\n')
 PY
 # Never modify a developer's Homebrew installation. On disposable hosted CI,
 # hide the original candidates and host font/module data and restore even on red.
@@ -77,7 +86,7 @@ if [[ ${GITHUB_ACTIONS:-} == true ]]; then
 fi
 # Runtime child processes cannot discover the build SDK, Node or mcs via PATH.
 # The external test orchestrator uses its already selected absolute Python path.
-export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
+export PATH="$evidence/harness/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin"
 # Both the ordinary launcher and the shared AppDomains consume the immutable
 # relocated payload; generated configs/reports/profile data stay outside it.
 chmod -R a-w "$bundle"
