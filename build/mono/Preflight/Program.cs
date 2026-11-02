@@ -20,6 +20,7 @@ internal static class Program
     private const string ConfigMarker = "<!-- Computator.NET generated process configuration -->";
     private static bool isMac;
     private static string packageRoot;
+    private static string installationRoot;
     private static Manifest manifest;
     private static Dictionary<string, Entry> inventory;
     private static readonly Dictionary<string, string[]> Aliases = new Dictionary<string, string[]>
@@ -54,8 +55,10 @@ internal static class Program
             if (!Directory.Exists(packageRoot) || (File.GetAttributes(packageRoot) & FileAttributes.ReparsePoint) != 0)
                 throw new IOException("The package root must be an existing, non-redirected directory.");
             report.PackageRoot = packageRoot;
-            reportPath = args[0] == "verify" ? OutsideOutput(args[4]) : null;
+            installationRoot = packageRoot;
             IdentifyRuntime(report);
+            IdentifyInstallationRoot();
+            reportPath = args[0] == "verify" ? OutsideOutput(args[4]) : null;
             ReadAndVerifyManifest(report);
             if (manifest.Native.ContainsKey("xim"))
                 MonoXimContract.Validate(Assembly.Load("System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"));
@@ -123,6 +126,7 @@ internal static class Program
             throw new PlatformNotSupportedException("Package RID " + manifest.Rid + " does not match native Mono process " + rid + ".");
         report.Rid = manifest.Rid;
         report.Version = manifest.Version;
+        VerifyBundleBootstrap(report);
         if (!isMac)
         {
             var release = File.ReadAllLines("/etc/os-release");
@@ -169,6 +173,54 @@ internal static class Program
             throw new InvalidDataException("Package does not contain its application and runtime preflight.");
         report.VerifiedFiles = inventory.Count;
         report.ManifestSha256 = Hash(file);
+    }
+
+    private static void IdentifyInstallationRoot()
+    {
+        if (!isMac) return;
+        var resources = new DirectoryInfo(packageRoot);
+        if (resources.Name != "Resources" || resources.Parent == null || resources.Parent.Name != "Contents" ||
+            resources.Parent.Parent == null || resources.Parent.Parent.Extension != ".app")
+            throw new InvalidDataException("Mac package root must be the enclosing application's Contents/Resources directory.");
+        installationRoot = resources.Parent.Parent.FullName;
+        for (var path = packageRoot; path != Path.GetDirectoryName(installationRoot); path = Path.GetDirectoryName(path))
+            if ((File.GetAttributes(path) & FileAttributes.ReparsePoint) != 0)
+                throw new IOException("Mac bundle bootstrap paths must not traverse symbolic links.");
+    }
+
+    private static void VerifyBundleBootstrap(Report report)
+    {
+        if (!isMac)
+        {
+            if (manifest.BundleBootstrap != null) throw new InvalidDataException("Mac bundle bootstrap metadata cannot be applied to a Linux package.");
+            return;
+        }
+        var resources = new DirectoryInfo(packageRoot);
+        var allowed = new HashSet<string>(new[] { "Contents/Info.plist", "Contents/MacOS/Computator.NET" }, StringComparer.Ordinal);
+        if (manifest.BundleBootstrap == null || manifest.BundleBootstrap.Count != allowed.Count)
+            throw new InvalidDataException("Mac bundle requires the exact fixed bootstrap inventory.");
+        foreach (var entry in manifest.BundleBootstrap)
+        {
+            if (entry == null || !allowed.Remove(entry.Path) || entry.Size <= 0 || entry.Size > 4 * 1024 * 1024 ||
+                entry.Sha256 == null || !Regex.IsMatch(entry.Sha256, "\\A[0-9a-fA-F]{64}\\z"))
+                throw new InvalidDataException("Invalid or duplicate fixed Mac bootstrap inventory entry.");
+            var file = Path.Combine(installationRoot, entry.Path.Replace('/', Path.DirectorySeparatorChar));
+            for (var path = file; path != installationRoot; path = Path.GetDirectoryName(path))
+                if ((File.GetAttributes(path) & FileAttributes.ReparsePoint) != 0)
+                    throw new IOException("Mac bundle bootstrap paths must not traverse symbolic links.");
+            if (!File.Exists(file) || new FileInfo(file).Length != entry.Size || Hash(file) != entry.Sha256.ToLowerInvariant())
+                throw new IOException("Mac bundle bootstrap file differs from its inventory: " + entry.Path);
+        }
+        var known = new HashSet<string>(manifest.BundleBootstrap.Select(entry => entry.Path), StringComparer.Ordinal);
+        foreach (var item in Directory.EnumerateFileSystemEntries(installationRoot))
+            if (item != resources.Parent.FullName) throw new IOException("Unrecorded Mac bundle bootstrap item.");
+        foreach (var item in Directory.EnumerateFileSystemEntries(resources.Parent.FullName))
+            if (item != packageRoot && item != Path.Combine(installationRoot, "Contents", "Info.plist") &&
+                item != Path.Combine(installationRoot, "Contents", "MacOS")) throw new IOException("Unrecorded Mac bundle bootstrap item.");
+        foreach (var item in Directory.EnumerateFileSystemEntries(Path.Combine(installationRoot, "Contents", "MacOS")))
+            if (!known.Contains(item.Substring(installationRoot.Length + 1).Replace(Path.DirectorySeparatorChar, '/')))
+                throw new IOException("Unrecorded Mac bundle bootstrap item.");
+        report.VerifiedBootstrapFiles = manifest.BundleBootstrap.Count;
     }
 
     private static void PrepareConfiguration(string destination)
@@ -327,7 +379,8 @@ internal static class Program
     private static string OutsideOutput(string value)
     {
         var path = Path.GetFullPath(value);
-        if (path == packageRoot || path.StartsWith(packageRoot + Path.DirectorySeparatorChar, StringComparison.Ordinal) ||
+        var comparison = isMac ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+        if (string.Equals(path, installationRoot, comparison) || path.StartsWith(installationRoot + Path.DirectorySeparatorChar, comparison) ||
             Directory.Exists(path) || (File.Exists(path) && (File.GetAttributes(path) & FileAttributes.ReparsePoint) != 0))
             throw new IOException("Generated configuration/reports require a regular destination outside the read-only package.");
         // XDG caches and macOS /tmp can legitimately have redirected ancestors.
@@ -346,8 +399,8 @@ internal static class Program
         parent = RealPath(parent);
         while (missing.Count != 0) parent = Path.Combine(parent, missing.Pop());
         var physicalPath = Path.Combine(parent, Path.GetFileName(path));
-        var physicalPackage = RealPath(packageRoot);
-        if (physicalPath == physicalPackage || physicalPath.StartsWith(physicalPackage + Path.DirectorySeparatorChar, StringComparison.Ordinal))
+        var physicalPackage = RealPath(installationRoot);
+        if (string.Equals(physicalPath, physicalPackage, comparison) || physicalPath.StartsWith(physicalPackage + Path.DirectorySeparatorChar, comparison))
             throw new IOException("Generated configuration/reports require a regular destination outside the read-only package.");
         return path;
     }
@@ -405,6 +458,7 @@ internal static class Program
         [DataMember(Name = "files")] public List<Entry> Files { get; set; }
         [DataMember(Name = "native")] public Dictionary<string, string> Native { get; set; }
         [DataMember(Name = "baseline")] public string Baseline { get; set; }
+        [DataMember(Name = "bundleBootstrap")] public List<Entry> BundleBootstrap { get; set; }
     }
     [DataContract] private sealed class Entry
     {
@@ -421,6 +475,7 @@ internal static class Program
         [DataMember(Name = "operation")] public string Operation;
         [DataMember(Name = "failure")] public string Failure;
         [DataMember(Name = "packageRoot")] public string PackageRoot;
+        [DataMember(Name = "verifiedBootstrapFiles")] public int VerifiedBootstrapFiles;
         [DataMember(Name = "manifestSha256")] public string ManifestSha256;
         [DataMember(Name = "version")] public string Version;
         [DataMember(Name = "rid")] public string Rid;

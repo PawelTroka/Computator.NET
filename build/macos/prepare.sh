@@ -11,6 +11,7 @@ if [[ $# -ne 0 || $(uname -s) != Darwin ]]; then
 fi
 repository=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)
 architecture=$(uname -m)
+export MACOSX_DEPLOYMENT_TARGET=15.0
 case "$architecture" in arm64|x86_64) ;; *) echo "Unsupported native architecture: $architecture" >&2; exit 2 ;; esac
 root="$repository/artifacts/macos/native-$architecture"
 mkdir -p "$root/downloads" "$root/logs" "$root/bin"

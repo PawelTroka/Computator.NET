@@ -120,6 +120,23 @@ class RuntimePreflightContracts(unittest.TestCase):
         self.reject(self.prepare(target), 'outside the read-only package')
         self.assertFalse(target.exists())
 
+    def test_failed_verification_replaces_an_actual_prior_success_report(self):
+        self.assertEqual(0, self.prepare().returncode)
+        report = self.output.parent / 'runtime-check.json'
+        command = [MONO, '--config', str(self.output), str(self.executable), 'verify', '--package-root',
+                   str(self.package), '--report', str(report)]
+        first = subprocess.run(command, text=True, capture_output=True, timeout=60)
+        self.assertEqual(0, first.returncode, first.stdout + first.stderr)
+        prior = json.loads(report.read_text())
+        self.assertTrue(prior['passed'])
+        self.alter_manifest(lambda value: value['files'].append(value['files'][0]))
+        second = subprocess.run(command, text=True, capture_output=True, timeout=60)
+        self.assertNotEqual(0, second.returncode)
+        current = json.loads(report.read_text())
+        self.assertFalse(current['passed'], 'A stale success report must never survive a failed current verification.')
+        self.assertNotEqual(prior['startedUtc'], current['startedUtc'])
+        self.assertIn('duplicate package inventory', current['failure'])
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)

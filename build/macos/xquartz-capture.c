@@ -54,7 +54,7 @@ API int ComputatorMacDesktopGeometry(unsigned long anchor, double *data, size_t 
     Window child;
     if (!XTranslateCoordinates(display, anchor, native, 0, 0, &offset_x, &offset_y, &child) ||
         !XTranslateCoordinates(display, native, XDefaultRootWindow(display), 0, 0, &root_x, &root_y, &child)) { status = -6; goto done; }
-    CFArrayRef windows = CGWindowListCopyWindowInfo(kCGWindowListOptionIncludingWindow, (CGWindowID)native_id);
+    CFArrayRef windows = CGWindowListCopyWindowInfo(kCGWindowListOptionAll, kCGNullWindowID);
     if (!windows) { status = -7; goto done; }
     status = -8;
     for (CFIndex index = 0; index < CFArrayGetCount(windows); index++) {

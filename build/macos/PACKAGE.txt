@@ -1,0 +1,32 @@
+Computator.NET — Mono WinForms macOS candidate
+
+This is the existing desktop application on Framework Mono, with its complete
+managed payload and a private native drawing/numerical library closure.
+
+Prerequisites: native Mono 6.14.1 or newer matching the package architecture, XQuartz 2.8.6,
+and macOS @MINIMUM_MACOS_VERSION@ or newer. The Intel and Apple Silicon candidates are separate packages.
+Install XQuartz and log out/back in before first use. A .NET SDK, Node, Python,
+Homebrew drawing libraries and a Windows server are not application prerequisites.
+Homebrew's Mono installation is the default runtime location; COMPUTATOR_MONO
+may select another native Mono executable. The installed preflight checks the
+actual WinForms native import and structure ABI before applying the Apple
+Silicon XIM bridge; an incompatible runtime fails before GUI startup.
+
+Move the complete .app to your chosen folder and launch it. Keep its entire
+Contents directory. The launcher verifies the file inventory and the actually
+loaded native libraries before opening the real application. It uses a temporary
+process-specific Mono configuration and never edits global Mono dllmaps.
+
+The application candidate is unsigned by the owner and is not notarized. Rewritten
+Mach-O libraries have local ad-hoc integrity signatures; these do not identify a
+publisher or establish Gatekeeper acceptance. Physical Mac acceptance of install,
+clipboard, international/IME input, accessibility, Retina/multiple displays,
+file dialogs and prolonged use remains a release gate even after hosted GUI tests.
+
+Run Contents/MacOS/Computator.NET --preflight from a terminal for diagnostic JSON.
+Set COMPUTATOR_NONINTERACTIVE=1 to send launch failures only to stderr.
+Custom functions and scripts execute trusted local code with your permissions.
+
+License, application source, native corresponding source archives/build recipes,
+native provenance and SHA256 inventory are retained in Contents/Resources/share
+and Contents/Resources/mono-package.json.

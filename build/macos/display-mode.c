@@ -7,8 +7,14 @@
 
 int main(int argc, char **argv)
 {
-    if (argc != 3 || !getenv("GITHUB_ACTIONS") || strcmp(getenv("GITHUB_ACTIONS"), "true")) return 2;
+    if (!getenv("GITHUB_ACTIONS") || strcmp(getenv("GITHUB_ACTIONS"), "true")) return 2;
     CGDirectDisplayID display = CGMainDisplayID();
+    if (argc == 2 && strcmp(argv[1], "verify") == 0) {
+        CGRect bounds = CGDisplayBounds(display);
+        printf("Fresh process observes actual native display bounds %.0f x %.0f\n", bounds.size.width, bounds.size.height);
+        return bounds.size.width >= 1440 && bounds.size.height >= 1000 ? 0 : 8;
+    }
+    if (argc != 3) return 2;
     CGDisplayModeRef current = CGDisplayCopyDisplayMode(display);
     if (!current) return 3;
     const void *key = kCGDisplayShowDuplicateLowResolutionModes;
@@ -41,7 +47,17 @@ int main(int argc, char **argv)
             selected = mode; selected_area = width * height;
         }
     }
-    CGError error = selected ? CGDisplaySetDisplayMode(display, selected, NULL) : kCGErrorFailure;
+    CGDisplayConfigRef configuration = NULL;
+    CGError error = selected ? CGBeginDisplayConfiguration(&configuration) : kCGErrorFailure;
+    if (error == kCGErrorSuccess) {
+        error = CGConfigureDisplayWithDisplayMode(configuration, display, selected, NULL);
+        if (error == kCGErrorSuccess)
+            // SetDisplayMode alone is app-scoped and reverted when this helper
+            // exits on ARM hosted Macs. Keep the owned CI setting for the login
+            // session, then explicitly restore it in stop-display.sh.
+            error = CGCompleteDisplayConfiguration(configuration, kCGConfigureForSession);
+        else CGCancelDisplayConfiguration(configuration);
+    }
     CGRect actual = CGDisplayBounds(display);
     printf("Native display selection result %d; actual bounds %.0f x %.0f\n", (int)error, actual.size.width, actual.size.height);
     CFRelease(modes); CGDisplayModeRelease(current);
