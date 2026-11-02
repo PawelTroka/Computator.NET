@@ -6,6 +6,7 @@ import { ResultPanel } from './ResultPanel';
 import { useTextResult } from '../helpers/useTextResult';
 import { numericalOperations as operations, useNumericalDraft, type NumericalOperation as Operation } from '../helpers/ToolDraftContext';
 export function NumericalCalculations() {
+  const portable = import.meta.env.VITE_PORTABLE_LOCAL === 'true';
   const { a, setA, b, setB, x, setX, epsilon, setEpsilon, n, setN, order, setOrder,
     expression, setExpression, operation, setOperation, selectedMethod, setSelectedMethod } = useNumericalDraft();
   const [methods, setMethods] = useState<Record<Operation, string[]>>({ Integral: [], Derivative: [], 'Function root': [] });
@@ -16,7 +17,7 @@ export function NumericalCalculations() {
     // Hidden fields may retain invalid edits from another operation. Let the
     // server apply its defaults to parameters that this operation does not use.
     const parameters = operation === 'Integral' ? { a, b, n }
-      : operation === 'Derivative' ? { x, order, epsilon }
+      : operation === 'Derivative' ? portable ? { x, order } : { x, order, epsilon }
       : { a, b, n, epsilon };
     void request.execute(operations[operation], { expression, method, ...parameters });
   }
@@ -33,6 +34,7 @@ export function NumericalCalculations() {
     return () => controller.abort();
   }, []);
   return <><h1>Numerical calculations</h1><p>Try different numerical methods on your expression.</p>
+    {portable && operation === 'Derivative' && <p>This derivative method chooses its own step size.</p>}
     <Expression expression={expression} onExpressionChange={setExpression} />
     {loadError && <p role="alert" className="text-danger">{loadError}</p>}
     <div className="row g-3 mb-3"><div className="col-md-9"><div className="input-group mb-2">
@@ -50,7 +52,7 @@ export function NumericalCalculations() {
         {operation === 'Derivative' ? <><NumericInput label="x" value={x} onValueChanged={setX} /><NumericInput label="order" value={order} onValueChanged={setOrder} /></>
           : <><NumericInput label="a" value={a} onValueChanged={setA} /><NumericInput label="b" value={b} onValueChanged={setB} /></>}
       </div></section></div>
-      {operation !== 'Integral' && <div className="col-md-4"><section className="card"><div className="card-header">Max error:</div><div className="card-body">
+      {operation !== 'Integral' && !(portable && operation === 'Derivative') && <div className="col-md-4"><section className="card"><div className="card-header">Max error:</div><div className="card-body">
         <NumericInput label="ε" value={epsilon} onValueChanged={setEpsilon} stepValue={1e-6} /></div></section></div>}
       {operation !== 'Derivative' && <div className="col-md-4"><section className="card"><div className="card-header">Number of steps:</div><div className="card-body">
         <NumericInput label="N" value={n} onValueChanged={setN} /></div></section></div>}

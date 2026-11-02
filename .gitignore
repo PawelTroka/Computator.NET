@@ -157,4 +157,6 @@ _Pvt_Extensions
 /Computator.NET.WebClient/wwwroot/dist
 /.dotnet
 /Computator.NET.WebClient/ClientApp/dist
+/Computator.NET.WebClient/dist-portable/
+/Computator.NET.WebClient/playwright-portable-report/
 __pycache__/

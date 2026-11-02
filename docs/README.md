@@ -46,6 +46,7 @@ Start with the task you want to complete. The entry-point guides describe the cu
 | Guide | What it covers |
 | --- | --- |
 | [Reduced Mono desktop](MONO-DESKTOP.md) | Current opt-in build, prerequisites, tested environments and limits |
+| [macOS application investigation](MACOS-APPLICATION.md) | XQuartz comparison, independent portable local preview, reproducible smoke tests and remaining physical Mac acceptance |
 | [Mono restoration background](followups/MONO-DESKTOP-RESTORATION.md) | Rationale and boundaries for the compatibility work |
 | [Native GSL build](followups/GSL.md) | Source pins, provenance and native/managed ABI checks |
 | [GSL adoption](followups/GSL-ADOPTION.md) | Packaged GSL 2.8 and development fallback behavior |
