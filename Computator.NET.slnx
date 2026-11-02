@@ -141,6 +141,7 @@
     <File Path="build/mono/package.py" />
     <File Path="build/mono/runtime.Dockerfile" />
     <File Path="build/mono/test_package.py" />
+    <File Path="build/mono/test_preflight.py" />
     <File Path="build/mono/validate-evidence.py" />
     <File Path="build/mono/validate-package.sh" />
     <File Path="build/mono/LegacyFixtureWriter.cs" />
