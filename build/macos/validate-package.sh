@@ -36,7 +36,6 @@ cp "$startup" "$evidence/harness/Computator.NET.Mono.StartupProbe.exe"
 if [[ -f $startup.config ]]; then cp "$startup.config" "$evidence/harness/"; fi
 "$mcs" -nologo -nowarn:0414 -r:System.Drawing -out:"$evidence/harness/LegacyFixture.exe" \
     build/fixtures/LegacySettings.cs build/mono/LegacyFixtureWriter.cs
-"$mono" "$evidence/harness/LegacyFixture.exe" "$evidence/legacy-settings.dat"
 unset COMPUTATOR_GSL_DIRECTORY MONO_CFG_DIR MONO_ENV_OPTIONS MONO_WINFORMS_XIM_STYLE
 export MONO_MWF_MAC_FORCE_X11=1 COMPUTATOR_MONO_XIM_ACCEPTANCE=enabled COMPUTATOR_NONINTERACTIVE=1
 export FONTCONFIG_FILE="$resources/native/fonts.conf" FONTCONFIG_PATH="$resources/native"
@@ -48,6 +47,9 @@ export COMPUTATOR_MAC_COMPOSITOR_EVIDENCE_DIRECTORY="$evidence/compositor"
 if [[ -n ${COMPUTATOR_MAC_DISPLAY_ENV:-} ]]; then source "$COMPUTATOR_MAC_DISPLAY_ENV"; fi
 [[ -n ${DISPLAY:-} ]] || { echo 'An authenticated rootless XQuartz display is required.' >&2; exit 2; }
 "$mono" "$resources/app/Computator.NET.Mono.Preflight.exe" prepare --package-root "$resources" --config "$evidence/mono.config"
+# Historical settings construct a real System.Drawing.Font. The external
+# fixture therefore needs the same selected archived drawing stack as the app.
+"$mono" --config "$evidence/mono.config" "$evidence/harness/LegacyFixture.exe" "$evidence/legacy-settings.dat"
 # The capture helper is acceptance-only, outside the installation. Rewrite its
 # X11 import to the SAME relocated library selected by the production preflight.
 cp "$native/display/libcomputator-mac-display.dylib" "$evidence/harness/libcomputator-mac-display.dylib"
