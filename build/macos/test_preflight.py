@@ -13,6 +13,20 @@ spec.loader.exec_module(shared)
 
 
 class MacRuntimePreflightContracts(shared.RuntimePreflightContracts):
+    def process_environment(self):
+        environment=super().process_environment()
+        # These are direct CLI fixtures, rather than the ordinary launcher.
+        # Match its explicit X11 selection and select data from THIS isolated
+        # bundle copy before the positive native verify used by the stale-report
+        # regression. Never inherit another candidate's drawing/data selection.
+        environment.update(MONO_MWF_MAC_FORCE_X11='1',COMPUTATOR_NONINTERACTIVE='1',
+            FONTCONFIG_FILE=str(self.package/'native/fonts.conf'),FONTCONFIG_PATH=str(self.package/'native'),
+            GIO_MODULE_DIR=str(self.package/'native/gio-modules'),GIO_EXTRA_MODULES='',
+            LIBTHAI_DICTDIR=str(self.package/'native/libthai'),XLOCALEDIR='/opt/X11/share/X11/locale',
+            MONO_PATH=str(self.package/'app')+':'+str(self.package/'app/Facades'),
+            XDG_CONFIG_HOME=str(self.output.parent/'config'),XDG_CACHE_HOME=str(self.output.parent/'cache'))
+        return environment
+
     def bootstrap_file(self,name):
         return self.package.parent.parent/name
 
