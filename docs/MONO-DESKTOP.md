@@ -197,6 +197,35 @@ starting the desktop. The `.app` can be moved as a whole. Rewritten dylibs carry
 local ad-hoc integrity signatures; these do not identify an owner or establish
 Gatekeeper/notarization acceptance.
 
+### Hands-on acceptance on an Apple Silicon Mac
+
+Use the accepted `osx-arm64` candidate on an M1/M2 or newer Mac. Record the
+archive SHA-256, macOS version and `Contents/MacOS/Computator.NET --preflight`
+JSON alongside the trial results. Read the bundle's actual OS/runtime
+prerequisites first; test copied documents/profiles rather than the only copy
+of real work.
+
+- Launch the relocated `.app` from Finder and from a terminal. Quit normally,
+  relaunch, and check settings/documents persist without a leftover application.
+- Calculate `ProtonMuonMassRatio - 8.88024331`; the result must be exactly zero.
+  Exercise ordinary real/complex calculations and one native special function.
+- Load a `.tslf`, call its function in calculations and a script, change its
+  definition without saving, then save/reopen and repeat. Verify errors highlight
+  the displayed editor and recovery works after correcting the definition.
+- Open function and constant help, including a long article and a diagram.
+  Switch Description/Text, scroll, copy text and return to typing; open/close a
+  modal dialog and ensure completion/help do not remain above it.
+- Draw/export 2D and complex charts. Run
+  `plot(new System.Func<double,double,double>[] { (x,y) => x*x+y*y });`
+  and `plot(new double[] {0,1,2}, new double[] {0,1,0}, new double[] {0,1,4});`.
+  Rotate/pan/zoom the 3D plot, resize it and compare its export.
+- Test native file dialogs, Unicode filenames/text, clipboard, the installed
+  input method, keyboard shortcuts, accessibility, Retina/other monitors and a
+  real printer. Keep prolonged-use/memory observations with the exact candidate.
+
+These physical checks complement the native hosted reports. They do not sign,
+notarize or publish the candidate.
+
 ## Acceptance and remaining limits
 
 The production startup probe invokes the real application entry point with its
