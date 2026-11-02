@@ -29,7 +29,7 @@ def run(command, *, seconds=10):
 
 def processes():
     rows = []
-    for line in run(['/bin/ps', '-axo', 'pid=,ppid=,pgid=,uid=,command=']).splitlines():
+    for line in run(['/bin/ps', '-ww', '-axo', 'pid=,ppid=,pgid=,uid=,command=']).splitlines():
         fields = line.strip().split(None, 4)
         if len(fields) == 5:
             rows.append(dict(zip(('pid', 'ppid', 'pgid', 'uid'), map(int, fields[:4])), command=fields[4]))
@@ -168,6 +168,7 @@ def main():
             deadline = time.monotonic() + 90
             selected = None
             previous = None
+            ready = False
             stable_since = time.monotonic()
             while time.monotonic() < deadline:
                 if child.poll() is not None:
@@ -181,9 +182,10 @@ def main():
                         previous = selected
                         stable_since = time.monotonic()
                     if selected and time.monotonic() - stable_since >= .4:
+                        ready = True
                         break
                 time.sleep(.2)
-            if not selected or time.monotonic() - stable_since < .4:
+            if not ready:
                 raise TimeoutError('The actual owned Mono process did not map its complete main client within 90 seconds.')
             report['applicationProcess'] = row
             report['ownedProcessSnapshots'].append(owned_processes(processes(), child.pid))
