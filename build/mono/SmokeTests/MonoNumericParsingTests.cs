@@ -35,15 +35,17 @@ internal static partial class Program
                         "The Roslyn expression path disagrees: " + literal);
                     Check(BitConverter.DoubleToInt64Bits(new PortableEngine().EvaluateReal(literal)) == expected, "Portable literal rounding differs.");
                 }
-                var inputs = new[] { "8.88024331", "  +8.88024331e0  ", "-8.88024331", "888024331·10⁻⁸", "-0", "-0.0", "-0E0", "1.", ".5", "5E-324", "1E-324", "2.2250738585072014E-308", "1.7976931348623157E308" };
+                var inputs = new[] { "8.88024331", "  +8.88024331e0  ", "-8.88024331", "888024331·10⁻⁸", "-0", "-0.0", "-0E0", "1.", ".5", "5E-324", "1E-324", "2.2250738585072014E-308", "1.7976931348623157E308",
+                    "1.00000000000000011102230246251565404236316680908203125", "1.00000000000000033306690738754696212708950042724609375", "-1E-324", "+1.e2", "8.88024331\0" };
                 var expectedBits = new[] { 0x4021c2af4049f211L, 0x4021c2af4049f211L, unchecked((long)0xc021c2af4049f211UL), 0x4021c2af4049f211L,
-                    long.MinValue, long.MinValue, long.MinValue, 0x3ff0000000000000L, 0x3fe0000000000000L, 1L, 0L, 0x0010000000000000L, 0x7fefffffffffffffL };
+                    long.MinValue, long.MinValue, long.MinValue, 0x3ff0000000000000L, 0x3fe0000000000000L, 1L, 0L, 0x0010000000000000L, 0x7fefffffffffffffL,
+                    0x3ff0000000000000L, 0x3ff0000000000002L, long.MinValue, 0x4059000000000000L, 0x4021c2af4049f211L };
                 for (var i = 0; i < inputs.Length; i++)
                     Check(BitConverter.DoubleToInt64Bits(inputs[i].FromMathString()) == expectedBits[i], "Displayed numeric input rounding differs: " + inputs[i]);
                 foreach (var invalid in new[] { "1,25", "1,234", "1_234", "0x10", "1.25d", "8.88 extra", "1E", "--1" })
                     Expect<FormatException>(() => invalid.FromMathString());
 
-                var code = "foreach(var input in new string[] {" + string.Join(",", inputs.Select(text => "\"" + text + "\"")) +
+                var code = "foreach(var input in new string[] {" + string.Join(",", inputs.Select(text => "\"" + text.Replace("\0", "\\0") + "\"")) +
                     "}) { write(System.BitConverter.DoubleToInt64Bits(input.FromMathString()).ToString(\"x16\")); write(\"|\"); }" +
                     "write(System.BitConverter.DoubleToInt64Bits(8.88024331).ToString(\"x16\"));";
                 var output = new StringBuilder();

@@ -18,6 +18,8 @@ namespace Computator.NET.Core.Tests.ScriptingExtensionsTests
         [TestCase("5E-324", 1L)]
         [TestCase("1E-324", 0L)]
         [TestCase("1.7976931348623157E308", 0x7fefffffffffffffL)]
+        [TestCase("1.00000000000000011102230246251565404236316680908203125", 0x3ff0000000000000L)]
+        [TestCase("1.00000000000000033306690738754696212708950042724609375", 0x3ff0000000000002L)]
         public void FastExpressionsMatchTheCorrectlyRoundedCompiledLiteral(string input, long expected)
         {
             var function = new ExpressionsEvaluator().Evaluate(input, "", CalculationsMode.Real);
@@ -32,6 +34,9 @@ namespace Computator.NET.Core.Tests.ScriptingExtensionsTests
         [TestCase("1.", 0x3ff0000000000000L)]
         [TestCase(".5", 0x3fe0000000000000L)]
         [TestCase("2.2250738585072014E-308", 0x0010000000000000L)]
+        [TestCase("-1E-324", long.MinValue)]
+        [TestCase("+1.e2", 0x4059000000000000L)]
+        [TestCase("8.88024331\0", 0x4021c2af4049f211L)]
         public void NumericTextPreservesAcceptedFormsAndBinary64Bits(string input, long expected)
         {
             NUnit.Framework.Assert.That(BitConverter.DoubleToInt64Bits(input.FromMathString()), Is.EqualTo(expected));
