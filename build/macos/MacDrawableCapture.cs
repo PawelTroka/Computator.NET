@@ -17,10 +17,15 @@ internal static class MacDrawableCapture
             " size=" + info[0] + "x" + info[1] + " map-state=" + info[2] + " depth=" + info[3]);
         int count = checked(info[0] * info[1]);
         var pixels = new int[count];
-        if (Argb(new UIntPtr(unchecked((ulong)handle.ToInt64())), pixels, new UIntPtr((uint)count)) != 0)
+        var captured = new int[4];
+        int result = Argb(new UIntPtr(unchecked((ulong)handle.ToInt64())), pixels, new UIntPtr((uint)count), captured);
+        Console.WriteLine("Actual XImage: width=" + captured[0] + " height=" + captured[1] + " pitch=" + captured[2] +
+            " bits=" + captured[3] + " result=" + result);
+        if (result != 0)
             throw new InvalidOperationException("XGetImage did not return the mapped drawable's actual pixels.");
-        var image = new Bitmap(info[0], info[1], PixelFormat.Format32bppArgb);
+        var image = new Bitmap(captured[0], captured[1], PixelFormat.Format32bppArgb);
         var data = image.LockBits(new Rectangle(Point.Empty, image.Size), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+        Console.WriteLine("Actual managed bitmap: width=" + image.Width + " height=" + image.Height + " stride=" + data.Stride);
         try
         {
             for (int row = 0; row < image.Height; row++)
@@ -32,5 +37,5 @@ internal static class MacDrawableCapture
     [DllImport("computator_mac_display", EntryPoint="ComputatorMacDrawableInfo")]
     private static extern int Info(UIntPtr handle, [Out] int[] info, UIntPtr count);
     [DllImport("computator_mac_display", EntryPoint="ComputatorMacDrawableArgb")]
-    private static extern int Argb(UIntPtr handle, [Out] int[] pixels, UIntPtr count);
+    private static extern int Argb(UIntPtr handle, [Out] int[] pixels, UIntPtr count, [Out] int[] info);
 }

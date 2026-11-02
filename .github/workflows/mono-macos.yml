@@ -48,10 +48,7 @@ jobs:
         run: bash ./build.sh --target=Mono-Mac-Validate
       - name: Stop only the owned XQuartz server
         if: always()
-        run: |
-          if [[ -f artifacts/macos/display/xquartz.pid ]]; then
-            kill "$(cat artifacts/macos/display/xquartz.pid)" 2>/dev/null || true
-          fi
+        run: bash build/macos/stop-display.sh artifacts/macos/display
       - name: Retain macOS display capture when the runner permits it
         if: always()
         continue-on-error: true

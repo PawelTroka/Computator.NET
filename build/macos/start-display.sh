@@ -19,16 +19,30 @@ while [[ -S /tmp/.X11-unix/X$display_number || -f /tmp/.X$display_number-lock ]]
 export DISPLAY=:$display_number XAUTHORITY="$auth"
 cookie=$(python3 -c 'import secrets; print(secrets.token_hex(16))')
 /opt/X11/bin/xauth -f "$auth" add "$DISPLAY" . "$cookie"
-/opt/X11/bin/Xquartz "$DISPLAY" -nolisten tcp -noreset -auth "$auth" > "$output/xquartz-server.log" 2>&1 &
+python3 -c 'import os,sys; os.setsid(); os.execv(sys.argv[1],sys.argv[1:])' \
+    /opt/X11/bin/Xquartz "$DISPLAY" -nolisten tcp -noreset -auth "$auth" > "$output/xquartz-server.log" 2>&1 &
 server=$!
-printf '%s\n' "$server" > "$output/xquartz.pid"
+printf '%s\n' "$server" > "$output/xquartz.pgid"
 ready=false
 for ((attempt=0; attempt<60; attempt++)); do
     if /opt/X11/bin/xdpyinfo -display "$DISPLAY" > "$output/xdpyinfo.log" 2>&1; then ready=true; break; fi
-    if ! kill -0 "$server" 2>/dev/null; then cat "$output/xquartz-server.log"; echo 'Owned XQuartz server exited before accepting authenticated clients.' >&2; exit 1; fi
+    if ! kill -0 -- "-$server" 2>/dev/null; then cat "$output/xquartz-server.log"; echo 'Owned XQuartz server exited before accepting authenticated clients.' >&2; exit 1; fi
     sleep 1
 done
-if [[ $ready != true ]]; then kill "$server" 2>/dev/null || true; echo 'XQuartz did not become ready within 60seconds.' >&2; exit 1; fi
-grep -q 'XTEST' "$output/xdpyinfo.log" || { kill "$server"; echo 'XQuartz lacks the actual XTEST input extension.' >&2; exit 1; }
+if [[ $ready != true ]]; then kill -- "-$server" 2>/dev/null || true; echo 'XQuartz did not become ready within 60 seconds.' >&2; exit 1; fi
+grep -q 'XTEST' "$output/xdpyinfo.log" || { kill -- "-$server"; echo 'XQuartz lacks the actual XTEST input extension.' >&2; exit 1; }
+# Starting Xquartz directly bypasses xinitrc, so start its ordinary window manager
+# too. Testing an unmanaged server is not the normal rootless Mac desktop path.
+python3 -c 'import os,sys; os.setsid(); os.execv(sys.argv[1],sys.argv[1:])' \
+    /opt/X11/bin/quartz-wm > "$output/quartz-wm.log" 2>&1 &
+manager=$!
+printf '%s\n' "$manager" > "$output/quartz-wm.pgid"
+for ((attempt=0; attempt<30; attempt++)); do
+    /opt/X11/bin/xprop -root _NET_SUPPORTING_WM_CHECK > "$output/window-manager.log" 2>&1 || true
+    if grep -q 'window id #' "$output/window-manager.log"; then break; fi
+    if ! kill -0 -- "-$manager" 2>/dev/null; then cat "$output/quartz-wm.log"; echo 'Owned quartz-wm exited.' >&2; exit 1; fi
+    sleep 1
+done
+grep -q 'window id #' "$output/window-manager.log" || { echo 'Normal rootless window manager did not become ready.' >&2; exit 1; }
 printf 'export DISPLAY=%q\nexport XAUTHORITY=%q\n' "$DISPLAY" "$auth" > "$output/display.env"
-echo "Owned authenticated XQuartz display $DISPLAY, pid $server."
+echo "Owned authenticated rootless XQuartz display $DISPLAY, server group $server, window-manager group $manager."

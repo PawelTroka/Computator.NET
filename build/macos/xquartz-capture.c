@@ -30,7 +30,7 @@ static unsigned channel(unsigned long pixel, unsigned long mask)
     return (unsigned)(((pixel >> shift) & mask) * 255 / mask);
 }
 
-API int ComputatorMacDrawableArgb(unsigned long window, uint32_t *pixels, size_t capacity)
+API int ComputatorMacDrawableArgb(unsigned long window, uint32_t *pixels, size_t capacity, int *info)
 {
     Display *display = XOpenDisplay(NULL);
     if (!display) return -1;
@@ -41,6 +41,12 @@ API int ComputatorMacDrawableArgb(unsigned long window, uint32_t *pixels, size_t
     XSync(display, False);
     XImage *image = XGetImage(display, window, 0, 0, (unsigned)attributes.width, (unsigned)attributes.height, AllPlanes, ZPixmap);
     if (!image) { XCloseDisplay(display); return -3; }
+    info[0] = image->width; info[1] = image->height;
+    info[2] = image->bytes_per_line; info[3] = image->bits_per_pixel;
+    if (image->width <= 0 || image->height <= 0 || (size_t)image->width * image->height > capacity ||
+        image->bytes_per_line < (image->width * image->bits_per_pixel + 7) / 8) {
+        XDestroyImage(image); XCloseDisplay(display); return -4;
+    }
     for (int y = 0; y < image->height; y++) {
         for (int x = 0; x < image->width; x++) {
             unsigned long pixel = XGetPixel(image, x, y);
