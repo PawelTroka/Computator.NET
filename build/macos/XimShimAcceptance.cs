@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -15,7 +13,7 @@ internal static class XimShimAcceptance
     {
         if (Environment.GetEnvironmentVariable("COMPUTATOR_MAC_XIM_SHIM") != "1") return;
         Require(Environment.GetEnvironmentVariable("MONO_WINFORMS_XIM_STYLE") != "disabled", "Shim acceptance must enable the actual XIM path.");
-        VerifyMonoImports();
+        MonoXimContract.Validate(typeof(Form).Assembly);
         Require(AbiVersion() == 1, "Unsupported packaged XIM ABI shim.");
         IntPtr display = XOpenDisplay(IntPtr.Zero);
         Require(display != IntPtr.Zero, "XIM contract needs the actual authenticated display.");
@@ -72,28 +70,6 @@ internal static class XimShimAcceptance
             if (window != IntPtr.Zero) XDestroyWindow(display, window);
             XCloseDisplay(display);
         }
-    }
-
-    private static void VerifyMonoImports()
-    {
-        Type keyboard = typeof(Form).Assembly.GetType("System.Windows.Forms.X11Keyboard", true);
-        foreach (var entry in new[] { Tuple.Create("XCreateIC", new[] { 6, 8 }), Tuple.Create("XVaCreateNestedList", new[] { 4, 6, 10 }),
-                                      Tuple.Create("XGetIMValues", new[] { 4 }), Tuple.Create("XGetICValues", new[] { 4 }), Tuple.Create("XSetICValues", new[] { 4 }) })
-        {
-            var methods = keyboard.GetMethods(BindingFlags.NonPublic | BindingFlags.Static).Where(m => m.Name == entry.Item1).ToArray();
-            Require(methods.Select(m => m.GetParameters().Length).OrderBy(n => n).SequenceEqual(entry.Item2),
-                "Mono XIM imports differ from the reviewed 6.14.1 ABI: " + entry.Item1);
-            foreach (var method in methods)
-            {
-                var import = (DllImportAttribute)Attribute.GetCustomAttribute(method, typeof(DllImportAttribute));
-                Require(import != null && import.Value == "libX11" && import.EntryPoint == entry.Item1, "Unexpected Mono native import metadata.");
-            }
-        }
-        Type nativePoint = typeof(Form).Assembly.GetType("System.Windows.Forms.XPoint", true);
-        Require(nativePoint.IsClass && Marshal.SizeOf(nativePoint) == 4, "Mono XPoint must remain a four-byte sequential class passed by pointer.");
-        Type mask = typeof(Form).Assembly.GetType("System.Windows.Forms.EventMask", true);
-        Type style = typeof(Form).Assembly.GetType("System.Windows.Forms.XIMProperties", true);
-        Require(Enum.GetUnderlyingType(mask) == typeof(int) && Enum.GetUnderlyingType(style) == typeof(int), "Mono XIM enum widths changed.");
     }
 
     private static void Require(bool value, string message) { if (!value) throw new InvalidOperationException(message); }

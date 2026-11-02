@@ -21,6 +21,8 @@ if [[ -n ${COMPUTATOR_MAC_DISPLAY_ENV:-} ]]; then source "$COMPUTATOR_MAC_DISPLA
 validation_temp=$(mktemp -d "${TMPDIR:-/tmp}/computator-mac-acceptance.XXXXXXXX")
 trap 'rm -rf -- "$validation_temp"' EXIT
 mkdir -p "$validation_temp/startup" "$validation_temp/smoke" "$validation_temp/config" "$validation_temp/cache"
+"$COMPUTATOR_MCS" -nologo -out:"$validation_temp/XimContractTests.exe" build/macos/MonoXimContract.cs build/macos/MonoXimContractTests.cs
+"$COMPUTATOR_MONO" "$validation_temp/XimContractTests.exe" | tee "$results/xim-metadata-contracts.log"
 "$COMPUTATOR_MONO" --version | tee "$results/runtime.log"
 sw_vers >> "$results/runtime.log"
 git rev-parse HEAD >> "$results/runtime.log"

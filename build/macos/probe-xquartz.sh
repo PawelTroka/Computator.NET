@@ -86,7 +86,7 @@ status=0
     printf 'Compiler executable: %s\n' "$(command -v "$mcs_command")"
     "$mono_command" --version
     "$mcs_command" -nologo -r:System.Drawing -r:System.Windows.Forms \
-        -out:"$probe_temp/XQuartzProbe.exe" "$repository/build/macos/XQuartzProbe.cs" "$repository/build/macos/XimShimAcceptance.cs" "$repository/build/macos/MacDrawableCapture.cs"
+        -out:"$probe_temp/XQuartzProbe.exe" "$repository/build/macos/XQuartzProbe.cs" "$repository/build/macos/XimShimAcceptance.cs" "$repository/build/macos/MacDrawableCapture.cs" "$repository/build/macos/MonoXimContract.cs"
     export MONO_MWF_MAC_FORCE_X11=1
     if [[ -n "${COMPUTATOR_MAC_LIBRARY_PATH:-}" ]]; then
         export DYLD_LIBRARY_PATH="$COMPUTATOR_MAC_LIBRARY_PATH"
