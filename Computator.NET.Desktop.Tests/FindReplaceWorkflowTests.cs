@@ -6,6 +6,7 @@ using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
@@ -329,22 +330,22 @@ namespace Computator.NET.Desktop.Tests
             OpenScript(kind, "shortcuts.tsl", "x x");
             Target(_scripts).Select(0, 1);
             FocusNative(_scripts);
-            SendKeys.SendWait("^f");
+            SendNativeKeys(_window, "^f");
             PumpUntil(() => _window.OwnedForms.OfType<FindReplaceDialog>().Any(form => form.Visible));
             var dialog = Dialog();
             NUnit.Framework.Assert.That(Field<TextBox>(dialog, "findText").Text, Is.EqualTo("x"));
             NUnit.Framework.Assert.That(Field<TextBox>(dialog, "replacementText").Visible, Is.False);
-            SendKeys.SendWait("^h");
+            SendNativeKeys(dialog, "^h");
             PumpUntil(() => Field<TextBox>(dialog, "replacementText").Visible);
             dialog.Hide();
             FocusNative(_scripts);
-            SendKeys.SendWait("{F3}");
+            SendNativeKeys(_window, "{F3}");
             PumpUntil(() => dialog.Visible);
             AssertSelection(Target(_scripts), 2, "x");
-            SendKeys.SendWait("+{F3}");
+            SendNativeKeys(dialog, "+{F3}");
             Application.DoEvents();
             AssertSelection(Target(_scripts), 0, "x");
-            SendKeys.SendWait("{ESC}");
+            SendNativeKeys(dialog, "{ESC}");
             PumpUntil(() => dialog.IsDisposed);
         }
 
@@ -362,13 +363,18 @@ namespace Computator.NET.Desktop.Tests
             var panel = WpfDescendants(avalon).OfType<SearchPanel>().Single();
             panel.UseRegex = true;
             panel.SearchPattern = @"a\d";
+            PumpWpfInput();
             Target(_scripts).Select(0, 0);
             panel.FindNext();
             AssertSelection(Target(_scripts), 3, "a1");
             FocusNative(_scripts);
-            SendKeys.SendWait("{F3}");
-            Application.DoEvents();
+            PumpWpfInput();
+            SendNativeKeys(_window, "{F3}");
+            PumpWpfInput();
             AssertSelection(Target(_scripts), 6, "a2");
+            SendNativeKeys(_window, "+{F3}");
+            PumpWpfInput();
+            AssertSelection(Target(_scripts), 3, "a1");
             NUnit.Framework.Assert.That(dialog.Visible, Is.False);
             _replaceMenu.PerformClick();
             NUnit.Framework.Assert.That(Dialog(), Is.SameAs(dialog));
@@ -483,6 +489,27 @@ namespace Computator.NET.Desktop.Tests
                 Thread.Sleep(10);
             }
             NUnit.Framework.Assert.That(condition(), Is.True, "Native window did not reach the expected state.");
+        }
+
+        private static void PumpWpfInput()
+        {
+            // WinForms DoEvents does not establish a WPF dispatcher frame.
+            // Complete binding/focus/input work before asserting native search.
+            var frame = new System.Windows.Threading.DispatcherFrame();
+            System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(
+                System.Windows.Threading.DispatcherPriority.ContextIdle,
+                new Action(() => frame.Continue = false));
+            System.Windows.Threading.Dispatcher.PushFrame(frame);
+        }
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
+
+        private static void SendNativeKeys(Form expectedWindow, string keys)
+        {
+            NUnit.Framework.Assert.That(GetForegroundWindow(), Is.EqualTo(expectedWindow.Handle),
+                "The owned test window must hold foreground focus before sending native keys.");
+            SendKeys.SendWait(keys);
         }
 
         private void SaveScreenshot(FindReplaceDialog dialog, string name)
