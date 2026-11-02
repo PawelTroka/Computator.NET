@@ -4,7 +4,7 @@ This is the existing desktop application on Framework Mono, with its complete
 managed payload and a private native drawing/numerical library closure.
 
 Prerequisites: native Mono 6.14.1 or newer matching the package architecture, XQuartz 2.8.6,
-and macOS 15. The Intel and Apple Silicon candidates are separate packages.
+and macOS @MINIMUM_MACOS_VERSION@ or newer. The Intel and Apple Silicon candidates are separate packages.
 Install XQuartz and log out/back in before first use. A .NET SDK, Node, Python,
 Homebrew drawing libraries and a Windows server are not application prerequisites.
 Homebrew's Mono installation is the default runtime location; COMPUTATOR_MONO

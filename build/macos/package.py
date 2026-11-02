@@ -129,6 +129,24 @@ def dependencies(path):
     return result
 
 
+def deployment_minimum(path):
+    versions=[]
+    for block in re.split(r"\nLoad command \d+\n",run("otool","-l",str(path))):
+        if re.search(r"\bcmd LC_BUILD_VERSION\b",block):
+            match=re.search(r"^\s*minos (\d+\.\d+(?:\.\d+)?)\s*$",block,re.M)
+        elif re.search(r"\bcmd LC_VERSION_MIN_MACOSX\b",block):
+            match=re.search(r"^\s*version (\d+\.\d+(?:\.\d+)?)\s*$",block,re.M)
+        else:
+            continue
+        if not match:
+            raise ValueError("Cannot read the actual Mach-O deployment minimum: "+str(path))
+        version=tuple(map(int,match[1].split('.')))
+        versions.append(version+(0,)*(3-len(version)))
+    if not versions:
+        raise ValueError("Packaged dylib has no reviewed macOS deployment command: "+str(path))
+    return max(versions)
+
+
 def resolve_dependency(name, owner):
     if name.startswith(("/usr/lib/", "/System/Library/")):
         return None
@@ -183,6 +201,7 @@ def copy_closure(selected, target, architecture):
                 raise ValueError(f"Relocated library retains a host dependency: {link}")
         provenance.append({"originalPath": str(source), "originalSha256": sha(source),
                            "packagedFile": copied.name, "packagedSha256": sha(copied),
+                           "macOSDeploymentMinimum": ".".join(map(str,deployment_minimum(copied))),
                            "originalDependencies": links, "packagedDependencies": dependencies(copied)})
     return provenance
 
@@ -300,11 +319,15 @@ def main():
         selected["xim"] = entries["computator_xim"]
     destination = resources / "native" / rid
     provenance = copy_closure(selected, destination, architecture)
+    minimum=max((15,0,0),*(tuple(map(int,item['macOSDeploymentMinimum'].split('.'))) for item in provenance))
+    minimum_text='.'.join(map(str,minimum[:2] if minimum[2]==0 else minimum))
     corresponding_sources = retain_sources(provenance, prepared, resources)
     for source, target in (("launcher.sh", bundle / "Contents/MacOS/Computator.NET"),
                            ("PACKAGE.txt", resources / "README.txt")):
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(ROOT / "build/macos" / source, target)
+    instructions=resources/'README.txt'
+    instructions.write_text(instructions.read_text().replace('@MINIMUM_MACOS_VERSION@',minimum_text))
     (bundle / "Contents/MacOS/Computator.NET").chmod(0o755)
     bundle_icon(resources)
     # Fontconfig must not retain a dependency on the build account's Homebrew.
@@ -319,6 +342,7 @@ def main():
     metadata = json.loads((resources / "mono-package.json").read_text())
     metadata.update(rid=rid, native={name: (Path("native") / rid / path.name).as_posix() for name, path in selected.items()},
                     runtime={"monoTestedVersion": "6.14.1", "monoMinimumVersion": "6.14.1", "xquartzVersion": "2.8.6", "framework": "net48",
+                             "macOSMinimum": minimum_text,
                              "externalPrerequisites": ["native Mono>=6.14.1 with reviewed WinForms ABI", "XQuartz2.8.6", "macOS15 system fonts"],
                              "ownerSigned": False, "notarized": False, "adHocDylibIntegritySignatures": True},
                     nativeProvenance={"libraries": provenance, "correspondingSources": corresponding_sources})
@@ -329,7 +353,7 @@ def main():
                       "CFBundleIdentifier": "net.computator.mono", "CFBundleExecutable": "Computator.NET",
                       "CFBundleIconFile": "Computator.NET.icns",
                       "CFBundlePackageType": "APPL", "CFBundleVersion": version,
-                      "CFBundleShortVersionString": version, "LSMinimumSystemVersion": "15.0",
+                      "CFBundleShortVersionString": version, "LSMinimumSystemVersion": minimum_text,
                       "NSHighResolutionCapable": True}, stream)
     metadata["bundleBootstrap"] = [{"path": name, "size": (bundle / name).stat().st_size,
                                     "sha256": sha(bundle / name)}
