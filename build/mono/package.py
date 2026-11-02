@@ -119,6 +119,8 @@ def inventory(root):
 
 
 def write_manifest(root, metadata):
+    if 'application' in metadata:
+        metadata['application']['files'] = len(list(payload_files(root / 'app')))
     metadata.update(schemaVersion=1, files=inventory(root))
     (root / MANIFEST).write_text(json.dumps(metadata, indent=2, sort_keys=True) + '\n', encoding='utf-8')
 
@@ -324,7 +326,12 @@ def linux_package(args):
     for source, target in [('launcher.sh', 'bin/computator'), ('install-user.sh', 'bin/install-desktop-entry')]:
         shutil.copyfile(ROOT / 'build/mono' / source, root / target)
         (root / target).chmod(0o755)
-    shutil.copyfile(ROOT / 'build/mono/LINUX-PACKAGE.txt', root / 'README.txt')
+    instructions = (ROOT / 'build/mono/LINUX-PACKAGE.txt').read_text()
+    requirements = {'ubuntu-22.04': ('22.04', 'libtiff5', 'libpng16-16', 'libcups2'),
+                    'ubuntu-24.04': ('24.04', 'libtiff6', 'libpng16-16t64', 'libcups2t64')}
+    for token, value in zip(('UBUNTU_VERSION', 'TIFF_PACKAGE', 'PNG_PACKAGE', 'CUPS_PACKAGE'), requirements[args.baseline]):
+        instructions = instructions.replace('@' + token + '@', value)
+    (root / 'README.txt').write_text(instructions)
     metadata.update(rid=args.rid, baseline=args.baseline, managedRuntime={'facades': 'app/Facades',
                     'provenance': 'share/mono-facades-provenance.json'},
                     native={'gsl': f'native/{args.rid}/gsl/' + gsl['entryPoint'],
