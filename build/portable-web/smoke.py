@@ -75,8 +75,17 @@ def main() -> int:
     environment['ASPNETCORE_PREFERHOSTINGURLS'] = 'true'
     environment['Kestrel__Endpoints__Injected__Url'] = f'http://127.0.0.1:{endpoint_port}'
     observations: list[dict] = []
+    fixtures: list[dict] = []
+    lifecycle_timings: list[dict] = []
+    short_deadline = 10
+    lifecycle_deadline = 45
+    worker_readiness = 20
+    cancellation_cleanup = 3
+    shutdown_cleanup = 8
+    deadline_margin = 5
     runtime: dict = {}
     server: subprocess.Popen | None = None
+    owned_servers: list[subprocess.Popen] = []
     started = datetime.now(timezone.utc).isoformat()
     repository = Path(__file__).resolve().parents[2]
     checkout_commit = subprocess.check_output(['git', '-C', str(repository), 'rev-parse', 'HEAD'], text=True).strip()
@@ -86,7 +95,7 @@ def main() -> int:
     client = urllib.request.build_opener(urllib.request.ProxyHandler({}))
 
     def request(path: str, payload=None, *, raw: bytes | None = None,
-                headers: dict[str, str] | None = None, method: str | None = None):
+                headers: dict[str, str] | None = None, method: str | None = None, timeout: float = 20):
         actual_headers = dict(headers or {})
         data = raw
         if payload is not None:
@@ -95,7 +104,7 @@ def main() -> int:
             actual_headers.setdefault('Content-Type', 'application/json')
         query = urllib.request.Request(base + path, data=data, headers=actual_headers, method=method)
         try:
-            response = client.open(query, timeout=20)
+            response = client.open(query, timeout=timeout)
         except urllib.error.HTTPError as error:
             response = error
         with response:
@@ -104,8 +113,8 @@ def main() -> int:
             parsed = json.loads(body) if body and 'json' in content_type else body.decode('utf-8', errors='replace')
             return response.status, parsed, content_type
 
-    def status():
-        code, body, _ = request('/api/portable/status')
+    def status(timeout: float = 20):
+        code, body, _ = request('/api/portable/status', timeout=timeout)
         require(code == 200 and isinstance(body, dict), f'Invalid status response: {code} {body}')
         return body
 
@@ -113,7 +122,7 @@ def main() -> int:
         deadline = time.monotonic() + timeout
         last = None
         while time.monotonic() < deadline:
-            last = status().get('activeWorkerCount')
+            last = status(timeout=min(1, max(0.05, deadline - time.monotonic()))).get('activeWorkerCount')
             if last == expected:
                 return
             time.sleep(0.05)
@@ -221,8 +230,23 @@ def main() -> int:
                     f'Hostile browser request was accepted: {headers}')
         require(request('/api/v2/execute', raw=b'2+2', headers={'Content-Type': 'text/plain'})[0] == 415,
                 'Execution must require application/json.')
-        require(request('/api/v2/execute', raw=b'{"expression":"' + b'1' * 262145 + b'"}')[0] == 413,
-                'Oversized request body was not rejected.')
+        # A server may terminate an oversized request while replying 413
+        # (RFC9110 15.5.14). Sending the entire body first races that early
+        # response with a macOS socket reset. Read the actual response to an
+        # oversized Content-Length before uploading bytes; a reset is never a
+        # passing substitute for 413, and accepting the body times out/fails.
+        connection = http.client.HTTPConnection('127.0.0.1', port, timeout=5)
+        try:
+            connection.putrequest('POST', '/api/v2/execute')
+            connection.putheader('Content-Type', 'application/json')
+            connection.putheader('Content-Length', '262145')
+            connection.putheader('Expect', '100-continue')
+            connection.endheaders()
+            response = connection.getresponse()
+            require(response.status == 413, f'Oversized request returned {response.status}, expected 413.')
+            response.read()
+        finally:
+            connection.close()
         execute({'operation': 'calculate', 'expression': '1' * 65537}, 400)
         number(payload, 4)
 
@@ -258,6 +282,29 @@ def main() -> int:
             return
         raise AssertionError(f'OS process {pid} still exists after worker cleanup.')
 
+    def wait_executing_workers(pid_files: list[Path], started_at: float) -> list[int]:
+        while time.monotonic() - started_at < worker_readiness:
+            if all(path.is_file() and path.stat().st_size > 0 for path in pid_files):
+                try:
+                    pids = [read_worker_pid(path) for path in pid_files]
+                except ValueError:  # File.WriteAllText may have opened but not completed its PID write yet.
+                    pass
+                else:
+                    for pid in pids:
+                        os.kill(pid, 0)
+                    return pids
+            time.sleep(0.05)
+        raise AssertionError('Workers did not start in time to independently test lifecycle cleanup.')
+
+    def disconnect(connections) -> None:
+        for connection in connections:
+            if connection.sock is not None:
+                try:
+                    connection.sock.shutdown(socket.SHUT_RDWR)
+                except OSError:
+                    pass
+            connection.close()
+
     def timeout_and_recovery() -> None:
         pid_file, source = traced_worker('timeout')
         execute({'operation': 'script', 'expression': source}, 504)
@@ -270,6 +317,9 @@ def main() -> int:
         pid_files = []
         pids = []
         started_at = time.monotonic()
+        timing = {'phase': 'client-cancellation', 'workerDeadlineSeconds': lifecycle_deadline,
+                  'readinessBoundSeconds': worker_readiness, 'cleanupBoundSeconds': cancellation_cleanup}
+        lifecycle_timings.append(timing)
         try:
             for index in range(2):
                 pid_file, source = traced_worker(f'cancel-{index}')
@@ -280,28 +330,24 @@ def main() -> int:
                                    {'Content-Type': 'application/json'})
                 connections.append(connection)
             wait_workers(2)
-            # Abort while the ten-second worker deadlines still have at least
-            # four seconds left. The subsequent three-second check therefore
-            # cannot pass merely because those deadlines expired normally.
-            while not all(path.is_file() for path in pid_files) and time.monotonic() - started_at < 6:
-                time.sleep(0.05)
-            require(time.monotonic() - started_at < 6, 'Workers did not start in time to independently test cancellation.')
-            pids = [read_worker_pid(path) for path in pid_files]
-            for pid in pids:
-                os.kill(pid, 0)
-            code, _, _ = request('/api/v2/execute', {'operation': 'calculate', 'expression': '1'})
+            pids = wait_executing_workers(pid_files, started_at)
+            timing['executingWorkerSeconds'] = round(time.monotonic() - started_at, 3)
+            code, _, _ = request('/api/v2/execute', {'operation': 'calculate', 'expression': '1'}, timeout=3)
             require(code == 429, f'Saturated worker capacity returned {code}, expected 429.')
+            elapsed = time.monotonic() - started_at
+            require(elapsed + cancellation_cleanup + deadline_margin < lifecycle_deadline,
+                    'Insufficient deadline margin to independently prove client cancellation.')
+            timing['remainingDeadlineSecondsAtAbort'] = round(lifecycle_deadline - elapsed, 3)
         finally:
-            for connection in connections:
-                if connection.sock is not None:
-                    try:
-                        connection.sock.shutdown(socket.SHUT_RDWR)
-                    except OSError:
-                        pass
-                connection.close()
-        wait_workers(0, timeout=3)
-        for pid in pids:
-            require_reaped(pid)
+            disconnect(connections)
+            cleanup_started = time.monotonic()
+            # This must also run when readiness/capacity assertions fail; do not
+            # leave occupied slots to contaminate the later shutdown fixture.
+            wait_workers(0, timeout=cancellation_cleanup)
+            for path in pid_files:
+                if path.is_file() and path.stat().st_size > 0:
+                    require_reaped(read_worker_pid(path))
+            timing['cleanupSeconds'] = round(time.monotonic() - cleanup_started, 3)
         number({'operation': 'calculate', 'expression': '7*6'}, 42)
 
     def graceful_shutdown() -> None:
@@ -309,44 +355,63 @@ def main() -> int:
         if os.name == 'nt':
             raise AssertionError('This POSIX SIGTERM acceptance check is intended for the documented Linux/macOS hosts.')
         pid_file, source = traced_worker('shutdown')
+        wait_workers(0, timeout=cancellation_cleanup)
+        started_at = time.monotonic()
+        timing = {'phase': 'server-shutdown', 'workerDeadlineSeconds': lifecycle_deadline,
+                  'readinessBoundSeconds': worker_readiness, 'cleanupBoundSeconds': shutdown_cleanup}
+        lifecycle_timings.append(timing)
         connection = http.client.HTTPConnection('127.0.0.1', port, timeout=5)
         try:
             connection.request('POST', '/api/v2/execute',
                                json.dumps({'operation': 'script', 'expression': source}),
                                {'Content-Type': 'application/json'})
             wait_workers(1)
-            deadline = time.monotonic() + 6
-            while not pid_file.is_file() and time.monotonic() < deadline:
-                time.sleep(0.05)
-            worker_pid = read_worker_pid(pid_file)
-            os.kill(worker_pid, 0)
+            worker_pid = wait_executing_workers([pid_file], started_at)[0]
+            elapsed = time.monotonic() - started_at
+            require(elapsed + shutdown_cleanup + deadline_margin < lifecycle_deadline,
+                    'Insufficient deadline margin to independently prove shutdown cleanup.')
+            timing['executingWorkerSeconds'] = round(elapsed, 3)
+            timing['remainingDeadlineSecondsAtStop'] = round(lifecycle_deadline - elapsed, 3)
             # Signal only the server. Killing the whole process group here would
             # mask a failure of the application's own child cleanup behavior.
             server.terminate()
-            server.wait(timeout=8)
+            cleanup_started = time.monotonic()
+            server.wait(timeout=shutdown_cleanup)
             require_reaped(worker_pid)
+            timing['cleanupSeconds'] = round(time.monotonic() - cleanup_started, 3)
         finally:
-            connection.close()
+            disconnect([connection])
+            if server.poll() is None:
+                wait_workers(0, timeout=cancellation_cleanup)
+            if pid_file.is_file() and pid_file.stat().st_size > 0:
+                require_reaped(read_worker_pid(pid_file))
+
+    def start_server(log, seconds: int, name: str) -> None:
+        nonlocal server
+        server = subprocess.Popen([str(app), '--port', str(port), '--execution-timeout-seconds', str(seconds)],
+                                  cwd=published, env=environment, stdout=log, stderr=subprocess.STDOUT,
+                                  start_new_session=os.name != 'nt')
+        owned_servers.append(server)
+        fixture = {'name': name, 'executionTimeoutSeconds': seconds, 'serverPid': server.pid}
+        fixtures.append(fixture)
+        then = time.monotonic()
+        while time.monotonic() - then < 30:
+            if server.poll() is not None:
+                raise RuntimeError(f'Published server exited with {server.returncode}; see {output / "server.log"}.')
+            try:
+                status(timeout=1)
+                fixture['readySeconds'] = round(time.monotonic() - then, 3)
+                return
+            except (OSError, urllib.error.URLError):
+                time.sleep(0.1)
+        raise TimeoutError('Published server did not become ready within 30 seconds.')
 
     try:
         run('portable publication dependency graph', dependencies)
         with (output / 'runtime-info.log').open('w') as info:
             subprocess.run([dotnet, '--info'], stdout=info, stderr=subprocess.STDOUT, timeout=30, check=True)
         with (output / 'server.log').open('w') as log:
-            server = subprocess.Popen([str(app), '--port', str(port), '--execution-timeout-seconds', '10'],
-                                      cwd=published, env=environment, stdout=log, stderr=subprocess.STDOUT,
-                                      start_new_session=os.name != 'nt')
-            deadline = time.monotonic() + 30
-            while time.monotonic() < deadline:
-                if server.poll() is not None:
-                    raise RuntimeError(f'Published server exited with {server.returncode}; see {output / "server.log"}.')
-                try:
-                    status()
-                    break
-                except (OSError, urllib.error.URLError):
-                    time.sleep(0.1)
-            else:
-                raise TimeoutError('Published server did not become ready within 30 seconds.')
+            start_server(log, short_deadline, 'functional-and-short-deadline')
             run('native apphost runtime and honest capability boundary', advertised_scope)
             run('production browser files and API routing', production_ui)
             run('real calculation changes with x', lambda: (
@@ -358,13 +423,20 @@ def main() -> int:
             run('local HTTP origin, host and source boundaries', local_boundary)
             run('explicit unsupported operations and error recovery', unsupported_and_recovery)
             run('execution deadline reaps worker and recovers', timeout_and_recovery)
+            # Keep the short default deadline proof above. A separate server
+            # gives slower cold-worker startup room while keeping cancellation
+            # and SIGTERM cleanup strictly earlier than the worker deadline.
+            wait_workers(0)
+            server.terminate()
+            server.wait(timeout=shutdown_cleanup)
+            start_server(log, lifecycle_deadline, 'independent-cancellation-and-shutdown')
             run('capacity bound and client cancellation reap workers', cancellation_and_capacity)
             run('graceful server shutdown reaps an executing TSL worker', graceful_shutdown)
     except Exception as error:
         observations.append({'name': 'published host lifecycle', 'passed': False, 'error': str(error)})
         print(f'FAIL published host lifecycle: {error}', flush=True)
     finally:
-        if server is not None:
+        for server in owned_servers:
             if server.poll() is None:
                 if os.name != 'nt':
                     os.killpg(server.pid, signal.SIGTERM)
@@ -392,6 +464,7 @@ def main() -> int:
                   'checkoutCommit': checkout_commit, 'checkoutDirty': checkout_dirty,
                   'publishedDirectory': str(published), 'nativeApphost': str(app),
                   'workerPidDirectory': str(pid_directory),
+                  'serverFixtures': fixtures, 'lifecycleTimings': lifecycle_timings,
                   'publishedAssemblySha256': hashlib.sha256((published / 'Computator.NET.PortableWeb.dll').read_bytes()).hexdigest(),
                   'expectedRid': args.expected_rid, 'checks': observations,
                   'passed': bool(observations) and all(item['passed'] for item in observations)}
