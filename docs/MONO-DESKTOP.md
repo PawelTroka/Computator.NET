@@ -162,6 +162,41 @@ another UI framework. Signed/notarized distribution and physical input-method,
 clipboard, printing, accessibility and monitor/DPI acceptance remain separate
 release gates. Consult the PR's exact-commit reports for current progress.
 
+Native builds use the repository's SDK/Cake pins, Python 3.11+, native Homebrew
+for that architecture, Xcode command-line tools and the development prerequisites
+in `build/macos/prepare.sh`. End users need the matching Mono runtime and XQuartz,
+not those build tools or Homebrew drawing libraries. The source-pinned private
+libgdiplus, GSL/CBLAS and non-system drawing dylib closure are bundled; the
+launcher supplies private font/module configuration. The bundle's README and
+Info.plist record its actual minimum macOS version, derived from the copied
+Mach-O binaries with a floor of macOS 15.0.
+
+```sh
+# Check/build the private native stack without modifying global Mono dllmaps:
+./build.sh --target=Mono-Mac-Prepare
+# Optional explicit installation of missing build dependencies/XQuartz:
+./build.sh --target=Mono-Mac-Prepare --mono-install-dependencies=true
+# With an authenticated XQuartz DISPLAY:
+./build.sh --target=Mono-Mac-Validate
+./build.sh --target=Mono-Mac-Package-Validate
+```
+
+The last target requires source-native acceptance, produces
+`artifacts/macos/package/Release/Computator.NET-mono-osx-arm64.zip` on Apple
+Silicon (`osx-x64` on Intel), then validates a relocated, read-only `.app` in a
+path containing spaces. It checks bootstrap files and Resources inventory,
+runtime/native imports, actual production startup and the complete shared
+suite. Test capture helpers stay outside the installation. On disposable CI,
+original drawing candidates and build-host font/module data are temporarily
+hidden and restored; process traces must select the packaged drawing closure.
+The ordinary launcher never changes display modes or hides system dependencies.
+
+The executable inside the bundle is `Contents/MacOS/Computator.NET`; its
+`--preflight` option prints native dependency/architecture evidence without
+starting the desktop. The `.app` can be moved as a whole. Rewritten dylibs carry
+local ad-hoc integrity signatures; these do not identify an owner or establish
+Gatekeeper/notarization acceptance.
+
 ## Acceptance and remaining limits
 
 The production startup probe invokes the real application entry point with its
@@ -180,6 +215,24 @@ checkpoints, not evidence for later source changes. Configuration contracts also
 execute the actual managed preflight and reject tampering, wrong architecture,
 unrecorded files, unsafe mappings and writes back through redirected caches.
 Use the final candidate's fresh workflow reports and archive hashes for release.
+
+The current suite requires at least 54 cases, including restored compiled 3D
+plot commands and exact decimal-input rounding. Mono's BCL and UTF8 parser can
+round `8.88024331` one ULP high. The application's fast literal path and
+`FromMathString` now retain their invariant grammar/exception behavior while
+using the already-shipped Roslyn parser for correctly rounded finite values.
+Stored/generated constants are unchanged. This adapter does not replace Mono's
+BCL: an explicit `System.Double.Parse` call in user code retains that runtime's
+behavior. Regression checks cover all 429 authored/emitted constants, signs,
+negative zero, midpoint ties, normal/subnormal boundaries and regional cultures.
+
+XQuartz rootless X11 readback can be black, clipped or inconsistent with the
+native compositor. Mac acceptance therefore correlates the actual X11 window's
+native ID and geometry with CoreGraphics, then crops a single real full-display
+capture using measured pixel/point scales. It preserves popup occlusion and
+rejects off-display requests. Calibration requires known colors and an actual
+XTEST-triggered repaint. Linux retains its existing X11 screen readback. No
+paint/input assertion is satisfied with a synthetic offscreen control image.
 
 Coverage includes expressions, scripts, unsaved custom functions, native GSL and
 recovery, numerical delegates, JSON/trusted NRBF migration, file identity,
