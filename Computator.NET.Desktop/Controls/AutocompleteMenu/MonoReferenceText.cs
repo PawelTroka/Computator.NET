@@ -21,6 +21,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             ReadOnly = true;
             DetectUrls = false;
             BorderStyle = BorderStyle.None;
+            Font = new Font(FontFamily.GenericSansSerif, 10f);
             BackColor = Color.White;
             ForeColor = Color.Black;
             Dock = DockStyle.Fill;

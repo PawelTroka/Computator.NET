@@ -65,6 +65,8 @@ rm -f -- "$results/production-complex-before.png" "$results/production-complex-a
     "$results/complex-visible-z-cubed.png" "$results/complex-visible-resized.png" \
     "$results/complex-visible-cleared.png" "$results/complex-visible-recovered.png" \
     "$results/complex-visible-render-failure.png" "$results/complex-visible-after-render-failure.png"
+rm -f -- "$results/autocomplete-after.png"
+
 status=0
 COMPUTATOR_DATA_DIRECTORY="$validation_temp/startup" \
 XDG_CONFIG_HOME="$validation_temp/config" XDG_CACHE_HOME="$validation_temp/cache" \

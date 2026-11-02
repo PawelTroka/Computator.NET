@@ -14,7 +14,13 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         public AutocompleteMenuHost(AutocompleteMenu menu)
         {
             AutoClose = false;
+#if __MonoCS__
+            // WinForms/Mono's autosizing can override the list's measured
+            // dimensions and restore a screen-wide popup.
+            AutoSize = false;
+#else
             AutoSize = true;
+#endif
             
             Margin = Padding.Empty;
             Padding = Padding.Empty;
@@ -52,6 +58,14 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
                     AutoSize = false,
                     AutoToolTip = false
                 };
+#if __MonoCS__
+                // Mono's ToolStripControlHost can center a shrunken list in
+                // its previous (screen-sized) hosting rectangle, leaving the
+                // actual X11 child window completely outside the popup.
+                // Top-left alignment keeps native hit testing and painting
+                // inside the visible ToolStripDropDown on every reflow.
+                Host.ControlAlign = ContentAlignment.TopLeft;
+#endif
 
                 (ListView as Control).MaximumSize = Menu.MaximumSize;
                 (ListView as Control).Size = Menu.MaximumSize;
@@ -74,6 +88,15 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             }
         }
 
+#if __MonoCS__
+        private bool KeepMonoPopup()
+        {
+            var target = Menu.TargetControlWrapper?.TargetControl;
+            return (target != null && target.ContainsFocus) ||
+                   ContainsFocus || Bounds.Contains(Control.MousePosition);
+        }
+#endif
+
         protected override void OnPaintBackground(PaintEventArgs e)
         {
             using (var brush = new SolidBrush(listView.Colors.BackColor))
@@ -89,12 +112,18 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         protected override void OnLostFocus(EventArgs e)
         {
             base.OnLostFocus(e);
+#if __MonoCS__
+            if (KeepMonoPopup()) return;
+#endif
             if (!(ListView as Control).Focused)
                 Close();
         }
 
         private void ListView_LostFocus(object sender, EventArgs e)
         {
+#if __MonoCS__
+            if (KeepMonoPopup()) return;
+#endif
             if (!Focused)
                 Close();
         }
