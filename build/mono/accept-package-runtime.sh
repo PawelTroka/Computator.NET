@@ -17,6 +17,11 @@ export MONO_PATH="$unpacked/app/Facades:$unpacked/app"
 export PATH=/usr/bin:/bin
 dpkg-query -W > "$evidence/runtime-packages.txt"
 mono --version > "$evidence/mono-version.txt"
+# The build host prepared this BCL-only test driver beside the external harness.
+# The end-user image still has no compiler, and the installed payload is read-only.
+mono_runtime=$(command -v mono)
+timeout --kill-after=5s 30s "$mono_runtime" "$evidence/harness/NativeToolProcessTests.exe" \
+    "$mono_runtime" "$evidence/native-tool-process" 2>&1 | tee "$evidence/native-tool-process-contracts.log"
 preflight=$unpacked/app/Computator.NET.Mono.Preflight.exe
 mono "$preflight" prepare --package-root "$unpacked" --config "$evidence/mono.config"
 COMPUTATOR_DATA_DIRECTORY="$evidence/profile-launcher" \

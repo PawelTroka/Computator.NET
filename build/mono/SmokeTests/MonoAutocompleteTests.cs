@@ -339,18 +339,7 @@ internal static partial class Program
 
     private static void Xdotool(string arguments)
     {
-        using (var process = Process.Start(new ProcessStartInfo("xdotool", arguments)
-        {
-            UseShellExecute = false, RedirectStandardError = true, CreateNoWindow = true
-        }))
-        {
-            if (!process.WaitForExit(6000))
-            {
-                process.Kill();
-                throw new InvalidOperationException("Timed out sending real X11 events: " + arguments);
-            }
-            Check(process.ExitCode == 0, "xdotool failed: " + process.StandardError.ReadToEnd());
-        }
+        NativeToolProcess.Run(new ProcessStartInfo("xdotool", arguments), 6000);
     }
 
     private static void WaitForX11(Func<bool> condition, string error)
@@ -378,29 +367,13 @@ internal static partial class Program
             + " reference=" + reference.Bounds
             + " visible(menu,ref)=" + menu.Visible + "," + reference.Visible
             + " parent=" + list.Parent?.GetType().FullName + Environment.NewLine;
-        using (var process = Process.Start(new ProcessStartInfo("xwininfo", "-root -tree")
-        {
-            UseShellExecute = false, RedirectStandardOutput = true,
-            RedirectStandardError = true, CreateNoWindow = true
-        }))
-        {
-            details += process.StandardOutput.ReadToEnd() + Environment.NewLine
-                + process.StandardError.ReadToEnd();
-            Check(process.WaitForExit(6000), "xwininfo hung during native window inspection.");
-        }
+        var tree = NativeToolProcess.Run(new ProcessStartInfo("xwininfo", "-root -tree"), 6000);
+        details += tree.StandardOutput + Environment.NewLine + tree.StandardError;
         foreach (var popup in new[] { menu, reference })
         {
             var nativeId = "0x" + popup.Handle.ToInt64().ToString("x");
-            using (var inspect = Process.Start(new ProcessStartInfo("xwininfo", "-id " + nativeId)
-            {
-                UseShellExecute = false, RedirectStandardOutput = true,
-                RedirectStandardError = true, CreateNoWindow = true
-            }))
-            {
-                details += nativeId + Environment.NewLine + inspect.StandardOutput.ReadToEnd()
-                    + Environment.NewLine + inspect.StandardError.ReadToEnd();
-                Check(inspect.WaitForExit(6000), "Native X11 map-state query hung.");
-            }
+            var inspect = NativeToolProcess.Run(new ProcessStartInfo("xwininfo", "-id " + nativeId), 6000);
+            details += nativeId + Environment.NewLine + inspect.StandardOutput + Environment.NewLine + inspect.StandardError;
         }
         File.WriteAllText(Path.Combine(outputDirectory, "autocomplete-x11-windows.log"), details);
         Console.WriteLine(details);
