@@ -1,7 +1,9 @@
 using System;
 using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Windows.Forms;
 
 // Acceptance infrastructure only. XSync acknowledges server requests, not the
 // application's event handlers. Observe the actual owned XIDs and UI events.
@@ -50,13 +52,45 @@ internal static class NativeX11Input
     private static void Focus(IntPtr display, IntPtr owner, Action pump)
     {
         Wait(display, owner, owner, () => Viewable(display, owner), pump, "owned form mapping");
-        XSetInputFocus(display, owner, 2, UIntPtr.Zero); // RevertToParent, CurrentTime
+        // Mono's public Form.Handle is its client XID. Its distinct whole-window
+        // XID is what a native window manager focuses. Prove both IDs belong to
+        // the SAME live in-process Hwnd; do not accept arbitrary X11 ancestors
+        // (which would include the window manager's frame and the root window).
+        var whole = OwnedWholeWindow(display, owner);
+        Wait(display, owner, whole, () => Viewable(display, whole), pump, "owned whole-window mapping");
+        Console.WriteLine("Native X11 owned form pair: client=0x" + owner.ToInt64().ToString("x") +
+            " whole=0x" + whole.ToInt64().ToString("x"));
+        XSetInputFocus(display, whole, 2, UIntPtr.Zero); // RevertToParent, CurrentTime
         XSync(display, 0);
         Wait(display, owner, owner, () =>
         {
             IntPtr focus; int revert; XGetInputFocus(display, out focus, out revert);
-            return Within(display, focus, owner);
+            return focus == whole || Within(display, focus, owner);
         }, pump, "owned form input focus");
+    }
+
+    private static IntPtr OwnedWholeWindow(IntPtr display, IntPtr client)
+    {
+        const BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance;
+        var type = typeof(Control).Assembly.GetType("System.Windows.Forms.Hwnd", true);
+        var lookup = type.GetMethod("ObjectFromHandle", flags, null, new[] { typeof(IntPtr) }, null);
+        if (lookup == null) throw new InvalidOperationException("The Mono Hwnd ownership lookup is unavailable.");
+        var owned = lookup.Invoke(null, new object[] { client });
+        var clientProperty = type.GetProperty("ClientWindow", flags);
+        var wholeProperty = type.GetProperty("WholeWindow", flags);
+        if (owned == null || clientProperty == null || wholeProperty == null ||
+            (IntPtr)clientProperty.GetValue(owned, null) != client)
+            throw new InvalidOperationException("The requested XID is not a live in-process Mono client window.");
+        var whole = (IntPtr)wholeProperty.GetValue(owned, null);
+        if (whole.ToInt64() <= 1 || !ReferenceEquals(lookup.Invoke(null, new object[] { whole }), owned))
+            throw new InvalidOperationException("The Mono client and whole-window XIDs do not share their owned Hwnd.");
+        IntPtr root, parent, children; uint count;
+        if (XQueryTree(display, client, out root, out parent, out children, out count) == 0)
+            throw new InvalidOperationException("Cannot query the owned Mono client window's native parent.");
+        if (children != IntPtr.Zero) XFree(children);
+        if (whole != client && parent != whole)
+            throw new InvalidOperationException("The in-process Mono whole window is not the actual immediate client parent.");
+        return whole;
     }
 
     private static void Wait(IntPtr display, IntPtr owner, IntPtr target, Func<bool> ready, Action pump, string operation)
