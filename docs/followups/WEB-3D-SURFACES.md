@@ -31,6 +31,15 @@ consistent wheel zoom and touch zoom, shading and occlusion, numeric x/y/f(x,y) 
 at undefined points, tooltips, responsive resize without reevaluation, and PNG
 export of the composed view. In environments without functional WebGL, the
 application reports a rendering error instead of claiming to draw a surface.
+The default camera, axis margins and normalized display axes keep a tall
+paraboloid inside the initial and resized viewport, with room for axis labels.
+Normalized axis lengths are a presentation choice, not an equal-units geometric
+projection: the original x/y/f(x,y) coordinates and tick values remain unchanged.
+The chart states this distinction below the expression. Camera gestures still
+allow deliberate close-up views; Reset camera restores the complete default view.
+Browser regressions measure the actual rendered mesh's clearance from image
+edges in the initial/narrow viewport and the composed 1200×800 PNG, including
+the real mathematical API path.
 The client validates array shape/counts before passing data to Plotly.
 A functional WebGL context is a prerequisite: if disabled or unavailable
 (e.g. a software-only headless Firefox runner), the app displays a clear

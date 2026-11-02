@@ -1,8 +1,7 @@
 import { test, expect, type Locator, type Page, type Response } from '@playwright/test';
 import { readFile, writeFile } from 'node:fs/promises';
 
-// Copied into e2e/ only by the disposable PR #294 + 2D compatibility workflow.
-// This is a same-page lifecycle acceptance test against the published Windows
+// This integrated same-page lifecycle acceptance test uses the published Windows
 // API and real WebGL renderer. It has no intercepted requests or response fixtures.
 type Bounds = { xMin: number; xMax: number; yMin: number; yMax: number };
 type Curve = { kind: string; x: number[]; y: (number | null)[]; finiteSamples: number; missingSamples: number };

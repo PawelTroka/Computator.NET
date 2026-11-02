@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 type Eye = { x: number; y: number; z: number };
-const initialEye: Eye = { x: 1.55, y: 1.55, z: 1.2 };
+const initialEye: Eye = { x: 1.7, y: 1.7, z: 1.35 };
 
 // The sample grid is produced by the same server-side expression evaluator used
 // for numerical calculations. Plotly never parses or evaluates user definitions.
@@ -98,14 +98,17 @@ export function SurfacePlot({ grid, expression }: { grid: SurfaceGrid; expressio
         await Plotly.newPlot(div, [{
           type: 'surface', x: grid.x, y: grid.y, z: grid.z,
           connectgaps: false, showscale: true,
-          colorscale: 'Viridis',
+          colorscale: 'Viridis', colorbar: { len: 0.85, thickness: 16 },
           hovertemplate: 'x: %{x:.4g}<br>y: %{y:.4g}<br>f(x,y): %{z:.4g}<extra></extra>'
         }], {
-          autosize: true, margin: { l: 0, r: 0, b: 0, t: 0 },
+          autosize: true, margin: { l: 30, r: 60, b: 35, t: 20 },
           paper_bgcolor: '#23262c', font: { color: '#eff0f3' },
           scene: {
             xaxis: axis('x'), yaxis: axis('y'), zaxis: axis('f(x,y)'),
-            aspectmode: 'auto', dragmode: 'turntable',
+            // Equal display lengths keep a tall range such as x²+y² inside
+            // the initial viewport. Coordinates and tick values are unchanged;
+            // this is normalized presentation, not an equal-units projection.
+            aspectmode: 'cube', dragmode: 'turntable',
             camera: { eye: { ...initialEye } }
           }
         }, { responsive: true, scrollZoom: false, displaylogo: false,
@@ -172,7 +175,9 @@ export function SurfacePlot({ grid, expression }: { grid: SurfaceGrid; expressio
   return <figure>
     <div className="chart-surface" ref={host} role="img"
       aria-label={'Interactive 3D surface: ' + expression} data-testid="surface-chart" />
-    <figcaption>Rendered expression: <code>{expression}</code></figcaption>
+    <figcaption>Rendered expression: <code>{expression}</code>
+      <span className="d-block small">Axes use a normalized display scale; tick labels show the original values.</span>
+    </figcaption>
     <p className="text-muted small" role="status" aria-live="polite">
       {ready ? 'Interactive surface ready. Drag to rotate; use the mouse wheel or touch to zoom.'
         : error ? '3D rendering failed.' : 'Preparing interactive 3D view…'}
