@@ -109,6 +109,7 @@ internal static class DesktopMenuProbe
                 while ((reaped = waitpid(launchers[0], out status, 1)) == 0 && wait.Elapsed.TotalSeconds < 5) Thread.Sleep(50);
                 if (reaped != launchers[0] || (status >> 8) == 0)
                     throw new InvalidOperationException("The failed desktop launch did not exit with an error after dismissing its dialog.");
+                launchers.Clear(); // this owned child has already been reaped
             }
             Console.WriteLine("PASS " + label + ": actual delivered entry displayed native window " + window +
                 "; no terminal emulator or build tools required.");
@@ -120,12 +121,21 @@ internal static class DesktopMenuProbe
             {
                 // The separate production StartupProbe verifies graceful Form.Close.
                 // This launch probe cancels only its owned fresh-profile process tree.
-                foreach (var child in Descendants(pid).AsEnumerable().Reverse()) kill(child, 15);
-                kill(pid, 15);
-                var until = Stopwatch.StartNew();
                 int status;
-                while (waitpid(pid, out status, 1) == 0 && until.Elapsed.TotalSeconds < 5) Thread.Sleep(50);
-                if (waitpid(pid, out status, 1) == 0) { kill(pid, 9); waitpid(pid, out status, 0); }
+                if (waitpid(pid, out status, 1) == 0)
+                {
+                    // Signal the launcher first so its cancellation handler can
+                    // suppress crash dialogs and forward TERM to its child.
+                    kill(pid, 15);
+                    var until = Stopwatch.StartNew();
+                    int reaped;
+                    while ((reaped = waitpid(pid, out status, 1)) == 0 && until.Elapsed.TotalSeconds < 5) Thread.Sleep(50);
+                    if (reaped == 0)
+                    {
+                        foreach (var child in Descendants(pid).AsEnumerable().Reverse()) kill(child, 15);
+                        kill(pid, 9); waitpid(pid, out status, 0);
+                    }
+                }
             }
         }
         using (var writer = XmlWriter.Create(Path.Combine(results, label + "-results.xml"), new XmlWriterSettings { Indent = true }))
