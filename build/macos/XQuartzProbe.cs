@@ -51,10 +51,15 @@ internal static class XQuartzProbe
             // Cairo can pull in another Xlib build. Detect an accidentally mixed
             // Homebrew/XQuartz client stack after all the drawing dependencies load.
             ReportLibrary("libX11");
+            string cairo = ReportLibrary("libcairo");
+            IntPtr cairoHandle = dlopen(cairo, 2);
+            Require(cairoHandle != IntPtr.Zero, "Cannot inspect the actual Cairo library.");
+            try { Require(dlsym(cairoHandle, "cairo_xlib_surface_create") != IntPtr.Zero, "The loaded Cairo does not support Xlib drawing."); }
+            finally { dlclose(cairoHandle); }
             Console.WriteLine("PASS native-dependencies: actual 64-bit Mono loading, drawing, X11 export and GSL answers.");
 
             if (args[0] != "headless") CheckDisplay();
-            if (args[0] == "gui") CheckWindow(args[1]);
+            if (args[0] == "gui") { XimShimAcceptance.Verify(); CheckWindow(args[1]); }
 
             Console.WriteLine("Scope: standalone probe only. Computator.NET startup, editors, documents, full numerical catalogue,");
             Console.WriteLine("charts, input, clipboard, accessibility and physical Mac acceptance remain separate checks.");
@@ -84,10 +89,14 @@ internal static class XQuartzProbe
             // not the computer's hostname. This is inside the actual Mono process.
             string machine = Marshal.PtrToStringAnsi(IntPtr.Add(buffer, 4 * 256));
             Require(machine == "arm64" || machine == "x86_64", "Unexpected process architecture: " + machine);
+            string expected = Environment.GetEnvironmentVariable("COMPUTATOR_EXPECTED_MAC_ARCHITECTURE");
+            Require(String.IsNullOrEmpty(expected) || machine == expected,
+                "The actual Mono process architecture " + machine + " differs from native acceptance " + expected);
             Console.WriteLine("Mono process uname machine: " + machine + "; pointer bits: " + (8 * IntPtr.Size));
             int translated;
             UIntPtr size = new UIntPtr(4);
             int result = sysctlbyname("sysctl.proc_translated", out translated, ref size, IntPtr.Zero, UIntPtr.Zero);
+            Require(result != 0 || translated == 0, "Native acceptance must not run an Intel Mono process through Rosetta.");
             Console.WriteLine("Rosetta translation: " + (result == 0 ? (translated != 0 ? "yes" : "no") : "not reported"));
         }
         finally { Marshal.FreeHGlobal(buffer); }
@@ -162,6 +171,8 @@ internal static class XQuartzProbe
         Exception failure = null;
         bool captured = false;
         int paints = 0;
+        int clicks = 0;
+        Color leftColor = Navy;
         using (var window = new Form())
         using (var timer = new System.Windows.Forms.Timer())
         {
@@ -169,6 +180,9 @@ internal static class XQuartzProbe
             window.ClientSize = new Size(560, 320);
             window.StartPosition = FormStartPosition.CenterScreen;
             window.TopMost = true;
+            var change = new Button { Text = "Change calibration color", Bounds = new Rectangle(24, 260, 210, 28) };
+            change.Click += delegate { clicks++; leftColor = Color.Purple; window.Invalidate(); };
+            window.Controls.Add(change);
             window.Paint += delegate(object sender, PaintEventArgs e)
             {
                 paints++;
@@ -178,7 +192,7 @@ internal static class XQuartzProbe
                     e.Graphics.DrawString("Mono + XQuartz native drawing probe", font, Brushes.Black, 24, 24);
                     e.Graphics.DrawString("Screen capture follows; this is not the application.", font, Brushes.Black, 24, 256);
                 }
-                using (var brush = new SolidBrush(Navy)) e.Graphics.FillRectangle(brush, 24, 90, 150, 130);
+                using (var brush = new SolidBrush(leftColor)) e.Graphics.FillRectangle(brush, 24, 90, 150, 130);
                 using (var brush = new SolidBrush(Orange)) e.Graphics.FillRectangle(brush, 194, 90, 150, 130);
                 using (var brush = new SolidBrush(Green)) e.Graphics.FillRectangle(brush, 364, 90, 150, 130);
             };
@@ -191,15 +205,22 @@ internal static class XQuartzProbe
                     window.Refresh();
                     Application.DoEvents();
                     Require(window.Visible && window.IsHandleCreated && paints > 0, "WinForms did not paint a visible window.");
-                    using (var capture = new Bitmap(window.ClientSize.Width, window.ClientSize.Height))
+                    using (var capture = MacDesktopCapture.Capture(new Rectangle(window.PointToScreen(Point.Empty), window.ClientSize), window))
                     {
-                        using (Graphics graphics = Graphics.FromImage(capture))
-                            graphics.CopyFromScreen(window.PointToScreen(Point.Empty), Point.Empty, capture.Size);
                         capture.Save(screenshotPath, ImageFormat.Png);
-                        Require(Near(capture.GetPixel(99, 155), Navy) && Near(capture.GetPixel(269, 155), Orange)
-                            && Near(capture.GetPixel(439, 155), Green) && Near(capture.GetPixel(10, 10), Color.White),
-                            "Real screen pixels do not match the calibration window. Check visibility/occlusion and XQuartz capture support; " +
-                            "the screenshot is diagnostic evidence, not a passing render.");
+                        Require(Matches(capture), "Measured full-compositor crop does not contain the three calibration colors and white client background.");
+                        Console.WriteLine("PASS compositor-calibration: measured actual display pixels contain all three calibration colors.");
+                        ClickNative(change);
+                        for (int attempt = 0; attempt < 30 && clicks == 0; attempt++) { Application.DoEvents(); Thread.Sleep(20); }
+                        Require(clicks == 1, "Actual XTEST pointer input did not reach the calibration button exactly once.");
+                        window.Refresh(); Application.DoEvents();
+                        using (var after = MacDesktopCapture.Capture(new Rectangle(window.PointToScreen(Point.Empty), window.ClientSize), window))
+                        {
+                            after.Save(Path.Combine(Path.GetDirectoryName(screenshotPath), "compositor-after-input.png"), ImageFormat.Png);
+                            Require(Near(after.GetPixel(99, 155), Color.Purple), "Actual compositor pixels did not repaint after real pointer input.");
+                            Require(Near(after.GetPixel(269, 155), Orange) && Near(after.GetPixel(439, 155), Green), "Measured crop moved after native input.");
+                        }
+                        Console.WriteLine("PASS compositor-input-and-repaint: real XTEST button input changed actual composed display pixels.");
                     }
                     captured = true;
                 }
@@ -220,6 +241,43 @@ internal static class XQuartzProbe
     {
         return Math.Abs(actual.R - expected.R) <= 12 && Math.Abs(actual.G - expected.G) <= 12
             && Math.Abs(actual.B - expected.B) <= 12;
+    }
+
+    private static bool Matches(Bitmap image)
+    {
+        return image.Width > 440 && image.Height > 156 && Near(image.GetPixel(99, 155), Navy)
+            && Near(image.GetPixel(269, 155), Orange) && Near(image.GetPixel(439, 155), Green)
+            && Near(image.GetPixel(10, 10), Color.White);
+    }
+
+    private static void ClickNative(Control control)
+    {
+        IntPtr display = XOpenDisplay(IntPtr.Zero);
+        Require(display != IntPtr.Zero, "No display for native pointer input.");
+        try
+        {
+            Point point = control.PointToScreen(new Point(control.Width / 2, control.Height / 2));
+            Require(XTestFakeMotionEvent(display, -1, point.X, point.Y, UIntPtr.Zero) != 0, "XTEST pointer motion failed.");
+            Require(XTestFakeButtonEvent(display, 1, 1, UIntPtr.Zero) != 0, "XTEST pointer press failed.");
+            Require(XTestFakeButtonEvent(display, 1, 0, UIntPtr.Zero) != 0, "XTEST pointer release failed.");
+            XSync(display, 0);
+        }
+        finally { XCloseDisplay(display); }
+    }
+
+    private static void TryMacScreenCapture(string destination)
+    {
+        try
+        {
+            string quoted = "'" + destination.Replace("'", "'\\''") + "'";
+            using (var process = System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("/usr/sbin/screencapture", "-x " + quoted)
+            { UseShellExecute = false, RedirectStandardError = true, CreateNoWindow = true }))
+            {
+                if (!process.WaitForExit(5000)) { process.Kill(); Console.WriteLine("Native macOS display diagnostic timed out."); }
+                else Console.WriteLine("Native macOS display diagnostic exit=" + process.ExitCode + " " + process.StandardError.ReadToEnd());
+            }
+        }
+        catch (Exception error) { Console.WriteLine("Native macOS display diagnostic unavailable: " + error.Message); }
     }
 
     private static string ReportLibrary(string name)
@@ -259,6 +317,9 @@ internal static class XQuartzProbe
     [DllImport("libX11")] private static extern int XDisplayWidth(IntPtr display, int screen);
     [DllImport("libX11")] private static extern int XDisplayHeight(IntPtr display, int screen);
     [DllImport("libX11")] private static extern int XQueryExtension(IntPtr display, string name, out int major, out int firstEvent, out int firstError);
+    [DllImport("libX11")] private static extern int XSync(IntPtr display, int discard);
+    [DllImport("libXtst")] private static extern int XTestFakeMotionEvent(IntPtr display, int screen, int x, int y, UIntPtr delay);
+    [DllImport("libXtst")] private static extern int XTestFakeButtonEvent(IntPtr display, uint button, int pressed, UIntPtr delay);
     [DllImport("gsl")] private static extern IntPtr gsl_set_error_handler_off();
     [DllImport("gsl")] private static extern double gsl_sf_gamma(double x);
     [DllImport("gsl")] private static extern double gsl_sf_bessel_J0(double x);

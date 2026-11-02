@@ -1,0 +1,68 @@
+name: Native macOS Mono WinForms acceptance
+on:
+  workflow_dispatch:
+  push:
+    branches: [feature/mono-release-macos]
+  pull_request:
+    paths:
+      - 'build/macos/**'
+      - 'build/mono/**'
+      - 'build/followups/mono.cake'
+      - '.github/workflows/mono-macos.yml'
+      - 'Computator.NET*/**'
+permissions:
+  contents: read
+concurrency:
+  group: mono-macos-${{ github.ref }}-${{ github.sha }}
+  cancel-in-progress: true
+jobs:
+  native-application:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-15-intel
+            architecture: x86_64
+          - os: macos-15
+            architecture: arm64
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: global.json
+      - name: Verify native runner and restore pinned Cake
+        run: |
+          test "$(uname -m)" = '${{ matrix.architecture }}'
+          dotnet tool restore
+      - name: Prepare the actual runtime and X11 drawing graph through Cake
+        run: bash ./build.sh --target=Mono-Mac-Prepare --mono-install-dependencies=true
+      - name: Start an owned authenticated XQuartz display
+        run: |
+          bash build/macos/start-display.sh artifacts/macos/display
+          echo "COMPUTATOR_MAC_DISPLAY_ENV=$PWD/artifacts/macos/display/display.env" >> "$GITHUB_ENV"
+      - name: Compile and accept the real Mono WinForms application through Cake
+        run: bash ./build.sh --target=Mono-Mac-Validate
+      - name: Stop only the owned XQuartz server
+        if: always()
+        run: bash build/macos/stop-display.sh artifacts/macos/display
+      - name: Retain macOS display capture when the runner permits it
+        if: always()
+        continue-on-error: true
+        run: /usr/sbin/screencapture -x artifacts/macos/display/native-macos-screen.png
+      - name: Retain bounded native and real GUI evidence on success or failure
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: mono-macos-${{ matrix.architecture }}
+          path: |
+            artifacts/macos/**/*.log
+            artifacts/macos/**/*.json
+            artifacts/macos/**/*.config
+            artifacts/macos/**/*.xml
+            artifacts/macos/**/*.png
+            artifacts/macos/**/*.ppm
+          retention-days: 7

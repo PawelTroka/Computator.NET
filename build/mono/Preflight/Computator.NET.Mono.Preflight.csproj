@@ -7,6 +7,9 @@
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\macos\MonoXimContract.cs" Link="MonoXimContract.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <Target Name="RequireMonoCompatibilityTarget" BeforeTargets="PrepareForBuild">

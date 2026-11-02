@@ -34,7 +34,7 @@ internal static class Program
         { "xext", new[] { "Xext", "libXext", "libXext.so.6", "libXext.dylib", "libXext.6.dylib" } },
         { "xcursor", new[] { "Xcursor", "libXcursor", "libXcursor.so.1", "libXcursor.dylib", "libXcursor.1.dylib" } },
         { "xfixes", new[] { "Xfixes", "libXfixes", "libXfixes.so.3", "libXfixes.dylib", "libXfixes.3.dylib" } },
-        { "xim", new string[0] }
+        { "xim", new[] { "computator_xim" } }
     };
 
     [STAThread]
@@ -57,6 +57,8 @@ internal static class Program
             reportPath = args[0] == "verify" ? OutsideOutput(args[4]) : null;
             IdentifyRuntime(report);
             ReadAndVerifyManifest(report);
+            if (manifest.Native.ContainsKey("xim"))
+                MonoXimContract.Validate(Assembly.Load("System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"));
             if (args[0] == "prepare")
             {
                 PrepareConfiguration(OutsideOutput(args[4]));
