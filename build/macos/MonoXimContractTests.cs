@@ -2,14 +2,18 @@ using System;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.InteropServices;
+using System.IO;
 
 // Metadata-only rejection tests: no fake native execution or GUI success claim.
 internal static class MonoXimContractTests
 {
+    private static string fixtureDirectory;
     private static int Main(string[] args)
     {
         try
         {
+            fixtureDirectory = Path.Combine(Path.GetTempPath(), "computator-xim-metadata-" + Guid.NewGuid().ToString("N"));
+            Directory.CreateDirectory(fixtureDirectory);
             MonoXimContract.Validate(Fixture("valid"));
             int rejected = 0;
             foreach (string change in new[] { "module", "entry", "return", "parameter", "direction", "charset", "convention", "overload", "point-class", "point-size", "enum-width", "preserve-signature" })
@@ -27,12 +31,14 @@ internal static class MonoXimContractTests
             return 0;
         }
         catch (Exception error) { Console.Error.WriteLine(error); return 1; }
+        finally { if (fixtureDirectory != null && Directory.Exists(fixtureDirectory)) Directory.Delete(fixtureDirectory, true); }
     }
 
     private static Assembly Fixture(string change)
     {
-        var assembly = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName("MonoXimFixture" + Guid.NewGuid().ToString("N")), AssemblyBuilderAccess.Run);
-        var module = assembly.DefineDynamicModule("fixture");
+        string name = "MonoXimFixture" + Guid.NewGuid().ToString("N");
+        var assembly = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName(name), AssemblyBuilderAccess.RunAndSave, fixtureDirectory);
+        var module = assembly.DefineDynamicModule("fixture", name + ".dll");
         var pointBuilder = module.DefineType("System.Windows.Forms.XPoint", TypeAttributes.Public | TypeAttributes.SequentialLayout |
             (change == "point-class" ? TypeAttributes.Sealed : TypeAttributes.Class), change == "point-class" ? typeof(ValueType) : typeof(object));
         pointBuilder.DefineField("X", typeof(short), FieldAttributes.Public);
@@ -51,7 +57,13 @@ internal static class MonoXimContractTests
         Add(keyboard, change, "XVaCreateNestedList", typeof(IntPtr), true, typeof(int), typeof(IntPtr), point, typeof(IntPtr), typeof(IntPtr), typeof(IntPtr));
         Add(keyboard, change, "XVaCreateNestedList", typeof(IntPtr), true, typeof(int), typeof(IntPtr), typeof(IntPtr), typeof(IntPtr), typeof(IntPtr), typeof(IntPtr), typeof(IntPtr), typeof(IntPtr), typeof(IntPtr), typeof(IntPtr));
         keyboard.CreateType();
-        return assembly;
+        // Mono's in-memory Reflection.Emit view omits some parameter flags.
+        // Installed assemblies contain serialized CLI metadata, which is the
+        // contract the release launcher must validate.
+        assembly.Save(name + ".dll");
+        var saved = Assembly.LoadFile(Path.Combine(fixtureDirectory, name + ".dll"));
+        if (saved.IsDynamic) throw new InvalidOperationException("The metadata fixture was not reloaded from its serialized assembly.");
+        return saved;
     }
 
     private static void Add(TypeBuilder type, string change, string name, Type result, bool cdecl, params Type[] parameters)
