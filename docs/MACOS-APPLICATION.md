@@ -277,10 +277,10 @@ and leaves Windows release evidence and the original GUI suites intact. The
 pull request records actual run URLs, tested commits, failures and final results;
 the presence of workflow YAML alone is not evidence that it passed.
 
-This development environment is Linux x64 and has no physical Mac/display.
-Independently reproducible local evidence includes the production frontend
-build, portable dependency graph, published application execution and the
-unchanged Engine regression suite. Native hosted Mac results must be read as
+The original 28 October investigation ran on Linux x64 without a physical
+Mac/display. Its local evidence covered the production frontend build, portable
+dependency graph, published application execution and then-current Engine
+regression suite. Current native hosted Mac results must be read as
 execution on those exact runners. **A green hosted/headless result is not
 physical Mac or complete desktop certification.**
 
