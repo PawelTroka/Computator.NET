@@ -67,6 +67,21 @@ internal static partial class Program
     [STAThread]
     private static int Main(string[] args)
     {
+        if (args.Length == 3 && args[0] == "--application-directory")
+        {
+            var applicationDirectory = Path.GetFullPath(args[1]);
+            var expected = Environment.GetEnvironmentVariable("COMPUTATOR_MONO_EXPECTED_APPLICATION_DIRECTORY");
+            if (string.IsNullOrEmpty(expected) || Path.GetFullPath(expected) != applicationDirectory ||
+                !File.Exists(Path.Combine(applicationDirectory, "Computator.NET.exe")))
+                throw new InvalidOperationException("Packaged acceptance requires an explicit matching application directory.");
+            var domain = AppDomain.CreateDomain("Computator.NET.Mono.PackageAcceptance", null, new AppDomainSetup
+            {
+                ApplicationBase = applicationDirectory,
+                ConfigurationFile = Assembly.GetExecutingAssembly().Location + ".config"
+            });
+            try { return domain.ExecuteAssembly(Assembly.GetExecutingAssembly().Location, new[] { Path.GetFullPath(args[2]) }); }
+            finally { AppDomain.Unload(domain); }
+        }
         if (args.Length != 1)
         {
             Console.Error.WriteLine("Usage: mono Computator.NET.Mono.SmokeTests.exe /absolute/path/results");
@@ -107,6 +122,7 @@ internal static partial class Program
         Run("desktop-visible-custom-functions-file-and-script-workflow", DesktopWorkflow);
         Run("desktop-literal-find-and-replace", DesktopFindReplace);
         Run("unix-document-save-and-alias-protection", UnixDocumentSafety);
+        Run("unix-document-hardlink-and-replacement-identity", UnixDocumentIdentity);
         Run("real-chart-samples-and-png-rendering", RealChart);
         Run("complex-chart-png-and-domain-colors", ComplexChart);
         Run("native-mono-3d-surface-and-visible-x11-interaction", Native3D);
@@ -143,6 +159,9 @@ internal static partial class Program
             "Desktop and portable numerical methods must share one implementation.");
         foreach (var assembly in new[] { typeof(MainView).Assembly, typeof(Chart2D).Assembly, typeof(ExpressionsEvaluator).Assembly, typeof(PortableEngine).Assembly })
         {
+            var expected = Environment.GetEnvironmentVariable("COMPUTATOR_MONO_EXPECTED_APPLICATION_DIRECTORY");
+            if (!string.IsNullOrEmpty(expected))
+                Equal(Path.GetFullPath(Path.GetDirectoryName(assembly.Location)), Path.GetFullPath(expected));
             var forbidden = assembly.GetReferencedAssemblies().Where(reference => new[]
                 { "PresentationFramework", "PresentationCore", "WindowsFormsIntegration", "Scintilla5.NET", "ICSharpCode.AvalonEdit" }.Contains(reference.Name));
             Check(!forbidden.Any(), assembly.GetName().Name + " references unsupported Windows UI assemblies.");
