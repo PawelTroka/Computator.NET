@@ -280,17 +280,22 @@ def signing_layout_probe(source,architecture):
     output.mkdir(parents=True,exist_ok=True)
     report={'schemaVersion':1,'scope':'native-copied-Mach-O-signature-layout-diagnostic',
             'source':str(source),'sourceSha256':sha(source),'cases':[],
-            'tools':run('xcodebuild','-version')}
+            'tools':run('xcodebuild','-version'),'editor':run('xcrun','--find','install_name_tool')}
     with tempfile.TemporaryDirectory(prefix='computator-relocation-') as temporary:
         for stripped in (False,True):
             copied=Path(temporary)/('stripped.dylib' if stripped else 'intact.dylib')
             shutil.copy2(source,copied);copied.chmod(0o755)
-            case={'strippedBeforeEditing':stripped,'originalHeader':run('otool','-l',str(copied))}
+            case={'strippedBeforeEditing':stripped,'originalHeader':run('otool','-l',str(copied)),
+                  'originalFileSize':copied.stat().st_size}
             if stripped:
                 remove=subprocess.run(['codesign','--remove-signature',str(copied)],text=True,capture_output=True)
                 case['removeSignature']={'exitCode':remove.returncode,'stdout':remove.stdout,'stderr':remove.stderr}
+            header=subprocess.run(['otool','-l',str(copied)],text=True,capture_output=True)
+            case['preparedFileSize']=copied.stat().st_size
+            case['preparedHeader']={'exitCode':header.returncode,'stdout':header.stdout,'stderr':header.stderr}
             edit=subprocess.run(['install_name_tool','-id','@loader_path/'+source.name,str(copied)],text=True,capture_output=True)
             case['edit']={'exitCode':edit.returncode,'stdout':edit.stdout,'stderr':edit.stderr}
+            case['editedFileSize']=copied.stat().st_size
             if edit.returncode==0:
                 sign=subprocess.run(['codesign','--force','--sign','-','--timestamp=none',str(copied)],text=True,capture_output=True)
                 verify=subprocess.run(['codesign','--verify','--strict',str(copied)],text=True,capture_output=True)
