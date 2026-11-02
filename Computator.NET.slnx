@@ -198,6 +198,7 @@
     <File Path="build/macos/build-display-probe.sh" />
     <File Path="build/macos/build-xim-shim.sh" />
     <File Path="build/macos/display-mode.c" />
+    <File Path="build/macos/display-owner.py" />
     <File Path="build/macos/mono-xim-arm64.S" />
     <File Path="build/macos/mono-xim.c" />
     <File Path="build/macos/native-dependencies.json" />

@@ -2,18 +2,12 @@ name: Native macOS Mono WinForms acceptance
 on:
   workflow_dispatch:
   push:
-    branches: [feature/mono-release-macos]
+    branches: [master]
   pull_request:
-    paths:
-      - 'build/macos/**'
-      - 'build/mono/**'
-      - 'build/followups/mono.cake'
-      - '.github/workflows/mono-macos.yml'
-      - 'Computator.NET*/**'
 permissions:
   contents: read
 concurrency:
-  group: mono-macos-${{ github.ref }}-${{ github.sha }}
+  group: mono-macos-${{ github.ref }}
   cancel-in-progress: true
 jobs:
   native-application:

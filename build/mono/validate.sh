@@ -17,7 +17,7 @@ mkdir -p -- "$results"
 cd -- "$repository"
 
 if [[ "$(uname -s)" != Linux ]]; then
-    printf '%s\n' 'This acceptance runner currently validates Linux + X11. macOS runtime support is not verified.' >&2
+    printf '%s\n' 'This runner requires Linux/X11. On native macOS use Cake Mono-Mac-Validate; see docs/MONO-DESKTOP.md.' >&2
     exit 2
 fi
 for dependency in mono mcs xvfb-run timeout; do
