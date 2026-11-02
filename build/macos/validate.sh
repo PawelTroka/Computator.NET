@@ -24,9 +24,12 @@ mkdir -p "$validation_temp/startup" "$validation_temp/smoke" "$validation_temp/c
 "$COMPUTATOR_MONO" --version | tee "$results/runtime.log"
 sw_vers >> "$results/runtime.log"
 git rev-parse HEAD >> "$results/runtime.log"
+run="$results/run-$(date -u +%Y%m%dT%H%M%SZ)-$$"
+mkdir -p "$run"
+status=0
 # Calibration proves the actual selected drawing stack and screen pixels before
 # the separate full application and shared acceptance executables are launched.
-MONO_LOG_LEVEL=debug MONO_LOG_MASK=dll bash build/macos/probe-xquartz.sh --gui --output "$results/prerequisites"
+MONO_LOG_LEVEL=debug MONO_LOG_MASK=dll bash build/macos/probe-xquartz.sh --gui --output "$results/prerequisites" || status=1
 application="$repository/Computator.NET/bin/mono/$configuration/net48/Computator.NET.exe"
 startup="$repository/build/mono/StartupProbe/bin/mono/$configuration/net48/Computator.NET.Mono.StartupProbe.exe"
 smoke="$repository/build/mono/SmokeTests/bin/mono/$configuration/net48/Computator.NET.Mono.SmokeTests.exe"
@@ -36,9 +39,6 @@ for executable in "$application" "$startup" "$smoke"; do [[ -f $executable ]] ||
 "$COMPUTATOR_MONO" "$validation_temp/LegacyFixture.exe" "$validation_temp/legacy-settings.dat"
 # Each invocation owns a fresh directory. Do not permit old screenshots/reports
 # to survive as evidence of a failed current invocation.
-run="$results/run-$(date -u +%Y%m%dT%H%M%SZ)-$$"
-mkdir -p "$run"
-status=0
 COMPUTATOR_DATA_DIRECTORY="$validation_temp/startup" XDG_CONFIG_HOME="$validation_temp/config" XDG_CACHE_HOME="$validation_temp/cache" \
 python3 build/macos/run-bounded.py --seconds 150 "$COMPUTATOR_MONO" --debug "$startup" "$application" "$run" \
     2>&1 | tee "$run/startup.log" || status=1
