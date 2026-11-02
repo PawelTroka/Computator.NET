@@ -46,7 +46,7 @@ namespace Computator.NET.Core.Tests.ScriptingExtensionsTests
 
         [TestCase("en-US")]
         [TestCase("pl-PL")]
-        public void GeneratedCallsUseInvariantParsingWithoutAcceptingGroupingOrLiteralSuffixes(string culture)
+        public void GeneratedCallsKeepTheirDistinctInvariantParsingContracts(string culture)
         {
             var previousCulture = CultureInfo.CurrentCulture; var previousDirectory = Environment.CurrentDirectory;
             try

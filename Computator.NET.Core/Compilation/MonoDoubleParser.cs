@@ -13,22 +13,28 @@ namespace Computator.NET.Core.Compilation
         internal static bool TryParse(string text, out double value)
         {
             if (!double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out value)) return false;
-            return TryRound(text, ref value);
+            return TryRound(text, ref value, NumberStyles.Float);
         }
 
-        internal static double Parse(string text)
+        internal static double Parse(string text) => Parse(text, NumberStyles.Float);
+
+        internal static double Parse(string text, NumberStyles styles)
         {
-            var value = double.Parse(text, NumberStyles.Float, CultureInfo.InvariantCulture);
-            if (!TryRound(text, ref value)) throw new FormatException("The input is not a supported invariant floating-point number.");
+            var value = double.Parse(text, styles, CultureInfo.InvariantCulture);
+            if (!TryRound(text, ref value, styles)) throw new FormatException("The input is not a supported invariant floating-point number.");
             return value;
         }
 
-        private static bool TryRound(string text, ref double value)
+        private static bool TryRound(string text, ref double value, NumberStyles styles)
         {
             if (double.IsNaN(value) || double.IsInfinity(value)) return true;
             // NumberStyles.Float accepts signs, surrounding whitespace, and a
             // trailing decimal point. The BCL also permits terminating NULs.
             var number = text.TrimEnd('\0').Trim();
+            // Generic convert/read historically accept invariant grouping,
+            // including irregular groups such as 1,,2. Validate with the BCL
+            // first; remove separators only for the correctly-rounded token.
+            if ((styles & NumberStyles.AllowThousands) != 0) number = number.Replace(",", "");
             var negative = number[0] == '-';
             if (negative || number[0] == '+') number = number.Substring(1);
             var exponent = number.IndexOfAny(new[] { 'e', 'E' });
