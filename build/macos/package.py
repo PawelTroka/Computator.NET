@@ -340,6 +340,20 @@ def main():
         "No external GIO loadable modules are required by the accepted numerical/drawing desktop workflows. "
         "The launcher selects this private directory, rather than loading build-host Homebrew modules.\n")
     metadata = json.loads((resources / "mono-package.json").read_text())
+    accepted_source=None
+    reports=ROOT/'artifacts/macos'/('acceptance-'+architecture)/args.configuration
+    for report_path in sorted(reports.glob('run-*/acceptance.json'),reverse=True):
+        report=json.loads(report_path.read_text())
+        if (report.get('passed') and report.get('checkoutCommit')==metadata['source']['commit']
+                and not report.get('checkoutDirty') and report.get('architecture')==architecture):
+            accepted_source=report
+            break
+    # An exclusive diagnostic Cake task may stage a red GUI build to investigate
+    # authoring. Such an archive is explicitly unaccepted, never a release pass.
+    metadata['sourceCheckoutAcceptance']=accepted_source or {
+        'passed':False,'scope':'diagnostic-unaccepted-source-checkout',
+        'reason':'No complete current-head native application acceptance report exists.'}
+    (resources/'share/source-checkout-acceptance.json').write_text(json.dumps(metadata['sourceCheckoutAcceptance'],indent=2)+'\n')
     metadata.update(rid=rid, native={name: (Path("native") / rid / path.name).as_posix() for name, path in selected.items()},
                     runtime={"monoTestedVersion": "6.14.1", "monoMinimumVersion": "6.14.1", "xquartzVersion": "2.8.6", "framework": "net48",
                              "macOSMinimum": minimum_text,
@@ -369,6 +383,7 @@ def main():
     if args.archive:
         print("Archive SHA256:", archive_bundle(bundle, args.archive))
     print("Prepared unsigned runtime-dependent Mono app:", bundle)
+    print("Complete current-head source application acceptance:",bool(accepted_source))
 
 
 if __name__ == "__main__":
