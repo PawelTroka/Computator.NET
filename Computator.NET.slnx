@@ -146,6 +146,8 @@
     <File Path="build/mono/validate-desktop-menu.sh" />
     <File Path="build/mono/NativeDesktopCapture.cs" />
     <File Path="build/mono/NativeX11Input.cs" />
+    <File Path="build/mono/NativeToolProcess.cs" />
+    <File Path="build/mono/NativeToolProcessTests.cs" />
     <File Path="build/mono/validate-evidence.py" />
     <File Path="build/mono/validate-package.sh" />
     <File Path="build/mono/LegacyFixtureWriter.cs" />
