@@ -121,6 +121,16 @@ internal static class Program
             throw new PlatformNotSupportedException("Package RID " + manifest.Rid + " does not match native Mono process " + rid + ".");
         report.Rid = manifest.Rid;
         report.Version = manifest.Version;
+        if (!isMac)
+        {
+            var release = File.ReadAllLines("/etc/os-release");
+            Func<string, string> value = key => (release.FirstOrDefault(line => line.StartsWith(key + "=", StringComparison.Ordinal)) ?? "=")
+                .Split(new[] { '=' }, 2)[1].Trim('"', '\'');
+            var baseline = value("ID") + "-" + value("VERSION_ID");
+            if (!new[] { "ubuntu-22.04", "ubuntu-24.04" }.Contains(baseline) || baseline != manifest.Baseline)
+                throw new PlatformNotSupportedException("This native package targets " + manifest.Baseline + "; select the package for " + baseline + ".");
+            report.Baseline = baseline;
+        }
         inventory = new Dictionary<string, Entry>(StringComparer.OrdinalIgnoreCase);
         long total = 0;
         foreach (var entry in manifest.Files)
@@ -318,6 +328,25 @@ internal static class Program
         if (path == packageRoot || path.StartsWith(packageRoot + Path.DirectorySeparatorChar, StringComparison.Ordinal) ||
             Directory.Exists(path) || (File.Exists(path) && (File.GetAttributes(path) & FileAttributes.ReparsePoint) != 0))
             throw new IOException("Generated configuration/reports require a regular destination outside the read-only package.");
+        // XDG caches and macOS /tmp can legitimately have redirected ancestors.
+        // Resolve the existing parent rather than rejecting ordinary system
+        // aliases, and prevent an apparently external cache from writing into
+        // the installed payload through a directory symlink.
+        var parent = Path.GetDirectoryName(path);
+        var missing = new Stack<string>();
+        while (!Directory.Exists(parent))
+        {
+            if (File.Exists(parent)) throw new IOException("Generated output parent is not a directory.");
+            missing.Push(Path.GetFileName(parent));
+            parent = Path.GetDirectoryName(parent);
+            if (string.IsNullOrEmpty(parent)) throw new IOException("Cannot resolve generated output parent.");
+        }
+        parent = RealPath(parent);
+        while (missing.Count != 0) parent = Path.Combine(parent, missing.Pop());
+        var physicalPath = Path.Combine(parent, Path.GetFileName(path));
+        var physicalPackage = RealPath(packageRoot);
+        if (physicalPath == physicalPackage || physicalPath.StartsWith(physicalPackage + Path.DirectorySeparatorChar, StringComparison.Ordinal))
+            throw new IOException("Generated configuration/reports require a regular destination outside the read-only package.");
         return path;
     }
 
@@ -373,6 +402,7 @@ internal static class Program
         [DataMember(Name = "rid")] public string Rid { get; set; }
         [DataMember(Name = "files")] public List<Entry> Files { get; set; }
         [DataMember(Name = "native")] public Dictionary<string, string> Native { get; set; }
+        [DataMember(Name = "baseline")] public string Baseline { get; set; }
     }
     [DataContract] private sealed class Entry
     {
@@ -392,6 +422,7 @@ internal static class Program
         [DataMember(Name = "manifestSha256")] public string ManifestSha256;
         [DataMember(Name = "version")] public string Version;
         [DataMember(Name = "rid")] public string Rid;
+        [DataMember(Name = "baseline")] public string Baseline;
         [DataMember(Name = "os")] public string OS;
         [DataMember(Name = "architecture")] public string Architecture;
         [DataMember(Name = "rosetta")] public bool Rosetta;

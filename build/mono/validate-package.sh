@@ -13,6 +13,7 @@ configuration=${COMPUTATOR_MONO_CONFIGURATION:-Release}
 cd "$repository"
 for command in mono python3 timeout xvfb-run xauth; do command -v "$command" >/dev/null || { echo "Missing acceptance tool: $command" >&2; exit 2; }; done
 python3 build/mono/package.py --extract "$archive" --output "$unpacked"
+python3 build/mono/test_preflight.py --package-root "$unpacked" -v
 mkdir -p "$evidence"/{profile-startup,profile-smoke,profile-launcher,config,cache,harness}
 sha256sum "$archive" > "$evidence/archive.sha256"
 cp "$unpacked/mono-package.json" "$evidence/mono-package.json"
@@ -28,6 +29,8 @@ if [[ -f "$startup.config" ]]; then cp "$startup.config" "$evidence/harness/"; f
 mcs -nologo -nowarn:0414 -r:System.Drawing -out:"$evidence/harness/LegacyFixture.exe" \
     build/fixtures/LegacySettings.cs build/mono/LegacyFixtureWriter.cs
 mono "$evidence/harness/LegacyFixture.exe" "$evidence/legacy-settings.dat"
+mcs -nologo -r:System.Drawing -out:"$evidence/harness/Computator.NET.Mono.DesktopMenuProbe.exe" \
+    build/mono/DesktopMenuProbe.cs
 preflight=$unpacked/app/Computator.NET.Mono.Preflight.exe
 mono "$preflight" prepare --package-root "$unpacked" --config "$evidence/mono.config"
 unset COMPUTATOR_GSL_DIRECTORY MONO_CFG_DIR MONO_ENV_OPTIONS

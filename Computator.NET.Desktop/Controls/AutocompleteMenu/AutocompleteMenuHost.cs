@@ -40,6 +40,10 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             {
                 if (listView != null)
                     (listView as Control).LostFocus -= ListView_LostFocus;
+#if __MonoCS__
+                if (listView is AutocompleteListView previous)
+                    previous.ReferenceFocusLeft -= Menu.ReferenceFocusLeft;
+#endif
 
                 if (value == null)
                     listView = new AutocompleteListView();
@@ -70,6 +74,10 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
                 (ListView as Control).MaximumSize = Menu.MaximumSize;
                 (ListView as Control).Size = Menu.MaximumSize;
                 (ListView as Control).LostFocus += ListView_LostFocus;
+#if __MonoCS__
+                if (ListView is AutocompleteListView current)
+                    current.ReferenceFocusLeft += Menu.ReferenceFocusLeft;
+#endif
 
                 CalcSize();
                 Items.Clear();
@@ -93,7 +101,8 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         {
             var target = Menu.TargetControlWrapper?.TargetControl;
             return (target != null && target.ContainsFocus) ||
-                   ContainsFocus || Bounds.Contains(Control.MousePosition);
+                   ContainsFocus || Bounds.Contains(Control.MousePosition) ||
+                   (ListView as AutocompleteListView)?.ReferenceContainsFocus == true;
         }
 #endif
 
