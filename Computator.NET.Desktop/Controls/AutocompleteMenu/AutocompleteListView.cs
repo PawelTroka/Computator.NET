@@ -204,11 +204,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
         public void CloseToolTip()
         {
-#if __MonoCS__
-            if (toolTip.Visible) toolTip.Close();
-#else
             toolTip.Close();
-#endif
         }
 
 #if __MonoCS__

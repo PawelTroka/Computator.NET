@@ -521,6 +521,13 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         private void Control_MouseDown(object sender, MouseEventArgs e)
         {
             Close();
+#if __MonoCS__
+            // Mono can deliver the editor click after a dropdown focus transfer
+            // without activating that editor. Preserve the native click's caret
+            // handling while explicitly restoring its expected keyboard focus.
+            var target = TargetControlWrapper?.TargetControl;
+            if (target != null && !target.IsDisposed && target.Visible && target.Enabled) target.Focus();
+#endif
         }
 
         private ITextBoxWrapper FindWrapper(Control sender)
@@ -879,13 +886,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         {
             _timer.Stop();
             (Host.ListView as AutocompleteListView).CloseToolTip();
-#if __MonoCS__
-            // Closing a hidden Mono dropdown can restore an obsolete focus
-            // owner. A later editor mouse-down must not lose its new focus.
-            if (Host.Visible) Host.Close();
-#else
             Host.Close();
-#endif
             _forcedOpened = false;
         }
 
