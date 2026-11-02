@@ -464,6 +464,10 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             form.ResizeBegin += Form_LocationChanged;
             form.FormClosing += Form_FormClosing;
             form.LostFocus += Form_LocationChanged;
+#if __MonoCS__
+            form.EnabledChanged += Form_AvailabilityChanged;
+            form.VisibleChanged += Form_AvailabilityChanged;
+#endif
         }
 
         private void UnsubscribeForm()
@@ -475,6 +479,10 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             form.ResizeBegin -= Form_LocationChanged;
             form.FormClosing -= Form_FormClosing;
             form.LostFocus -= Form_LocationChanged;
+#if __MonoCS__
+            form.EnabledChanged -= Form_AvailabilityChanged;
+            form.VisibleChanged -= Form_AvailabilityChanged;
+#endif
             _myForm = null;
         }
 
@@ -487,6 +495,28 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         {
             Close();
         }
+
+#if __MonoCS__
+        private void Form_AvailabilityChanged(object sender, EventArgs e)
+        {
+            if (_myForm == null || !_myForm.Enabled || !_myForm.Visible) Close();
+        }
+
+        internal void ReferenceFocusLeft(object sender, EventArgs e)
+        {
+            if (Host.IsDisposed || Host.Disposing || !Host.IsHandleCreated || !Host.Visible) return;
+            // A tab/page transition can finish transferring native focus after
+            // Leave. Check the settled owned focus context on the UI queue.
+            Host.BeginInvoke((Action)(() =>
+            {
+                if (Host.IsDisposed || Host.Disposing || !Host.Visible) return;
+                var target = TargetControlWrapper?.TargetControl;
+                if (target == null || target.IsDisposed || !target.Visible || !target.Enabled ||
+                    (!target.ContainsFocus && !Host.ContainsFocus &&
+                     (Host.ListView as AutocompleteListView)?.ReferenceContainsFocus != true)) Close();
+            }));
+        }
+#endif
 
         private void Control_MouseDown(object sender, MouseEventArgs e)
         {

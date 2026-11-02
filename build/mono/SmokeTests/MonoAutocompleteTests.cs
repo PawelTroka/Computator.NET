@@ -233,7 +233,8 @@ internal static partial class Program
             var otherPoint = other.PointToScreen(new Point(8, other.Height / 2));
             MoveAndClickX11(otherPoint.X, otherPoint.Y);
             InspectX11WindowStack(window, input, host, (Control)menu.ListView, help);
-            Check(other.Focused && !menu.Visible && !help.Visible,
+            Check(other.Focused, "The real X11 click did not reach the unrelated editor.");
+            Check(!menu.Visible && !help.Visible,
                 "Leaving the reference for an unrelated editor left autocomplete/help floating above it.");
             window.Controls.Remove(other);
         }
