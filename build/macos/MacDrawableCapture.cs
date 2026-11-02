@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using System.IO;
 
 // Test-only native drawable readback. Root-screen composition and occlusion are
 // separate facts, and are deliberately not inferred from this image.
@@ -18,9 +19,12 @@ internal static class MacDrawableCapture
         int count = checked(info[0] * info[1]);
         var pixels = new int[count];
         var captured = new int[4];
-        int result = Argb(new UIntPtr(unchecked((ulong)handle.ToInt64())), pixels, new UIntPtr((uint)count), captured);
+        string evidence = Environment.GetEnvironmentVariable("COMPUTATOR_MAC_DRAWABLE_EVIDENCE_DIRECTORY");
+        string ppm = String.IsNullOrEmpty(evidence) ? null : Path.Combine(evidence, "native-xgetpixel-" + Guid.NewGuid().ToString("N") + ".ppm");
+        int result = Argb(new UIntPtr(unchecked((ulong)handle.ToInt64())), pixels, new UIntPtr((uint)count), captured, ppm);
         Console.WriteLine("Actual XImage: width=" + captured[0] + " height=" + captured[1] + " pitch=" + captured[2] +
             " bits=" + captured[3] + " result=" + result);
+        if (ppm != null) Console.WriteLine("Native C XGetPixel PPM before managed marshalling: " + ppm);
         if (result != 0)
             throw new InvalidOperationException("XGetImage did not return the mapped drawable's actual pixels.");
         var image = new Bitmap(captured[0], captured[1], PixelFormat.Format32bppArgb);
@@ -37,5 +41,5 @@ internal static class MacDrawableCapture
     [DllImport("computator_mac_display", EntryPoint="ComputatorMacDrawableInfo")]
     private static extern int Info(UIntPtr handle, [Out] int[] info, UIntPtr count);
     [DllImport("computator_mac_display", EntryPoint="ComputatorMacDrawableArgb")]
-    private static extern int Argb(UIntPtr handle, [Out] int[] pixels, UIntPtr count, [Out] int[] info);
+    private static extern int Argb(UIntPtr handle, [Out] int[] pixels, UIntPtr count, [Out] int[] info, string ppm);
 }

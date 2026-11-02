@@ -64,4 +64,5 @@ jobs:
             artifacts/macos/**/*.config
             artifacts/macos/**/*.xml
             artifacts/macos/**/*.png
+            artifacts/macos/**/*.ppm
           retention-days: 7

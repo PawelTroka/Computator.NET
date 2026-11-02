@@ -31,6 +31,7 @@ mkdir -p "$run"
 status=0
 # Calibration proves the actual selected drawing stack and screen pixels before
 # the separate full application and shared acceptance executables are launched.
+COMPUTATOR_MAC_DRAWABLE_EVIDENCE_DIRECTORY="$results/prerequisites" \
 MONO_LOG_LEVEL=debug MONO_LOG_MASK=dll bash build/macos/probe-xquartz.sh --gui --output "$results/prerequisites" || status=1
 application="$repository/Computator.NET/bin/mono/$configuration/net48/Computator.NET.exe"
 startup="$repository/build/mono/StartupProbe/bin/mono/$configuration/net48/Computator.NET.Mono.StartupProbe.exe"

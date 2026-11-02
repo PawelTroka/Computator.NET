@@ -4,6 +4,7 @@
 #include <X11/Xutil.h>
 #include <stdint.h>
 #include <stddef.h>
+#include <stdio.h>
 
 #define API __attribute__((visibility("default")))
 API int ComputatorMacDrawableInfo(unsigned long window, int *info, size_t count)
@@ -30,7 +31,7 @@ static unsigned channel(unsigned long pixel, unsigned long mask)
     return (unsigned)(((pixel >> shift) & mask) * 255 / mask);
 }
 
-API int ComputatorMacDrawableArgb(unsigned long window, uint32_t *pixels, size_t capacity, int *info)
+API int ComputatorMacDrawableArgb(unsigned long window, uint32_t *pixels, size_t capacity, int *info, const char *ppm_path)
 {
     Display *display = XOpenDisplay(NULL);
     if (!display) return -1;
@@ -47,16 +48,22 @@ API int ComputatorMacDrawableArgb(unsigned long window, uint32_t *pixels, size_t
         image->bytes_per_line < (image->width * image->bits_per_pixel + 7) / 8) {
         XDestroyImage(image); XCloseDisplay(display); return -4;
     }
+    FILE *ppm = ppm_path ? fopen(ppm_path, "wb") : NULL;
+    if (ppm_path && !ppm) { XDestroyImage(image); XCloseDisplay(display); return -5; }
+    if (ppm) fprintf(ppm, "P6\n%d %d\n255\n", image->width, image->height);
     for (int y = 0; y < image->height; y++) {
         for (int x = 0; x < image->width; x++) {
             unsigned long pixel = XGetPixel(image, x, y);
+            unsigned char rgb[3] = { (unsigned char)channel(pixel, image->red_mask),
+                (unsigned char)channel(pixel, image->green_mask), (unsigned char)channel(pixel, image->blue_mask) };
+            if (ppm) fwrite(rgb, 1, 3, ppm);
             pixels[(size_t)y * image->width + x] = UINT32_C(0xff000000) |
-                channel(pixel, image->red_mask) << 16 |
-                channel(pixel, image->green_mask) << 8 |
-                channel(pixel, image->blue_mask);
+                (uint32_t)rgb[0] << 16 | (uint32_t)rgb[1] << 8 | rgb[2];
         }
     }
+    int write_failed = ppm && ferror(ppm);
+    if (ppm) fclose(ppm);
     XDestroyImage(image);
     XCloseDisplay(display);
-    return 0;
+    return write_failed ? -6 : 0;
 }
