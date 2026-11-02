@@ -22,6 +22,7 @@ if [ -z "${DISPLAY-}" ]; then
 fi
 umask 077
 cache=${XDG_CACHE_HOME:-${HOME:?HOME must be set}/.cache}/Computator.NET
+case "$cache" in /*) ;; *) echo 'XDG_CACHE_HOME must be an absolute directory.' >&2; exit 2;; esac
 mkdir -p -- "$cache"
 session=$(mktemp -d "$cache/runtime.XXXXXXXX")
 child=
