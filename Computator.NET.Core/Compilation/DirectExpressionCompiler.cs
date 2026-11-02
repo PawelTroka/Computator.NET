@@ -237,7 +237,11 @@ namespace Computator.NET.Core.Compilation
                 }
                 if (_position - start > 64) throw new UnsupportedSyntax();
                 string text = _source.Substring(start, _position - start);
+#if __MonoCS__
+                if (!MonoDoubleParser.TryParse(text, out double number) ||
+#else
                 if (!double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out double number) ||
+#endif
                     double.IsNaN(number) || double.IsInfinity(number) || (!floating && number > int.MaxValue)) throw new UnsupportedSyntax();
                 return Number(number, !floating);
             }
