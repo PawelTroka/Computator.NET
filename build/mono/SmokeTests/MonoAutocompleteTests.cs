@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using Computator.NET.Core.Autocompletion;
+using Computator.NET.Core.Autocompletion.DataSource;
 using Computator.NET.Core.Model;
 using Computator.NET.DataTypes.SettingsTypes;
 using CompletionMenu = Computator.NET.Desktop.Controls.AutocompleteMenu.AutocompleteMenu;
@@ -80,6 +81,7 @@ internal static partial class Program
                 Check(input.ContainsFocus, "Opening autocomplete moved keyboard focus away from the editor.");
                 InspectX11WindowStack(window, input, host, list, help);
                 CaptureAutocompleteX11(window, host, help, "autocomplete-after.png");
+                ExerciseRichReferenceX11(window, input, menu, host, help, reference);
 
                 // Keyboard selection and insertion through the real X11 input
                 // queue (including the existing fragment replacement logic).
@@ -167,15 +169,64 @@ internal static partial class Program
 
     private static AutocompleteItem Completion(string signature, string title)
     {
+        var shipped = new FunctionsDetailsFileSource().Details;
+        FunctionInfo source;
+        var description = shipped.TryGetValue(signature, out source) ? source.Description :
+            "<p>Readable help for " + signature + " with a complete function description.</p>";
         return new AutocompleteItem(signature)
         {
             Details = new FunctionInfo
             {
                 Title = title,
                 Signature = signature,
-                Description = "<p>Readable help for " + signature + " with a complete function description.</p>"
+                Description = description
             }
         };
+    }
+
+    private static void ExerciseRichReferenceX11(Form window, TextBox input, CompletionMenu menu,
+        ToolStripDropDown host, ToolStripDropDown help, Control reference)
+    {
+        var tabs = reference.Controls.OfType<TabControl>().Single();
+        var description = (ScrollableControl)reference.Controls.Find("referenceDescription", true).Single();
+        Check(tabs.SelectedIndex == 0 && description.AutoScrollMinSize.Height > description.ClientSize.Height,
+            "The actual illustrated reference must open in a scrollable Description tab.");
+        var textTab = tabs.GetTabRect(1);
+        var textPoint = tabs.PointToScreen(new Point(textTab.Left + textTab.Width / 2, textTab.Top + textTab.Height / 2));
+        MoveAndClickX11(textPoint.X, textPoint.Y);
+        PumpX11();
+        // Retain native screen pixels even on failure, before any cleanup hides
+        // the evidence. This captures the real X11 window stack, not a bitmap
+        // fabricated from the renderer's Draw method.
+        InspectX11WindowStack(window, input, host, (Control)menu.ListView, help);
+        Check(menu.Visible && help.Visible && tabs.SelectedIndex == 1,
+            "Clicking the reference Text tab closed autocomplete/help before the actual X11 click completed.");
+        var readable = (RichTextBox)reference.Controls.Find("referenceText", true).Single();
+        Check(readable.Visible && readable.ReadOnly && readable.Text.Contains("Sine reference"),
+            "The reference Text tab is not usable.");
+        CaptureAutocompleteX11(window, host, help, "autocomplete-reference-text.png");
+
+        var descriptionTab = tabs.GetTabRect(0);
+        var descriptionPoint = tabs.PointToScreen(new Point(descriptionTab.Left + descriptionTab.Width / 2, descriptionTab.Top + descriptionTab.Height / 2));
+        MoveAndClickX11(descriptionPoint.X, descriptionPoint.Y);
+        Check(menu.Visible && help.Visible && tabs.SelectedIndex == 0, "Returning to Description closed the help.");
+        var scrollPoint = description.PointToScreen(new Point(description.ClientSize.Width - 5, description.ClientSize.Height - 8));
+        MoveAndClickX11(scrollPoint.X, scrollPoint.Y);
+        PumpX11();
+        Check(menu.Visible && help.Visible && description.AutoScrollPosition.Y < 0,
+            "The actual tooltip scrollbar failed to scroll the illustrated reference or dismissed it.");
+        CaptureAutocompleteX11(window, host, help, "autocomplete-reference-scrolled.png");
+
+        // Return through the native input queue and prove the original editor
+        // still owns subsequent selection/insertion, rather than a hidden copy.
+        var editorPoint = input.PointToScreen(new Point(8, input.Height / 2));
+        MoveAndClickX11(editorPoint.X, editorPoint.Y);
+        input.Focus();
+        KeyX11("End");
+        KeyX11("ctrl+space");
+        WaitForX11(() => menu.Visible && input.Focused, "Editor focus/completion did not recover after reading help.");
+        Check(menu.SelectedItemIndex == 0 && input.Text == "si", "Reading help changed the real editor buffer or completion selection.");
+        CaptureAutocompleteX11(window, host, help, "autocomplete-reference-editor-return.png");
     }
 
     private static void ResetAutocompleteInput(CompletionMenu menu, TextBox input)
