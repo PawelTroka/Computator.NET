@@ -15,8 +15,9 @@ internal static class MonoXimContractTests
             fixtureDirectory = Path.Combine(Path.GetTempPath(), "computator-xim-metadata-" + Guid.NewGuid().ToString("N"));
             Directory.CreateDirectory(fixtureDirectory);
             MonoXimContract.Validate(Fixture("valid"));
+            MonoXimContract.Validate(Fixture("valid-lpstr-return"));
             int rejected = 0;
-            foreach (string change in new[] { "module", "entry", "return", "parameter", "direction", "charset", "convention", "overload", "point-class", "point-size", "enum-width", "preserve-signature" })
+            foreach (string change in new[] { "module", "entry", "return", "parameter", "direction", "charset", "convention", "overload", "point-class", "point-size", "enum-width", "preserve-signature", "bstr-return", "wide-return" })
             {
                 try { MonoXimContract.Validate(Fixture(change)); }
                 catch (PlatformNotSupportedException) { rejected++; continue; }
@@ -77,6 +78,12 @@ internal static class MonoXimContractTests
             first && change == "convention" ? CallingConvention.StdCall : cdecl ? CallingConvention.Cdecl : CallingConvention.Winapi,
             first && change == "charset" ? CharSet.Unicode : CharSet.Ansi);
         if (!(first && change == "preserve-signature")) method.SetImplementationFlags(method.GetMethodImplementationFlags() | MethodImplAttributes.PreserveSig);
+        if (first && (change == "valid-lpstr-return" || change == "bstr-return" || change == "wide-return"))
+        {
+            var marshal = typeof(MarshalAsAttribute).GetConstructor(new[] { typeof(UnmanagedType) });
+            var value = change == "bstr-return" ? UnmanagedType.BStr : change == "wide-return" ? UnmanagedType.LPWStr : UnmanagedType.LPStr;
+            method.DefineParameter(0, ParameterAttributes.Retval, null).SetCustomAttribute(new CustomAttributeBuilder(marshal, new object[] { value }));
+        }
         for (int index = 0; index < parameters.Length; index++)
             if (parameters[index].IsByRef && !(first && change == "direction")) method.DefineParameter(index + 1, ParameterAttributes.Out, "output");
     }

@@ -53,6 +53,9 @@ internal static class MonoXimContract
             Require(import.CallingConvention == CallingConvention.Cdecl || (!explicitCdecl && import.CallingConvention == CallingConvention.Winapi),
                 name + " calling convention changed.");
             Require(import.CharSet == CharSet.None || import.CharSet == CharSet.Ansi, name + " string encoding changed.");
+            var returnMarshal = (MarshalAsAttribute)Attribute.GetCustomAttribute(method.ReturnParameter, typeof(MarshalAsAttribute));
+            Require(returnMarshal == null || (result == typeof(string) && returnMarshal.Value == UnmanagedType.LPStr),
+                name + " explicit return marshalling changed.");
             foreach (var parameter in method.GetParameters())
             {
                 if (parameter.ParameterType.IsByRef) Require(parameter.IsOut, name + " output direction changed.");

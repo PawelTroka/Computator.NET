@@ -50,11 +50,13 @@ DEBUG=1 python3 -c 'import os,sys; os.setsid(); os.execv(sys.argv[1],sys.argv[1:
 manager=$!
 printf '%s\n' "$manager" > "$output/quartz-wm.pgid"
 for ((attempt=0; attempt<30; attempt++)); do
-    /opt/X11/bin/xprop -root _NET_SUPPORTING_WM_CHECK > "$output/window-manager.log" 2>&1 || true
-    if grep -q 'window id #' "$output/window-manager.log"; then break; fi
+    # quartz-wm does not universally publish EWMH's supporting-WM property.
+    # The real root selection establishes that a WM owns this fresh server.
+    /opt/X11/bin/xwininfo -root -events > "$output/window-manager.log" 2>&1 || true
+    if grep -q 'SubstructureRedirect' "$output/window-manager.log"; then break; fi
     if ! kill -0 -- "-$manager" 2>/dev/null; then cat "$output/quartz-wm.log"; echo 'Owned quartz-wm exited.' >&2; exit 1; fi
     sleep 1
 done
-grep -q 'window id #' "$output/window-manager.log" || { echo 'Normal rootless window manager did not become ready.' >&2; exit 1; }
+grep -q 'SubstructureRedirect' "$output/window-manager.log" || { echo 'Normal rootless window manager did not become ready.' >&2; exit 1; }
 printf 'export DISPLAY=%q\nexport XAUTHORITY=%q\n' "$DISPLAY" "$auth" > "$output/display.env"
 echo "Owned authenticated rootless XQuartz display $DISPLAY, server group $server, window-manager group $manager."
