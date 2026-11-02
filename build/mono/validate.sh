@@ -54,7 +54,10 @@ mcs -nologo -nowarn:0414 -r:System.Drawing -out:"$validation_temp/LegacyFixture.
 mono "$validation_temp/LegacyFixture.exe" "$validation_temp/legacy-settings.dat"
 # A failed or timed-out run must not expose an old passing report/screenshot.
 rm -f -- "$results/mono-results.xml" "$results/startup.png" "$results/desktop-workflow.png" \
-    "$results/real-chart.png" "$results/complex-chart.png" "$results/unsupported-3d.png" "$results/function-reference.png" \
+    "$results/real-chart.png" "$results/complex-chart.png" "$results/function-reference.png" \
+    "$results/mono-3d-paraboloid.png" "$results/mono-3d-visible-before.png" \
+    "$results/mono-3d-visible-rotated.png" "$results/mono-3d-export.png" \
+    "$results/mono-3d-points.png" \
     "$results/calculator-inputs.png" "$results/numerical-inputs.png"
 status=0
 COMPUTATOR_DATA_DIRECTORY="$validation_temp/startup" \

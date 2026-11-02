@@ -4,17 +4,21 @@ import { useCustomFunctions } from '../helpers/CustomFunctionsContext';
 import { useChartDraft } from '../helpers/ToolDraftContext';
 import { Expression } from './Expression';
 import { NumericInput } from './NumericInput';
+import { SurfacePlot, isSurfaceGrid, type SurfaceGrid } from './SurfacePlot';
 
-type Plot = { expression: string; customFunctions: string; xMin: number; xMax: number; yMin: number; yMax: number };
-type RenderedPlot = { url: string; expression: string };
+type Plot = { expression: string; customFunctions: string; xMin: number; xMax: number; yMin: number; yMax: number; gridSize: number };
+type RenderedPlot = { kind: 'image'; url: string; expression: string } | { kind: 'surface'; grid: SurfaceGrid; expression: string };
 
 export function Chart() {
   const { expression, setExpression, xMin, setXMin, xMax, setXMax, yMin, setYMin, yMax, setYMax } = useChartDraft();
   const [rendered, setRendered] = useState<RenderedPlot>();
+  const [gridSize, setGridSize] = useState(65);
   const [error, setError] = useState(''), [pending, setPending] = useState(false), [status, setStatus] = useState('');
   const container = useRef<HTMLDivElement>(null);
   const active = useRef<AbortController | null>(null), imageUrl = useRef<string | null>(null);
   const requested = useRef<Plot | null>(null);
+  // A surface resizes client-side without recompiling the user's function.
+  const shownSurface = useRef<Plot | null>(null);
   const functions = useCustomFunctions();
 
   const renderPlot = useCallback(async (plot: Plot) => {
@@ -40,13 +44,26 @@ export function Chart() {
         }
         throw new Error(detail);
       }
-      if (!response.headers.get('content-type')?.toLowerCase().startsWith('image/png')) throw new Error('Invalid chart response.');
+      const contentType = response.headers.get('content-type')?.toLowerCase() ?? '';
+      if (contentType.includes('application/json')) {
+        const json: unknown = await response.json();
+        if (!isSurfaceGrid(json)) throw new Error('Invalid 3D surface response.');
+        if (active.current !== controller || controller.signal.aborted) return;
+        if (imageUrl.current) URL.revokeObjectURL(imageUrl.current);
+        imageUrl.current = null;
+        shownSurface.current = plot;
+        setRendered({ kind: 'surface', grid: json, expression: plot.expression });
+        setStatus('3D surface samples ready.');
+        return;
+      }
+      if (!contentType.startsWith('image/png')) throw new Error('Invalid chart response.');
       const image = await response.blob();
       if (active.current !== controller || controller.signal.aborted) return;
       const url = URL.createObjectURL(image);
       if (imageUrl.current) URL.revokeObjectURL(imageUrl.current);
       imageUrl.current = url;
-      setRendered({ url, expression: plot.expression });
+      shownSurface.current = null;
+      setRendered({ kind: 'image', url, expression: plot.expression });
       setStatus('Chart ready.');
     } catch (reason) {
       if (active.current === controller && !controller.signal.aborted) {
@@ -65,7 +82,7 @@ export function Chart() {
     if (![xMin, xMax, yMin, yMax].every(Number.isFinite) || xMin >= xMax || yMin >= yMax) {
       setError('Each minimum must be smaller than its maximum, and all bounds must be finite.'); return;
     }
-    const plot = { expression, customFunctions: functions.code, xMin, xMax, yMin, yMax };
+    const plot = { expression, customFunctions: functions.code, xMin, xMax, yMin, yMax, gridSize };
     requested.current = plot;
     void renderPlot(plot);
   }
@@ -80,7 +97,7 @@ export function Chart() {
       clearTimeout(timeout);
       timeout = setTimeout(() => {
         // Resize only the explicitly requested plot, never unsubmitted editor text.
-        if (requested.current) void renderPlot(requested.current);
+        if (requested.current && requested.current !== shownSurface.current) void renderPlot(requested.current);
       }, 200);
     };
     window.addEventListener('resize', resize);
@@ -95,15 +112,23 @@ export function Chart() {
     {error && <p role="alert" className="text-danger">{error}</p>}
     <p role="status" aria-live="polite">{status}</p>
     <div className="row g-3"><div className="col-md-9" ref={container} aria-busy={pending}>
-      {rendered ? <figure><img className="chart-image" src={rendered.url} alt={rendered.expression} />
+      {rendered?.kind === 'image' ? <figure><img className="chart-image" src={rendered.url} alt={rendered.expression} />
         <figcaption>Rendered expression: <code>{rendered.expression}</code></figcaption></figure>
+        : rendered?.kind === 'surface' ? <SurfacePlot grid={rendered.grid} expression={rendered.expression} />
         : <p>Enter an expression and choose Draw chart.</p>}
     </div><div className="col-md-3">
       <div className="d-flex flex-wrap gap-2 mb-3">
         <button type="button" className="btn btn-primary btn-lg" disabled={!expression.trim() || pending} onClick={draw}>Draw chart!</button>
         {pending && <button type="button" className="btn btn-outline-danger" onClick={cancel}>Cancel chart</button>}
-        {rendered && <a className="btn btn-outline-secondary" href={rendered.url} download="computator-chart.png">Download PNG</a>}
+        {rendered?.kind === 'image' && <a className="btn btn-outline-secondary" href={rendered.url} download="computator-chart.png">Download PNG</a>}
       </div>
+      <label className="form-label" htmlFor="surface-grid-size">3D surface quality</label>
+      <select className="form-select mb-3" id="surface-grid-size" value={gridSize}
+        onChange={event => setGridSize(Number(event.target.value))}>
+        <option value={33}>Fast (33 × 33)</option>
+        <option value={65}>Balanced (65 × 65)</option>
+        <option value={97}>Detailed (97 × 97)</option>
+      </select>
       <h2 className="h6">Chart area values:</h2><ul className="list-group">
         <li className="list-group-item"><NumericInput label="X" subscriptLabel="MIN" value={xMin} onValueChanged={setXMin} /></li>
         <li className="list-group-item"><NumericInput label="X" subscriptLabel="MAX" value={xMax} onValueChanged={setXMax} /></li>

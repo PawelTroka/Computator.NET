@@ -21,7 +21,8 @@
     "react": "19.3.1",
     "react-ace": "15.0.0",
     "react-dom": "19.3.1",
-    "react-router-dom": "7.18.4"
+    "react-router-dom": "7.18.4",
+    "plotly.js-gl3d-dist-min": "4.1.2"
   },
   "devDependencies": {
     "@playwright/test": "1.64.1",

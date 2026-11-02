@@ -18,6 +18,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Remove="Chart3D\UI\Chart3DControlMono.cs" />
+    <Compile Remove="Chart3D\UI\MonoSurfaceRenderer.cs" />
   </ItemGroup>
   <ItemGroup Condition="'$(ComputatorMono)' == 'true'">
     <!-- Keep the historical Unix-capable renderer; Mono's Framework Chart is incomplete. -->
