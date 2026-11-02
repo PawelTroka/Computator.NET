@@ -68,9 +68,9 @@ internal static partial class Program
                 window.Activate();
                 input.Focus();
                 PumpX11();
-                // xvfb-run does not launch a window manager. Set the real X11
-                // input focus explicitly; Form.Activate alone is insufficient.
-                Xdotool("search --onlyvisible --name Mono.completion.X11.acceptance windowfocus --sync");
+                // The managed Show/Activate calls do not acknowledge native mapping.
+                // Wait for this exact owned XID before assigning native focus.
+                NativeX11Input.FocusOwnedWindow(window.Handle, PumpX11);
                 input.Focus();
                 PumpX11();
 
@@ -244,7 +244,7 @@ internal static partial class Program
             // Xvfb has no window manager to reactivate a popup's owner, just as
             // at fixture startup. Activate that actual X11 top-level window;
             // widget focus below must still come from the real pointer click.
-            Xdotool("search --onlyvisible --name Mono.completion.X11.acceptance windowfocus --sync");
+            NativeX11Input.FocusOwnedWindow(window.Handle, PumpX11);
             menu.SetAutocompleteMenu(other, menu);
             try
             {
@@ -283,7 +283,7 @@ internal static partial class Program
 
         // Return through the native input queue and prove the original editor
         // still owns subsequent selection/insertion, rather than a hidden copy.
-        Xdotool("search --onlyvisible --name Mono.completion.X11.acceptance windowfocus --sync");
+        NativeX11Input.FocusOwnedWindow(window.Handle, PumpX11);
         MoveAndClickX11(editorPoint.X, editorPoint.Y);
         Check(input.Focused, "The actual X11 editor click failed to restore keyboard focus.");
         KeyX11("End");
