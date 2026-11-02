@@ -199,6 +199,7 @@
     <File Path="build/macos/verify-runtime-data.py" />
     <File Path=".github/workflows/mono-macos.yml" />
     <File Path="build/macos/MacDesktopCapture.cs" />
+    <File Path="build/macos/MacCaptureProcessTests.cs" />
     <File Path="build/macos/MacDrawableCapture.cs" />
     <File Path="build/macos/MonoXimContract.cs" />
     <File Path="build/macos/MonoXimContractTests.cs" />
