@@ -239,6 +239,10 @@ internal static partial class Program
                 "Leaving the reference for an unrelated editor left autocomplete/help floating above it.");
             // Keep the other native control alive until focus has really moved
             // back; destroying the focused X11 window would invalidate this test.
+            // Xvfb has no window manager to reactivate a popup's owner, just as
+            // at fixture startup. Activate that actual X11 top-level window;
+            // widget focus below must still come from the real pointer click.
+            Xdotool("search --onlyvisible --name Mono.completion.X11.acceptance windowfocus --sync");
             MoveAndClickX11(editorPoint.X, editorPoint.Y);
             Check(input.Focused, "The real editor did not regain focus after reading the reference.");
             KeyX11("End"); KeyX11("ctrl+space");
@@ -251,9 +255,11 @@ internal static partial class Program
         using (var dialog = new Form { Text = "Mono reference modal acceptance", Size = new Size(240, 120), ShowInTaskbar = false })
         using (var pulse = new System.Windows.Forms.Timer { Interval = 100 })
         {
+            dialog.Controls.Add(new Label { Dock = DockStyle.Fill, Text = "Reference dismissed for modal dialog", TextAlign = ContentAlignment.MiddleCenter });
             Exception failure = null; var ticks = 0;
             pulse.Tick += (_, _) =>
             {
+                if (ticks == 0) CaptureReferenceDesktopX11("autocomplete-reference-modal.png");
                 try { Check(!menu.Visible && !help.Visible, "A modal owner dialog left autocomplete/reference visible."); }
                 catch (Exception error) { failure = error; }
                 if (++ticks >= 3 || failure != null) dialog.Close();
@@ -266,6 +272,7 @@ internal static partial class Program
 
         // Return through the native input queue and prove the original editor
         // still owns subsequent selection/insertion, rather than a hidden copy.
+        Xdotool("search --onlyvisible --name Mono.completion.X11.acceptance windowfocus --sync");
         MoveAndClickX11(editorPoint.X, editorPoint.Y);
         Check(input.Focused, "The actual X11 editor click failed to restore keyboard focus.");
         KeyX11("End");
@@ -273,6 +280,16 @@ internal static partial class Program
         WaitForX11(() => menu.Visible && input.Focused, "Editor focus/completion did not recover after reading help.");
         Check(menu.SelectedItemIndex == 0 && input.Text == "si", "Reading help changed the real editor buffer or completion selection.");
         CaptureAutocompleteX11(window, host, help, "autocomplete-reference-editor-return.png");
+    }
+
+    private static void CaptureReferenceDesktopX11(string name)
+    {
+        var screen = Screen.PrimaryScreen.Bounds;
+        using (var bitmap = new Bitmap(screen.Width, screen.Height))
+        {
+            using (var graphics = Graphics.FromImage(bitmap)) graphics.CopyFromScreen(screen.Location, Point.Empty, screen.Size);
+            bitmap.Save(Path.Combine(outputDirectory, name), ImageFormat.Png);
+        }
     }
 
     private static void ResetAutocompleteInput(CompletionMenu menu, TextBox input)
