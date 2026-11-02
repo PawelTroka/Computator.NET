@@ -529,8 +529,8 @@ internal static partial class Program
             chart.AddFunction(wave);
             Check(chart.FiniteSurfaceSamples == gridSize * gridSize,
                 "Shared sin/cos evaluator unexpectedly produced invalid sample values.");
-            Near(wave.Evaluate(-2, -2), Math.Sin(-2) * Math.Cos(-2), 1e-12);
             // Evaluate<T> infers the delegate signature from the coordinate type.
+            Near(wave.Evaluate(-2.0, -2.0), Math.Sin(-2) * Math.Cos(-2), 1e-12);
             Near(wave.Evaluate(0.0, 0.0), 0, 1e-12);
             chart.ClearAll();
             chart.AddFunction(evaluator.Evaluate("1/(x-y)", "", CalculationsMode.Fxy));
