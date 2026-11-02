@@ -77,6 +77,14 @@ wrapper.chmod(0o755)
     'path':str(tool),'sha256':hashlib.sha256(tool.read_bytes()).hexdigest(),
     'wrapper':str(wrapper),'inheritedDyldTracingCleared':True},indent=2)+'\n')
 PY
+# XRes ownership and compositor analysis remain external acceptance tools. Build
+# them while the compiler/test libraries are available, then hide dependencies
+# before launching the immutable application with its normal runtime-only PATH.
+bash build/macos/build-normal-launch-probe.sh "$evidence/harness/normal-launch" "$mcs"
+python3 build/macos/test_normal_launch.py -v 2>&1 | tee "$evidence/normal-launch-contracts.log"
+python3 build/macos/check-normal-launch-image.py --mono "$mono" --config "$evidence/mono.config" \
+    --probe "$evidence/harness/normal-launch/NormalLaunchImageProbe.exe" \
+    --evidence "$evidence/normal-launch-image-contracts" 2>&1 | tee "$evidence/normal-launch-image-contracts.log"
 # Never modify a developer's Homebrew installation. On disposable hosted CI,
 # hide the original candidates and host font/module data and restore even on red.
 if [[ ${GITHUB_ACTIONS:-} == true ]]; then
@@ -103,6 +111,11 @@ COMPUTATOR_MONO_EXPECTED_APPLICATION_DIRECTORY="$resources/app" \
     "$evidence/harness/Computator.NET.Mono.SmokeTests.exe" --application-directory "$resources/app" "$evidence" \
     2>&1 | tee "$evidence/smoke.log"
 "$python_command" build/macos/verify-acceptance.py "$evidence" "$architecture"
+"$python_command" build/macos/normal-launch.py --bundle "$bundle" --mono "$mono" \
+    --config "$evidence/mono.config" --capture-helper "$evidence/harness/libcomputator-mac-display.dylib" \
+    --x11-tool "$evidence/harness/normal-launch/normal-launch-x11" \
+    --image-probe "$evidence/harness/normal-launch/NormalLaunchImageProbe.exe" \
+    --evidence "$evidence/normal-launch"
 "$python_command" build/macos/package.py --verify --output "$bundle"
 "$python_command" build/macos/verify-package-runtime.py "$resources" "$evidence" "$mono_prefix"
 "$python_command" - "$resources" "$evidence" "$archive" <<'PY'
@@ -114,7 +127,8 @@ digest=hashlib.sha256()
 with archive.open('rb') as stream:
     for block in iter(lambda:stream.read(1024*1024),b''): digest.update(block)
 reports={name:hashlib.sha256((evidence/name).read_bytes()).hexdigest() for name in
-         ('acceptance.json','relocated-native-runtime.json','native-runtime-data.json','launcher-preflight.json','preflight-contracts.log')}
+         ('acceptance.json','relocated-native-runtime.json','native-runtime-data.json','launcher-preflight.json','preflight-contracts.log',
+          'normal-launch/normal-launch.json','normal-launch-contracts.log','normal-launch-image-contracts/image-contracts.json')}
 report={'schemaVersion':1,'scope':'accepted-for-physical-mac-testing','rid':manifest['rid'],'source':manifest['source'],
         'host':{'os':'macOS','productVersion':subprocess.check_output(['/usr/bin/sw_vers','-productVersion'],text=True).strip(),
                 'buildVersion':subprocess.check_output(['/usr/bin/sw_vers','-buildVersion'],text=True).strip(),

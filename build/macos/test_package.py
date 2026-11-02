@@ -7,6 +7,8 @@ import json
 import os
 from pathlib import Path
 import stat
+import subprocess
+import sys
 import tempfile
 import unittest
 from unittest import mock
@@ -305,6 +307,28 @@ diff --git a/input.c b/input.c
             with self.assertRaisesRegex(ValueError,'refusing to overwrite'):
                 mac.download_verified('https://example.invalid/second.patch','a'*64,target)
         self.assertEqual(b'first pinned input',target.read_bytes())
+
+    def test_native_trace_guard_requires_each_real_application_and_private_closure(self):
+        self.metadata['source']={'commit':'a'*40,'tree':'b'*40}
+        self.write_manifest()
+        evidence=self.base/'runtime-evidence';(evidence/'normal-launch').mkdir(parents=True)
+        mono=self.base/'mono-runtime';(mono/'bin').mkdir(parents=True);(mono/'bin/mono').write_bytes(b'native runtime fixture')
+        (evidence/'launcher-preflight.json').write_text(json.dumps({'passed':True,'verifiedBootstrapFiles':2}))
+        def trace(pid):
+            return ''.join(f'dyld[{pid}]: {self.resources}/native/libfixture{number}.dylib\n' for number in range(10))
+        for filename in ('startup.log','smoke.log'):
+            (evidence/filename).write_text(trace(111))
+        for name,normal_trace,exit_code,expected in (
+                ('valid',trace(777),0,True),('missing-normal-trace','',0,False),
+                ('different-process',trace(888),0,False),('failed-normal-close',trace(777),1,False),
+                ('host-X11',trace(777)+'dyld[777]: /opt/X11/lib/libX11.6.dylib\n',0,False)):
+            with self.subTest(name=name):
+                (evidence/'normal-launch/launcher.stderr.log').write_text(normal_trace)
+                (evidence/'normal-launch/normal-launch.json').write_text(json.dumps({'passed':True,'launcherExitCode':exit_code,
+                    'source':self.metadata['source'],'applicationProcess':{'pid':777}}))
+                result=subprocess.run([sys.executable,str(Path(__file__).with_name('verify-package-runtime.py')),
+                    str(self.resources),str(evidence),str(mono)],capture_output=True,text=True)
+                self.assertEqual(expected,result.returncode==0,result.stdout+result.stderr)
 
 
 if __name__=='__main__':

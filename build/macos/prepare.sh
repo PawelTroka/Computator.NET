@@ -31,7 +31,7 @@ if [[ $architecture == arm64 && $brew_prefix != /opt/homebrew ]] || [[ $architec
 fi
 if [[ $install == true ]]; then
     export HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_INSTALL_CLEANUP=1
-    brew install mono pkgconf cairo pango giflib libexif jpeg-turbo libtiff gsl libx11 libxext libxtst libxinerama libxcursor libxfixes xdotool
+    brew install mono pkgconf cairo pango giflib libexif jpeg-turbo libtiff gsl libx11 libxext libxtst libxinerama libxcursor libxfixes xdotool libxres
     if [[ ! -x /opt/X11/bin/Xquartz ]] || ! pkgutil --pkg-info org.xquartz.X11 2>/dev/null | grep -q "version: $(pin xquartz version)"; then
         package="$root/downloads/XQuartz-$(pin xquartz version).pkg"
         fetch "$(pin xquartz url)" "$(pin xquartz sha256)" "$package"

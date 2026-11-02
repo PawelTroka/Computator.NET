@@ -50,4 +50,7 @@ if [[ -z ${DISPLAY:-} ]]; then
 fi
 [[ -n ${DISPLAY:-} ]] && /opt/X11/bin/xdpyinfo >/dev/null 2>&1 || fail 'No authenticated XQuartz display is available. Log out and log back in after installing XQuartz, then retry.'
 cd "$resources/app"
+# The protected system bash may discard inherited DYLD_* variables. Enable only
+# this explicit diagnostic after shell startup, for the actual GUI child alone.
+if [[ ${COMPUTATOR_MONO_TRACE_LIBRARIES:-} == 1 ]]; then export DYLD_PRINT_LIBRARIES=1; fi
 "$mono" --config "$temporary/mono.config" Computator.NET.exe "$@"
