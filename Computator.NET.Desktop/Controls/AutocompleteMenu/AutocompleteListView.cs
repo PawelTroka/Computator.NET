@@ -31,7 +31,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             // functionsDetails = new Dictionary<string, FunctionInfo>();
             toolTip = new WebBrowserToolTip();
 #if __MonoCS__
-            toolTip.Leave += (_, _) => ReferenceFocusLeft?.Invoke(this, EventArgs.Empty);
+            toolTip.ReferenceFocusLeft += (_, _) => ReferenceFocusLeft?.Invoke(this, EventArgs.Empty);
 #endif
             SetStyle(
                 ControlStyles.AllPaintingInWmPaint |

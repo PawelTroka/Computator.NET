@@ -234,7 +234,7 @@ internal static partial class Program
             MoveAndClickX11(otherPoint.X, otherPoint.Y);
             InspectX11WindowStack(window, input, host, (Control)menu.ListView, help);
             Check(other.Focused, "The real X11 click did not reach the unrelated editor.");
-            Check(!menu.Visible && !help.Visible,
+            WaitForX11(() => !menu.Visible && !help.Visible,
                 "Leaving the reference for an unrelated editor left autocomplete/help floating above it.");
             window.Controls.Remove(other);
         }
