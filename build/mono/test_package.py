@@ -77,6 +77,26 @@ class PackageContracts(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'net48'):
             package.verify(self.root)
 
+    def test_reference_image_links_cannot_be_missing_even_with_other_assets_present(self):
+        (self.root / 'app/Static/functions.xml').write_text('<img src="reference-equations/' + 'a' * 64 + '.png"/>')
+        package.write_manifest(self.root, self.metadata)
+        with self.assertRaisesRegex(ValueError, 'missing image'):
+            package.verify(self.root)
+
+    def test_mac_finalization_preserves_explicit_optional_native_maps(self):
+        native = self.root / 'native'
+        native.mkdir()
+        for name in ('gsl', 'cblas', 'gdiplus', 'xim', 'x11'):
+            (native / (name + '.dylib')).write_bytes(b'Mac library fixture')
+        self.metadata['native'] = {'xim': 'native/xim.dylib', 'x11': 'native/x11.dylib'}
+        package.write_manifest(self.root, self.metadata)
+        args = argparse.Namespace(output=self.root, rid='osx-arm64', gsl='native/gsl.dylib',
+                                  cblas='native/cblas.dylib', gdiplus='native/gdiplus.dylib')
+        final = package.finalize(args)
+        self.assertEqual(final['native']['xim'], 'native/xim.dylib')
+        self.assertEqual(final['native']['x11'], 'native/x11.dylib')
+        self.assertEqual(5, len(package.verify(self.root)['native']))
+
     def test_native_selection_must_be_inventory_bound(self):
         self.metadata.update(rid='linux-x64', native={'gsl': '../host.so', 'cblas': 'other', 'gdiplus': 'elsewhere'})
         package.write_manifest(self.root, self.metadata)
@@ -86,6 +106,7 @@ class PackageContracts(unittest.TestCase):
     def test_linux_native_selection_rejects_wrong_architecture(self):
         library = self.base / 'arm.so'
         header = bytearray(b'\x7fELF\x02\x01' + b'\0' * 14)
+        struct.pack_into('<H', header, 16, 3)  # ET_DYN
         struct.pack_into('<H', header, 18, 183)  # AArch64
         library.write_bytes(header)
         with self.assertRaisesRegex(ValueError, 'x86_64'):

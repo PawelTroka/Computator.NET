@@ -165,6 +165,7 @@ def check_elf(path, rid):
         header = stream.read(20)
     # Linux x86_64, 64-bit little-endian ELF shared object; reject architecture substitution.
     if (rid != 'linux-x64' or len(header) != 20 or header[:6] != b'\x7fELF\x02\x01'
+            or struct.unpack('<H', header[16:18])[0] != 3
             or struct.unpack('<H', header[18:20])[0] != 62):
         raise ValueError('Native library is not the requested Linux x86_64 ELF: ' + str(path))
 
@@ -287,6 +288,11 @@ def linux_package(args):
         path = confined(args.gdiplus_directory, name)
         if not path.is_file() or digest(path) != expected:
             raise ValueError('libgdiplus provenance hash mismatch: ' + name)
+    native_tests = (args.gdiplus_directory / 'native-test-suite.log').read_text()
+    for field, expected in [('TOTAL', 36), ('PASS', 36), ('SKIP', 0), ('XFAIL', 0), ('FAIL', 0), ('XPASS', 0), ('ERROR', 0)]:
+        match = re.search(r'^# ' + field + r':\s+(\d+)\s*$', native_tests, re.MULTILINE)
+        if match is None or int(match[1]) != expected:
+            raise ValueError('libgdiplus must pass every unchanged native test: ' + field)
     if {p.relative_to(args.gdiplus_directory).as_posix() for p in payload_files(args.gdiplus_directory)} != set(gdiplus['files']) | {'gdiplus-provenance.json'}:
         raise ValueError('Unrecorded files in the libgdiplus candidate.')
     metadata = stage(args)
