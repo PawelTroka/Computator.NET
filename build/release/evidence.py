@@ -13,14 +13,14 @@ import xml.etree.ElementTree as ET
 from versioning import check
 
 REPORTS = {
-    'TestResults/Computator.NET.Core.Tests.trx': 2118,
+    'TestResults/Computator.NET.Core.Tests.trx': 2346,
     'TestResults/Computator.NET.Core.IntegrationTests.trx': 947,
-    'TestResults/Computator.NET.Desktop.Tests.trx': 557,
-    'TestResults/Computator.NET.WebApi.IntegrationTests.trx': 130,
-    'TestResults/portable.trx': 1438,
-    'TestResults/reference.trx': 166,
-    'Computator.NET.WebClient/test-results/results.xml': 242,
-    'Computator.NET.WebClient/test-results/e2e.xml': 10,
+    'TestResults/Computator.NET.Desktop.Tests.trx': 613,
+    'TestResults/Computator.NET.WebApi.IntegrationTests.trx': 166,
+    'TestResults/portable.trx': 1819,
+    'TestResults/reference.trx': 210,
+    'Computator.NET.WebClient/test-results/results.xml': 278,
+    'Computator.NET.WebClient/test-results/e2e.xml': 20,
     'Computator.NET.WebClient/test-results/custom-functions.xml': 26,
 }
 
@@ -167,11 +167,10 @@ def validate_report(path: Path, minimum: int) -> dict:
     local = lambda element: element.tag.rsplit('}', 1)[-1]
     if local(tree.getroot()) == 'TestRun':
         cases = [node for node in tree.iter() if local(node) == 'UnitTestResult']
-        failures = [node for node in cases if node.get('outcome') not in ('Passed', 'NotExecuted')]
-        skipped = [node for node in cases if node.get('outcome') == 'NotExecuted']
-        permitted = path.name == 'Computator.NET.WebApi.IntegrationTests.trx'
-        if failures or any(not permitted or node.get('testName') != 'ReturnsHttpOkForChart3D' for node in skipped):
-            raise ValueError(f'Failed/undocumented skipped test in {path.name}.')
+        failures = [node for node in cases if node.get('outcome') != 'Passed']
+        skipped = []
+        if failures:
+            raise ValueError(f'Failed/skipped test in {path.name}.')
         identifiers = [node.get('testId') for node in cases]
         definitions = {node.get('id') for node in tree.iter() if local(node) == 'UnitTest'}
         summary = next((node for node in tree.iter() if local(node) == 'ResultSummary'), None)
