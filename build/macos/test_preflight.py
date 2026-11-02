@@ -61,6 +61,25 @@ class MacRuntimePreflightContracts(shared.RuntimePreflightContracts):
         self.reject(self.prepare(target),'outside the read-only package')
         self.assertFalse(target.exists())
 
+    def test_case_alias_cannot_select_an_output_inside_outer_bundle(self):
+        bundle=self.package.parent.parent
+        alias=bundle.with_name(bundle.name.swapcase())
+        target=alias/'Contents/must-not-be-created.config'
+        self.reject(self.prepare(target),'outside the read-only package')
+        self.assertFalse(target.exists())
+
+    def test_bootstrap_parent_symlink_is_rejected(self):
+        directory=self.bootstrap_file('Contents/MacOS')
+        backup=directory.with_name('original-MacOS')
+        directory.rename(backup)
+        try:
+            directory.symlink_to(backup,target_is_directory=True)
+            self.reject(self.prepare(),'bootstrap paths must not traverse symbolic links')
+        finally:
+            if directory.is_symlink():
+                directory.unlink()
+            backup.rename(directory)
+
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
