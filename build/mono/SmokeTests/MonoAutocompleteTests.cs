@@ -40,7 +40,7 @@ internal static partial class Program
             var help = (ToolStripDropDown)typeof(CompletionList)
                 .GetField("toolTip", BindingFlags.Instance | BindingFlags.NonPublic)
                 .GetValue(list);
-            var reference = (RichTextBox)help.Items.OfType<ToolStripControlHost>().Single().Control;
+            var reference = help.Items.OfType<ToolStripControlHost>().Single().Control;
             try
             {
                 Settings.Default.TooltipType = TooltipType.Default;
@@ -74,8 +74,9 @@ internal static partial class Program
                 Check(Screen.FromControl(input).WorkingArea.Contains(host.Bounds), "Completion list is outside the screen.");
                 WaitForX11(() => help.Visible, "The Mono function reference failed to open.");
                 Check(Screen.FromControl(input).WorkingArea.Contains(help.Bounds), "Reference help is clipped beyond the screen.");
-                Check(reference.Text.Contains("Sine reference") && reference.ReadOnly,
-                    "The native text reference is missing or editable.");
+                Check(reference.Text.Contains("Sine reference") &&
+                    (bool)reference.GetType().GetProperty("ReadOnly").GetValue(reference, null),
+                    "The reference description is missing or editable.");
                 Check(input.ContainsFocus, "Opening autocomplete moved keyboard focus away from the editor.");
                 InspectX11WindowStack(window, input, host, list, help);
                 CaptureAutocompleteX11(window, host, help, "autocomplete-after.png");
