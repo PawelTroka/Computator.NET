@@ -229,6 +229,17 @@ diff --git a/input.c b/input.c
         self.assertEqual('a'*64,values[0][2])
         self.assertEqual('test-only',values[1][3])
 
+    def test_linux_conditional_test_resource_is_not_a_mac_build_input(self):
+        recipe='on_linux do\n  resource "pngtest.png" do\n    url "https://example.invalid/pngtest.png"\n    sha256 "'+('a'*64)+'"\n  end\nend\n'
+        self.assertEqual('linux-only',mac.recipe_resources(recipe,'libpng')[0][3])
+
+    def test_retained_source_destinations_never_overwrite_an_earlier_pinned_input(self):
+        target=self.base/'same-name.patch';target.write_bytes(b'first pinned input')
+        with mock.patch.object(mac.urllib.request,'urlretrieve',side_effect=AssertionError('Must not download over an existing input')):
+            with self.assertRaisesRegex(ValueError,'refusing to overwrite'):
+                mac.download_verified('https://example.invalid/second.patch','a'*64,target)
+        self.assertEqual(b'first pinned input',target.read_bytes())
+
 
 if __name__=='__main__':
     unittest.main()

@@ -57,6 +57,46 @@ fetch "$(pin libgdiplus url)" "$(pin libgdiplus sha256)" "$source"
 build="$root/build-libgdiplus"
 prefix="$root/libgdiplus"
 mkdir -p "$build" "$prefix"
+candidate_inputs="$root/logs/libgdiplus-current-inputs.json"
+native_inputs="$root/libgdiplus-build-inputs.json"
+python3 - "$repository" "$candidate_inputs" <<'PY'
+import hashlib,json,os,pathlib,subprocess,sys
+repository=pathlib.Path(sys.argv[1])
+def digest(path):
+    value=hashlib.sha256()
+    with path.open('rb') as stream:
+        for block in iter(lambda:stream.read(1024*1024),b''): value.update(block)
+    return value.hexdigest()
+def run(*args): return subprocess.check_output(args,text=True).strip()
+inputs={'schemaVersion':1,'architecture':run('uname','-m'),
+        'deploymentTarget':os.environ.get('MACOSX_DEPLOYMENT_TARGET'),
+        'compilerEnvironment':{key:os.environ.get(key,'') for key in ('CFLAGS','CPATH','LIBRARY_PATH','SDKROOT','ARCHFLAGS')},
+        'compiler':run('clang','--version'),
+        'xcode':run('xcodebuild','-version'),'recipeFiles':{},'dependencies':{}}
+for name in ('build/macos/prepare.sh','build/macos/native-dependencies.json',
+             'build/mono/gdiplus-source.json','build/mono/libgdiplus-pango-fontmap.patch'):
+    inputs['recipeFiles'][name]=digest(repository/name)
+for formula in ('cairo','pango','glib','fontconfig','freetype','libpng','giflib','libexif',
+                'jpeg-turbo','libtiff','libx11','libxext','pkgconf'):
+    prefix=pathlib.Path(run('brew','--prefix',formula)).resolve(strict=True)
+    libraries={}
+    for library in sorted((prefix/'lib').glob('*.dylib')):
+        if library.is_file():
+            resolved=library.resolve(strict=True)
+            libraries[str(resolved)]=digest(resolved)
+    receipt=prefix/'INSTALL_RECEIPT.json'
+    configurations={str(path.resolve()):digest(path.resolve()) for folder in ('lib/pkgconfig','share/pkgconfig')
+                    for path in (prefix/folder).glob('*.pc') if path.is_file()}
+    inputs['dependencies'][formula]={'prefix':str(prefix),'libraries':libraries,
+                                    'pkgConfigFiles':configurations,
+                                    'receiptSha256':digest(receipt) if receipt.is_file() else None}
+pathlib.Path(sys.argv[2]).write_text(json.dumps(inputs,sort_keys=True,indent=2)+'\n')
+PY
+if [[ -f "$prefix/lib/libgdiplus.dylib" ]] && { [[ ! -f $native_inputs ]] || ! cmp -s "$candidate_inputs" "$native_inputs"; }; then
+    echo 'The existing private libgdiplus does not match the current reviewed source/patch/configuration/tool/dependency inputs.' >&2
+    echo "Preserve $root under a new name, then rerun Mono-Mac-Prepare to create a fresh native directory. No existing files were removed." >&2
+    exit 1
+fi
 if [[ ! -f "$prefix/lib/libgdiplus.dylib" ]]; then
     tar -xzf "$source" --strip-components=1 -C "$build"
     shared_pins="$repository/build/mono/gdiplus-source.json"
@@ -94,6 +134,7 @@ PY
         make -j "$(sysctl -n hw.logicalcpu)"
         make install
     ) 2>&1 | tee "$root/logs/libgdiplus-build.log"
+    cp "$candidate_inputs" "$native_inputs"
 fi
 if [[ $architecture == arm64 ]]; then bash "$repository/build/macos/build-xim-shim.sh" "$root/xim"; fi
 bash "$repository/build/macos/build-display-probe.sh" "$root/display"

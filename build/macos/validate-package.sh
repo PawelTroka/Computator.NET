@@ -105,4 +105,21 @@ COMPUTATOR_MONO_EXPECTED_APPLICATION_DIRECTORY="$resources/app" \
 "$python_command" build/macos/verify-acceptance.py "$evidence" "$architecture"
 "$python_command" build/macos/package.py --verify --output "$bundle"
 "$python_command" build/macos/verify-package-runtime.py "$resources" "$evidence" "$mono_prefix"
+"$python_command" - "$resources" "$evidence" "$archive" <<'PY'
+import hashlib,json,pathlib,sys
+resources,evidence,archive=map(pathlib.Path,sys.argv[1:])
+manifest=json.loads((resources/'mono-package.json').read_text())
+acceptance=json.loads((evidence/'acceptance.json').read_text())
+digest=hashlib.sha256()
+with archive.open('rb') as stream:
+    for block in iter(lambda:stream.read(1024*1024),b''): digest.update(block)
+reports={name:hashlib.sha256((evidence/name).read_bytes()).hexdigest() for name in
+         ('acceptance.json','relocated-native-runtime.json','native-runtime-data.json','launcher-preflight.json','preflight-contracts.log')}
+report={'schemaVersion':1,'scope':'accepted-for-physical-mac-testing','rid':manifest['rid'],'source':manifest['source'],
+        'archive':{'name':archive.name,'sha256':digest.hexdigest(),'size':archive.stat().st_size},
+        'packagedRuntimeAccepted':True,'sharedCases':acceptance['sharedCases'],'evidenceSha256':reports,
+        'physicalMacAccepted':False,'ownerSigned':False,'notarized':False}
+(evidence/'accepted-candidate.json').write_text(json.dumps(report,indent=2)+'\n')
+print('Accepted native archive SHA256:',digest.hexdigest())
+PY
 echo "Relocated native Mono package acceptance passed: $evidence"
