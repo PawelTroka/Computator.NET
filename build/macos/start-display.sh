@@ -21,6 +21,9 @@ printf '%s\n' "$mode_tool" > "$output/display-mode-tool.path"
     cat "$output/display-modes.log"; echo 'No usable native CI display mode; ordinary GUI acceptance remains blocked.' >&2; exit 1;
 }
 defaults write org.xquartz.X11 enable_test_extensions -bool true
+preferences="net.computator.mono.acceptance.$$"
+defaults write "$preferences" wm_auto_quit -bool false
+printf '%s\n' "$preferences" > "$output/window-manager-preferences.txt"
 auth="$output/Xauthority"
 (umask 077; touch "$auth")
 display_number=91
@@ -42,8 +45,8 @@ if [[ $ready != true ]]; then kill -- "-$server" 2>/dev/null || true; echo 'XQua
 grep -q 'XTEST' "$output/xdpyinfo.log" || { kill -- "-$server"; echo 'XQuartz lacks the actual XTEST input extension.' >&2; exit 1; }
 # Starting Xquartz directly bypasses xinitrc, so start its ordinary window manager
 # too. Testing an unmanaged server is not the normal rootless Mac desktop path.
-python3 -c 'import os,sys; os.setsid(); os.execv(sys.argv[1],sys.argv[1:])' \
-    /opt/X11/bin/quartz-wm > "$output/quartz-wm.log" 2>&1 &
+DEBUG=1 python3 -c 'import os,sys; os.setsid(); os.execv(sys.argv[1],sys.argv[1:])' \
+    /opt/X11/bin/quartz-wm --prefs-domain "$preferences" > "$output/quartz-wm.log" 2>&1 &
 manager=$!
 printf '%s\n' "$manager" > "$output/quartz-wm.pgid"
 for ((attempt=0; attempt<30; attempt++)); do
