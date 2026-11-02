@@ -139,6 +139,19 @@ adds neither sandboxing nor a cancellation/process-isolation guarantee.
 
 ### Native libraries
 
+The current hosted GUI acceptance runs on Ubuntu 24.04 with libgdiplus 6.1.
+Older drawing stacks need separate acceptance: on Ubuntu 22.04, libgdiplus
+6.0.4 returned zero text widths and poisoned the drawing context when displaying
+an emoji in the legacy editor, before any find/replace action. Do not remove
+Unicode cases or treat a successful compile as evidence that this stack works.
+
+A controlled Ubuntu 22.04 experiment passed the unchanged 51-case suite using
+libgdiplus 6.1 built with its Pango text backend in a user-owned prefix. A
+process-specific Mono configuration selected that exact library; the system
+libgdiplus was not replaced. This changes both the version and text backend and
+does not identify a particular upstream commit as the cause. See the
+[recorded dependency experiment](evidence/mono-drawing-2026-11-02.json).
+
 `GslConfig.GslDllName` becomes the logical name `gsl` in the Mono build. Both the
 host wrapper and emitted expression/script P/Invokes use it. A mapping attached
 only to `Computator.NET.Core.dll` would not cover generated assemblies with

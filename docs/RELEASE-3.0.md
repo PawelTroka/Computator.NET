@@ -1,6 +1,20 @@
 # Computator.NET 3.0 release preparation
 
-**Review snapshot: 2026-10-16. No 3.0 release, public deployment or Store submission has been published.** The candidate retains the Windows Forms/WPF product on .NET 10 and integrates the reviewed modernization follow-ups. Release acceptance remains tracked below; passing CI certifies only the tested commit and checks.
+**Review snapshot: 2026-11-02. No 3.0 release, public deployment or Store submission has been published.** The candidate retains the Windows Forms/WPF product on .NET 10 and integrates the reviewed modernization follow-ups. Release acceptance remains tracked below; passing CI certifies only the tested commit and checks.
+
+**Current integration source, 2 November 2026:** [#320](https://github.com/PawelTroka/Computator.NET/pull/320)
+consolidates browser/native Mono explicit 3D, interactive browser 2D/complex
+charts, desktop search/printing, translations and shared scientific APIs. The
+SDK minimum is now 10.0.403 and runtime packages are 10.0.14, including the
+[25 October out-of-band security servicing](https://github.com/dotnet/core/blob/main/release-notes/10.0/10.0.14/10.0.14.md).
+The old API 3D skip is no longer allowed: the supported web surface contract is
+numerical JSON with browser WebGL, rather than server-side WPF image rendering.
+The separate portable local browser host is still an experimental managed subset,
+with charts and the full native catalog unavailable. Mono help still uses text
+and equation alternatives. Full Mac desktop parity, signing/Store certification
+and the remaining release acceptance gates below are not implied by this work.
+Earlier dated results and benchmark runtime identities below are historical;
+use the exact final candidate's CI and artifacts for its acceptance evidence.
 
 The second review integrates #151–#164: one complete SLNX, source/IDE frontend preparation, the restrained dark interface, a self-contained protected local web package, shared execution policy, collectible generated programs, canonical candidate identity/evidence, clean-machine and signed-package acceptance harnesses, copied-profile trials, GSL error boundaries, portable scientific services and cancellable worker execution. SDK 10.0.402 and .NET/ASP.NET/JSON 10.0.13 align with October security servicing. The reviewed candidate identity is **3.0.0-preview.1** in `Version.props`.
 
@@ -54,7 +68,7 @@ The acceptance implementation and its contract tests are not machine-execution e
 - [ ] Sign with owner-controlled release credentials; validate MSIX installation and Start-menu/file activation, upgrade from the actual previous Store package, settings/native-cache writes, offline use and uninstall policy. Complete Store certification before submission/release claims.
 - [ ] Verify the final package's adopted GSL 2.8 payload, matching source/build archive and notices, actual resolver reports, intended native/managed ABI and numerical jobs, and difficult-input behavior. Keep the existing published releases available for rollback.
 - [ ] Verify genuine AppVeyor and Travis final-commit runs with native provider URLs/build IDs and completion evidence if those providers are advertised as active gates.
-- [ ] Approve release notes that state the remaining scope: symbolic calculation and server-side 3D rendering are unfinished; the portable CLI is a subset, and the full Windows numerical/graphics engine is not yet a Mac/Linux desktop application.
+- [ ] Approve release notes that state the remaining scope: symbolic calculation and server-side WPF 3D image rendering remain unavailable; browser surfaces use numerical JSON and client rendering. The portable CLI/local browser backend are subsets, and the full Windows numerical/graphics engine is not yet a Mac/Linux desktop application.
 
 The supported web deployment is a trusted local service: both hosts bind to loopback, the frontend uses the protected proxy, and the shared token stays server-side. JSON computation/chart requests execute in owned workers that are retired on cancellation or deadline; legacy routes retain their compatibility behavior. These workers run with the user's permissions and are not a public multi-user sandbox. Public hosting still requires a separately reviewed isolation and authorization design.
 

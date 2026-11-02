@@ -276,6 +276,7 @@
     <File Path="docs/WEB-DEVELOPMENT.md" />
   </Folder>
   <Folder Name="/Documentation/Evidence/">
+    <File Path="docs/evidence/mono-drawing-2026-11-02.json" />
     <File Path="docs/followups/images/issue-255/evidence.json" />
     <File Path="docs/evidence/historical-upgrade-2026-10-16.json" />
     <File Path="docs/evidence/historical-upgrade-2026-10-16/README.md" />
