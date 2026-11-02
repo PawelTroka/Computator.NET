@@ -525,7 +525,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             // Mono can deliver the editor click after a dropdown focus transfer
             // without activating that editor. Preserve the native click's caret
             // handling while explicitly restoring its expected keyboard focus.
-            var target = TargetControlWrapper?.TargetControl;
+            var target = sender as Control ?? (sender as ITextBoxWrapper)?.TargetControl;
             if (target != null && !target.IsDisposed && target.Visible && target.Enabled) target.Focus();
 #endif
         }

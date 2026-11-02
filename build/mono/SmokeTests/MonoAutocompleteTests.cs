@@ -229,11 +229,11 @@ internal static partial class Program
             "The actual tooltip scrollbar failed to scroll the illustrated reference or dismissed it.");
         CaptureAutocompleteX11(window, host, help, "autocomplete-reference-scrolled.png");
 
-        var editorPoint = input.PointToScreen(new Point(8, input.Height / 2));
+        var editorPoint = input.PointToScreen(new Point(8, input.ClientSize.Height / 2));
         using (var other = new TextBox { Location = new Point(24, 220), Size = new Size(200, 24) })
         {
             window.Controls.Add(other);
-            var otherPoint = other.PointToScreen(new Point(8, other.Height / 2));
+            var otherPoint = other.PointToScreen(new Point(8, other.ClientSize.Height / 2));
             MoveAndClickX11(otherPoint.X, otherPoint.Y);
             InspectX11WindowStack(window, input, host, (Control)menu.ListView, help);
             Check(other.Focused, "The real X11 click did not reach the unrelated editor.");
@@ -245,8 +245,17 @@ internal static partial class Program
             // at fixture startup. Activate that actual X11 top-level window;
             // widget focus below must still come from the real pointer click.
             Xdotool("search --onlyvisible --name Mono.completion.X11.acceptance windowfocus --sync");
-            MoveAndClickX11(editorPoint.X, editorPoint.Y);
-            Check(input.Focused, "The real editor did not regain focus after reading the reference.");
+            menu.SetAutocompleteMenu(other, menu);
+            try
+            {
+                MoveAndClickX11(editorPoint.X, editorPoint.Y);
+                Check(input.Focused, "The real editor did not regain focus after reading the reference.");
+                MoveAndClickX11(otherPoint.X, otherPoint.Y);
+                Check(other.Focused && !input.Focused, "A shared completion menu focused its previous editor instead of the actually clicked one.");
+                MoveAndClickX11(editorPoint.X, editorPoint.Y);
+                Check(input.Focused && !other.Focused, "The actual editor did not recover after another attached editor was clicked.");
+            }
+            finally { menu.SetAutocompleteMenu(other, null); }
             KeyX11("End"); KeyX11("ctrl+space");
             WaitForX11(() => menu.Visible && help.Visible, "Completion did not reopen for the modal reference test.");
             window.Controls.Remove(other);
@@ -278,6 +287,11 @@ internal static partial class Program
         MoveAndClickX11(editorPoint.X, editorPoint.Y);
         Check(input.Focused, "The actual X11 editor click failed to restore keyboard focus.");
         KeyX11("End");
+        TypeX11("n");
+        Check(input.Text == "sin", "Real X11 typing after reference reading did not reach the displayed editor.");
+        CaptureAutocompleteX11(window, host, help, "autocomplete-reference-editor-typed.png");
+        KeyX11("BackSpace");
+        Check(input.Text == "si", "The real editor could not undo the test character after reading help.");
         KeyX11("ctrl+space");
         WaitForX11(() => menu.Visible && input.Focused, "Editor focus/completion did not recover after reading help.");
         Check(menu.SelectedItemIndex == 0 && input.Text == "si", "Reading help changed the real editor buffer or completion selection.");
