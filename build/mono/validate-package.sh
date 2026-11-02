@@ -31,6 +31,8 @@ mcs -nologo -nowarn:0414 -r:System.Drawing -out:"$evidence/harness/LegacyFixture
 mono "$evidence/harness/LegacyFixture.exe" "$evidence/legacy-settings.dat"
 mcs -nologo -r:System.Drawing -out:"$evidence/harness/Computator.NET.Mono.DesktopMenuProbe.exe" \
     build/mono/DesktopMenuProbe.cs
+mcs -nologo -out:"$evidence/harness/NativeToolProcessTests.exe" \
+    build/mono/NativeToolProcess.cs build/mono/NativeToolProcessTests.cs
 preflight=$unpacked/app/Computator.NET.Mono.Preflight.exe
 mono "$preflight" prepare --package-root "$unpacked" --config "$evidence/mono.config"
 unset COMPUTATOR_GSL_DIRECTORY MONO_CFG_DIR MONO_ENV_OPTIONS
@@ -40,6 +42,9 @@ export XDG_CONFIG_HOME="$evidence/config" XDG_CACHE_HOME="$evidence/cache"
 # Deliberately exclude all dotnet/Node/private build-tool directories from runtime
 # execution. The clean runtime-only CI container separately proves package deps.
 export PATH=/usr/bin:/bin
+mono_runtime=$(command -v mono)
+timeout --kill-after=5s 30s "$mono_runtime" "$evidence/harness/NativeToolProcessTests.exe" \
+    "$mono_runtime" "$evidence/native-tool-process" 2>&1 | tee "$evidence/native-tool-process-contracts.log"
 COMPUTATOR_DATA_DIRECTORY="$evidence/profile-launcher" \
     timeout --kill-after=10s 120s xvfb-run -a -s '-screen 0 1440x1000x24' \
     "$unpacked/bin/computator" --check 2>&1 | tee "$evidence/launcher-check.log"

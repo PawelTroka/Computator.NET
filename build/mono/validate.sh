@@ -70,6 +70,12 @@ rm -f -- "$results/production-complex-before.png" "$results/production-complex-a
 rm -f -- "$results/autocomplete-after.png"
 rm -f -- "$results/find-replace.png" "$results/find-replace-dialog.png"
 
+mcs -nologo -out:"$validation_temp/NativeToolProcessTests.exe" \
+    build/mono/NativeToolProcess.cs build/mono/NativeToolProcessTests.cs
+mono_runtime=$(command -v mono)
+timeout --kill-after=5s 30s "$mono_runtime" "$validation_temp/NativeToolProcessTests.exe" \
+    "$mono_runtime" "$results/native-tool-process" 2>&1 | tee "$results/native-tool-process-contracts.log"
+
 status=0
 COMPUTATOR_DATA_DIRECTORY="$validation_temp/startup" \
 XDG_CONFIG_HOME="$validation_temp/config" XDG_CACHE_HOME="$validation_temp/cache" \
