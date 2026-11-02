@@ -20,6 +20,9 @@ printf '%s\n' "$mode_tool" > "$output/display-mode-tool.path"
 "$mode_tool" prepare "$output/original-display-mode.txt" > "$output/display-modes.log" 2>&1 || {
     cat "$output/display-modes.log"; echo 'No usable native CI display mode; ordinary GUI acceptance remains blocked.' >&2; exit 1;
 }
+"$mode_tool" verify >> "$output/display-modes.log" 2>&1 || {
+    cat "$output/display-modes.log"; echo 'The selected CI display mode did not survive its setup process.' >&2; exit 1;
+}
 defaults write org.xquartz.X11 enable_test_extensions -bool true
 preferences="net.computator.mono.acceptance.$$"
 defaults write "$preferences" wm_auto_quit -bool false
