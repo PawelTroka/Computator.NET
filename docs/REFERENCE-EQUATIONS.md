@@ -31,6 +31,27 @@ examples remain selectable. Inline expressions also have selectable text equival
 for copying and accessibility. PNG equations are not semantic MathML. The existing HTML engine is preserved rather than silently
 introducing a WebView runtime requirement.
 
+### Audited authoring dependencies
+
+The WebClient manifest temporarily overrides `glob` to `14.0.3` only beneath
+`mj-context-menu@1.0.0` → `rimraf@6.1.3`. The upstream `glob@^13.0.3` range cannot
+reach the fix for [GHSA-3g3m-2fjr-6pw4](https://github.com/advisories/GHSA-3g3m-2fjr-6pw4)
+(first patched in 14.0.2). Glob 14.0.3 also requires `minimatch@^11.0.2`, beyond
+the vulnerable `<11.0.1` range in
+[GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249).
+MathJax 4.1.3 and resvg 2.6.2 remain pinned, and the full
+`npm audit --audit-level=low` gate remains enabled.
+
+This is a scoped major-version override: rimraf uses the retained `glob` and
+`globSync` APIs, but glob's internal matcher and path traversal dependencies must
+move together. Overriding minimatch alone would break the older glob API usage.
+Review the installed tree and validate rimraf cleanup, deterministic equations
+and figures, and browser behavior when updating this chain. Remove the override
+once an upstream dependency update resolves a patched chain normally, then rerun
+`Web-Restore`, `Reference-Validate`, and the web validation suites. The suggested
+`npm audit fix --force` downgrade to MathJax 4.0.0 is incompatible with the reviewed
+renderer version checked by the authoring scripts.
+
 ### Inline mathematics in sentences
 
 Issue #207 reports the Laguerre introduction showing `x^α exp(−x)` as plain text

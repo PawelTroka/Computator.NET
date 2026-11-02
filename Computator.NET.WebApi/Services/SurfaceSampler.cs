@@ -58,6 +58,8 @@ namespace Computator.NET.WebApi.Services
                 var ratio = index / (double)(count - 1);
                 values[index] = index == 0 ? minimum : index == count - 1 ? maximum
                     : (1 - ratio) * minimum + ratio * maximum;
+                if (!double.IsFinite(values[index]) || (index > 0 && values[index] <= values[index - 1]))
+                    throw new ArgumentException("Surface bounds are too close together for the requested sampling precision.");
             }
             return values;
         }

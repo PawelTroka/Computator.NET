@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>14.0</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
+    <NuGetAudit>true</NuGetAudit>
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Computator.NET.Engine/Computator.NET.Engine.csproj" />
+    <Content Include="../Computator.NET.WebClient/dist-portable/**/*" Link="wwwroot/%(RecursiveDir)%(Filename)%(Extension)"
+             CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+  <Target Name="RequirePortableFrontend" BeforeTargets="Publish">
+    <Error Condition="!Exists('$(MSBuildProjectDirectory)/../Computator.NET.WebClient/dist-portable/index.html')"
+           Text="The portable frontend is missing. Run build/portable-web/build.sh to build and publish the complete local application." />
+  </Target>
+</Project>

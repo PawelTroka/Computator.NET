@@ -37,6 +37,8 @@ EVERYDAY TARGETS
   Web-Validate        Any OS: publish frontend and run Chromium/Firefox tests.
   Web-IDE-Validate    Windows: exercise actual source-host IDE startup.
   Web-E2E             Windows: exercise the real frontend and mathematical API.
+  PortableWeb-Publish Any OS: audited independent local browser preview; pass --portable-web-rid.
+  PortableWeb-Validate Linux/macOS: publish, real HTTP/process and Chromium/WebKit checks.
   Solution-Validate   Windows: validate and build the complete developer solution.
   Clean               Remove generated application/build/test output.
 

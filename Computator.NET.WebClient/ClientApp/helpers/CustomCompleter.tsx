@@ -4,8 +4,9 @@ interface Completion { caption: string; value: string; score: number; meta: stri
 export class CustomCompleter {
   private items: Completion[] = [];
   private readonly controller = new AbortController();
+  private readonly ready: Promise<void>;
   public constructor(mode: 'expression' | 'scripting') {
-    void fetch(`${WEB_API_BASE_URL}/autocomplete/${mode}`, { signal: this.controller.signal })
+    this.ready = fetch(`${WEB_API_BASE_URL}/autocomplete/${mode}`, { signal: this.controller.signal })
       .then(response => { if (!response.ok) throw new Error('Autocomplete is unavailable.'); return response.json(); })
       .then((items: unknown) => {
         if (!Array.isArray(items)) return;
@@ -21,7 +22,10 @@ export class CustomCompleter {
   public dispose() { this.controller.abort(); }
   public getCompletions(_editor: unknown, _session: unknown, _position: unknown, prefix: string,
     callback: (error: null, items: Completion[]) => void): void {
-    callback(null, this.items.map(item => ({ ...item,
-      score: item.value.includes(prefix) ? prefix.length / Math.max(item.value.length, 1) : 0 })));
+    // Ace supports asynchronous completers. A cold Ctrl+Space must retain its
+    // request until the catalogue arrives, rather than permanently returning an
+    // empty list and requiring the user to invoke completion a second time.
+    void this.ready.then(() => callback(null, this.controller.signal.aborted ? [] : this.items.map(item => ({ ...item,
+      score: item.value.includes(prefix) ? prefix.length / Math.max(item.value.length, 1) : 0 }))));
   }
 }

@@ -1,0 +1,68 @@
+name: Portable local web proof of concept
+on:
+  pull_request:
+  push:
+    branches: [master]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: portable-local-web-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  published-local-host:
+    name: ${{ matrix.rid }} HTTP and headless browsers
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            rid: linux-x64
+            architecture: X64
+          - os: macos-15-intel
+            rid: osx-x64
+            architecture: X64
+          - os: macos-15
+            rid: osx-arm64
+            architecture: Arm64
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: Computator.NET.WebClient/package-lock.json
+      - name: Install the repository-pinned npm release
+        shell: bash
+        run: npm install --global "$(node -p "require('./Computator.NET.WebClient/package.json').packageManager")"
+      - name: Record actual runner and runtime
+        shell: bash
+        run: |
+          mkdir -p artifacts/portable-web-evidence/${{ matrix.rid }}
+          {
+            git rev-parse HEAD
+            uname -a
+            dotnet --info
+            node --version
+            npm --version
+          } > artifacts/portable-web-evidence/${{ matrix.rid }}/environment.log
+      - name: Audited portable publish, HTTP/process checks and real headless browsers through Cake
+        shell: bash
+        run: bash ./build.sh --target=PortableWeb-Validate --portable-web-rid=${{ matrix.rid }}
+      - name: Retain separate evidence; no desktop GUI certification implied
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: portable-local-web-${{ matrix.rid }}
+          path: |
+            artifacts/portable-web-evidence/${{ matrix.rid }}/**
+            Computator.NET.WebClient/test-results/portable-local.xml
+            Computator.NET.WebClient/test-results/portable-local/**
+          retention-days: 14
