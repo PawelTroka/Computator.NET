@@ -82,10 +82,14 @@ def application_contract(directory):
             raise ValueError('Incomplete Mono application output: ' + name)
     if not list((directory / 'TSL Examples').rglob('*.tsl')):
         raise ValueError('The application output is missing its TSL examples.')
-    if not list((directory / 'Static/reference-equations').glob('*.svg')):
+    if not list((directory / 'Static/reference-equations').glob('*.png')):
         raise ValueError('The application output is missing reference equation assets.')
     if not list((directory / 'Static/reference-figures').glob('*.png')):
         raise ValueError('The application output is missing reference figure assets.')
+    reference = (directory / 'Static/functions.xml').read_text(encoding='utf-8-sig')
+    for image in set(re.findall(r'(reference-(?:equations|figures)/[0-9a-f]{64}\.png)', reference)):
+        if not confined(directory, 'Static/' + image).is_file():
+            raise ValueError('The mathematical reference links to a missing image: ' + image)
     runtime = ET.parse(directory / 'Computator.NET.exe.config').getroot().find('startup/supportedRuntime')
     if runtime is None or runtime.get('sku') != '.NETFramework,Version=v4.8':
         raise ValueError('Package the actual net48 Mono output, not a Windows .NET application.')
@@ -137,7 +141,7 @@ def verify(root):
     native = metadata.get('native', {})
     if native:
         required = {'gsl', 'cblas', 'gdiplus'}
-        allowed = required | {'cairo', 'x11', 'xtst', 'xinerama', 'xext'}
+        allowed = required | {'cairo', 'x11', 'xtst', 'xinerama', 'xext', 'xcursor', 'xfixes'}
         if metadata.get('rid') not in RIDS or not required.issubset(native) or not set(native).issubset(allowed):
             raise ValueError('Incomplete native runtime selection.')
         for name in native.values():
@@ -201,6 +205,8 @@ def stage(args):
                         identity['commit']], stdout=stream, check=True)
     metadata = {'version': product_version(), 'source': identity, 'native': {},
                 'application': {'files': len(list(payload_files(destination / 'app'))),
+                                'equationAssets': len(list((destination / 'app/Static/reference-equations').glob('*.png'))),
+                                'figureAssets': len(list((destination / 'app/Static/reference-figures').glob('*.png'))),
                                 'functionsXmlSha256': digest(destination / 'app/Static/functions.xml')}}
     write_manifest(destination, metadata)
     return metadata

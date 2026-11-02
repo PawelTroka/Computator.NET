@@ -27,7 +27,7 @@ class PackageContracts(unittest.TestCase):
             path.write_bytes(b'actual payload fixture')
         (app / 'Computator.NET.exe.config').write_text(
             '<configuration><startup><supportedRuntime sku=".NETFramework,Version=v4.8"/></startup></configuration>')
-        for name in ('TSL Examples/probe.tsl', 'Static/reference-equations/equation.svg', 'Static/reference-figures/figure.png'):
+        for name in ('TSL Examples/probe.tsl', 'Static/reference-equations/equation.png', 'Static/reference-figures/figure.png'):
             path = app / name
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes(b'content')
