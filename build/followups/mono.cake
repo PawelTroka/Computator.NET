@@ -105,3 +105,19 @@ Task("Mono-Mac-Package-Validate")
             .Append(configuration).AppendQuoted("artifacts/macos/package/" + configuration +
                 "/Computator.NET-mono-" + MonoMacPackageRid() + ".zip")
     }));
+
+Task("Mono-Mac-Archive-Validate")
+    .Description("macOS: test an existing Mono ZIP on this native host; pass --mono-mac-archive without rebuilding its payload.")
+    .IsDependentOn("Mono-Mac-Prepare").IsDependentOn("Mono-Build")
+    .Does(() =>
+{
+    MonoMacPackageRid();
+    var archive = Argument("mono-mac-archive", "");
+    if (string.IsNullOrWhiteSpace(archive) || !FileExists(archive))
+        throw new Exception("Pass an existing Mac application ZIP with --mono-mac-archive=<path>.");
+    CheckedProcess("bash", new ProcessSettings
+    {
+        Arguments = new ProcessArgumentBuilder().AppendQuoted("build/macos/validate-package.sh")
+            .Append(configuration).AppendQuoted(archive)
+    });
+});

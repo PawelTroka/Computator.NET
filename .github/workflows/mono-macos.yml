@@ -76,5 +76,110 @@ jobs:
             artifacts/macos/**/*.xml
             artifacts/macos/**/*.png
             artifacts/macos/**/*.ppm
+            artifacts/macos/**/*.sha256
             artifacts/macos/package/**/*.zip
+          retention-days: 7
+  apple-silicon-macos26-compatibility:
+    name: macOS 26 runs the macOS 15 Apple Silicon archive
+    needs: native-application
+    runs-on: macos-26
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: global.json
+      - name: Download the already accepted macOS 15 Apple Silicon candidate
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: mono-macos-arm64
+          path: artifacts/macos/compat-input
+          digest-mismatch: error
+      - name: Verify native host and restore pinned Cake
+        run: |
+          test "$(uname -m)" = arm64
+          dotnet tool restore
+      - name: Prepare the external runtime and acceptance harness dependencies
+        run: bash ./build.sh --target=Mono-Mac-Prepare --mono-install-dependencies=true
+      - name: Start an owned authenticated XQuartz display
+        run: |
+          bash build/macos/start-display.sh artifacts/macos/display
+          echo "COMPUTATOR_MAC_DISPLAY_ENV=$PWD/artifacts/macos/display/display.env" >> "$GITHUB_ENV"
+      - name: Bind the downloaded ZIP to successful macOS 15 acceptance
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,pathlib,subprocess
+          root=pathlib.Path('artifacts/macos/compat-input/package/Release')
+          reports=list(root.glob('acceptance-osx-arm64-*/accepted-candidate.json'))
+          if len(reports)!=1: raise SystemExit('Expected one successful producer acceptance report.')
+          report=json.loads(reports[0].read_text())
+          source=report['source']; archive=report['archive']
+          raw=reports[0].parent/'acceptance.json'
+          application=json.loads(raw.read_text())
+          git=lambda name: subprocess.check_output(['git','rev-parse',name],text=True).strip()
+          if (report.get('packagedRuntimeAccepted') is not True or report.get('rid')!='osx-arm64'
+                  or report.get('sharedCases',0)<54 or source.get('trackedChanges') is not False
+                  or source.get('commit')!=git('HEAD') or source.get('tree')!=git('HEAD^{tree}')
+                  or application.get('passed') is not True or application.get('checkoutDirty') is not False
+                  or application.get('checkoutCommit')!=source['commit']
+                  or application.get('sharedCases')!=report['sharedCases']
+                  or hashlib.sha256(raw.read_bytes()).hexdigest()!=report['evidenceSha256']['acceptance.json']
+                  or report.get('host',{}).get('productVersion','').split('.')[0]!='15'
+                  or report.get('host',{}).get('machine')!='arm64'):
+              raise SystemExit('The producer must have accepted this exact clean checkout on macOS 15 ARM64.')
+          candidate=root/'Computator.NET-mono-osx-arm64.zip'
+          digest=hashlib.sha256()
+          with candidate.open('rb') as stream:
+              for block in iter(lambda:stream.read(1024*1024),b''): digest.update(block)
+          if archive!={'name':candidate.name,'sha256':digest.hexdigest(),'size':candidate.stat().st_size}:
+              raise SystemExit('The inner ZIP differs from the successfully accepted macOS 15 candidate.')
+          pathlib.Path('artifacts/macos/compatibility-input.json').write_text(json.dumps({
+              'source':source,'archive':archive,'producerHost':report['host'],
+              'producerReportSha256':hashlib.sha256(reports[0].read_bytes()).hexdigest()},indent=2)+'\n')
+          PY
+      - name: Accept the older-baseline ZIP without replacing or repacking its payload
+        run: |
+          candidate="$PWD/artifacts/macos/compat-input/package/Release/Computator.NET-mono-osx-arm64.zip"
+          bash ./build.sh --target=Mono-Mac-Archive-Validate --mono-mac-archive="$candidate"
+          python3 - <<'PY'
+          import hashlib,json,pathlib
+          original=json.loads(pathlib.Path('artifacts/macos/compatibility-input.json').read_text())
+          reports=list(pathlib.Path('artifacts/macos/package/Release').glob('acceptance-osx-arm64-*/accepted-candidate.json'))
+          if len(reports)!=1: raise SystemExit('Expected one native compatibility acceptance report.')
+          accepted=json.loads(reports[0].read_text())
+          raw=reports[0].parent/'acceptance.json'
+          application=json.loads(raw.read_text())
+          if (accepted.get('packagedRuntimeAccepted') is not True or accepted.get('source')!=original['source']
+                  or accepted.get('archive')!=original['archive'] or accepted.get('sharedCases',0)<54
+                  or application.get('passed') is not True or application.get('checkoutDirty') is not False
+                  or application.get('checkoutCommit')!=original['source']['commit']
+                  or application.get('sharedCases')!=accepted['sharedCases']
+                  or hashlib.sha256(raw.read_bytes()).hexdigest()!=accepted['evidenceSha256']['acceptance.json']
+                  or accepted.get('host',{}).get('productVersion','').split('.')[0]!='26'
+                  or accepted.get('host',{}).get('machine')!='arm64'):
+              raise SystemExit('macOS 26 did not accept the exact macOS 15 Apple Silicon archive.')
+          print('Same archive accepted on macOS 15 and 26:',accepted['archive']['sha256'])
+          PY
+      - name: Stop only the owned XQuartz server
+        if: always()
+        run: bash build/macos/stop-display.sh artifacts/macos/display
+      - name: Retain macOS display capture when the runner permits it
+        if: always()
+        continue-on-error: true
+        run: /usr/sbin/screencapture -x artifacts/macos/display/native-macos-screen.png
+      - name: Retain compatibility evidence and the original candidate hash
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: mono-macos-26-arm64-compatibility
+          path: |
+            artifacts/macos/**/*.log
+            artifacts/macos/**/*.json
+            artifacts/macos/**/*.config
+            artifacts/macos/**/*.xml
+            artifacts/macos/**/*.png
+            artifacts/macos/**/*.ppm
+            artifacts/macos/**/*.sha256
           retention-days: 7

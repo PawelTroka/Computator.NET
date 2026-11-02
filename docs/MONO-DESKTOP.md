@@ -191,6 +191,18 @@ original drawing candidates and build-host font/module data are temporarily
 hidden and restored; process traces must select the packaged drawing closure.
 The ordinary launcher never changes display modes or hides system dependencies.
 
+The Apple Silicon compatibility lane also runs the **same macOS 15-built ZIP**
+on macOS 26. It prepares an external test harness/runtime there, then checks the
+original archive rather than substituting a new package with a newer deployment
+minimum. To repeat that check with a downloaded candidate:
+
+```sh
+./build.sh --target=Mono-Mac-Archive-Validate --mono-mac-archive=/path/to/Computator.NET-mono-osx-arm64.zip
+```
+
+This lane must pass before claiming macOS 26 acceptance; its own reports retain
+the archive hash and native runtime identity.
+
 The executable inside the bundle is `Contents/MacOS/Computator.NET`; its
 `--preflight` option prints native dependency/architecture evidence without
 starting the desktop. The `.app` can be moved as a whole. Rewritten dylibs carry

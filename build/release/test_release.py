@@ -306,6 +306,32 @@ class ReleaseTests(unittest.TestCase):
             relative = 'artifacts/reference/' + filename
             self.assertEqual(manifest['artifacts'][relative]['sha256'], digest(self.root / relative))
 
+    def test_release_rejects_losing_current_core_and_desktop_cases(self):
+        self.reference_candidate()
+        current = {'TestResults/Computator.NET.Core.Tests.trx': 2369,
+                   'TestResults/Computator.NET.Desktop.Tests.trx': 652}
+        for relative, count in current.items():
+            (self.root / relative).write_text(self.trx_report(count))
+        finish(self.root)
+        manifest_path = self.root / 'artifacts/release-evidence/manifest.json'
+        manifest = json.loads(manifest_path.read_text())
+        self.assertEqual(sum(report['cases'] for report in manifest['reports'].values()), 6497)
+        # Valid, all-passing reports must still fail when current regressions
+        # disappear: the old guard accepted both of these earlier suite sizes.
+        for relative, old_count in (('TestResults/Computator.NET.Core.Tests.trx', 2346),
+                                    ('TestResults/Computator.NET.Desktop.Tests.trx', 620)):
+            path = self.root / relative
+            original = path.read_bytes()
+            with self.subTest(report=relative):
+                try:
+                    path.write_text(self.trx_report(old_count))
+                    with self.assertRaisesRegex(ValueError, path.name):
+                        finish(self.root)
+                    self.assertFalse(manifest_path.exists())
+                finally:
+                    path.write_bytes(original)
+        self.assertEqual(sum(required_reports(self.root).values()), 6497)
+
     def test_release_manifest_binds_each_gsl_report_and_current_provenance(self):
         self.reference_candidate()
         finish(self.root)
