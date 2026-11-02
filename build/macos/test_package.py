@@ -325,6 +325,31 @@ diff --git a/input.c b/input.c
                 mac.download_verified('https://example.invalid/second.patch','a'*64,target)
         self.assertEqual(b'first pinned input',target.read_bytes())
 
+    def test_source_transport_retry_keeps_the_same_pin_and_never_retains_bad_bytes(self):
+        data=b'complete pinned source archive';digest=hashlib.sha256(data).hexdigest()
+        target=self.base/'verified-source.tar.xz';url='https://example.invalid/fixed.tar.xz'
+        with mock.patch.object(mac.urllib.request,'urlopen',side_effect=[TimeoutError('observed archive stall'),io.BytesIO(data)]) as opened:
+            mac.download_verified(url,digest,target)
+            self.assertEqual(data,target.read_bytes())
+            self.assertEqual([mock.call(url,timeout=60)]*2,opened.call_args_list)
+        rejected=self.base/'bad-source.tar.xz'
+        with mock.patch.object(mac.urllib.request,'urlopen',return_value=io.BytesIO(b'changed bytes')) as opened:
+            with self.assertRaisesRegex(ValueError,'hash mismatch'):
+                mac.download_verified(url,digest,rejected)
+            self.assertFalse(rejected.exists())
+            self.assertEqual(1,opened.call_count,'Integrity mismatches must not be retried or accepted.')
+        dribbling=mock.MagicMock();dribbling.__enter__.return_value=dribbling
+        dribbling.read1.return_value=b'partial bytes'
+        timed_out=self.base/'stalled-source.tar.xz'
+        with mock.patch.object(mac.urllib.request,'urlopen',return_value=dribbling) as opened,\
+                mock.patch.object(mac.time,'monotonic',side_effect=[0,0,301,302,302,603]):
+            with self.assertRaisesRegex(TimeoutError,'exceeded five minutes'):
+                mac.download_verified(url,digest,timed_out)
+            self.assertFalse(timed_out.exists())
+            self.assertEqual(2,opened.call_count)
+            self.assertEqual(2,dribbling.read1.call_count)
+            self.assertEqual([],list(self.base.glob('.computator-source-*')),'Owned partial transfers must be cleaned up.')
+
     def test_native_trace_guard_requires_each_real_application_and_private_closure(self):
         self.metadata['source']={'commit':'a'*40,'tree':'b'*40}
         self.write_manifest()
