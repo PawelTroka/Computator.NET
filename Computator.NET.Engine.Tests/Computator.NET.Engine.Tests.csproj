@@ -21,6 +21,12 @@
     <Compile Include="../Computator.NET.Desktop.Tests/AxisTickGeneratorTests.cs" Link="Charting/AxisTickGeneratorTests.cs" />
     <Compile Include="../Computator.NET.Desktop.Tests/ComplexTickRenderingTests.cs" Link="Charting/ComplexTickRenderingTests.cs" />
     <Compile Include="../Computator.NET.Desktop.Tests/ComplexChartRenderingTests.cs" Link="Charting/ComplexChartRenderingTests.cs" />
+    <!-- Inspect explicit translations on every OS: ResourceManager's fallback
+         would otherwise hide missing satellite keys. Do not load WinForms. -->
+    <None Include="../Computator.NET.Localization/**/*.resx"
+          Exclude="../Computator.NET.Localization/**/*.pl.resx"
+          Link="Localization/%(RecursiveDir)%(Filename)%(Extension)"
+          CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../Computator.NET.Engine/Computator.NET.Engine.csproj" />

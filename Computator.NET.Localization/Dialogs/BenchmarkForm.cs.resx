@@ -133,12 +133,21 @@
     <value>Zrušit</value>
   </data>
   <data name="richTextBox4.Text" xml:space="preserve">
-    <value>Otestovat výkonný výpočet</value>
+    <value>Otestovat rychlost výpočtu matematických funkcí</value>
   </data>
   <data name="startFunctionsTestButton.Text" xml:space="preserve">
     <value>Spustit test !</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Výsledky:</value>
+  </data>
+  <data name="memoryTestRichTextBox.Text" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="functionsTestRichTextBox.Text" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Benchmark</value>
   </data>
 </root>

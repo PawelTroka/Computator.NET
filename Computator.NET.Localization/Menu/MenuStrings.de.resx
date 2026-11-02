@@ -118,19 +118,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="complexChartToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tabelle</value>
+    <value>Diagramm</value>
   </data>
   <data name="chartToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tabelle</value>
+    <value>Diagramm</value>
   </data>
   <data name="chart3dToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tabelle</value>
+    <value>Diagramm</value>
   </data>
   <data name="aboutToolStripMenuItem1.Text" xml:space="preserve">
-    <value>Über das Programm</value>
+    <value>&amp;Über das Programm...</value>
   </data>
   <data name="BugReporting.Text" xml:space="preserve">
-    <value>Melden von Fehlern</value>
+    <value>&amp;Fehler melden</value>
   </data>
   <data name="colorAssignmentToolStripMenuItem.Text" xml:space="preserve">
     <value>Farbzuordnungsmodus</value>
@@ -139,25 +139,25 @@
     <value>Konturlinien -Modus</value>
   </data>
   <data name="edit.Text" xml:space="preserve">
-    <value>Edit ...</value>
+    <value>Bearbeiten...</value>
   </data>
   <data name="editProperties.Text" xml:space="preserve">
-    <value>Bearbeiten Eigenschaften ...</value>
+    <value>Eigenschaften bearbeiten...</value>
   </data>
   <data name="editToolStripMenuItem1.Text" xml:space="preserve">
-    <value>Edit ...</value>
+    <value>&amp;Bearbeiten</value>
   </data>
   <data name="Features.Text" xml:space="preserve">
-    <value>Eigenschaften:</value>
+    <value>F&amp;unktionsumfang</value>
   </data>
   <data name="export.Text" xml:space="preserve">
     <value>Export</value>
   </data>
   <data name="functionsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Funktion</value>
+    <value>&amp;Funktionen</value>
   </data>
   <data name="helpToolStripButton.Text" xml:space="preserve">
-    <value>Hilfe</value>
+    <value>&amp;Hilfe</value>
   </data>
   <data name="Language.Text" xml:space="preserve">
     <value>Sprache</value>
@@ -166,18 +166,192 @@
     <value>Position der Legende</value>
   </data>
   <data name="optionsToolStripMenuItem1.Text" xml:space="preserve">
-    <value>Optionen</value>
+    <value>&amp;Einstellungen</value>
   </data>
   <data name="rescale.Text" xml:space="preserve">
-    <value>Maßstab</value>
+    <value>Neu skalieren</value>
   </data>
   <data name="saveAsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Speichern</value>
+    <value>Speichern &amp;unter</value>
   </data>
   <data name="ThanksTo.Text" xml:space="preserve">
-    <value>dank</value>
+    <value>&amp;Danksagung</value>
   </data>
   <data name="type.Text" xml:space="preserve">
     <value>Art</value>
+  </data>
+  <data name="newToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Neu</value>
+  </data>
+  <data name="openToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Öffnen</value>
+  </data>
+  <data name="saveToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Speichern</value>
+  </data>
+  <data name="printToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Drucken</value>
+  </data>
+  <data name="printPreviewToolStripMenuItem.Text" xml:space="preserve">
+    <value>Druck&amp;vorschau</value>
+  </data>
+  <data name="exitToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Beenden</value>
+  </data>
+  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Datei</value>
+  </data>
+  <data name="undoToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Rückgängig</value>
+  </data>
+  <data name="redoToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Wiederholen</value>
+  </data>
+  <data name="DHT.Text" xml:space="preserve">
+    <value>DHT</value>
+  </data>
+  <data name="IFHT.ToolTipText" xml:space="preserve">
+    <value>Inverse schnelle Hilbert-Transformation</value>
+  </data>
+  <data name="runToolStripButton.Text" xml:space="preserve">
+    <value>Ausführen</value>
+  </data>
+  <data name="pasteToolStripButton.Text" xml:space="preserve">
+    <value>&amp;Einfügen</value>
+  </data>
+  <data name="copyToolStripButton.Text" xml:space="preserve">
+    <value>&amp;Kopieren</value>
+  </data>
+  <data name="cutToolStripButton.Text" xml:space="preserve">
+    <value>A&amp;usschneiden</value>
+  </data>
+  <data name="printToolStripButton.Text" xml:space="preserve">
+    <value>&amp;Drucken</value>
+  </data>
+  <data name="saveToolStripButton.Text" xml:space="preserve">
+    <value>&amp;Speichern</value>
+  </data>
+  <data name="openToolStripButton.Text" xml:space="preserve">
+    <value>&amp;Öffnen</value>
+  </data>
+  <data name="newToolStripButton.Text" xml:space="preserve">
+    <value>&amp;Neu</value>
+  </data>
+  <data name="helpToolStripMenuItem1.Text" xml:space="preserve">
+    <value>&amp;Hilfe</value>
+  </data>
+  <data name="Changelog.Text" xml:space="preserve">
+    <value>Änderungs&amp;protokoll</value>
+  </data>
+  <data name="toolsToolStripMenuItem.Text" xml:space="preserve">
+    <value>E&amp;xtras</value>
+  </data>
+  <data name="Logs.Text" xml:space="preserve">
+    <value>&amp;Protokolle</value>
+  </data>
+  <data name="Benchmark.Text" xml:space="preserve">
+    <value>&amp;Benchmark</value>
+  </data>
+  <data name="fullscreenToolStripMenuItem.Text" xml:space="preserve">
+    <value>Vollbild</value>
+  </data>
+  <data name="transformToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Transformation</value>
+  </data>
+  <data name="DHT.ToolTipText" xml:space="preserve">
+    <value>Diskrete Hartley-Transformation</value>
+  </data>
+  <data name="IFHT.Text" xml:space="preserve">
+    <value>IFHT</value>
+  </data>
+  <data name="FHT.ToolTipText" xml:space="preserve">
+    <value>Schnelle Hilbert-Transformation</value>
+  </data>
+  <data name="FHT.Text" xml:space="preserve">
+    <value>FHT</value>
+  </data>
+  <data name="IDCT.ToolTipText" xml:space="preserve">
+    <value>Inverse diskrete Kosinustransformation</value>
+  </data>
+  <data name="IDCT.Text" xml:space="preserve">
+    <value>IDCT</value>
+  </data>
+  <data name="DCT.ToolTipText" xml:space="preserve">
+    <value>Diskrete Kosinustransformation</value>
+  </data>
+  <data name="DCT.Text" xml:space="preserve">
+    <value>DCT</value>
+  </data>
+  <data name="IDST.ToolTipText" xml:space="preserve">
+    <value>Inverse diskrete Sinustransformation</value>
+  </data>
+  <data name="IDST.Text" xml:space="preserve">
+    <value>IDST</value>
+  </data>
+  <data name="DST.ToolTipText" xml:space="preserve">
+    <value>Diskrete Sinustransformation</value>
+  </data>
+  <data name="DST.Text" xml:space="preserve">
+    <value>DST</value>
+  </data>
+  <data name="IFFT.ToolTipText" xml:space="preserve">
+    <value>Inverse schnelle Fourier-Transformation</value>
+  </data>
+  <data name="IFFT.Text" xml:space="preserve">
+    <value>IFFT</value>
+  </data>
+  <data name="FFT.ToolTip.Text" xml:space="preserve">
+    <value>Schnelle Fourier-Transformation</value>
+  </data>
+  <data name="FFT.Text" xml:space="preserve">
+    <value>FFT</value>
+  </data>
+  <data name="constantsToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Konstanten</value>
+  </data>
+  <data name="physicalConstantsToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Physikalische Konstanten</value>
+  </data>
+  <data name="mathematicalConstantsToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Mathematische Konstanten</value>
+  </data>
+  <data name="specialFunctionsToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Spezielle Funktionen</value>
+  </data>
+  <data name="elementaryFunctionsToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Elementare Funktionen</value>
+  </data>
+  <data name="exponentiationToolStripMenuItem.Text" xml:space="preserve">
+    <value>Exponent</value>
+  </data>
+  <data name="selectAllToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Alles auswählen</value>
+  </data>
+  <data name="pasteToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Einfügen</value>
+  </data>
+  <data name="copyToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Kopieren</value>
+  </data>
+  <data name="cutToolStripMenuItem.Text" xml:space="preserve">
+    <value>A&amp;usschneiden</value>
+  </data>
+  <data name="fitAxes.Text" xml:space="preserve">
+    <value>Achsen anpassen</value>
+  </data>
+  <data name="equalAxes.Text" xml:space="preserve">
+    <value>Gleiche Achsenskalierung</value>
+  </data>
+  <data name="aligment.Text" xml:space="preserve">
+    <value>Ausrichtung</value>
+  </data>
+  <data name="placement.Text" xml:space="preserve">
+    <value>Position</value>
+  </data>
+  <data name="color.Text" xml:space="preserve">
+    <value>Farbe</value>
+  </data>
+  <data name="series.Text" xml:space="preserve">
+    <value>Datenreihen</value>
   </data>
 </root>

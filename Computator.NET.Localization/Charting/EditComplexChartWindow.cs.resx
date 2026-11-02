@@ -121,7 +121,7 @@
     <value>Zrušit</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>osa x</value>
+    <value>Popisek osy x</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
     <value>Název grafu </value>
@@ -157,16 +157,16 @@
     <value>kreslit osy ?</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
-    <value>barva etiket</value>
+    <value>Barva popisků</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
-    <value>barva osy</value>
+    <value>Barva os</value>
   </data>
   <data name="fontsGroupBox.Text" xml:space="preserve">
-    <value>Font</value>
+    <value>Písma</value>
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
-    <value>Etikety</value>
+    <value>Popisky</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
     <value>Hodnoty na osách</value>
@@ -175,13 +175,13 @@
     <value>Editovat komplexní graf</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>osa y</value>
+    <value>Popisek osy y</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>y maximální</value>
+    <value>Maximum y</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>x maximální</value>
+    <value>Maximum x</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
@@ -219,5 +219,11 @@
   </data>
   <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 17</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Minimum x</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Minimum y</value>
   </data>
 </root>
