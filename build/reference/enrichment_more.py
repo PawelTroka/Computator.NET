@@ -99,7 +99,7 @@ MATRICES={
 'isSymmetric':(r'A=A^{\mathsf T}','Symmetry compares transposed coordinates, without complex conjugation. For complex matrices, a symmetric matrix need not be Hermitian.'),
 'isHermitian':(r'A=A^{\mathsf H}','Hermitian symmetry includes conjugation and forces diagonal entries to be real. Use the predicate’s actual floating-point comparison contract rather than assuming an arbitrary tolerance.'),
 'isIndentity':(r'A\approx I','The public spelling is isIndentity. Its approximate pattern check can accept a rectangular diagonal-one matrix, so a true result does not prove the matrix is a square multiplicative identity.'),
-'isUnitary':(r'AA^{\mathsf H}\approx I','For square matrices, unitarity preserves complex inner products. This wrapper checks row orthonormality and does not itself enforce a square shape; rectangular matrices require a more precise interpretation.'),
+'isUnitary':(r'AA^{\mathsf H}\approx I','Unitarity preserves complex inner products in both directions. The square-shape requirement matters: a rectangular matrix can have orthonormal rows while its conjugate transpose product is a projection instead of an identity.'),
 'KroneckerProduct':(r'(A\otimes B)_{ij\ \mathrm{block}}=A_{ij}B','Each entry of A scales a whole copy of B. Dimensions multiply rather than add, so tensor-product constructions can become large even when the factors are modest.'),
 'KroneckerSum':(r'A\oplus B=A\otimes I+I\otimes B','A Kronecker sum combines operators acting on independent factors of a tensor-product space. It is not the block-diagonal direct sum despite the overlapping mathematical notation.'),
 'DirectSum':(r'A\mathbin{\oplus}_{\mathrm{direct}}B=\begin{pmatrix}A&0\\0&B\end{pmatrix}','A direct sum places independent blocks along the diagonal. Row counts and column counts add; no cross-block coupling is introduced.'),
@@ -132,6 +132,12 @@ def extra_enrichment(item,article,name):
           'integrate':'The method name selects a numerical approximation, not a symbolic antiderivative. Choose a rule suited to smoothness, endpoints and oscillation, then check stability under a tighter work budget.'}
         return Enrichment((Equation(r'I=\int_a^b f(x)\,dx', 'Signed area from a to b under f(x).','Quantity being approximated'),),(methods[base],
             'Integration returns signed area: values below the axis contribute negatively. Splitting at known singularities or discontinuities is often more informative than only increasing the number of samples.'),(),False)
+    if kind=='DifferentialEquation':
+        return Enrichment((),(
+            'An initial-value problem needs both a rate equation and a starting state. For y′=2t with y(0)=3, integration gives y(t)=3+t², so the value at t=2 is seven. The returned array stores the evolving state, not derivative values.',
+            'For a second-order equation, introduce a velocity component: y′=v and v′=−y describe a unit-frequency oscillator. Return a vector containing both derivatives in the same order as the state vector. More samples improve ordinary smooth non-stiff problems, but cannot guarantee stability or accuracy for every equation.'),
+            (WorkedExample('DifferentialEquation.rungeKutta4((t,u) => 2*t,3.0,0.0,2.0,21)[20]',
+                           'approximately 7','There are twenty steps and twenty-one stored states. The last element approximates y(2)=3+2².'),),False)
     if kind=='Derivative':
         return Enrichment((Equation(r'f^{(n)}(x)=\frac{d^n f}{dx^n}', 'Derivative of order n with respect to x.','Quantity being approximated'),),(
             'Numerical differentiation estimates local change from nearby function values. A smaller step reduces truncation error only until floating-point subtraction and evaluation noise begin to dominate; the smallest possible step is not generally best.',

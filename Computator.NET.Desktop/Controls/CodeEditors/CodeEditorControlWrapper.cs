@@ -2,6 +2,7 @@ using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 #if !__MonoCS__
@@ -12,6 +13,7 @@ using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes.Configuration;
 using Computator.NET.DataTypes.SettingsTypes;
+using Computator.NET.Desktop.Controls.CodeEditors.Printing;
 #if !__MonoCS__
 using Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit;
 #endif
@@ -41,6 +43,8 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         private TabPage _activeTab;
         private bool _restoringTabs;
         private int _documentOperationDepth;
+        private FindReplaceDialog _findReplaceDialog;
+        private readonly List<TabControl> _searchWorkspaces = new List<TabControl>();
 
 
         public CodeEditorControlWrapper(
@@ -100,6 +104,11 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             tabControl.DocumentsClosing += TabControl_DocumentsClosing;
             foreach (var editor in _codeEditors.Values)
                 editor.TextChanged += Editor_TextChanged;
+#if !__MonoCS__
+            // WPF consumes Ctrl+F in its own SearchPanel before WinForms can
+            // dispatch it. Capture the preview event for the shared dialog.
+            avalonEditCodeEditor.PreviewKeyDown += Avalon_PreviewKeyDown;
+#endif
 
             NewDocument();
 
@@ -130,6 +139,14 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         {
             if (disposing)
             {
+                _findReplaceDialog?.Dispose();
+                _findReplaceDialog = null;
+                foreach (var workspace in _searchWorkspaces)
+                    workspace.SelectedIndexChanged -= SearchWorkspaceChanged;
+                _searchWorkspaces.Clear();
+#if !__MonoCS__
+                ((AvalonEditCodeEditor)_codeEditors[CodeEditorType.AvalonEdit]).PreviewKeyDown -= Avalon_PreviewKeyDown;
+#endif
                 Settings.Default.PropertyChanged -= Settings_PropertyChanged;
                 saveFileDialog.FileOk -= SaveFileDialog_FileOk;
                 saveFileDialog.Dispose();
@@ -207,6 +224,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             var oldFilename = documentTab.Text;
             CurrentCodeEditor.RenameDocument(oldFilename, newFilename);
             tabControl.RenameTab(oldFilename, newFilename);
+            RefreshSearchScope();
         }
 
         public void EnsureCanRenameDocument(string filename, string newFilename)
@@ -357,7 +375,11 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             finally
             {
                 _documentOperationDepth--;
-                if (_documentOperationDepth == 0) RefreshDirtyIndicator();
+                if (_documentOperationDepth == 0)
+                {
+                    RefreshDirtyIndicator();
+                    RefreshSearchScope();
+                }
             }
         }
 
@@ -508,6 +530,172 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             CurrentCodeEditor.SelectAll();
         }
 
+        public void ShowFindReplace(bool replace)
+        {
+            if (IsDisposed || Disposing || !Visible) return;
+#if !__MonoCS__
+            if (CurrentCodeEditor is AvalonEditCodeEditor avalon) avalon.CloseAdvancedSearch();
+#endif
+            if (_findReplaceDialog == null || _findReplaceDialog.IsDisposed)
+                _findReplaceDialog = new FindReplaceDialog(
+                    () => new CodeEditorSearchTarget(CurrentCodeEditor), () => CurrentFileName);
+            _findReplaceDialog.SetMode(replace, useSelection: true);
+            ShowSearchDialog();
+        }
+
+        private void RefreshSearchScope()
+        {
+            if (_findReplaceDialog == null || _findReplaceDialog.IsDisposed) return;
+            if (IsDocumentTab(tabControl.SelectedTab)) _findReplaceDialog.RefreshScope();
+            else _findReplaceDialog.Hide();
+        }
+
+        private void ShowSearchDialog()
+        {
+            // Mono does not consistently propagate a TabPage visibility change
+            // to its descendants. Observe containing tab controls explicitly.
+            for (var parent = Parent; parent != null; parent = parent.Parent)
+            {
+                if (!(parent is TabControl workspace) || _searchWorkspaces.Contains(workspace)) continue;
+                workspace.SelectedIndexChanged += SearchWorkspaceChanged;
+                _searchWorkspaces.Add(workspace);
+            }
+            if (!_findReplaceDialog.Visible)
+            {
+                var owner = FindForm();
+                if (owner == null) _findReplaceDialog.Show();
+                else _findReplaceDialog.Show(owner);
+            }
+            _findReplaceDialog.Activate();
+        }
+
+        private void SearchWorkspaceChanged(object sender, EventArgs args)
+        {
+            var workspace = (TabControl)sender;
+            if (workspace.SelectedTab == null || !workspace.SelectedTab.Contains(this)) HideSearchDialog();
+        }
+
+        private void HideSearchDialog()
+        {
+            if (_findReplaceDialog != null && !_findReplaceDialog.IsDisposed) _findReplaceDialog.Hide();
+        }
+
+        private bool ProcessSearchKey(Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.F) || keyData == (Keys.Control | Keys.H))
+            {
+                ShowFindReplace(keyData == (Keys.Control | Keys.H));
+                return true;
+            }
+            if (keyData != Keys.F3 && keyData != (Keys.Shift | Keys.F3)) return false;
+#if !__MonoCS__
+            if (CurrentCodeEditor is AvalonEditCodeEditor avalon && avalon.IsAdvancedSearchOpen) return false;
+#endif
+            if (_findReplaceDialog == null || _findReplaceDialog.IsDisposed)
+                ShowFindReplace(false);
+            else
+            {
+                ShowSearchDialog();
+                _findReplaceDialog.FindNext(keyData != Keys.F3);
+            }
+            return true;
+        }
+
+#if !__MonoCS__
+        private void Avalon_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs args)
+        {
+            var modifiers = System.Windows.Input.Keyboard.Modifiers;
+            Keys keys;
+            if (modifiers == System.Windows.Input.ModifierKeys.Control &&
+                (args.Key == System.Windows.Input.Key.F || args.Key == System.Windows.Input.Key.H))
+                keys = Keys.Control | (args.Key == System.Windows.Input.Key.F ? Keys.F : Keys.H);
+            else if (args.Key == System.Windows.Input.Key.F3 &&
+                (modifiers == System.Windows.Input.ModifierKeys.None || modifiers == System.Windows.Input.ModifierKeys.Shift))
+            {
+                // Keep AvalonEdit's regex/wildcard navigation available after
+                // the user opens its existing advanced search panel.
+                if (((AvalonEditCodeEditor)sender).IsAdvancedSearchOpen) return;
+                keys = Keys.F3 | (modifiers == System.Windows.Input.ModifierKeys.Shift ? Keys.Shift : Keys.None);
+            }
+            else return;
+            args.Handled = ProcessSearchKey(keys);
+        }
+#endif
+
+        protected override void OnVisibleChanged(EventArgs args)
+        {
+            base.OnVisibleChanged(args);
+            // An owned modeless form is outside the tab's control hierarchy.
+            // Hide it when its document workspace leaves the screen.
+            if (!Visible) HideSearchDialog();
+        }
+
+        public void Print()
+        {
+            PrintDocument(false);
+        }
+
+        public void PrintPreview()
+        {
+            PrintDocument(true);
+        }
+
+        private void PrintDocument(bool preview)
+        {
+            // Snapshot the selected buffer, including unsaved edits, before a
+            // modal dialog. Never reread disk or print a previous/background tab.
+            var selected = tabControl.SelectedTab;
+            if (!IsDocumentTab(selected) || selected != _activeTab ||
+                !CurrentCodeEditor.ContainsDocument(selected.Text)) return;
+            var text = Text;
+            if (string.IsNullOrEmpty(text)) return;
+            var name = Path.GetFileName(selected.Text);
+            using (var document = new CodePrintDocument(name, text, Settings.Default.ScriptingFont))
+            {
+                document.PrintFailed += ShowPrintError;
+                try { ShowPrintDialog(document, preview); }
+                catch (Exception exception) when (CodePrintDocument.IsPrintError(exception))
+                {
+                    document.ReportError(exception);
+                }
+            }
+        }
+
+        protected virtual void ShowPrintDialog(PrintDocument document, bool preview)
+        {
+            if (preview)
+            {
+                if (!document.PrinterSettings.IsValid)
+                    throw new InvalidPrinterException(document.PrinterSettings);
+                using (var dialog = new PrintPreviewDialog
+                {
+                    Document = document,
+                    UseAntiAlias = true,
+                    Width = 1000,
+                    Height = 800
+                }) dialog.ShowDialog(this);
+            }
+            else
+            {
+                using (var dialog = new PrintDialog
+                {
+                    Document = document,
+                    UseEXDialog = true,
+                    AllowSelection = false,
+                    AllowSomePages = false
+                })
+                    if (dialog.ShowDialog(this) == DialogResult.OK) document.Print();
+            }
+        }
+
+        protected virtual void ShowPrintError(string message)
+        {
+            System.Windows.Forms.MessageBox.Show(this, message,
+                Computator.NET.Localization.Menu.MenuStrings.printToolStripButton_Text,
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+        }
+
         public void Save()
         {
             var selectedTab = tabControl.SelectedTab;
@@ -632,6 +820,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
+            if (ProcessSearchKey(keyData)) return true;
             if (keyData == (Keys.Control | Keys.T))
             {
                 NewDocument();

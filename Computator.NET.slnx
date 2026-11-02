@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/Applications/">
     <Project Path="Computator.NET.Cli/Computator.NET.Cli.csproj" />
+    <Project Path="Computator.NET.PortableWeb/Computator.NET.PortableWeb.csproj" />
     <Project Path="Computator.NET.WebApi/Computator.NET.WebApi.csproj" />
     <Project Path="Computator.NET.WebClient/Computator.NET.WebClient.csproj" />
   </Folder>
@@ -88,6 +89,7 @@
     <File Path=".github/workflows/msix.yml" />
     <File Path=".github/workflows/native-gsl.yml" />
     <File Path=".github/workflows/portable.yml" />
+    <File Path=".github/workflows/portable-local-web.yml" />
     <File Path=".github/workflows/reference-validation.yml" />
     <File Path=".github/workflows/release-evidence.yml" />
     <File Path=".github/workflows/solution.yml" />
@@ -126,7 +128,12 @@
     <File Path="build/MonoDesktop.props" />
     <File Path="build/mono/LegacyFixtureWriter.cs" />
     <File Path="build/mono/SmokeTests/CompatibilityTests.cs" />
+    <File Path="build/mono/SmokeTests/EditorSearchTests.cs" />
     <File Path="build/mono/SmokeTests/Computator.NET.Mono.SmokeTests.csproj" />
+    <File Path="build/mono/SmokeTests/ComplexChartUiAcceptance.cs" />
+    <File Path="build/mono/SmokeTests/MonoAutocompleteTests.cs" />
+    <File Path="build/mono/SmokeTests/LocalizationTests.cs" />
+
     <File Path="build/mono/SmokeTests/Program.cs" />
     <File Path="build/mono/StartupProbe/Computator.NET.Mono.StartupProbe.csproj" />
     <File Path="build/mono/StartupProbe/Program.cs" />
@@ -147,6 +154,13 @@
     <File Path="build/native/triplets/computator-osx-arm64.cmake" />
     <File Path="build/native/triplets/computator-osx-x64.cmake" />
     <File Path="build/native/triplets/computator-win-x64.cmake" />
+  </Folder>
+  <Folder Name="/Build/macOS application investigation/">
+    <File Path="build/macos/probe-xquartz.sh" />
+    <File Path="build/macos/XQuartzProbe.cs" />
+    <File Path="build/portable-web/build.sh" />
+    <File Path="build/portable-web/run.sh" />
+    <File Path="build/portable-web/smoke.py" />
   </Folder>
   <Folder Name="/Build/Packaging/">
     <File Path="build/installer/Test-InstalledProduct.ps1" />
@@ -215,6 +229,7 @@
     <File Path="build/WindowsAssemblyInfo.cs" />
     <File Path="build/fixtures/LegacySettings.cs" />
     <File Path="build/portable/Test-Cli.ps1" />
+    <File Path="build/validation/LocalizationResourceContract.cs" />
   </Folder>
   <Folder Name="/Build/Workstreams/">
     <File Path="build/followups/appveyor.cake" />
@@ -232,6 +247,7 @@
     <File Path="build/followups/msix.cake" />
     <File Path="build/followups/portable-science.cake" />
     <File Path="build/followups/portable.cake" />
+    <File Path="build/followups/portable-web.cake" />
     <File Path="build/followups/profile-trial.cake" />
     <File Path="build/followups/program-lifetime.cake" />
     <File Path="build/followups/reference.cake" />
@@ -242,9 +258,11 @@
     <File Path="build/followups/web-ide.cake" />
   </Folder>
   <Folder Name="/Documentation/Architecture and reference/">
+    <File Path="docs/EDITOR-SEARCH.md" />
     <File Path="docs/FUNCTION-POWERS.md" />
     <File Path="docs/FUNCTION-REFERENCE.md" />
     <File Path="docs/NUMERICAL-REFERENCE-INTEGRATION.md" />
+    <File Path="docs/POLYNOMIALS.md" />
     <File Path="docs/PROGRAM-LIFETIME.md" />
     <File Path="docs/REFERENCE-EQUATIONS.md" />
     <File Path="docs/SHARED-EXECUTION-POLICY.md" />
@@ -254,9 +272,11 @@
     <File Path="docs/BUILD.md" />
     <File Path="docs/DEVELOPING.md" />
     <File Path="docs/MONO-DESKTOP.md" />
+    <File Path="docs/MACOS-APPLICATION.md" />
     <File Path="docs/WEB-DEVELOPMENT.md" />
   </Folder>
   <Folder Name="/Documentation/Evidence/">
+    <File Path="docs/evidence/mono-drawing-2026-11-02.json" />
     <File Path="docs/followups/images/issue-255/evidence.json" />
     <File Path="docs/evidence/historical-upgrade-2026-10-16.json" />
     <File Path="docs/evidence/historical-upgrade-2026-10-16/README.md" />
@@ -308,6 +328,7 @@
     <File Path="docs/followups/MONO-DESKTOP-RESTORATION.md" />
     <File Path="docs/followups/MSIX.md" />
     <File Path="docs/followups/NUMERICAL-CHART-AXES.md" />
+    <File Path="docs/followups/ORDINARY-DIFFERENTIAL-EQUATIONS.md" />
     <File Path="docs/followups/PORTABLE-ENGINE.md" />
     <File Path="docs/followups/PORTABLE-SCIENCE.md" />
     <File Path="docs/followups/REAL-PROFILE-ACCEPTANCE.md" />
@@ -316,6 +337,9 @@
     <File Path="docs/followups/TRAVIS.md" />
     <File Path="docs/followups/WEB-CUSTOM-FUNCTIONS.md" />
     <File Path="docs/followups/WEB-E2E.md" />
+    <File Path="docs/followups/WEB-2D-INTERACTIONS.md" />
+    <File Path="docs/followups/WEB-3D-SURFACES.md" />
+    <File Path="docs/followups/WEB-IDE-STARTUP.md" />
   </Folder>
   <Folder Name="/Historical sources (not build targets)/">
     <File Path="Computator.NET.Desktop.UITests/Computator.NET.Desktop.UITests.csproj" />
@@ -335,11 +359,13 @@
     <File Path="build/reference/elementary.py" />
     <File Path="build/reference/enrichment.py" />
     <File Path="build/reference/enrichment_more.py" />
+    <File Path="build/reference/euclid.py" />
     <File Path="build/reference/fixtures/legacy-subject-categories.json" />
     <File Path="build/reference/generate.py" />
     <File Path="build/reference/mathematical.py" />
     <File Path="build/reference/physical.py" />
     <File Path="build/reference/plots.cjs" />
+    <File Path="build/reference/polynomials.py" />
     <File Path="build/reference/scientific.py" />
     <File Path="build/reference/scientific_matrices.py" />
     <File Path="build/reference/scientific_scripting.py" />
@@ -348,9 +374,11 @@
     <File Path="build/reference/test-plots.cjs" />
     <File Path="build/reference/test_authoring.py" />
     <File Path="build/reference/test_categories.py" />
+    <File Path="build/reference/test_euclid.py" />
     <File Path="build/reference/test_inline_math.py" />
     <File Path="build/reference/test_numerical_integration.py" />
     <File Path="build/reference/test_physical.py" />
+    <File Path="build/reference/test_polynomials.py" />
     <File Path="build/reference/test_rich_content.py" />
     <File Path="build/reference/typeset.cjs" />
   </Folder>

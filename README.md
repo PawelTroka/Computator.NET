@@ -17,9 +17,10 @@
 | Workspace | What you can do | Where it runs |
 | --- | --- | --- |
 | **Windows desktop** | Real, complex and 3D charts; the full built-in function reference; numerical methods; custom functions and script documents | .NET 10, WinForms and WPF on Windows |
-| **Web workspace** | Calculate, run scripts, integrate and render charts through the mathematical API; edit and import/export custom functions | The frontend host is cross-platform; the full mathematical API runs on Windows |
-| **Portable CLI and engine** | Evaluate TSL, use managed matrix functions, integrate, differentiate, find roots and run scripts with JSON results | .NET 10 on Windows, Linux and macOS |
-| **Reduced Mono desktop** | The explicit compatibility build with the legacy TextEditor and Unix 2D/complex charts | Experimental; see the [Mono guide](docs/MONO-DESKTOP.md) for tested environments and limitations |
+| **Web workspace** | Calculate and script; interactive real/complex plots with overlays and pan/zoom; explicit f(x,y) WebGL surfaces; custom functions | The frontend host is cross-platform; the full mathematical API runs on Windows |
+| **Portable CLI and engine** | Evaluate TSL; managed matrices, polynomials, Euclid utilities and RK4 ODEs; integration, differentiation, roots and scripts with JSON results | .NET 10 on Windows, Linux and macOS |
+| **Portable local browser preview** | The existing browser workspace with a reduced managed calculation backend; charts and the full native catalog remain unavailable | Experimental loopback application; see the [Mac/application investigation](docs/MACOS-APPLICATION.md) |
+| **Reduced Mono desktop** | The explicit compatibility build with TextEditor, real/complex charts and native software-rendered f(x,y) surfaces | Experimental; see the [Mono guide](docs/MONO-DESKTOP.md) for tested environments and limitations |
 
 The source tree's candidate identity is defined in [Version.props](Version.props). For downloadable builds, use [Releases](https://github.com/PawelTroka/Computator.NET/releases); for candidate readiness, use the [release checklist](docs/RELEASE-3.0.md). A successful build is one part of release acceptance.
 

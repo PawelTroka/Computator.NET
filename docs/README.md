@@ -19,8 +19,10 @@ Start with the task you want to complete. The entry-point guides describe the cu
 
 | Guide | What it covers |
 | --- | --- |
+| [Coefficient polynomials](POLYNOMIALS.md) | Arithmetic, calculus, fitting, evaluation and general complex roots |
 | [Function powers](FUNCTION-POWERS.md) | Mathematical power notation, disambiguation and compiler behavior |
 | [Shared portable scientific services](followups/PORTABLE-SCIENCE.md) | Shared matrix/numerical implementations and strict CLI input contracts |
+| [Ordinary differential equations](followups/ORDINARY-DIFFERENTIAL-EQUATIONS.md) | Scalar and coupled initial-value problems with fixed-step RK4 |
 | [Built-in function reference](FUNCTION-REFERENCE.md) | Authoring, generation, article identities and validation |
 | [Reference equations and diagrams](REFERENCE-EQUATIONS.md) | Typesetting, figures and rendering contracts |
 | [Numerical reference integration](NUMERICAL-REFERENCE-INTEGRATION.md) | Integration evidence and remaining reference scope |
@@ -36,7 +38,9 @@ Start with the task you want to complete. The entry-point guides describe the cu
 | [Shared execution policy](SHARED-EXECUTION-POLICY.md) | Input and output limits across web execution routes |
 | [Execution workers](followups/EXECUTION-WORKERS.md) | Cancellation, process ownership and recovery boundaries |
 | [Generated-program lifetime](PROGRAM-LIFETIME.md) | Collectible code and remaining dynamic-binder retention |
-| [Desktop document safety](followups/EDITOR-DOCUMENT-SAFETY.md) | Editor document identity, persistence and interactions |
+| [Desktop document safety](followups/EDITOR-DOCUMENT-SAFETY.md) | Editor document identity, persistence, printing and interactions |
+| [Desktop find and replace](EDITOR-SEARCH.md) | Active-document search, keyboard shortcuts, replacement and undo |
+
 | [Web custom functions](followups/WEB-CUSTOM-FUNCTIONS.md) | Editing, session saves, import/export and request-local definitions |
 | [Web interface](WEB-UI.md) | Web shell and editor design decisions |
 | [Real browser-to-API tests](followups/WEB-E2E.md) | Protected local proxy and actual mathematical execution |
@@ -46,6 +50,7 @@ Start with the task you want to complete. The entry-point guides describe the cu
 | Guide | What it covers |
 | --- | --- |
 | [Reduced Mono desktop](MONO-DESKTOP.md) | Current opt-in build, prerequisites, tested environments and limits |
+| [macOS application investigation](MACOS-APPLICATION.md) | XQuartz comparison, independent portable local preview, reproducible smoke tests and remaining physical Mac acceptance |
 | [Mono restoration background](followups/MONO-DESKTOP-RESTORATION.md) | Rationale and boundaries for the compatibility work |
 | [Native GSL build](followups/GSL.md) | Source pins, provenance and native/managed ABI checks |
 | [GSL adoption](followups/GSL-ADOPTION.md) | Packaged GSL 2.8 and development fallback behavior |

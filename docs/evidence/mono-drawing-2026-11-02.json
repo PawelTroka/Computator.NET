@@ -1,0 +1,40 @@
+{
+  "date": "2026-11-02",
+  "testedSourceCommit": "eedaa533c4e1013b7b03d08f9a07ce34075d1f45",
+  "testedTree": "84d1d79d8b18f3540ad4794d1c6c15e3524dce02",
+  "environment": {
+    "os": "Ubuntu 22.04.2",
+    "architecture": "x86_64",
+    "runtime": "Mono 6.8.0.105",
+    "gsl": "system 2.7.1",
+    "display": "private Xvfb under WSL2",
+    "dotnetBuildSdk": "10.0.403"
+  },
+  "baseline": {
+    "libgdiplus": "6.0.4",
+    "observation": "Merely displaying the valid emoji search fixture triggers zero text measurements and a GDI+ GenericError before search actions; reproduced in an isolated actual editor and fresh graphics contexts."
+  },
+  "experiment": {
+    "libgdiplus": "6.1",
+    "upstream": "https://github.com/mono/libgdiplus",
+    "commit": "44b44f92836f035e12b27c718e1f7bd42e369e28",
+    "configure": "--prefix=<owned-prefix> --with-pango",
+    "binarySha256": "d2ce875ae7c63e8715d0868fc3cf1470de4b37207597c03e97c504693b30858f",
+    "selection": "Process-specific Mono configuration with absolute gdiplus dllmap targets; verified actual loader path.",
+    "systemLibgdiplusReplaced": false,
+    "cairo": "1.16.0",
+    "pango": "1.50.6",
+    "fontconfig": "2.13.1",
+    "emojiFallback": "DejaVu Sans Book",
+    "unchangedFullSuite": {
+      "passed": 51,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "limits": [
+    "Both library version and text backend differ; no specific upstream emoji fix is established.",
+    "An environment-specific dependency experiment, not a universal Linux or macOS certification.",
+    "Native Ubuntu 24.04 hosted acceptance separately passed 51 cases with system libgdiplus 6.1."
+  ]
+}

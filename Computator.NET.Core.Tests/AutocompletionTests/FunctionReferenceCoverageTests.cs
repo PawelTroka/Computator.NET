@@ -107,7 +107,7 @@ namespace Computator.NET.Core.Tests.AutocompletionTests
                 foreach (var node in fragment.DescendantsAndSelf())
                 {
                     NUnit.Framework.Assert.That(tags.Contains(node.Name.ToString()), Is.True, pair.Key + ": " + node.Name);
-                    NUnit.Framework.Assert.That(node.Attributes().All(a => a.Name == "class" || a.Name == "href" || (node.Name == "img" && new[] { "src", "alt", "width", "height", "data-depth" }.Contains(a.Name.ToString()))), Is.True, pair.Key);
+                    NUnit.Framework.Assert.That(node.Attributes().All(attribute => IsAllowedDescriptionAttribute(node, attribute)), Is.True, pair.Key);
                     if (node.Name == "img")
                     {
                         var plot = (string)node.Attribute("class") == "reference-plot";
@@ -131,6 +131,25 @@ namespace Computator.NET.Core.Tests.AutocompletionTests
                 NUnit.Framework.Assert.That(Regex.IsMatch(fragment.Value, @"not done yet|_title_|\bTODO\b|\bTBD\b|lorem ipsum", RegexOptions.IgnoreCase), Is.False, pair.Key);
                 NUnit.Framework.Assert.That(Regex.Matches(fragment.Value, @"\S+").Count, Is.GreaterThanOrEqualTo(20), pair.Key);
             }
+        }
+
+        private static bool IsAllowedDescriptionAttribute(XElement node, XAttribute attribute) =>
+            attribute.Name == "class" || attribute.Name == "href" ||
+            (node.Name == "img" && new[] { "src", "alt", "width", "height", "data-depth" }.Contains(attribute.Name.ToString())) ||
+            (node.Name == "div" && (string)node.Attribute("class") == "reference-worked-example" &&
+             attribute.Name == "data-example-kind" && (attribute.Value == "scalar" || attribute.Value == "script"));
+
+        [TestCase("div", "reference-worked-example", "scalar", true)]
+        [TestCase("div", "reference-worked-example", "script", true)]
+        [TestCase("div", "reference-worked-example", "text", false)]
+        [TestCase("div", "reference-worked-example", "Script", false)]
+        [TestCase("div", "reference-worked-example", "", false)]
+        [TestCase("p", "reference-worked-example", "script", false)]
+        [TestCase("div", "function-reference", "script", false)]
+        public void ExampleKindMetadataIsRestrictedToKnownWorkedExampleModes(string tag, string cssClass, string kind, bool allowed)
+        {
+            var node = new XElement(tag, new XAttribute("class", cssClass), new XAttribute("data-example-kind", kind));
+            NUnit.Framework.Assert.That(IsAllowedDescriptionAttribute(node, node.Attribute("data-example-kind")), Is.EqualTo(allowed));
         }
 
         [Test]

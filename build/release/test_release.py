@@ -83,6 +83,14 @@ class ReleaseTests(unittest.TestCase):
             '<ResultSummary outcome="Aborted"><Counters total="1" passed="1"/></ResultSummary></TestRun>')
         with self.assertRaises(ValueError): validate_report(file, 1)
 
+    def test_legacy_api_3d_skip_is_rejected(self):
+        file = self.root / 'Computator.NET.WebApi.IntegrationTests.trx'
+        file.write_text('<TestRun><Results><UnitTestResult testId="surface" '
+            'testName="ReturnsHttpOkForChart3D" outcome="NotExecuted"/></Results>'
+            '<TestDefinitions><UnitTest id="surface"/></TestDefinitions>'
+            '<ResultSummary outcome="Completed"><Counters total="1" passed="0"/></ResultSummary></TestRun>')
+        with self.assertRaises(ValueError): validate_report(file, 1)
+
     def test_old_candidate_cannot_supply_missing_current_artifact(self):
         file = self.root / 'candidate.zip'; file.write_bytes(b'old payload')
         os.utime(file, (1, 1))
@@ -276,7 +284,7 @@ class ReleaseTests(unittest.TestCase):
 
     def test_release_cannot_omit_or_reuse_reference_validation(self):
         reference = self.reference_candidate()
-        self.assertEqual(required_reports(self.root)['TestResults/reference.trx'], 166)
+        self.assertEqual(required_reports(self.root)['TestResults/reference.trx'], 210)
         for state in ('missing', 'stale', 'incomplete'):
             with self.subTest(state=state):
                 if state == 'missing':
@@ -293,7 +301,7 @@ class ReleaseTests(unittest.TestCase):
         self.reference_candidate()
         finish(self.root)
         manifest = json.loads((self.root / 'artifacts/release-evidence/manifest.json').read_text())
-        self.assertEqual(manifest['reports']['TestResults/reference.trx']['passed'], 166)
+        self.assertEqual(manifest['reports']['TestResults/reference.trx']['passed'], 210)
         for filename in ('inventory.json', 'coverage.json', 'preview.html'):
             relative = 'artifacts/reference/' + filename
             self.assertEqual(manifest['artifacts'][relative]['sha256'], digest(self.root / relative))

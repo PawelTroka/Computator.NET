@@ -31,6 +31,27 @@ examples remain selectable. Inline expressions also have selectable text equival
 for copying and accessibility. PNG equations are not semantic MathML. The existing HTML engine is preserved rather than silently
 introducing a WebView runtime requirement.
 
+### Audited authoring dependencies
+
+The WebClient manifest temporarily overrides `glob` to `14.0.3` only beneath
+`mj-context-menu@1.0.0` → `rimraf@6.1.3`. The upstream `glob@^13.0.3` range cannot
+reach the fix for [GHSA-3g3m-2fjr-6pw4](https://github.com/advisories/GHSA-3g3m-2fjr-6pw4)
+(first patched in 14.0.2). Glob 14.0.3 also requires `minimatch@^11.0.2`, beyond
+the vulnerable `<11.0.1` range in
+[GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249).
+MathJax 4.1.3 and resvg 2.6.2 remain pinned, and the full
+`npm audit --audit-level=low` gate remains enabled.
+
+This is a scoped major-version override: rimraf uses the retained `glob` and
+`globSync` APIs, but glob's internal matcher and path traversal dependencies must
+move together. Overriding minimatch alone would break the older glob API usage.
+Review the installed tree and validate rimraf cleanup, deterministic equations
+and figures, and browser behavior when updating this chain. Remove the override
+once an upstream dependency update resolves a patched chain normally, then rerun
+`Web-Restore`, `Reference-Validate`, and the web validation suites. The suggested
+`npm audit fix --force` downgrade to MathJax 4.0.0 is incompatible with the reviewed
+renderer version checked by the authoring scripts.
+
 ### Inline mathematics in sentences
 
 Issue #207 reports the Laguerre introduction showing `x^α exp(−x)` as plain text
@@ -227,7 +248,17 @@ of why that answer is meaningful. The runtime test discovers each distinct new
 numeric example from the shipped XML and evaluates it through the actual TSL
 compiler, rather than checking a duplicate hardcoded example list. Rounded
 printed answers are tested with a documented display-precision budget; existing
-numerical-suite tolerances are unchanged. Coverage counts are not a claim that
+numerical-suite tolerances are unchanged. Scalar expressions are the default
+`WorkedExample` kind; a leading `approximately ` label is case-insensitive, but
+the remaining answer must parse as a number. Multiline scripts and examples
+returning arrays or tuples use `kind='script'`, rendered as
+`data-example-kind="script"` on the worked-example container. Their displayed
+result can explain the values instead of pretending to be one number. The
+native reference suite discovers every script from the shipped XML and requires
+dedicated assertions through both the precompiled and legacy script evaluators;
+an unknown kind or a script without a validator fails validation. Polynomial
+scripts check all cubic roots without assuming order, the fitted quadratic and
+both quotient/remainder parts with reconstruction. Coverage counts are not a claim that
 all mathematical sentences have been independently proved or that every routine
 has a new worked example.
 

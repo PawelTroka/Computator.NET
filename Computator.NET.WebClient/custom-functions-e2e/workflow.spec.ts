@@ -53,8 +53,13 @@ test('UTF-8 import, export and real chart retain custom definitions', async ({ p
   await replaceCode(page, 'expressionTextArea', 'CustomProbe(x)');
   const response = page.waitForResponse(response => response.url().endsWith('/v2/chart') && response.request().method() === 'POST');
   await page.getByRole('button', { name: 'Draw chart!' }).click();
-  expect((await response).ok()).toBeTruthy();
-  await expect.poll(() => page.getByRole('img', { name: 'CustomProbe(x)', exact: true }).evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(100);
+  const actual = await response;
+  expect(actual.ok()).toBeTruthy();
+  expect(actual.request().postDataJSON().customFunctions).toBe('// zażółć\n' + definition(4));
+  const samples = await actual.json();
+  expect(samples.kind).toBe('curve');
+  samples.x.forEach((x: number, index: number) => expect(samples.y[index]).toBeCloseTo(x + 4, 10));
+  await expect(page.getByTestId('chart-2d')).toBeVisible();
 });
 
 test('custom functions reach real numerical integration', async ({ page }) => {

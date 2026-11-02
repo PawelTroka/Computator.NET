@@ -52,6 +52,9 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 #endif
         public void ShowReference(Control owner, Point location)
         {
+#if __MonoCS__
+            ShowMonoReference(owner);
+#else
             // Keep the readable width and a bounded height for long articles.
             // Once the current document has loaded, short articles give back
             // unused vertical space without widening for oversized equations.
@@ -60,7 +63,77 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             maximumHeight = Math.Min(preferred.Height, workingArea.Height);
             SetReadingSize(new Size(Math.Min(preferred.Width, workingArea.Width), maximumHeight));
             Show(owner, location);
+#endif
         }
+
+#if __MonoCS__
+        private void ShowMonoReference(Control owner)
+        {
+            if (!owner.IsHandleCreated || !owner.Visible) return;
+            workingArea = Screen.FromControl(owner).WorkingArea;
+            var bounds = owner.RectangleToScreen(owner.ClientRectangle);
+            var preferred = new Size(600, 460).DpiScale();
+            var spaceRight = workingArea.Right - bounds.Right - 5;
+            var spaceLeft = bounds.Left - workingArea.Left - 5;
+            int width, x, y;
+            if (Math.Max(spaceRight, spaceLeft) >= new Size(280, 0).DpiScale().Width)
+            {
+                // Open beside the actual completion list, not at a fixed
+                // screen-relative offset that can push the help off-screen.
+                var right = spaceRight >= spaceLeft;
+                width = Math.Min(preferred.Width, right ? spaceRight : spaceLeft);
+                x = right ? bounds.Right + 4 : bounds.Left - width - 4;
+                maximumHeight = Math.Min(preferred.Height, workingArea.Height - 8);
+                y = Math.Max(workingArea.Top + 4,
+                    Math.Min(bounds.Top, workingArea.Bottom - maximumHeight - 4));
+            }
+            else
+            {
+                // Very narrow displays: place a compact scrollable reference
+                // above or below the list instead of hiding it beyond an edge.
+                width = Math.Min(preferred.Width, workingArea.Width - 8);
+                x = Math.Max(workingArea.Left + 4,
+                    Math.Min(bounds.Left, workingArea.Right - width - 4));
+                var below = workingArea.Bottom - bounds.Bottom - 4;
+                var above = bounds.Top - workingArea.Top - 4;
+                if (below >= above && below >= 120)
+                {
+                    maximumHeight = Math.Min(preferred.Height, below);
+                    y = bounds.Bottom + 4;
+                }
+                else if (above >= 120)
+                {
+                    maximumHeight = Math.Min(preferred.Height, above);
+                    y = bounds.Top - maximumHeight - 4;
+                }
+                else
+                {
+                    // Last resort: a bounded overlay, still fully visible.
+                    maximumHeight = Math.Min(preferred.Height, workingArea.Height - 8);
+                    y = workingArea.Top + 4;
+                }
+            }
+            SetReadingSize(new Size(Math.Max(1, width), Math.Max(1, maximumHeight)));
+            Show(owner, owner.PointToClient(new Point(x, y)));
+        }
+
+        private void FitMonoReferenceHeight()
+        {
+            if (!Visible || referenceText.TextLength == 0 || maximumHeight <= 0) return;
+            // The reference is plain text on Mono: use the actual RichTextBox
+            // layout instead of Windows' HTML document dimensions.
+            var end = referenceText.GetPositionFromCharIndex(referenceText.TextLength - 1);
+            if (end.Y < 0 || end.Y >= referenceText.ClientSize.Height) return;
+            var chrome = Height - referenceText.ClientSize.Height;
+            var height = Math.Min(maximumHeight,
+                Math.Max(140, end.Y + referenceText.Font.Height * 2 + chrome));
+            if (height >= Height) return;
+            SetReadingSize(new Size(Width, height));
+            Location = new Point(
+                Math.Max(workingArea.Left + 2, Math.Min(Left, workingArea.Right - Width - 2)),
+                Math.Max(workingArea.Top + 2, Math.Min(Top, workingArea.Bottom - Height - 2)));
+        }
+#endif
 
         private void SetReadingSize(Size size)
         {
@@ -110,6 +183,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         {
 #if __MonoCS__
             referenceText.ShowDocument(functionInfo);
+            FitMonoReferenceHeight();
 #else
             HTMLCode = FunctionReferenceDocument.Render(functionInfo, displayedSignature);
 #endif

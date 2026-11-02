@@ -47,9 +47,12 @@ namespace Computator.NET.Core.Autocompletion
         {
             var items = _autocompleteReflectionSource.GetFunctionsNamesWithDescription(typeof(ElementaryFunctions));
 
+            items.AddRange(_autocompleteReflectionSource.GetFunctionsNamesWithDescription(typeof(MathNet.Numerics.Euclid), false, true));
             items.AddRange(_autocompleteReflectionSource.GetFunctionsNamesWithDescription(typeof(FunctionRoot), false, true));
             items.AddRange(_autocompleteReflectionSource.GetFunctionsNamesWithDescription(typeof(Integral), false, true));
             items.AddRange(_autocompleteReflectionSource.GetFunctionsNamesWithDescription(typeof(Derivative), false, true));
+            items.AddRange(_autocompleteReflectionSource.GetFunctionsNamesWithDescription(typeof(DifferentialEquation), false, true));
+            items.AddRange(PolynomialAutocompleteSource.GetItems(_autocompleteReflectionSource));
 
             items.AddRange(_autocompleteReflectionSource.GetFunctionsNamesWithDescription(typeof(StatisticsFunctions)));
 

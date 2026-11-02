@@ -124,15 +124,15 @@
     <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Qualität Diagramm:</value>
+    <value>Diagrammqualität:</value>
   </data>
   <data name="clearChartButton.Text" xml:space="preserve">
-    <value>klar</value>
+    <value>Diagramm leeren</value>
   </data>
   <data name="addToChartButton.Text" xml:space="preserve">
-    <value>Ansicht hinzufügen</value>
+    <value>Zum Diagramm hinzufügen</value>
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
-    <value>Die Werte in der Tabelle</value>
+    <value>Werte des Diagrammbereichs</value>
   </data>
 </root>
