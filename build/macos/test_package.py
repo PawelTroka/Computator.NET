@@ -316,12 +316,17 @@ diff --git a/input.c b/input.c
         (evidence/'launcher-preflight.json').write_text(json.dumps({'passed':True,'verifiedBootstrapFiles':2}))
         def trace(pid):
             return ''.join(f'dyld[{pid}]: {self.resources}/native/libfixture{number}.dylib\n' for number in range(10))
+        harness=evidence/'harness';harness.mkdir()
+        helper=harness/'libcomputator-mac-display.dylib'
+        helper.write_bytes(b'external shared-test capture helper')
         for filename in ('startup.log','smoke.log'):
-            (evidence/filename).write_text(trace(111))
+            (evidence/filename).write_text(trace(111)+f'dyld[111]: {helper}\n')
         for name,normal_trace,exit_code,expected in (
                 ('valid',trace(777),0,True),('missing-normal-trace','',0,False),
                 ('different-process',trace(888),0,False),('failed-normal-close',trace(777),1,False),
-                ('host-X11',trace(777)+'dyld[777]: /opt/X11/lib/libX11.6.dylib\n',0,False)):
+                ('host-X11',trace(777)+'dyld[777]: /opt/X11/lib/libX11.6.dylib\n',0,False),
+                ('GUI-harness-leak',trace(777)+f'dyld[777]: {helper}\n',0,False),
+                ('unrelated-PID-host-X11',trace(777)+'dyld[888]: /opt/X11/lib/libX11.6.dylib\n',0,True)):
             with self.subTest(name=name):
                 (evidence/'normal-launch/launcher.stderr.log').write_text(normal_trace)
                 (evidence/'normal-launch/normal-launch.json').write_text(json.dumps({'passed':True,'launcherExitCode':exit_code,
@@ -329,6 +334,11 @@ diff --git a/input.c b/input.c
                 result=subprocess.run([sys.executable,str(Path(__file__).with_name('verify-package-runtime.py')),
                     str(self.resources),str(evidence),str(mono)],capture_output=True,text=True)
                 self.assertEqual(expected,result.returncode==0,result.stdout+result.stderr)
+                if expected:
+                    accepted=json.loads((evidence/'relocated-native-runtime.json').read_text())
+                    self.assertEqual(10,accepted['applicationTraceCounts']['normal-launch/launcher.stderr.log'])
+                    self.assertIn(str(helper),accepted['loadedImages'])
+                    self.assertNotIn('/opt/X11/lib/libX11.6.dylib',accepted['loadedImages'])
 
 
 if __name__=='__main__':
