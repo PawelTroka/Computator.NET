@@ -48,8 +48,8 @@ jobs:
               for block in iter(lambda:stream.read(1024*1024),b''):digest.update(block)
           if digest.hexdigest()!=expected:raise SystemExit('The failed master package ZIP differs from the pinned diagnostic input.')
           helper=pathlib.Path('build/mono/NativeToolProcess.cs').read_bytes()
-          original=subprocess.check_output(['git','show','e40dcdb330befa7024f9f2656402c64a6287c2a8:build/mono/NativeToolProcess.cs'])
-          if helper!=original:raise SystemExit('The subprocess implementation must remain unchanged in this discriminator.')
+          expected_helper='7987b0c0912cb53d494794d9182437bfa0369671f7dd80ea58dd968eb4d84fd3'
+          if hashlib.sha256(helper).hexdigest()!=expected_helper:raise SystemExit('The subprocess implementation must remain identical to the pinned master source in this discriminator.')
           subprocess.run(['python3','build/macos/package.py','--extract',str(archive),'--output',str(original_layout/'relocated folder with spaces')],check=True)
           bundle=original_layout/'relocated folder with spaces/Computator.NET.app'
           resources=bundle/'Contents/Resources'
