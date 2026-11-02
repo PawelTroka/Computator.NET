@@ -36,6 +36,15 @@ namespace Computator.NET.Charting.ComplexCharting
         //  private Task RedrawTask;
         private  ComplexPoint[,] _pointsValues;
         private bool _redrawing = false;
+#if __MonoCS__
+        // The real Mono Application.Run pipeline may never dispatch the awaited
+        // WinForms synchronization-context continuation. Poll completion from
+        // the UI message loop instead; never access WinForms from the worker.
+        private System.Windows.Forms.Timer _monoRenderTimer;
+        private Task<ChartSamples> _monoRenderTask;
+        private long _monoRenderTaskVersion;
+#endif
+        public string LastRenderError { get; private set; }
         private long _redrawVersion;
         private Function function;
         private Bitmap image = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
@@ -290,6 +299,22 @@ namespace Computator.NET.Charting.ComplexCharting
         {
             if (disposing)
             {
+#if __MonoCS__
+                // A task may finish after the control has closed; release its
+                // independent sample bitmap without posting into a dead form.
+                _monoRenderTimer?.Stop();
+                _monoRenderTimer?.Dispose();
+                _monoRenderTimer = null;
+                var pending = _monoRenderTask;
+                _monoRenderTask = null;
+                if (pending != null)
+                    pending.ContinueWith(t =>
+                    {
+                        if (t.Status == TaskStatus.RanToCompletion)
+                            t.Result.Bitmap.Dispose();
+                    }, CancellationToken.None, TaskContinuationOptions.ExecuteSynchronously,
+                        TaskScheduler.Default);
+#endif
                 ++_redrawVersion;
                 function = null;
                 _pointsValues = null;
@@ -352,6 +377,7 @@ namespace Computator.NET.Charting.ComplexCharting
 
         public void AddFunction(Function Fz)
         {
+            LastRenderError = null;
             function = Fz;
             Title = Fz.Name;
             Redraw();
@@ -451,6 +477,7 @@ namespace Computator.NET.Charting.ComplexCharting
 
         public void ClearAll()
         {
+            LastRenderError = null;
             ++_redrawVersion;
             function = null;
             _pointsValues = null;
@@ -475,6 +502,98 @@ namespace Computator.NET.Charting.ComplexCharting
             plotForm.Show();
         }
 
+#if __MonoCS__
+        public void Redraw()
+        {
+            if (IsDisposed || Disposing)
+                return;
+            ++_redrawVersion;
+            if (function == null || DrawWidth <= 0 || DrawHeight <= 0 || _redrawing)
+                return;
+            _redrawing = true;
+            Cursor = Cursors.WaitCursor;
+            if (_monoRenderTimer == null)
+            {
+                _monoRenderTimer = new System.Windows.Forms.Timer { Interval = 35 };
+                _monoRenderTimer.Tick += MonoRenderTimerTick;
+            }
+            StartMonoRenderTask();
+        }
+
+        private void StartMonoRenderTask()
+        {
+            _monoRenderTaskVersion = _redrawVersion;
+            var width = DrawWidth;
+            var height = DrawHeight;
+            // Use the default scheduler and a dedicated worker on Mono. This
+            // avoids starvation by UI-associated custom schedulers and never
+            // executes the expensive sampling on the WinForms thread.
+            _monoRenderTask = Task.Factory.StartNew(
+                () => CalculateValuesAndColors(width, height), CancellationToken.None,
+                TaskCreationOptions.LongRunning, TaskScheduler.Default);
+            _monoRenderTimer.Start();
+        }
+
+        private void MonoRenderTimerTick(object sender, EventArgs e)
+        {
+            var task = _monoRenderTask;
+            if (task == null || !task.IsCompleted)
+                return;
+            _monoRenderTask = null;
+            var version = _monoRenderTaskVersion;
+            try
+            {
+                if (task.Status == TaskStatus.RanToCompletion)
+                {
+                    var samples = task.Result;
+                    if (!IsDisposed && !Disposing && function != null &&
+                        version == _redrawVersion)
+                    {
+                        var oldImage = image;
+                        image = samples.Bitmap;
+                        _pointsValues = samples.PointsValues;
+                        oldImage?.Dispose();
+                        Invalidate();
+                    }
+                    else
+                    {
+                        samples.Bitmap.Dispose();
+                    }
+                }
+                else if (task.IsFaulted && !IsDisposed && !Disposing &&
+                         function != null && version == _redrawVersion)
+                {
+                    var error = task.Exception.GetBaseException();
+                    Logger.Error(error, "Complex chart asynchronous redraw failed.");
+                    LastRenderError = error.Message;
+                    Invalidate();
+                }
+            }
+            catch (Exception error)
+            {
+                // Keep the actual production message loop alive on Mono.
+                Logger.Error(error, "Complex chart result publication failed.");
+                LastRenderError = error.Message;
+                if (!IsDisposed && !Disposing)
+                    Invalidate();
+            }
+
+            if (!IsDisposed && !Disposing && function != null &&
+                DrawWidth > 0 && DrawHeight > 0 && version != _redrawVersion)
+            {
+                // Coalesce edits, Clear, mode changes and resizing while a
+                // previous evaluation is still running. Never publish stale
+                // samples or stale errors from superseded work.
+                StartMonoRenderTask();
+                return;
+            }
+
+            _monoRenderTimer.Stop();
+            _redrawing = false;
+            if (!IsDisposed && !Disposing)
+                Cursor = Cursors.Default;
+        }
+#else
         public async void Redraw()
         {
             if (IsDisposed || Disposing)
@@ -498,10 +617,10 @@ namespace Computator.NET.Charting.ComplexCharting
                     }
                     catch (Exception) when (function == null || IsDisposed || version != _redrawVersion)
                     {
-                        // A discarded evaluation must not show an error after a new
-                        // plot, clear or close. Current evaluation errors still propagate.
+                        // Superseded evaluations should never report an error.
                         continue;
                     }
+
                     if (function == null || IsDisposed || version != _redrawVersion)
                     {
                         samples.Bitmap.Dispose();
@@ -523,9 +642,20 @@ namespace Computator.NET.Charting.ComplexCharting
             }
         }
 
+#endif
+
         protected override void OnPaint(PaintEventArgs pe)
         {
             PaintOn(pe.Graphics, ClientRectangle, image);
+            if (!string.IsNullOrWhiteSpace(LastRenderError))
+            {
+                var bounds = Rectangle.Inflate(ClientRectangle, -12, -12);
+                if (bounds.Width > 0 && bounds.Height > 0)
+                    TextRenderer.DrawText(pe.Graphics, "Complex chart rendering failed: " + LastRenderError,
+                        Font, new Rectangle(bounds.Left, bounds.Top, bounds.Width, Math.Min(90, bounds.Height)),
+                        Color.DarkRed, BackColor,
+                        TextFormatFlags.WordBreak | TextFormatFlags.Left | TextFormatFlags.Top);
+            }
         }
 
 

@@ -127,6 +127,7 @@
     <File Path="build/mono/LegacyFixtureWriter.cs" />
     <File Path="build/mono/SmokeTests/CompatibilityTests.cs" />
     <File Path="build/mono/SmokeTests/Computator.NET.Mono.SmokeTests.csproj" />
+    <File Path="build/mono/SmokeTests/ComplexChartUiAcceptance.cs" />
     <File Path="build/mono/SmokeTests/Program.cs" />
     <File Path="build/mono/StartupProbe/Computator.NET.Mono.StartupProbe.csproj" />
     <File Path="build/mono/StartupProbe/Program.cs" />
