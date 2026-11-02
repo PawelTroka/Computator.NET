@@ -254,16 +254,7 @@ namespace Computator.NET.Charting.Chart3D.UI
 
         public void AddPoints(IEnumerable<Point3D> points)
         {
-            if (points == null) throw new ArgumentNullException(nameof(points));
-            var values = new List<Point3D>();
-            foreach (var point in points)
-            {
-                if (values.Count == 20000)
-                    throw new ArgumentOutOfRangeException(nameof(points), "A 3D series supports at most 20,000 points.");
-                if (point != null && MonoSurfaceSampler.IsFinite(point.x) &&
-                    MonoSurfaceSampler.IsFinite(point.y) && MonoSurfaceSampler.IsFinite(point.z))
-                    values.Add(new Point3D(point.x, point.y, point.z));
-            }
+            var values = MonoPointSeries.CopyBounded(points);
             if (_points.Sum(series => series.Count) + values.Count > 40000)
                 throw new ArgumentOutOfRangeException(nameof(points), "A chart supports at most 40,000 points.");
             _points.Add(values);

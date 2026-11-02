@@ -57,6 +57,8 @@ rm -f -- "$results/mono-results.xml" "$results/startup.png" "$results/desktop-wo
     "$results/real-chart.png" "$results/complex-chart.png" "$results/function-reference.png" \
     "$results/mono-3d-paraboloid.png" "$results/mono-3d-visible-before.png" \
     "$results/mono-3d-visible-rotated.png" "$results/mono-3d-export.png" \
+    "$results/mono-3d-visible-prepan.png" "$results/mono-3d-visible-panned.png" \
+    "$results/mono-3d-panned-export.png" "$results/mono-3d-large-constant-export.png" \
     "$results/mono-3d-points.png" \
     "$results/calculator-inputs.png" "$results/numerical-inputs.png"
 # Do not mistake screenshots from a previous acceptance run for current evidence.

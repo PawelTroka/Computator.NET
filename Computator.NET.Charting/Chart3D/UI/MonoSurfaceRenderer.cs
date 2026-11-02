@@ -76,6 +76,25 @@ namespace Computator.NET.Charting.Chart3D.UI
         }
     }
 
+    internal static class MonoPointSeries
+    {
+        internal static List<Point3D> CopyBounded(IEnumerable<Point3D> points)
+        {
+            if (points == null) throw new ArgumentNullException(nameof(points));
+            var values = new List<Point3D>();
+            var inputCount = 0;
+            foreach (var point in points)
+            {
+                if (++inputCount > 20000)
+                    throw new ArgumentOutOfRangeException(nameof(points), "A 3D series supports at most 20,000 points.");
+                if (point != null && MonoSurfaceSampler.IsFinite(point.x) &&
+                    MonoSurfaceSampler.IsFinite(point.y) && MonoSurfaceSampler.IsFinite(point.z))
+                    values.Add(new Point3D(point.x, point.y, point.z));
+            }
+            return values;
+        }
+    }
+
     /// <summary>
     /// Bounded, depth-sorted, orthographic software 3D. Both live painting and
     /// exports invoke this same renderer; sampling is independent of viewport size.
@@ -161,6 +180,10 @@ namespace Computator.NET.Charting.Chart3D.UI
                     zMax += 1;
                 }
                 var spanZ = zMax - zMin;
+                // Above 2^53, adding one can round back to the same finite
+                // constant. Keep its plane at normalized z=0 instead of
+                // dividing by zero and silently discarding every vertex.
+                if (spanZ == 0) spanZ = 1;
                 if (!MonoSurfaceSampler.IsFinite(spanZ))
                 {
                     DrawMessage(graphics, font, viewport, "Surface z range is too large to display.");
@@ -359,6 +382,12 @@ namespace Computator.NET.Charting.Chart3D.UI
         {
             var end = endpoint(1);
             if (!origin.Valid || !end.Valid) return;
+            if (min == max)
+            {
+                graphics.DrawString(title + " " + min.ToString("G4", CultureInfo.InvariantCulture),
+                    font, brush, end.Pixel.X + 7, end.Pixel.Y + 5);
+                return;
+            }
             graphics.DrawLine(pen, origin.Pixel, end.Pixel);
             for (var tick = 0; tick <= 2; tick++)
             {

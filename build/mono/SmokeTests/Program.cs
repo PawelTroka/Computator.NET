@@ -110,6 +110,8 @@ internal static partial class Program
         Run("complex-chart-png-and-domain-colors", ComplexChart);
         Run("native-mono-3d-surface-and-visible-x11-interaction", Native3D);
         Run("native-mono-3d-singularities-custom-functions-and-points", Native3DEdges);
+        Run("native-mono-3d-large-finite-constant-surfaces", Native3DLargeConstants);
+        Run("native-mono-3d-rejected-point-input-budget", Native3DPointInputBudget);
         WriteResults();
         var failed = Results.Count(result => result.Failure != null);
         var skipped = Results.Count(result => result.SkippedReason != null);
@@ -545,6 +547,54 @@ internal static partial class Program
             Check(chart.FiniteSurfaceSamples == 33 * 33, "A singular plot must not poison subsequent redraws.");
             Expect<NotSupportedException>(() =>
                 chart.AddFunction(new ExpressionsEvaluator().Evaluate("x²", "", CalculationsMode.Real)));
+        }
+    }
+
+    private static void Native3DLargeConstants()
+    {
+        foreach (var height in new[] { 1e308, -1e308, double.MaxValue, double.MinValue })
+        using (var chart = new Chart3DControl { Width = 640, Height = 440, Quality = 0 })
+        {
+            chart.SetChartAreaValues(-2, 2, -2, 2);
+            chart.AddFunction(new Computator.NET.DataTypes.Functions.Function(
+                (Func<double, double, double>)((x, y) => height),
+                Computator.NET.DataTypes.Functions.FunctionType.Real3D));
+            foreach (var equalAxes in new[] { false, true })
+            {
+                chart.EqualAxes = equalAxes;
+                using (var image = new Bitmap(chart.GetImage(640, 440)))
+                {
+                    var colored = 0;
+                    for (var y = 0; y < image.Height; y += 2)
+                        for (var x = 0; x < image.Width; x += 2)
+                        {
+                            var pixel = image.GetPixel(x, y);
+                            if (Math.Max(pixel.R, Math.Max(pixel.G, pixel.B)) -
+                                Math.Min(pixel.R, Math.Min(pixel.G, pixel.B)) > 60) colored++;
+                        }
+                    Check(colored > 500, "Large finite constant disappeared instead of rendering a plane.");
+                    if (height == 1e308 && equalAxes)
+                        image.Save(Path.Combine(outputDirectory, "mono-3d-large-constant-export.png"), ImageFormat.Png);
+                }
+            }
+        }
+    }
+
+    private static void Native3DPointInputBudget()
+    {
+        using (var chart = new Chart3DControl())
+        {
+            foreach (var point in new[] { null, new Computator.NET.DataTypes.Charts.Point3D(double.NaN, 0, 0) })
+            {
+                var read = 0;
+                IEnumerable<Computator.NET.DataTypes.Charts.Point3D> Input()
+                {
+                    for (var i = 0; i < 20002; i++) { read++; yield return point; }
+                }
+                Expect<ArgumentOutOfRangeException>(() => chart.AddPoints(Input()));
+                Check(read == 20001, "Rejected point enumeration exceeded its input budget.");
+            }
+            chart.AddPoints(Enumerable.Repeat(new Computator.NET.DataTypes.Charts.Point3D(0, 0, 1), 20000));
         }
     }
 
