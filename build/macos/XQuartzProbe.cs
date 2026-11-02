@@ -269,13 +269,10 @@ internal static class XQuartzProbe
     {
         try
         {
-            string quoted = "'" + destination.Replace("'", "'\\''") + "'";
-            using (var process = System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("/usr/sbin/screencapture", "-x " + quoted)
-            { UseShellExecute = false, RedirectStandardError = true, CreateNoWindow = true }))
-            {
-                if (!process.WaitForExit(5000)) { process.Kill(); Console.WriteLine("Native macOS display diagnostic timed out."); }
-                else Console.WriteLine("Native macOS display diagnostic exit=" + process.ExitCode + " " + process.StandardError.ReadToEnd());
-            }
+            string quoted = "\"" + destination.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"";
+            string error = MacDesktopCapture.RunCaptureProcess(new System.Diagnostics.ProcessStartInfo("/usr/sbin/screencapture", "-x " + quoted),
+                destination + ".stderr.log", 5000);
+            Console.WriteLine("Native macOS display diagnostic exit=0 " + error);
         }
         catch (Exception error) { Console.WriteLine("Native macOS display diagnostic unavailable: " + error.Message); }
     }

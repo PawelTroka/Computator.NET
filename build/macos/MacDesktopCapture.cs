@@ -57,15 +57,10 @@ internal static class MacDesktopCapture
             throw new InvalidOperationException("Requested actual compositor rectangle is outside the main display; no clipped/offscreen acceptance is permitted.");
 
         string screenPath = prefix + "-display.png";
-        using (var capture = Process.Start(new ProcessStartInfo("/usr/sbin/screencapture", "-x -D 1 " + Quote(screenPath))
-        { UseShellExecute = false, RedirectStandardError = true, CreateNoWindow = true }))
-        {
-            if (capture == null) throw new InvalidOperationException("Cannot start the actual macOS display capture.");
-            if (!capture.WaitForExit(10000)) { capture.Kill(); throw new TimeoutException("Actual macOS compositor capture exceeded ten seconds."); }
-            string error = capture.StandardError.ReadToEnd();
-            if (capture.ExitCode != 0 || !File.Exists(screenPath))
-                throw new InvalidOperationException("Actual macOS compositor capture failed: " + capture.ExitCode + " " + error);
-        }
+        RunCaptureProcess(new ProcessStartInfo("/usr/sbin/screencapture", "-x -D 1 " + Quote(screenPath)),
+            prefix + "-capture.stderr.log", 10000);
+        if (!File.Exists(screenPath))
+            throw new InvalidOperationException("The actual macOS display capture produced no image.");
         using (var screen = new Bitmap(screenPath))
         {
             double pixelsX = screen.Width / geometry[15], pixelsY = screen.Height / geometry[16];
@@ -98,6 +93,45 @@ internal static class MacDesktopCapture
                 return output;
             }
             catch { output.Dispose(); throw; }
+        }
+    }
+
+    internal static string RunCaptureProcess(ProcessStartInfo start, string errorPath, int timeoutMilliseconds)
+    {
+        if (timeoutMilliseconds <= 0 || timeoutMilliseconds > 10000)
+            throw new ArgumentOutOfRangeException("timeoutMilliseconds", "External capture deadlines must remain between one millisecond and ten seconds.");
+        start.UseShellExecute = false;
+        start.RedirectStandardError = true;
+        start.CreateNoWindow = true;
+        // Trace the real Mono application, not the external display reader.
+        // Its inherited loader diagnostics can otherwise fill redirected pipes.
+        start.EnvironmentVariables.Remove("DYLD_PRINT_LIBRARIES");
+        using (var capture = Process.Start(start))
+        {
+            if (capture == null) throw new InvalidOperationException("Cannot start the actual macOS display capture.");
+            var watch = Stopwatch.StartNew();
+            // Read concurrently with the process. Waiting before draining can
+            // deadlock even a successful tool once stderr exceeds its pipe.
+            var readError = capture.StandardError.ReadToEndAsync();
+            if (!capture.WaitForExit(timeoutMilliseconds))
+            {
+                capture.Kill();
+                capture.WaitForExit(1000);
+                readError.Wait(1000);
+                File.WriteAllText(errorPath, readError.IsCompleted ? readError.GetAwaiter().GetResult() : "stderr remained open after timed-out capture cleanup");
+                throw new TimeoutException("Actual macOS compositor capture exceeded its bounded deadline.");
+            }
+            int remaining = Math.Max(0, timeoutMilliseconds - (int)watch.ElapsedMilliseconds);
+            if (!readError.Wait(remaining))
+            {
+                File.WriteAllText(errorPath, "stderr remained open after the external capture exited");
+                throw new TimeoutException("Actual macOS compositor stderr exceeded its bounded deadline.");
+            }
+            string error = readError.GetAwaiter().GetResult();
+            File.WriteAllText(errorPath, error);
+            if (capture.ExitCode != 0)
+                throw new InvalidOperationException("Actual macOS compositor capture failed: " + capture.ExitCode + " " + error);
+            return error;
         }
     }
 
