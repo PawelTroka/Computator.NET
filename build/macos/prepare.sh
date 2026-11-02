@@ -30,7 +30,7 @@ if [[ $architecture == arm64 && $brew_prefix != /opt/homebrew ]] || [[ $architec
 fi
 if [[ $install == true ]]; then
     export HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_INSTALL_CLEANUP=1
-    brew install mono pkgconf cairo pango giflib libexif jpeg-turbo libtiff gsl libx11 libxext libxtst libxinerama xdotool
+    brew install mono pkgconf cairo pango giflib libexif jpeg-turbo libtiff gsl libx11 libxext libxtst libxinerama libxcursor libxfixes xdotool
     if [[ ! -x /opt/X11/bin/Xquartz ]] || ! pkgutil --pkg-info org.xquartz.X11 2>/dev/null | grep -q "version: $(pin xquartz version)"; then
         package="$root/downloads/XQuartz-$(pin xquartz version).pkg"
         fetch "$(pin xquartz url)" "$(pin xquartz sha256)" "$package"
@@ -58,6 +58,19 @@ prefix="$root/libgdiplus"
 mkdir -p "$build" "$prefix"
 if [[ ! -f "$prefix/lib/libgdiplus.dylib" ]]; then
     tar -xzf "$source" --strip-components=1 -C "$build"
+    shared_pins="$repository/build/mono/gdiplus-source.json"
+    fixtures="$root/downloads/libgdiplus-6.2-complete-git.tar.gz"
+    fixture_url=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["fixtures"]["archive"])' "$shared_pins")
+    fixture_hash=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["fixtures"]["sha512"])' "$shared_pins")
+    if [[ ! -f $fixtures ]]; then curl --fail --location --retry 3 --proto '=https' --tlsv1.2 "$fixture_url" -o "$fixtures"; fi
+    printf '%s  %s\n' "$fixture_hash" "$fixtures" | shasum -a 512 -c -
+    mkdir -p "$root/complete-source"
+    tar -xzf "$fixtures" --strip-components=1 -C "$root/complete-source"
+    cp "$root/complete-source/tests/test-exif.jpg" "$root/complete-source/tests/test3.ico" "$build/tests/"
+    patch_file="$repository/build/mono/libgdiplus-pango-fontmap.patch"
+    patch_hash=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["patches"]["libgdiplus-pango-fontmap.patch"])' "$shared_pins")
+    printf '%s  %s\n' "$patch_hash" "$patch_file" | shasum -a 256 -c -
+    (cd "$build"; patch -p1 -i "$patch_file")
     # Upstream 6.2 retains an obsolete bockbuild-only Darwin libpng12 fallback.
     # The current Cairo/Pango stack uses libpng16. Remove only that exact gate;
     # retain all PNG checks and require the normal libpng16 package below.
@@ -75,10 +88,13 @@ PY
             --x-includes="$(brew --prefix libx11)/include" --x-libraries="$(brew --prefix libx11)/lib" \
             --with-libjpeg="$(brew --prefix jpeg-turbo)" --with-libtiff="$(brew --prefix libtiff)" --with-libgif="$(brew --prefix giflib)"
         grep -q '^#define HAVE_X11 1' config.h
+        grep -q '^#define HAVE_LIBGIF 1' config.h
+        grep -q '^#define HAVE_LIBPNG 1' config.h
         make -j "$(sysctl -n hw.logicalcpu)"
         make install
     ) 2>&1 | tee "$root/logs/libgdiplus-build.log"
 fi
+if [[ $architecture == arm64 ]]; then bash "$repository/build/macos/build-xim-shim.sh" "$root/xim"; fi
 nm -gU "$prefix/lib/libgdiplus.dylib" | grep '_GdipCreateFromXDrawable_linux$' > /dev/null
 otool -L "$prefix/lib/libgdiplus.dylib" | tee "$root/logs/libgdiplus-linkage.log"
 brew info --json=v2 --installed > "$root/logs/homebrew-installed.json"

@@ -59,7 +59,7 @@ internal static class XQuartzProbe
             Console.WriteLine("PASS native-dependencies: actual 64-bit Mono loading, drawing, X11 export and GSL answers.");
 
             if (args[0] != "headless") CheckDisplay();
-            if (args[0] == "gui") CheckWindow(args[1]);
+            if (args[0] == "gui") { XimShimAcceptance.Verify(); CheckWindow(args[1]); }
 
             Console.WriteLine("Scope: standalone probe only. Computator.NET startup, editors, documents, full numerical catalogue,");
             Console.WriteLine("charts, input, clipboard, accessibility and physical Mac acceptance remain separate checks.");

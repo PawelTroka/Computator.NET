@@ -15,6 +15,7 @@ results=$(cd "$results" && pwd)
 export PATH="$native/bin:/opt/X11/bin:$PATH"
 export COMPUTATOR_MONO="$native/bin/mono" COMPUTATOR_MCS="$native/bin/mcs"
 export COMPUTATOR_EXPECTED_MAC_ARCHITECTURE="$architecture" MONO_MWF_MAC_FORCE_X11=1
+export COMPUTATOR_MONO_XIM_ACCEPTANCE=enabled
 if [[ -n ${COMPUTATOR_MAC_DISPLAY_ENV:-} ]]; then source "$COMPUTATOR_MAC_DISPLAY_ENV"; fi
 [[ -n ${DISPLAY:-} ]] || { echo 'No authenticated XQuartz DISPLAY. Native drawing without a display is not GUI acceptance.' >&2; exit 2; }
 validation_temp=$(mktemp -d "${TMPDIR:-/tmp}/computator-mac-acceptance.XXXXXXXX")
@@ -46,4 +47,20 @@ XDG_CONFIG_HOME="$validation_temp/config" XDG_CACHE_HOME="$validation_temp/cache
 python3 build/macos/run-bounded.py --seconds 420 "$COMPUTATOR_MONO" --debug "$smoke" "$run" \
     2>&1 | tee "$run/smoke.log" || status=1
 python3 build/macos/verify-acceptance.py "$run" "$architecture" || status=1
+native_status=0
+python3 build/macos/run-bounded.py --seconds 240 make -C "$native/build-libgdiplus" check \
+    2>&1 | tee "$run/native-conformance.log" || native_status=$?
+python3 - "$native/build-libgdiplus/tests" "$run/native-conformance.json" "$native_status" <<'PY'
+import json,pathlib,sys
+tests=pathlib.Path(sys.argv[1]); results=[]
+for report in sorted(tests.glob('*.trs')):
+    lines=report.read_text().splitlines()
+    value=next((line.split(':',2)[-1].strip() for line in lines if line.startswith(':test-result:')),None)
+    results.append({'name':report.stem,'result':value})
+passed=int(sys.argv[3])==0 and len(results)==36 and all(test['result']=='PASS' for test in results)
+pathlib.Path(sys.argv[2]).write_text(json.dumps({'schemaVersion':1,'scope':'unchanged-upstream-libgdiplus-6.2-conformance','exitCode':int(sys.argv[3]),'passed':passed,'tests':results},indent=2)+'\n')
+if not passed: raise SystemExit('Native libgdiplus conformance did not pass all 36 unchanged upstream tests.')
+print('Native libgdiplus conformance: 36 passed, no failures or skips.')
+PY
+[[ $native_status == 0 ]] || status=1
 exit "$status"

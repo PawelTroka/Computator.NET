@@ -32,14 +32,23 @@ mappings = {name: gdiplus for name in ("gdiplus", "gdiplus.dll", "gdi32", "gdi32
 mappings.update({name: x11 for name in ("libX11", "libX11.so.6")})
 mappings.update({name: xtst for name in ("libXtst", "libXtst.so.6")})
 mappings.update({"libXinerama": library("libxinerama", "libXinerama.1.dylib"),
+                 "libXext": library("libxext", "libXext.6.dylib"),
+                 "libXcursor": library("libxcursor", "libXcursor.1.dylib"),
+                 "libXfixes": library("libxfixes", "libXfixes.3.dylib"),
                  "libcairo-2.dll": cairo, "gsl": gsl, "gslcblas": gslcblas})
+shim = root / "xim/libcomputator-mono-xim.dylib"
+if platform.machine() == "arm64":
+    mappings["computator_xim"] = shim.resolve(strict=True)
 # Remove only the selected names from the copied configuration. This avoids
 # depending on parser duplicate ordering and retains all unrelated system maps.
 for entry in list(config.getroot()):
     if entry.tag == "dllmap" and entry.get("dll") in mappings:
         config.getroot().remove(entry)
 for name, target in mappings.items():
-    ET.SubElement(config.getroot(), "dllmap", {"dll": name, "target": str(target), "os": "osx"})
+    entry = ET.SubElement(config.getroot(), "dllmap", {"dll": name, "target": str(target), "os": "osx"})
+    if name == "libX11" and platform.machine() == "arm64":
+        for function in ("XGetIMValues", "XGetICValues", "XSetICValues", "XCreateIC", "XVaCreateNestedList"):
+            ET.SubElement(entry, "dllentry", {"name": function, "dll": str(shim), "target": "ComputatorMono" + function})
 path = root / "mono.config"
 # Framework Mono's native config reader rejects ElementTree's declaration on
 # affected builds. Use the same headerless format as the runtime's own config.
@@ -48,6 +57,9 @@ q = shlex.quote
 launcher = root / "bin/mono"
 launcher.write_text("#!/bin/bash\nset -euo pipefail\n"
                     "export MONO_MWF_MAC_FORCE_X11=1\n"
+                    + ("export COMPUTATOR_MAC_XIM_SHIM=1\n"
+                       "if [[ ${COMPUTATOR_MAC_XIM_MODE:-enabled} == disabled ]]; then export MONO_WINFORMS_XIM_STYLE=disabled; "
+                       "else unset MONO_WINFORMS_XIM_STYLE; fi\n" if platform.machine() == "arm64" else "") +
                     f"exec {q(str(mono / 'bin/mono'))} --config {q(str(path))} \"$@\"\n")
 launcher.chmod(0o755)
 # mcs is already a script that invokes mono. The process-scoped wrapper on PATH
