@@ -20,8 +20,16 @@ class RuntimePreflightContracts(unittest.TestCase):
     def setUpClass(cls):
         cls.temporary = tempfile.TemporaryDirectory(prefix='computator-preflight-')
         cls.base = Path(cls.temporary.name)
-        cls.package = cls.base / 'package with spaces'
-        shutil.copytree(PACKAGE, cls.package, symlinks=True)
+        if (PACKAGE.name == 'Resources' and PACKAGE.parent.name == 'Contents'
+                and PACKAGE.parent.parent.suffix == '.app'):
+            # The Mac preflight also verifies fixed bootstrap files outside
+            # Resources. Preserve the real bundle shape in the isolated copy.
+            bundle = cls.base / 'application with spaces.app'
+            shutil.copytree(PACKAGE.parent.parent, bundle, symlinks=True)
+            cls.package = bundle / 'Contents/Resources'
+        else:
+            cls.package = cls.base / 'package with spaces'
+            shutil.copytree(PACKAGE, cls.package, symlinks=True)
         cls.executable = cls.package / 'app/Computator.NET.Mono.Preflight.exe'
         cls.manifest_path = cls.package / 'mono-package.json'
         cls.original_manifest = cls.manifest_path.read_bytes()
