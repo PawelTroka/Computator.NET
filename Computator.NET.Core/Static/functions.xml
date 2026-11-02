@@ -5714,6 +5714,316 @@
 </div>]]></Description>
     <Url>https://numerics.mathdotnet.com/api/MathNet.Numerics.Distributions/Erlang.htm</Url>
   </FunctionInfo>
+  <FunctionInfo Signature="Euclid.CeilingToPowerOfTwo(number)">
+    <Title>Round up to a power of two</Title>
+    <Type>Euclid</Type>
+    <Category>Integer arithmetic</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>int Euclid.CeilingToPowerOfTwo(int number)</code><br /><code>integer Euclid.CeilingToPowerOfTwo(integer number)</code></p>
+<p class="reference-summary">Finds the smallest representable power of two at least as large as a positive integer.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>For number&gt;0, result=2^ceil(log2(number)).</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Positive int up to 2^30 or positive integer (64-bit) up to 2^62.</p>
+<p class="reference-note"><strong>Important:</strong> An exact power of two is unchanged. Larger positive inputs throw ArgumentOutOfRangeException. Math.NET 5.0 returns 0 for zero and negative inputs, so validate positivity before treating the result as a power of two.</p>
+<p class="reference-explanation">Use these integer predicates and size calculations before allocating a numerical grid or selecting an algorithm. A bool result belongs in a script condition or a conditional expression such as Euclid.IsEven(4) ? 1 : 0.</p>
+<p class="reference-example"><strong>Example:</strong> Euclid.CeilingToPowerOfTwo(9) = 16</p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Euclid.ExtendedGreatestCommonDivisor(a,b,out x,out y)">
+    <Title>Extended Euclidean algorithm</Title>
+    <Type>Euclid</Type>
+    <Category>Integer arithmetic</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>BigInteger Euclid.ExtendedGreatestCommonDivisor(BigInteger a, BigInteger b, out BigInteger x, out BigInteger y)</code><br /><code>integer Euclid.ExtendedGreatestCommonDivisor(integer a, integer b, out integer x, out integer y)</code></p>
+<p class="reference-variant"><strong>Extended Euclidean algorithm</strong></p>
+<p class="reference-summary">Returns a greatest common divisor and writes two Bezout coefficients to the out arguments.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>a*x+b*y=gcd(a,b).</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Arbitrary-precision BigInteger values. The final x,y arguments are output variables, not evaluation coordinates.</p>
+<p class="reference-note"><strong>Important:</strong> Declare both coefficient variables first and pass them with out: integer u,v; integer d=Euclid.ExtendedGreatestCommonDivisor(240,46,out u,out v); then 240*u+46*v equals d=2. Use System.Numerics.BigInteger variables for the BigInteger overload. The coefficient pair is not unique; check its identity, not a particular pair of coefficients.</p>
+<p class="reference-explanation">Keep exact integer results in integer or System.Numerics.BigInteger variables in scripts. Fixed-width integer results convert to real in the calculator; above 2^53 that conversion can round an otherwise exact integer. BigInteger results require an explicit conversion, with the whole cast expression parenthesized: ((real)Euclid.GreatestCommonDivisor(System.Numerics.BigInteger.One&lt;&lt;80,System.Numerics.BigInteger.Zero)). Use a script instead when the exact integer value is required. The qualified Euclid methods are separate from the existing gcd, nwd, lcm and nww convenience functions.</p>
+<p class="reference-variant"><strong>Extended Euclidean algorithm</strong></p>
+<p class="reference-summary">Returns a greatest common divisor and writes two Bezout coefficients to the out arguments.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>a*x+b*y=gcd(a,b).</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Signed integers; the pair overload uses 64-bit integer values. The final x,y arguments are output variables, not evaluation coordinates.</p>
+<p class="reference-note"><strong>Important:</strong> Declare both coefficient variables first and pass them with out: integer u,v; integer d=Euclid.ExtendedGreatestCommonDivisor(240,46,out u,out v); then 240*u+46*v equals d=2. Use System.Numerics.BigInteger variables for the BigInteger overload. The coefficient pair is not unique; check its identity, not a particular pair of coefficients. Extreme signed 64-bit intermediates can overflow or wrap; choose BigInteger for exact large calculations.</p>
+<p class="reference-explanation">Keep exact integer results in integer or System.Numerics.BigInteger variables in scripts. Fixed-width integer results convert to real in the calculator; above 2^53 that conversion can round an otherwise exact integer. BigInteger results require an explicit conversion, with the whole cast expression parenthesized: ((real)Euclid.GreatestCommonDivisor(System.Numerics.BigInteger.One&lt;&lt;80,System.Numerics.BigInteger.Zero)). Use a script instead when the exact integer value is required. The qualified Euclid methods are separate from the existing gcd, nwd, lcm and nww convenience functions.</p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Euclid.GreatestCommonDivisor(a,b)">
+    <Title>Greatest common divisor of integers</Title>
+    <Type>Euclid</Type>
+    <Category>Integer arithmetic</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>BigInteger Euclid.GreatestCommonDivisor(BigInteger a, BigInteger b)</code><br /><code>integer Euclid.GreatestCommonDivisor(integer a, integer b)</code></p>
+<p class="reference-variant"><strong>Greatest common divisor of integers</strong></p>
+<p class="reference-summary">Finds the nonnegative common factor that divides every supplied integer.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>gcd(84,30)=6; gcd(a,b)=gcd(b,a remainder b).</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Arbitrary-precision BigInteger values.</p>
+<p class="reference-note"><strong>Important:</strong> The two-value operation accepts negative numbers and zeros: gcd(a,0)=|a| and gcd(0,0)=0. The returned value is an integer, so scripts can retain values above the exact range of real numbers.</p>
+<p class="reference-explanation">Keep exact integer results in integer or System.Numerics.BigInteger variables in scripts. Fixed-width integer results convert to real in the calculator; above 2^53 that conversion can round an otherwise exact integer. BigInteger results require an explicit conversion, with the whole cast expression parenthesized: ((real)Euclid.GreatestCommonDivisor(System.Numerics.BigInteger.One&lt;&lt;80,System.Numerics.BigInteger.Zero)). Use a script instead when the exact integer value is required. The qualified Euclid methods are separate from the existing gcd, nwd, lcm and nww convenience functions.</p>
+<p class="reference-example"><strong>Example:</strong> Euclid.GreatestCommonDivisor(-84,30) = 6</p>
+<p class="reference-variant"><strong>Greatest common divisor of integers</strong></p>
+<p class="reference-summary">Finds the nonnegative common factor that divides every supplied integer.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>gcd(84,30)=6; gcd(a,b)=gcd(b,a remainder b).</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Signed integers; the pair overload uses 64-bit integer values.</p>
+<p class="reference-note"><strong>Important:</strong> The two-value operation accepts negative numbers and zeros: gcd(a,0)=|a| and gcd(0,0)=0. The returned value is an integer, so scripts can retain values above the exact range of real numbers. Extreme 64-bit inputs can throw OverflowException, including an unrepresentable positive gcd of 2^63. Use BigInteger for the full integer domain.</p>
+<p class="reference-explanation">Keep exact integer results in integer or System.Numerics.BigInteger variables in scripts. Fixed-width integer results convert to real in the calculator; above 2^53 that conversion can round an otherwise exact integer. BigInteger results require an explicit conversion, with the whole cast expression parenthesized: ((real)Euclid.GreatestCommonDivisor(System.Numerics.BigInteger.One&lt;&lt;80,System.Numerics.BigInteger.Zero)). Use a script instead when the exact integer value is required. The qualified Euclid methods are separate from the existing gcd, nwd, lcm and nww convenience functions.</p>
+<p class="reference-example"><strong>Example:</strong> Euclid.GreatestCommonDivisor(-84,30) = 6</p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Euclid.GreatestCommonDivisor(integers)">
+    <Title>Greatest common divisor of integers</Title>
+    <Type>Euclid</Type>
+    <Category>Integer arithmetic</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>BigInteger Euclid.GreatestCommonDivisor(IList&lt;BigInteger&gt; integers)</code><br /><code>integer Euclid.GreatestCommonDivisor(IList&lt;integer&gt; integers)</code></p>
+<p class="reference-variant"><strong>Greatest common divisor of integers</strong></p>
+<p class="reference-summary">Finds the nonnegative common factor that divides every supplied integer.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>gcd(84,30)=6; gcd(a,b)=gcd(b,a remainder b).</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Arbitrary-precision BigInteger values.</p>
+<p class="reference-note"><strong>Important:</strong> The empty collection returns 0; null throws ArgumentNullException. Math.NET 5.0 starts its reduction at the first value and stops while its accumulated gcd is 0 or 1. A leading zero therefore incorrectly returns 0 even when later values are nonzero. Remove leading zeros or explicitly fold the two-value overload, starting from 0.</p>
+<p class="reference-explanation">Keep exact integer results in integer or System.Numerics.BigInteger variables in scripts. Fixed-width integer results convert to real in the calculator; above 2^53 that conversion can round an otherwise exact integer. BigInteger results require an explicit conversion, with the whole cast expression parenthesized: ((real)Euclid.GreatestCommonDivisor(System.Numerics.BigInteger.One&lt;&lt;80,System.Numerics.BigInteger.Zero)). Use a script instead when the exact integer value is required. The qualified Euclid methods are separate from the existing gcd, nwd, lcm and nww convenience functions.</p>
+<p class="reference-example"><strong>Example:</strong> Euclid.GreatestCommonDivisor(-84,30) = 6</p>
+<p class="reference-variant"><strong>Greatest common divisor of integers</strong></p>
+<p class="reference-summary">Finds the nonnegative common factor that divides every supplied integer.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>gcd(84,30)=6; gcd(a,b)=gcd(b,a remainder b).</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Signed integers; the pair overload uses 64-bit integer values.</p>
+<p class="reference-note"><strong>Important:</strong> The empty collection returns 0; null throws ArgumentNullException. Math.NET 5.0 starts its reduction at the first value and stops while its accumulated gcd is 0 or 1. A leading zero therefore incorrectly returns 0 even when later values are nonzero. Remove leading zeros or explicitly fold the two-value overload, starting from 0. Extreme 64-bit inputs can throw OverflowException, including an unrepresentable positive gcd of 2^63. Use BigInteger for the full integer domain.</p>
+<p class="reference-explanation">Keep exact integer results in integer or System.Numerics.BigInteger variables in scripts. Fixed-width integer results convert to real in the calculator; above 2^53 that conversion can round an otherwise exact integer. BigInteger results require an explicit conversion, with the whole cast expression parenthesized: ((real)Euclid.GreatestCommonDivisor(System.Numerics.BigInteger.One&lt;&lt;80,System.Numerics.BigInteger.Zero)). Use a script instead when the exact integer value is required. The qualified Euclid methods are separate from the existing gcd, nwd, lcm and nww convenience functions.</p>
+<p class="reference-example"><strong>Example:</strong> Euclid.GreatestCommonDivisor(-84,30) = 6</p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Euclid.GreatestCommonDivisor(integers1,integers2, ...)">
+    <Title>Greatest common divisor of integers</Title>
+    <Type>Euclid</Type>
+    <Category>Integer arithmetic</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>BigInteger Euclid.GreatestCommonDivisor(BigInteger integers1, BigInteger integers2,  ...)</code><br /><code>integer Euclid.GreatestCommonDivisor(integer integers1, integer integers2,  ...)</code></p>
+<p class="reference-variant"><strong>Greatest common divisor of integers</strong></p>
+<p class="reference-summary">Finds the nonnegative common factor that divides every supplied integer.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>gcd(84,30)=6; gcd(a,b)=gcd(b,a remainder b).</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Arbitrary-precision BigInteger values.</p>
+<p class="reference-note"><strong>Important:</strong> The empty collection returns 0; null throws ArgumentNullException. Math.NET 5.0 starts its reduction at the first value and stops while its accumulated gcd is 0 or 1. A leading zero therefore incorrectly returns 0 even when later values are nonzero. Remove leading zeros or explicitly fold the two-value overload, starting from 0.</p>
+<p class="reference-explanation">Keep exact integer results in integer or System.Numerics.BigInteger variables in scripts. Fixed-width integer results convert to real in the calculator; above 2^53 that conversion can round an otherwise exact integer. BigInteger results require an explicit conversion, with the whole cast expression parenthesized: ((real)Euclid.GreatestCommonDivisor(System.Numerics.BigInteger.One&lt;&lt;80,System.Numerics.BigInteger.Zero)). Use a script instead when the exact integer value is required. The qualified Euclid methods are separate from the existing gcd, nwd, lcm and nww convenience functions.</p>
+<p class="reference-example"><strong>Example:</strong> Euclid.GreatestCommonDivisor(-84,30) = 6</p>
+<p class="reference-variant"><strong>Greatest common divisor of integers</strong></p>
+<p class="reference-summary">Finds the nonnegative common factor that divides every supplied integer.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>gcd(84,30)=6; gcd(a,b)=gcd(b,a remainder b).</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Signed integers; the pair overload uses 64-bit integer values.</p>
+<p class="reference-note"><strong>Important:</strong> The empty collection returns 0; null throws ArgumentNullException. Math.NET 5.0 starts its reduction at the first value and stops while its accumulated gcd is 0 or 1. A leading zero therefore incorrectly returns 0 even when later values are nonzero. Remove leading zeros or explicitly fold the two-value overload, starting from 0. Extreme 64-bit inputs can throw OverflowException, including an unrepresentable positive gcd of 2^63. Use BigInteger for the full integer domain.</p>
+<p class="reference-explanation">Keep exact integer results in integer or System.Numerics.BigInteger variables in scripts. Fixed-width integer results convert to real in the calculator; above 2^53 that conversion can round an otherwise exact integer. BigInteger results require an explicit conversion, with the whole cast expression parenthesized: ((real)Euclid.GreatestCommonDivisor(System.Numerics.BigInteger.One&lt;&lt;80,System.Numerics.BigInteger.Zero)). Use a script instead when the exact integer value is required. The qualified Euclid methods are separate from the existing gcd, nwd, lcm and nww convenience functions.</p>
+<p class="reference-example"><strong>Example:</strong> Euclid.GreatestCommonDivisor(-84,30) = 6</p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Euclid.IsEven(number)">
+    <Title>Even-integer predicate</Title>
+    <Type>Euclid</Type>
+    <Category>Integer arithmetic</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>bool Euclid.IsEven(int number)</code><br /><code>bool Euclid.IsEven(integer number)</code></p>
+<p class="reference-summary">Tests whether an integer is divisible by two.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>number=2*k for some integer k.</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Signed 32-bit or 64-bit integer.</p>
+<p class="reference-note"><strong>Important:</strong> Zero and negative even numbers return true. The result is bool, suitable for if statements or conditional expressions.</p>
+<p class="reference-explanation">Use these integer predicates and size calculations before allocating a numerical grid or selecting an algorithm. A bool result belongs in a script condition or a conditional expression such as Euclid.IsEven(4) ? 1 : 0.</p>
+<p class="reference-example"><strong>Example:</strong> Euclid.IsEven(-2) = true</p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Euclid.IsOdd(number)">
+    <Title>Odd-integer predicate</Title>
+    <Type>Euclid</Type>
+    <Category>Integer arithmetic</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>bool Euclid.IsOdd(int number)</code><br /><code>bool Euclid.IsOdd(integer number)</code></p>
+<p class="reference-summary">Tests whether an integer has an odd remainder on division by two.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>number=2*k+1 for some integer k.</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Signed 32-bit or 64-bit integer.</p>
+<p class="reference-note"><strong>Important:</strong> Negative odd numbers return true; zero returns false. The result is bool.</p>
+<p class="reference-explanation">Use these integer predicates and size calculations before allocating a numerical grid or selecting an algorithm. A bool result belongs in a script condition or a conditional expression such as Euclid.IsEven(4) ? 1 : 0.</p>
+<p class="reference-example"><strong>Example:</strong> Euclid.IsOdd(-3) = true</p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Euclid.IsPerfectSquare(number)">
+    <Title>Perfect-square predicate</Title>
+    <Type>Euclid</Type>
+    <Category>Integer arithmetic</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>bool Euclid.IsPerfectSquare(int number)</code><br /><code>bool Euclid.IsPerfectSquare(integer number)</code></p>
+<p class="reference-summary">Tests whether a nonnegative integer is the square of an integer.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>number=k*k for some integer k.</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Signed 32-bit or 64-bit integer.</p>
+<p class="reference-note"><strong>Important:</strong> Zero is a perfect square; negative inputs return false. This is an integer test, not an approximate test for real values near a square.</p>
+<p class="reference-explanation">Use these integer predicates and size calculations before allocating a numerical grid or selecting an algorithm. A bool result belongs in a script condition or a conditional expression such as Euclid.IsEven(4) ? 1 : 0.</p>
+<p class="reference-example"><strong>Example:</strong> Euclid.IsPerfectSquare(144) = true</p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Euclid.IsPowerOfTwo(number)">
+    <Title>Positive power-of-two predicate</Title>
+    <Type>Euclid</Type>
+    <Category>Integer arithmetic</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>bool Euclid.IsPowerOfTwo(int number)</code><br /><code>bool Euclid.IsPowerOfTwo(integer number)</code></p>
+<p class="reference-summary">Tests whether a positive integer contains exactly one set binary bit.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>number=2^k for an integer k&gt;=0.</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Signed 32-bit or 64-bit integer.</p>
+<p class="reference-note"><strong>Important:</strong> One returns true. Zero and every negative value return false. The bool result is useful when selecting binary grid or transform sizes.</p>
+<p class="reference-explanation">Use these integer predicates and size calculations before allocating a numerical grid or selecting an algorithm. A bool result belongs in a script condition or a conditional expression such as Euclid.IsEven(4) ? 1 : 0.</p>
+<p class="reference-example"><strong>Example:</strong> Euclid.IsPowerOfTwo(1024) = true</p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Euclid.LeastCommonMultiple(a,b)">
+    <Title>Least common multiple of integers</Title>
+    <Type>Euclid</Type>
+    <Category>Integer arithmetic</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>BigInteger Euclid.LeastCommonMultiple(BigInteger a, BigInteger b)</code><br /><code>integer Euclid.LeastCommonMultiple(integer a, integer b)</code></p>
+<p class="reference-variant"><strong>Least common multiple of integers</strong></p>
+<p class="reference-summary">Finds the smallest positive common multiple of nonzero integers, with zero returned when any operand is zero.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>lcm(a,b)=|a/gcd(a,b) times b| for nonzero a,b.</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Arbitrary-precision BigInteger values.</p>
+<p class="reference-note"><strong>Important:</strong> A zero operand gives 0; signs are removed from the result. For nonzero operands this is the smallest positive shared multiple, useful for combining repeating integer periods.</p>
+<p class="reference-explanation">Keep exact integer results in integer or System.Numerics.BigInteger variables in scripts. Fixed-width integer results convert to real in the calculator; above 2^53 that conversion can round an otherwise exact integer. BigInteger results require an explicit conversion, with the whole cast expression parenthesized: ((real)Euclid.GreatestCommonDivisor(System.Numerics.BigInteger.One&lt;&lt;80,System.Numerics.BigInteger.Zero)). Use a script instead when the exact integer value is required. The qualified Euclid methods are separate from the existing gcd, nwd, lcm and nww convenience functions.</p>
+<p class="reference-example"><strong>Example:</strong> Euclid.LeastCommonMultiple(12,18) = 36</p>
+<p class="reference-variant"><strong>Least common multiple of integers</strong></p>
+<p class="reference-summary">Finds the smallest positive common multiple of nonzero integers, with zero returned when any operand is zero.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>lcm(a,b)=|a/gcd(a,b) times b| for nonzero a,b.</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Signed integers; the pair overload uses 64-bit integer values.</p>
+<p class="reference-note"><strong>Important:</strong> A zero operand gives 0; signs are removed from the result. For nonzero operands this is the smallest positive shared multiple, useful for combining repeating integer periods. The 64-bit implementation divides before multiplying, but a large product can still silently wrap or throw. Use BigInteger when the result or intermediate arithmetic may exceed signed 64-bit range.</p>
+<p class="reference-explanation">Keep exact integer results in integer or System.Numerics.BigInteger variables in scripts. Fixed-width integer results convert to real in the calculator; above 2^53 that conversion can round an otherwise exact integer. BigInteger results require an explicit conversion, with the whole cast expression parenthesized: ((real)Euclid.GreatestCommonDivisor(System.Numerics.BigInteger.One&lt;&lt;80,System.Numerics.BigInteger.Zero)). Use a script instead when the exact integer value is required. The qualified Euclid methods are separate from the existing gcd, nwd, lcm and nww convenience functions.</p>
+<p class="reference-example"><strong>Example:</strong> Euclid.LeastCommonMultiple(12,18) = 36</p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Euclid.LeastCommonMultiple(integers)">
+    <Title>Least common multiple of integers</Title>
+    <Type>Euclid</Type>
+    <Category>Integer arithmetic</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>BigInteger Euclid.LeastCommonMultiple(IList&lt;BigInteger&gt; integers)</code><br /><code>integer Euclid.LeastCommonMultiple(IList&lt;integer&gt; integers)</code></p>
+<p class="reference-variant"><strong>Least common multiple of integers</strong></p>
+<p class="reference-summary">Finds the smallest positive common multiple of nonzero integers, with zero returned when any operand is zero.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>lcm(a,b)=|a/gcd(a,b) times b| for nonzero a,b.</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Arbitrary-precision BigInteger values.</p>
+<p class="reference-note"><strong>Important:</strong> A zero operand gives 0; signs are removed from the result. For nonzero operands this is the smallest positive shared multiple, useful for combining repeating integer periods. The empty collection returns 1 and null throws ArgumentNullException. Collection overloads reduce from the first value.</p>
+<p class="reference-explanation">Keep exact integer results in integer or System.Numerics.BigInteger variables in scripts. Fixed-width integer results convert to real in the calculator; above 2^53 that conversion can round an otherwise exact integer. BigInteger results require an explicit conversion, with the whole cast expression parenthesized: ((real)Euclid.GreatestCommonDivisor(System.Numerics.BigInteger.One&lt;&lt;80,System.Numerics.BigInteger.Zero)). Use a script instead when the exact integer value is required. The qualified Euclid methods are separate from the existing gcd, nwd, lcm and nww convenience functions.</p>
+<p class="reference-example"><strong>Example:</strong> Euclid.LeastCommonMultiple(12,18) = 36</p>
+<p class="reference-variant"><strong>Least common multiple of integers</strong></p>
+<p class="reference-summary">Finds the smallest positive common multiple of nonzero integers, with zero returned when any operand is zero.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>lcm(a,b)=|a/gcd(a,b) times b| for nonzero a,b.</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Signed integers; the pair overload uses 64-bit integer values.</p>
+<p class="reference-note"><strong>Important:</strong> A zero operand gives 0; signs are removed from the result. For nonzero operands this is the smallest positive shared multiple, useful for combining repeating integer periods. The empty collection returns 1 and null throws ArgumentNullException. Collection overloads reduce from the first value. The 64-bit implementation divides before multiplying, but a large product can still silently wrap or throw. Use BigInteger when the result or intermediate arithmetic may exceed signed 64-bit range.</p>
+<p class="reference-explanation">Keep exact integer results in integer or System.Numerics.BigInteger variables in scripts. Fixed-width integer results convert to real in the calculator; above 2^53 that conversion can round an otherwise exact integer. BigInteger results require an explicit conversion, with the whole cast expression parenthesized: ((real)Euclid.GreatestCommonDivisor(System.Numerics.BigInteger.One&lt;&lt;80,System.Numerics.BigInteger.Zero)). Use a script instead when the exact integer value is required. The qualified Euclid methods are separate from the existing gcd, nwd, lcm and nww convenience functions.</p>
+<p class="reference-example"><strong>Example:</strong> Euclid.LeastCommonMultiple(12,18) = 36</p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Euclid.LeastCommonMultiple(integers1,integers2, ...)">
+    <Title>Least common multiple of integers</Title>
+    <Type>Euclid</Type>
+    <Category>Integer arithmetic</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>BigInteger Euclid.LeastCommonMultiple(BigInteger integers1, BigInteger integers2,  ...)</code><br /><code>integer Euclid.LeastCommonMultiple(integer integers1, integer integers2,  ...)</code></p>
+<p class="reference-variant"><strong>Least common multiple of integers</strong></p>
+<p class="reference-summary">Finds the smallest positive common multiple of nonzero integers, with zero returned when any operand is zero.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>lcm(a,b)=|a/gcd(a,b) times b| for nonzero a,b.</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Arbitrary-precision BigInteger values.</p>
+<p class="reference-note"><strong>Important:</strong> A zero operand gives 0; signs are removed from the result. For nonzero operands this is the smallest positive shared multiple, useful for combining repeating integer periods. The empty collection returns 1 and null throws ArgumentNullException. Collection overloads reduce from the first value.</p>
+<p class="reference-explanation">Keep exact integer results in integer or System.Numerics.BigInteger variables in scripts. Fixed-width integer results convert to real in the calculator; above 2^53 that conversion can round an otherwise exact integer. BigInteger results require an explicit conversion, with the whole cast expression parenthesized: ((real)Euclid.GreatestCommonDivisor(System.Numerics.BigInteger.One&lt;&lt;80,System.Numerics.BigInteger.Zero)). Use a script instead when the exact integer value is required. The qualified Euclid methods are separate from the existing gcd, nwd, lcm and nww convenience functions.</p>
+<p class="reference-example"><strong>Example:</strong> Euclid.LeastCommonMultiple(12,18) = 36</p>
+<p class="reference-variant"><strong>Least common multiple of integers</strong></p>
+<p class="reference-summary">Finds the smallest positive common multiple of nonzero integers, with zero returned when any operand is zero.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>lcm(a,b)=|a/gcd(a,b) times b| for nonzero a,b.</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Signed integers; the pair overload uses 64-bit integer values.</p>
+<p class="reference-note"><strong>Important:</strong> A zero operand gives 0; signs are removed from the result. For nonzero operands this is the smallest positive shared multiple, useful for combining repeating integer periods. The empty collection returns 1 and null throws ArgumentNullException. Collection overloads reduce from the first value. The 64-bit implementation divides before multiplying, but a large product can still silently wrap or throw. Use BigInteger when the result or intermediate arithmetic may exceed signed 64-bit range.</p>
+<p class="reference-explanation">Keep exact integer results in integer or System.Numerics.BigInteger variables in scripts. Fixed-width integer results convert to real in the calculator; above 2^53 that conversion can round an otherwise exact integer. BigInteger results require an explicit conversion, with the whole cast expression parenthesized: ((real)Euclid.GreatestCommonDivisor(System.Numerics.BigInteger.One&lt;&lt;80,System.Numerics.BigInteger.Zero)). Use a script instead when the exact integer value is required. The qualified Euclid methods are separate from the existing gcd, nwd, lcm and nww convenience functions.</p>
+<p class="reference-example"><strong>Example:</strong> Euclid.LeastCommonMultiple(12,18) = 36</p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Euclid.Log2(number)">
+    <Title>Integer binary logarithm</Title>
+    <Type>Euclid</Type>
+    <Category>Integer arithmetic</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>int Euclid.Log2(int number)</code></p>
+<p class="reference-summary">Returns the position of the highest set bit of a positive 32-bit integer.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>For number&gt;0, result=floor(log2(number)).</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> A positive int (32-bit integer); this method has no 64-bit overload.</p>
+<p class="reference-note"><strong>Important:</strong> This integer operation rounds down. Math.NET 5.0 returns 0 for zero and 31 for negative inputs; those implementation values are not mathematical logarithms. Validate number&gt;0 when that meaning is required.</p>
+<p class="reference-explanation">Use these integer predicates and size calculations before allocating a numerical grid or selecting an algorithm. A bool result belongs in a script condition or a conditional expression such as Euclid.IsEven(4) ? 1 : 0.</p>
+<p class="reference-example"><strong>Example:</strong> Euclid.Log2(1000) = 9</p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Euclid.Modulus(dividend,divisor)">
+    <Title>Canonical modulus</Title>
+    <Type>Euclid</Type>
+    <Category>Integer arithmetic</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>BigInteger Euclid.Modulus(BigInteger dividend, BigInteger divisor)</code><br /><code>Single Euclid.Modulus(Single dividend, Single divisor)</code><br /><code>int Euclid.Modulus(int dividend, int divisor)</code><br /><code>integer Euclid.Modulus(integer dividend, integer divisor)</code><br /><code>real Euclid.Modulus(real dividend, real divisor)</code></p>
+<p class="reference-summary">Returns the residue using the divisor-sign convention.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>Modulus(-7,3)=2; Modulus(7,-3)=-2.</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> dividend and a nonzero divisor of matching supported numeric types; overloads accept int, integer, real, Single and BigInteger.</p>
+<p class="reference-note"><strong>Important:</strong> For exact arithmetic and a nonzero divisor, modulus has the divisor sign; remainder has the dividend sign. For example, with dividend -7 and divisor 3 the modulus is 2 while the remainder is -1. Both are zero when the dividend is a multiple of the divisor. A zero integer divisor throws DivideByZeroException; a zero floating divisor produces NaN. Math.NET 5.0 computes ((dividend%divisor)+divisor)%divisor. The added divisor can overflow fixed-width integer or floating arithmetic, and floating addition can round away a small remainder. Use BigInteger for exact integer modulus at large magnitudes.</p>
+<p class="reference-explanation">Use canonical modulus when wrapping a signed position into a periodic range, with positive divisor for nonnegative results. Use remainder when matching the language division convention; the two operations differ for operands with opposite signs.</p>
+<p class="reference-example"><strong>Example:</strong> Euclid.Modulus(-7,3) = 2</p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Euclid.PowerOfTwo(exponent)">
+    <Title>Exact integer power of two</Title>
+    <Type>Euclid</Type>
+    <Category>Integer arithmetic</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>int Euclid.PowerOfTwo(int exponent)</code><br /><code>integer Euclid.PowerOfTwo(integer exponent)</code></p>
+<p class="reference-summary">Returns a representable positive integer power of two.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>result=2^exponent.</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> The int overload accepts exponents 0..30; the integer (64-bit) overload accepts 0..62.</p>
+<p class="reference-note"><strong>Important:</strong> Out-of-range exponents throw ArgumentOutOfRangeException. An ordinary small integer literal selects int; use (integer)40 to select the 64-bit overload. The result stays an integer in scripts.</p>
+<p class="reference-explanation">Use these integer predicates and size calculations before allocating a numerical grid or selecting an algorithm. A bool result belongs in a script condition or a conditional expression such as Euclid.IsEven(4) ? 1 : 0.</p>
+<p class="reference-example"><strong>Example:</strong> Euclid.PowerOfTwo((integer)40) = 1099511627776</p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Euclid.Remainder(dividend,divisor)">
+    <Title>Truncating division remainder</Title>
+    <Type>Euclid</Type>
+    <Category>Integer arithmetic</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>BigInteger Euclid.Remainder(BigInteger dividend, BigInteger divisor)</code><br /><code>Single Euclid.Remainder(Single dividend, Single divisor)</code><br /><code>int Euclid.Remainder(int dividend, int divisor)</code><br /><code>integer Euclid.Remainder(integer dividend, integer divisor)</code><br /><code>real Euclid.Remainder(real dividend, real divisor)</code></p>
+<p class="reference-summary">Returns the same remainder as the % operator.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>Remainder(-7,3)=-1; Remainder(7,-3)=1.</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> dividend and a nonzero divisor of matching supported numeric types; overloads accept int, integer, real, Single and BigInteger.</p>
+<p class="reference-note"><strong>Important:</strong> For exact arithmetic and a nonzero divisor, modulus has the divisor sign; remainder has the dividend sign. For example, with dividend -7 and divisor 3 the modulus is 2 while the remainder is -1. Both are zero when the dividend is a multiple of the divisor. A zero integer divisor throws DivideByZeroException; a zero floating divisor produces NaN. Fixed-width signed minimum divided by -1 can overflow. Floating inputs follow the runtime % operator, including its rounding and nonfinite behavior.</p>
+<p class="reference-explanation">Use canonical modulus when wrapping a signed position into a periodic range, with positive divisor for nonnegative results. Use remainder when matching the language division convention; the two operations differ for operands with opposite signs.</p>
+<p class="reference-example"><strong>Example:</strong> Euclid.Remainder(-7,3) = -1</p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs</Url>
+  </FunctionInfo>
   <FunctionInfo Signature="EulerMascheroni">
     <Title>Euler–Mascheroni constant</Title>
     <Type>MathematicalConstants</Type>
@@ -19283,12 +19593,12 @@
 </div>]]></Description>
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/ScriptingFunctions.cs</Url>
   </FunctionInfo>
-  <FunctionInfo Signature="read&lt;T&gt;(file,output)">
+  <FunctionInfo Signature="read&lt;T&gt;(file,out output)">
     <Title>Read remaining text from a file</Title>
     <Type>ScriptingFunctions</Type>
     <Category>Script input</Category>
     <Description><![CDATA[<div class="function-reference">
-<p class="reference-signature"><code>void read&lt;T&gt;(File file, T&amp; output)</code></p>
+<p class="reference-signature"><code>void read&lt;T&gt;(File file, out T output)</code></p>
 <p class="reference-summary">Reads all remaining text from the current file position.</p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> file is a Computator File object, not a pathname or StreamReader. output is an out argument assigned by the method.</p>
 <p class="reference-note"><strong>Important:</strong> Typed overloads use convert&lt;T&gt;; prefer string, real or complex and handle invalid/empty input. readln can return null at end of file; read returns an empty string when no text remains.</p>
@@ -19297,12 +19607,12 @@
 </div>]]></Description>
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/ScriptingFunctions.cs</Url>
   </FunctionInfo>
-  <FunctionInfo Signature="read&lt;T&gt;(output)">
+  <FunctionInfo Signature="read&lt;T&gt;(out output)">
     <Title>Read remaining text from a desktop dialog</Title>
     <Type>ScriptingFunctions</Type>
     <Category>Script input</Category>
     <Description><![CDATA[<div class="function-reference">
-<p class="reference-signature"><code>void read&lt;T&gt;(T&amp; output)</code></p>
+<p class="reference-signature"><code>void read&lt;T&gt;(out T output)</code></p>
 <p class="reference-summary">Displays a modal desktop input dialog and converts its result.</p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Optional caption labels the dialog. This requires an interactive Windows UI and is not browser/CLI standard input. output is an out argument assigned by the method.</p>
 <p class="reference-note"><strong>Important:</strong> Typed overloads use convert&lt;T&gt;; prefer string, real or complex and handle invalid/empty input. Cancellation may produce empty text and conversion errors; no value should be assumed without handling that outcome.</p>
@@ -19311,12 +19621,12 @@
 </div>]]></Description>
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/ScriptingFunctions.cs</Url>
   </FunctionInfo>
-  <FunctionInfo Signature="read&lt;T&gt;(output,caption)">
+  <FunctionInfo Signature="read&lt;T&gt;(out output,caption)">
     <Title>Read remaining text from a desktop dialog</Title>
     <Type>ScriptingFunctions</Type>
     <Category>Script input</Category>
     <Description><![CDATA[<div class="function-reference">
-<p class="reference-signature"><code>void read&lt;T&gt;(T&amp; output, string caption)</code></p>
+<p class="reference-signature"><code>void read&lt;T&gt;(out T output, string caption)</code></p>
 <p class="reference-summary">Displays a modal desktop input dialog and converts its result.</p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Optional caption labels the dialog. This requires an interactive Windows UI and is not browser/CLI standard input. output is an out argument assigned by the method.</p>
 <p class="reference-note"><strong>Important:</strong> Typed overloads use convert&lt;T&gt;; prefer string, real or complex and handle invalid/empty input. Cancellation may produce empty text and conversion errors; no value should be assumed without handling that outcome.</p>
@@ -19353,12 +19663,12 @@
 </div>]]></Description>
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/ScriptingFunctions.cs</Url>
   </FunctionInfo>
-  <FunctionInfo Signature="readln&lt;T&gt;(file,output)">
+  <FunctionInfo Signature="readln&lt;T&gt;(file,out output)">
     <Title>Read one line from a file</Title>
     <Type>ScriptingFunctions</Type>
     <Category>Script input</Category>
     <Description><![CDATA[<div class="function-reference">
-<p class="reference-signature"><code>void readln&lt;T&gt;(File file, T&amp; output)</code></p>
+<p class="reference-signature"><code>void readln&lt;T&gt;(File file, out T output)</code></p>
 <p class="reference-summary">Reads up to the next line ending, advancing the wrapper’s reader.</p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> file is a Computator File object, not a pathname or StreamReader. output is an out argument assigned by the method.</p>
 <p class="reference-note"><strong>Important:</strong> Typed overloads use convert&lt;T&gt;; prefer string, real or complex and handle invalid/empty input. readln can return null at end of file; read returns an empty string when no text remains.</p>
