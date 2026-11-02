@@ -133,6 +133,16 @@ limit at exactly zero remains unevaluated by this API. This correction does
 not change the separate S/C or spherical-Hankel APIs or reconstruct truly
 unrepresentable values.
 
+## Debye order support
+
+`Debye(n,x)` evaluates the normalized integral through GSL for integer orders
+1–6 and nonnegative `x`, with `Debye(n,0)=1`. Unsupported orders, including zero,
+now return `NaN` consistently. The previous fallback for `x>9` returned
+`Γ(n+1)ζ(n+1)`, independent of `x`; that is an unnormalized integral over an
+infinite interval and is not the requested Debye function. Higher-order
+Debye evaluation remains unimplemented. The host, emitted TSL and precompiled
+built-ins follow the same contract.
+
 ## Known numerical differences deliberately not changed here
 
 The remaining distinctions below are preserved and documented. Each numerical correction above updates its tests and reference together; the other entries still describe current behavior:
@@ -140,7 +150,6 @@ The remaining distinctions below are preserved and documented. Each numerical co
 | Existing identifier | Explicitly documented distinction |
 | --- | --- |
 | Modified spherical Bessel I/K | Returned values are exponentially **scaled** despite the public names omitting “scaled”; the K normalization includes the GSL π/2 convention. |
-| `Debye` outside orders 1–6 | The fallback is not the normalized higher-order Debye definition. |
 | `minor` | Extracts a rectangular submatrix; it does not compute a determinant or cofactor. |
 | `Geometric` | Counts trials including success, on 1,2,…; NegativeBinomial counts failures starting at zero. |
 | `Stable` density/CDF | Math.NET 5.0 supports only its Gaussian, Cauchy and Lévy special cases for evaluation, despite broader sampling support. |
