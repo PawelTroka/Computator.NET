@@ -207,6 +207,7 @@ internal static class XQuartzProbe
                     Require(window.Visible && window.IsHandleCreated && paints > 0, "WinForms did not paint a visible window.");
                     using (var capture = new Bitmap(window.ClientSize.Width, window.ClientSize.Height))
                     {
+                        TryMacScreenCapture(Path.Combine(Path.GetDirectoryName(screenshotPath), "native-macos-screen.png"));
                         using (Graphics graphics = Graphics.FromImage(capture))
                             graphics.CopyFromScreen(window.PointToScreen(Point.Empty), Point.Empty, capture.Size);
                         capture.Save(screenshotPath, ImageFormat.Png);
@@ -275,6 +276,21 @@ internal static class XQuartzProbe
             XSync(display, 0);
         }
         finally { XCloseDisplay(display); }
+    }
+
+    private static void TryMacScreenCapture(string destination)
+    {
+        try
+        {
+            string quoted = "'" + destination.Replace("'", "'\\''") + "'";
+            using (var process = System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("/usr/sbin/screencapture", "-x " + quoted)
+            { UseShellExecute = false, RedirectStandardError = true, CreateNoWindow = true }))
+            {
+                if (!process.WaitForExit(5000)) { process.Kill(); Console.WriteLine("Native macOS display diagnostic timed out."); }
+                else Console.WriteLine("Native macOS display diagnostic exit=" + process.ExitCode + " " + process.StandardError.ReadToEnd());
+            }
+        }
+        catch (Exception error) { Console.WriteLine("Native macOS display diagnostic unavailable: " + error.Message); }
     }
 
     private static string ReportLibrary(string name)
