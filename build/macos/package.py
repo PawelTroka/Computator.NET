@@ -361,7 +361,21 @@ def retain_sources(provenance, prepared, resources):
             download_verified(patch_url,patch_sha,patch_file)
             patches.append({'url':patch_url,'sha256':patch_sha,'file':patch_file.relative_to(resources).as_posix(),
                             'scope':'literal patch input retained; applicability remains in the installed recipe'})
-        for patch in local_patch_pins(content,formula,parts[index+2],sha(recipe),frozen):
+        frozen_recipe=None
+        if re.search(r'^\s*file\s+"Patches/',ruby_code(content),re.M):
+            matching=[entry for entry in frozen.get('formulae',[]) if entry.get('name')==formula]
+            if len(matching)!=1: raise ValueError('No frozen local-patch formula metadata: '+formula)
+            metadata=matching[0];head=metadata.get('tap_git_head','');source_path=metadata.get('ruby_source_path','')
+            formula_hash=metadata.get('ruby_source_checksum',{}).get('sha256','')
+            if (not re.fullmatch('[0-9a-f]{40}',head) or not re.fullmatch('[0-9a-f]{64}',formula_hash)
+                    or not source_path.startswith('Formula/') or not source_path.endswith('.rb')
+                    or '\\' in source_path or ':' in source_path or any(part in ('','.','..') for part in source_path.split('/'))):
+                raise ValueError('Unsafe frozen formula reference for '+formula)
+            frozen_file=directory/('frozen-upstream-'+formula+'.rb')
+            download_verified('https://raw.githubusercontent.com/Homebrew/homebrew-core/'+head+'/'+source_path,formula_hash,frozen_file)
+            frozen_recipe=frozen_file.read_text()
+        for patch in local_patch_pins(content,formula,parts[index+2],sha(recipe),frozen,frozen_recipe,
+                                      json.loads(receipt.read_text()) if receipt.is_file() else None):
             patch_file=directory/('local-'+Path(patch['path']).name)
             download_verified(patch['url'],patch['sha256'],patch_file)
             patches.append({**patch,'file':patch_file.relative_to(resources).as_posix()})
@@ -450,7 +464,7 @@ def external_patches(content,label):
     return patches
 
 
-def local_patch_pins(content,formula,version,recipe_sha,frozen):
+def local_patch_pins(content,formula,version,recipe_sha,frozen,frozen_recipe=None,receipt=None):
     code=ruby_code(content)
     declarations=re.findall(r'^\s*file\s+"(Patches/[^"#]+)"\s*$',code,re.M)
     if not declarations:
@@ -460,9 +474,17 @@ def local_patch_pins(content,formula,version,recipe_sha,frozen):
     metadata=matches[0]
     expected_version=metadata['versions']['stable']+('_'+str(metadata['revision']) if metadata.get('revision') else '')
     head=metadata.get('tap_git_head','')
+    original_sha=metadata.get('ruby_source_checksum',{}).get('sha256')
+    source=(receipt or {}).get('source',{})
     if (metadata.get('tap')!='homebrew/core' or expected_version!=version
-            or metadata.get('ruby_source_checksum',{}).get('sha256')!=recipe_sha or not re.fullmatch('[0-9a-f]{40}',head)):
+            or not re.fullmatch('[0-9a-f]{40}',head)
+            or source.get('tap')!='homebrew/core' or source.get('tap_git_head')!=head
+            or source.get('versions',{}).get('stable')!=metadata['versions']['stable']):
         raise ValueError('Frozen local patch metadata does not match the actual installed recipe/version: '+formula)
+    if original_sha!=recipe_sha:
+        if (frozen_recipe is None or hashlib.sha256(frozen_recipe.encode()).hexdigest()!=original_sha
+                or remove_literal_bottle(frozen_recipe)!=content):
+            raise ValueError('Frozen formula differs from installed build instructions after the exact reviewed bottle-block removal: '+formula)
     result=[]
     for path in declarations:
         if (not path.startswith('Patches/') or '\\' in path or ':' in path or
@@ -478,6 +500,29 @@ def local_patch_pins(content,formula,version,recipe_sha,frozen):
     if set(declarations)!={item['file'] for item in metadata.get('patches',[]) if 'file' in item}:
         raise ValueError('Frozen local patch set differs from the installed recipe: '+formula)
     return result
+
+
+def remove_literal_bottle(content):
+    lines=content.splitlines(keepends=True)
+    limit=next((number for number,line in enumerate(lines) if line.rstrip('\r\n')=='__END__'),len(lines))
+    starts=[number for number in range(limit) if lines[number].rstrip('\r\n')=='  bottle do']
+    if not starts: return content
+    if len(starts)!=1: raise ValueError('Unreviewed number of top-level bottle metadata blocks')
+    start=starts[0]
+    end=next((number for number in range(start+1,limit) if lines[number].rstrip('\r\n')=='  end'),None)
+    if end is None: raise ValueError('Unterminated literal bottle metadata block')
+    for line in lines[start+1:end]:
+        text=line.strip()
+        if not text or text.startswith('#') or re.fullmatch(r'rebuild \d+',text): continue
+        if re.fullmatch(r'sha256(?:\s+cellar:\s*:[a-z_]+,)?\s+[a-z0-9_]+:\s*"[0-9a-f]{64}"',text): continue
+        raise ValueError('Unreviewed non-literal statement inside bottle metadata')
+    after=end+1
+    if after<len(lines) and lines[after] in ('\n','\r\n'): after+=1
+    # Homebrew stages formulae without this metadata block and its one following
+    # separator. Every other byte (including heredocs and :DATA) must match.
+    # See Homebrew/brew Library/Homebrew/formula_installer.rb's staging gsub;
+    # our accepted body is deliberately limited to literal bottle metadata.
+    return ''.join(lines[:start]+lines[after:])
 
 
 def recipe_resources(content,label):
