@@ -52,6 +52,10 @@ jobs:
           if [[ -f artifacts/macos/display/xquartz.pid ]]; then
             kill "$(cat artifacts/macos/display/xquartz.pid)" 2>/dev/null || true
           fi
+      - name: Retain macOS display capture when the runner permits it
+        if: always()
+        continue-on-error: true
+        run: /usr/sbin/screencapture -x artifacts/macos/display/native-macos-screen.png
       - name: Retain bounded native and real GUI evidence on success or failure
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9

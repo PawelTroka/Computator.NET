@@ -171,6 +171,8 @@ internal static class XQuartzProbe
         Exception failure = null;
         bool captured = false;
         int paints = 0;
+        int clicks = 0;
+        Color leftColor = Navy;
         using (var window = new Form())
         using (var timer = new System.Windows.Forms.Timer())
         {
@@ -178,6 +180,9 @@ internal static class XQuartzProbe
             window.ClientSize = new Size(560, 320);
             window.StartPosition = FormStartPosition.CenterScreen;
             window.TopMost = true;
+            var change = new Button { Text = "Change calibration color", Bounds = new Rectangle(24, 260, 210, 28) };
+            change.Click += delegate { clicks++; leftColor = Color.Purple; window.Invalidate(); };
+            window.Controls.Add(change);
             window.Paint += delegate(object sender, PaintEventArgs e)
             {
                 paints++;
@@ -187,7 +192,7 @@ internal static class XQuartzProbe
                     e.Graphics.DrawString("Mono + XQuartz native drawing probe", font, Brushes.Black, 24, 24);
                     e.Graphics.DrawString("Screen capture follows; this is not the application.", font, Brushes.Black, 24, 256);
                 }
-                using (var brush = new SolidBrush(Navy)) e.Graphics.FillRectangle(brush, 24, 90, 150, 130);
+                using (var brush = new SolidBrush(leftColor)) e.Graphics.FillRectangle(brush, 24, 90, 150, 130);
                 using (var brush = new SolidBrush(Orange)) e.Graphics.FillRectangle(brush, 194, 90, 150, 130);
                 using (var brush = new SolidBrush(Green)) e.Graphics.FillRectangle(brush, 364, 90, 150, 130);
             };
@@ -205,10 +210,29 @@ internal static class XQuartzProbe
                         using (Graphics graphics = Graphics.FromImage(capture))
                             graphics.CopyFromScreen(window.PointToScreen(Point.Empty), Point.Empty, capture.Size);
                         capture.Save(screenshotPath, ImageFormat.Png);
-                        Require(Near(capture.GetPixel(99, 155), Navy) && Near(capture.GetPixel(269, 155), Orange)
-                            && Near(capture.GetPixel(439, 155), Green) && Near(capture.GetPixel(10, 10), Color.White),
-                            "Real screen pixels do not match the calibration window. Check visibility/occlusion and XQuartz capture support; " +
-                            "the screenshot is diagnostic evidence, not a passing render.");
+                        bool screenPassed = Matches(capture);
+                        if (Environment.GetEnvironmentVariable("COMPUTATOR_MAC_DRAWABLE_PROBE") == "1")
+                        {
+                            using (var drawable = MacDrawableCapture.Capture(window.Handle))
+                            {
+                                drawable.Save(Path.Combine(Path.GetDirectoryName(screenshotPath), "xquartz-native-drawable.png"), ImageFormat.Png);
+                                Require(Matches(drawable), "Actual mapped X11 drawable does not contain the calibration paint.");
+                            }
+                            Console.WriteLine("PASS mapped-window-pixels: actual native drawable contains all three calibration colors.");
+                            ClickNative(change);
+                            for (int attempt = 0; attempt < 30 && clicks == 0; attempt++) { Application.DoEvents(); Thread.Sleep(20); }
+                            Require(clicks == 1, "Actual XTEST pointer input did not reach the calibration button exactly once.");
+                            window.Refresh(); Application.DoEvents();
+                            using (var after = MacDrawableCapture.Capture(window.Handle))
+                            {
+                                after.Save(Path.Combine(Path.GetDirectoryName(screenshotPath), "xquartz-native-after-input.png"), ImageFormat.Png);
+                                Require(Near(after.GetPixel(99, 155), Color.Purple), "Actual mapped drawable did not repaint after real pointer input.");
+                            }
+                            Console.WriteLine("PASS mapped-window-input-and-repaint: real XTEST button input changed actual server pixels.");
+                        }
+                        Require(screenPassed,
+                            "The actual mapped drawable paints correctly, but root-screen capture does not include its pixels. " +
+                            "This is a capture/composition limitation; shared root-screen GUI acceptance has not passed.");
                     }
                     captured = true;
                 }
@@ -229,6 +253,28 @@ internal static class XQuartzProbe
     {
         return Math.Abs(actual.R - expected.R) <= 12 && Math.Abs(actual.G - expected.G) <= 12
             && Math.Abs(actual.B - expected.B) <= 12;
+    }
+
+    private static bool Matches(Bitmap image)
+    {
+        return image.Width > 440 && image.Height > 156 && Near(image.GetPixel(99, 155), Navy)
+            && Near(image.GetPixel(269, 155), Orange) && Near(image.GetPixel(439, 155), Green)
+            && Near(image.GetPixel(10, 10), Color.White);
+    }
+
+    private static void ClickNative(Control control)
+    {
+        IntPtr display = XOpenDisplay(IntPtr.Zero);
+        Require(display != IntPtr.Zero, "No display for native pointer input.");
+        try
+        {
+            Point point = control.PointToScreen(new Point(control.Width / 2, control.Height / 2));
+            Require(XTestFakeMotionEvent(display, -1, point.X, point.Y, UIntPtr.Zero) != 0, "XTEST pointer motion failed.");
+            Require(XTestFakeButtonEvent(display, 1, 1, UIntPtr.Zero) != 0, "XTEST pointer press failed.");
+            Require(XTestFakeButtonEvent(display, 1, 0, UIntPtr.Zero) != 0, "XTEST pointer release failed.");
+            XSync(display, 0);
+        }
+        finally { XCloseDisplay(display); }
     }
 
     private static string ReportLibrary(string name)
@@ -268,6 +314,9 @@ internal static class XQuartzProbe
     [DllImport("libX11")] private static extern int XDisplayWidth(IntPtr display, int screen);
     [DllImport("libX11")] private static extern int XDisplayHeight(IntPtr display, int screen);
     [DllImport("libX11")] private static extern int XQueryExtension(IntPtr display, string name, out int major, out int firstEvent, out int firstError);
+    [DllImport("libX11")] private static extern int XSync(IntPtr display, int discard);
+    [DllImport("libXtst")] private static extern int XTestFakeMotionEvent(IntPtr display, int screen, int x, int y, UIntPtr delay);
+    [DllImport("libXtst")] private static extern int XTestFakeButtonEvent(IntPtr display, uint button, int pressed, UIntPtr delay);
     [DllImport("gsl")] private static extern IntPtr gsl_set_error_handler_off();
     [DllImport("gsl")] private static extern double gsl_sf_gamma(double x);
     [DllImport("gsl")] private static extern double gsl_sf_bessel_J0(double x);

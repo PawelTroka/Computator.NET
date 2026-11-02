@@ -95,6 +95,7 @@ PY
     ) 2>&1 | tee "$root/logs/libgdiplus-build.log"
 fi
 if [[ $architecture == arm64 ]]; then bash "$repository/build/macos/build-xim-shim.sh" "$root/xim"; fi
+bash "$repository/build/macos/build-display-probe.sh" "$root/display"
 nm -gU "$prefix/lib/libgdiplus.dylib" | grep '_GdipCreateFromXDrawable_linux$' > /dev/null
 otool -L "$prefix/lib/libgdiplus.dylib" | tee "$root/logs/libgdiplus-linkage.log"
 brew info --json=v2 --installed > "$root/logs/homebrew-installed.json"

@@ -36,6 +36,7 @@ mappings.update({"libXinerama": library("libxinerama", "libXinerama.1.dylib"),
                  "libXcursor": library("libxcursor", "libXcursor.1.dylib"),
                  "libXfixes": library("libxfixes", "libXfixes.3.dylib"),
                  "libcairo-2.dll": cairo, "gsl": gsl, "gslcblas": gslcblas})
+mappings["computator_mac_display"] = (root / "display/libcomputator-mac-display.dylib").resolve(strict=True)
 shim = root / "xim/libcomputator-mono-xim.dylib"
 if platform.machine() == "arm64":
     mappings["computator_xim"] = shim.resolve(strict=True)
@@ -57,6 +58,7 @@ q = shlex.quote
 launcher = root / "bin/mono"
 launcher.write_text("#!/bin/bash\nset -euo pipefail\n"
                     "export MONO_MWF_MAC_FORCE_X11=1\n"
+                    "export COMPUTATOR_MAC_DRAWABLE_PROBE=1\n"
                     + ("export COMPUTATOR_MAC_XIM_SHIM=1\n"
                        "if [[ ${COMPUTATOR_MAC_XIM_MODE:-enabled} == disabled ]]; then export MONO_WINFORMS_XIM_STYLE=disabled; "
                        "else unset MONO_WINFORMS_XIM_STYLE; fi\n" if platform.machine() == "arm64" else "") +
