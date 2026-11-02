@@ -20,6 +20,7 @@
     <ProjectReference Include="..\..\..\Computator.NET.Engine\Computator.NET.Engine.csproj" />
     <ProjectReference Include="..\..\..\Computator.NET\Computator.NET.csproj" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\StartupProbe\Computator.NET.Mono.StartupProbe.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\Preflight\Computator.NET.Mono.Preflight.csproj" ReferenceOutputAssembly="false" />
   </ItemGroup>
   <Target Name="RequireMonoCompatibilityTarget" BeforeTargets="PrepareForBuild">
     <Error Condition="'$(ComputatorMono)' != 'true'" Text="Build Mono acceptance tests with -p:ComputatorMono=true. The Windows test suites remain separate." />
