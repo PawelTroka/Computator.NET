@@ -215,12 +215,20 @@ diff --git a/input.c b/input.c
             'ruby_source_checksum':{'sha256':'a'*64},'tap_git_head':'b'*40,
             'patches':[{'strip':'p1','file':'Patches/glib/hardcoded-paths.diff'}],
             'local_patch_checksums':{'Patches/glib/hardcoded-paths.diff':'c'*64}}]}
-        pins=mac.local_patch_pins(recipe,'glib','2.90.1','a'*64,frozen)
+        receipt={'source':{'tap':'homebrew/core','tap_git_head':'b'*40,'versions':{'stable':'2.90.1'}}}
+        pins=mac.local_patch_pins(recipe,'glib','2.90.1','a'*64,frozen,receipt=receipt)
         self.assertEqual('c'*64,pins[0]['sha256'])
         self.assertIn('/'+('b'*40)+'/Patches/glib/',pins[0]['url'])
         for version,digest in (('2.90.2','a'*64),('2.90.1','d'*64)):
-            with self.assertRaisesRegex(ValueError,'actual installed recipe/version'):
-                mac.local_patch_pins(recipe,'glib',version,digest,frozen)
+            with self.assertRaisesRegex(ValueError,'actual installed recipe/version|Frozen formula differs'):
+                mac.local_patch_pins(recipe,'glib',version,digest,frozen,receipt=receipt)
+
+    def test_only_literal_bottle_metadata_and_its_one_separator_may_be_removed(self):
+        content='class Probe < Formula\n  url "https://example.invalid/source.tar.gz"\n\n  bottle do\n    rebuild 1\n    sha256 arm64_sequoia: "'+('a'*64)+'"\n  end\n\n  def install\n    system "make"\n  end\nend\n__END__\n\n patch context\n'
+        expected='class Probe < Formula\n  url "https://example.invalid/source.tar.gz"\n\n  def install\n    system "make"\n  end\nend\n__END__\n\n patch context\n'
+        self.assertEqual(expected,mac.remove_literal_bottle(content))
+        with self.assertRaisesRegex(ValueError,'non-literal statement'):
+            mac.remove_literal_bottle(content.replace('    rebuild 1','    system "unreviewed-build-command"'))
 
     def test_build_and_explicit_test_resources_keep_independent_archive_pins(self):
         recipe='resource "gobject-introspection" do\n url "https://example.invalid/build.tar.xz"\n sha256 "'+('a'*64)+'"\nend\nresource "test-font", :test do\n url "https://example.invalid/test.ttf"\n sha256 "'+('b'*64)+'"\nend\n'
