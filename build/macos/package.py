@@ -19,6 +19,8 @@ import stat
 import subprocess
 import sys
 import tempfile
+import time
+import urllib.error
 import urllib.request
 import urllib.parse
 import zipfile
@@ -41,9 +43,37 @@ def sha(path):
 def download_verified(url,expected,destination):
     if destination.exists() or destination.is_symlink():
         raise ValueError('Native source inputs must have distinct destinations; refusing to overwrite '+str(destination))
-    urllib.request.urlretrieve(url,destination)
-    if sha(destination)!=expected:
-        raise ValueError('Native source input hash mismatch: '+url)
+    # Keep a stalled archive host from silently consuming the entire native CI
+    # job. Retry only transport failures, against the SAME immutable URL/pin.
+    # Partial/unverified bytes never become a retained source input.
+    with tempfile.TemporaryDirectory(prefix='.computator-source-',dir=destination.parent) as temporary:
+        for attempt in range(2):
+            candidate=Path(temporary)/str(attempt)
+            print('Retaining pinned native source (attempt '+str(attempt+1)+'): '+url,flush=True)
+            started=time.monotonic();size=0
+            try:
+                with urllib.request.urlopen(url,timeout=60) as source,candidate.open('xb') as output:
+                    while True:
+                        if time.monotonic()-started>300: raise TimeoutError('Source transfer exceeded five minutes')
+                        # HTTPResponse.read1 performs at most one buffered read;
+                        # read(n) could wait indefinitely for n bytes while a
+                        # dribbling peer continually resets the socket timeout.
+                        block=source.read1(1024*1024)
+                        if not block: break
+                        size+=len(block)
+                        if size>512*1024*1024: raise ValueError('Native source input exceeds the reviewed 512 MiB limit: '+url)
+                        output.write(block)
+            except (TimeoutError,urllib.error.URLError) as error:
+                transient=not isinstance(error,urllib.error.HTTPError) or error.code in (408,429,500,502,503,504)
+                if attempt or not transient: raise
+                print('Retrying the same pinned source after bounded transport failure: '+str(error),flush=True)
+                continue
+            if sha(candidate)!=expected:
+                raise ValueError('Native source input hash mismatch: '+url)
+            with candidate.open('rb') as source,destination.open('xb') as output:
+                shutil.copyfileobj(source,output)
+            print('Verified native source SHA256 '+expected+' ('+str(size)+' bytes)',flush=True)
+            return
 
 
 class ImmutableGitSourceRedirect(urllib.request.HTTPRedirectHandler):
