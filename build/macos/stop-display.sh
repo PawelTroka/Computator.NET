@@ -7,7 +7,7 @@ for name in quartz-wm xquartz; do
     group=$(cat "$path")
     [[ $group =~ ^[1-9][0-9]*$ ]] || { echo 'Invalid owned display process group.' >&2; exit 1; }
     # Both groups were created by this task with setsid; no user's display is selected.
-    kill -TERM -- "-$group" 2>/dev/null || true
+    python3 -c 'import os,signal,sys; os.killpg(int(sys.argv[1]),signal.SIGTERM)' "$group" 2>/dev/null || true
 done
 if [[ -f $1/window-manager-preferences.txt ]]; then
     preferences=$(cat "$1/window-manager-preferences.txt")
