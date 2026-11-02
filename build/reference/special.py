@@ -173,7 +173,7 @@ def _describe(item, values):
         return A('Normalized Debye integral','A thermal integral used in lattice heat-capacity and related statistical-physics models.',
                  'Dₙ(x)=n/xⁿ ∫₀ˣ tⁿ/(exp(t)−1) dt; Dₙ(0)=1 for n>0.',
                  'Use integer n=1,…,6 and x≥0 for the supported normalized functions.',
-                 'Legacy behavior outside these orders is NOT the same definition: n=0 returns 0, and for other n with x>9 the wrapper returns Γ(n+1)ζ(n+1), omitting n/xⁿ. Do not use that fallback as a normalized higher-order Debye function.',
+                 'Orders outside 1–6, including n=0, return NaN. Higher orders are not implemented; the unnormalized infinite-limit integral Γ(n+1)ζ(n+1) is not a substitute for Dₙ(x).',
                  'Debye(1,0) = 1',GSL+'#debye-functions')
     if name=='TransportJ':
         return A('Transport integral','A Bose-weighted integral used in transport and heat-capacity models.',

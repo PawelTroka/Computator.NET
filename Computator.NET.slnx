@@ -245,6 +245,7 @@
     <File Path="docs/FUNCTION-POWERS.md" />
     <File Path="docs/FUNCTION-REFERENCE.md" />
     <File Path="docs/NUMERICAL-REFERENCE-INTEGRATION.md" />
+    <File Path="docs/POLYNOMIALS.md" />
     <File Path="docs/PROGRAM-LIFETIME.md" />
     <File Path="docs/REFERENCE-EQUATIONS.md" />
     <File Path="docs/SHARED-EXECUTION-POLICY.md" />
@@ -308,6 +309,7 @@
     <File Path="docs/followups/MONO-DESKTOP-RESTORATION.md" />
     <File Path="docs/followups/MSIX.md" />
     <File Path="docs/followups/NUMERICAL-CHART-AXES.md" />
+    <File Path="docs/followups/ORDINARY-DIFFERENTIAL-EQUATIONS.md" />
     <File Path="docs/followups/PORTABLE-ENGINE.md" />
     <File Path="docs/followups/PORTABLE-SCIENCE.md" />
     <File Path="docs/followups/REAL-PROFILE-ACCEPTANCE.md" />
@@ -336,11 +338,13 @@
     <File Path="build/reference/elementary.py" />
     <File Path="build/reference/enrichment.py" />
     <File Path="build/reference/enrichment_more.py" />
+    <File Path="build/reference/euclid.py" />
     <File Path="build/reference/fixtures/legacy-subject-categories.json" />
     <File Path="build/reference/generate.py" />
     <File Path="build/reference/mathematical.py" />
     <File Path="build/reference/physical.py" />
     <File Path="build/reference/plots.cjs" />
+    <File Path="build/reference/polynomials.py" />
     <File Path="build/reference/scientific.py" />
     <File Path="build/reference/scientific_matrices.py" />
     <File Path="build/reference/scientific_scripting.py" />
@@ -349,9 +353,11 @@
     <File Path="build/reference/test-plots.cjs" />
     <File Path="build/reference/test_authoring.py" />
     <File Path="build/reference/test_categories.py" />
+    <File Path="build/reference/test_euclid.py" />
     <File Path="build/reference/test_inline_math.py" />
     <File Path="build/reference/test_numerical_integration.py" />
     <File Path="build/reference/test_physical.py" />
+    <File Path="build/reference/test_polynomials.py" />
     <File Path="build/reference/test_rich_content.py" />
     <File Path="build/reference/typeset.cjs" />
   </Folder>

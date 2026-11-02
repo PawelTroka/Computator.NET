@@ -241,28 +241,129 @@ namespace Computator.NET.Core.Tests.AutocompletionTests
                 NUnit.Framework.Assert.That(entry.Elements("p").Where(p => (string)p.Attribute("class") == "reference-signature").Elements("strong"), Is.Empty);
         }
 
-        public static IEnumerable<TestCaseData> WorkedExamples()
+        private static IEnumerable<(string Signature, string Code, string Result, string Kind)> ReadWorkedExamples(
+            IEnumerable<FunctionInfo> entries)
         {
-            var examples = new Dictionary<string, string>(StringComparer.Ordinal);
-            foreach (var entry in new FunctionsDetailsFileSource().Details.Values)
+            foreach (var entry in entries)
                 foreach (var example in XElement.Parse(entry.Description).Descendants("div").Where(div => (string)div.Attribute("class") == "reference-worked-example"))
                 {
+                    // Existing examples remain scalar by default. Script examples
+                    // have a separate evaluator and must opt in explicitly.
+                    var kind = (string)example.Attribute("data-example-kind") ?? "scalar";
+                    if (kind != "scalar" && kind != "script")
+                        throw new InvalidDataException("Unknown worked example kind for " + entry.Signature + ": " + kind);
                     var code = example.Element("pre")?.Element("code")?.Value;
-                    var result = example.Elements("p").First(p => p.Element("strong")?.Value == "Result:").Value.Substring("Result:".Length).Trim();
-                    if (examples.TryGetValue(code, out var prior) && prior != result) throw new InvalidDataException("Conflicting example answers: " + code);
-                    examples[code] = result;
+                    var answer = example.Elements("p").SingleOrDefault(p => p.Element("strong")?.Value == "Result:");
+                    if (string.IsNullOrWhiteSpace(code) || answer == null)
+                        throw new InvalidDataException("Missing worked example code or answer for " + entry.Signature);
+                    var result = answer.Value.Substring("Result:".Length).Trim();
+                    yield return (entry.Signature, code, result, kind);
                 }
+        }
+
+        private static Dictionary<string, string> ScalarExamples(IEnumerable<FunctionInfo> entries)
+        {
+            var examples = new Dictionary<string, string>(StringComparer.Ordinal);
+            foreach (var example in ReadWorkedExamples(entries).Where(example => example.Kind == "scalar"))
+            {
+                if (examples.TryGetValue(example.Code, out var prior) && prior != example.Result)
+                    throw new InvalidDataException("Conflicting example answers: " + example.Code);
+                examples[example.Code] = example.Result;
+            }
+            return examples;
+        }
+
+        internal static double ParseExpectedScalar(string result)
+        {
+            const string prefix = "approximately ";
+            var text = result.Trim();
+            if (text.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)) text = text.Substring(prefix.Length);
+            // Malformed scalar answers are errors, never a reason to skip an example.
+            return double.Parse(text, NumberStyles.Float, CultureInfo.InvariantCulture);
+        }
+
+        public static IEnumerable<TestCaseData> WorkedExamples()
+        {
+            var examples = ScalarExamples(new FunctionsDetailsFileSource().Details.Values);
             if (examples.Count < 65) throw new InvalidDataException("Too few executable worked examples.");
             foreach (var pair in examples.OrderBy(pair => pair.Key, StringComparer.Ordinal))
             {
-                var text = pair.Value.Replace("approximately ", "");
-                var expected = double.Parse(text, NumberStyles.Float, CultureInfo.InvariantCulture);
+                var expected = ParseExpectedScalar(pair.Value);
                 // Published decimal answers are intentionally rounded. The budget
                 // reflects their last displayed digit, not a weakened algorithm test.
                 var tolerance = Math.Max(Math.Abs(expected) * 1e-9, expected == 0 ? 1e-12 : 1e-300);
                 yield return new TestCaseData(pair.Key, expected, tolerance).SetName("Reference worked example: " + pair.Key);
             }
         }
+
+        public static IEnumerable<TestCaseData> ScriptExamples()
+        {
+            foreach (var example in ReadWorkedExamples(new FunctionsDetailsFileSource().Details.Values)
+                         .Where(example => example.Kind == "script"))
+                yield return new TestCaseData(example.Signature, example.Code, example.Result)
+                    .SetName("Reference script example: " + example.Signature);
+        }
+
+        [TestCase("3", 3.0)]
+        [TestCase("approximately 3", 3.0)]
+        [TestCase("Approximately -3.6666666666666665", -3.6666666666666665)]
+        [TestCase("aPpRoXiMaTeLy 3.5", 3.5)]
+        [TestCase("  Approximately 1.25e-3  ", 0.00125)]
+        [SetCulture("pl-PL")]
+        public void ScalarAnswersAcceptOnlyAnOptionalCaseInsensitiveLeadingApproximation(string text, double expected) =>
+            NUnit.Framework.Assert.That(ParseExpectedScalar(text), Is.EqualTo(expected));
+
+        [TestCase("")]
+        [TestCase("Approximately ")]
+        [TestCase("3 approximately 4")]
+        [TestCase("approximately approximately 3")]
+        [TestCase("Three roots approximately 1, 2 and 3")]
+        [TestCase("Quotient value 2 and remainder value 2")]
+        [TestCase("1,25")]
+        public void MalformedScalarAnswersFailInsteadOfBeingSkipped(string text) =>
+            NUnit.Framework.Assert.Throws<FormatException>(() => ParseExpectedScalar(text));
+
+        private static FunctionInfo ExampleEntry(string code, string result, string kind = null)
+        {
+            var example = new XElement("div", new XAttribute("class", "reference-worked-example"),
+                new XElement("pre", new XElement("code", code)),
+                new XElement("p", new XElement("strong", "Result:"), " " + result));
+            if (kind != null) example.SetAttributeValue("data-example-kind", kind);
+            return new FunctionInfo { Signature = "Probe(x)", Description = new XElement("div", example).ToString() };
+        }
+
+        [Test]
+        public void ExampleKindsDistinguishScalarExpressionsFromScriptsWithoutGuessingFromTheAnswer()
+        {
+            var entries = new[]
+            {
+                ExampleEntry("1+2", "Approximately 3"),
+                ExampleEntry("2+2", "4", "scalar"),
+                ExampleEntry("write(3);", "Approximately 3", "script"),
+                ExampleEntry("var roots = new Polynomial(-6,11,-6,1).Roots();", "Three roots", "script")
+            };
+            NUnit.Framework.Assert.That(ReadWorkedExamples(entries).Select(example => example.Kind),
+                Is.EqualTo(new[] { "scalar", "scalar", "script", "script" }));
+            NUnit.Framework.Assert.That(ScalarExamples(entries).Keys, Is.EquivalentTo(new[] { "1+2", "2+2" }));
+            NUnit.Framework.Assert.That(ReadWorkedExamples(entries).Where(example => example.Kind == "script")
+                .Select(example => example.Result), Is.EqualTo(new[] { "Approximately 3", "Three roots" }));
+        }
+
+        [TestCase("")]
+        [TestCase("expression")]
+        [TestCase("text")]
+        [TestCase("Script")]
+        [TestCase("scalar script")]
+        public void UnknownExampleKindsFailInsteadOfDroppingValidation(string kind) =>
+            NUnit.Framework.Assert.Throws<InvalidDataException>(() =>
+                ReadWorkedExamples(new[] { ExampleEntry("1+2", "3", kind) }).ToArray());
+
+        [Test]
+        public void ConflictingAnswersForTheSameScalarExpressionStillFail() =>
+            NUnit.Framework.Assert.Throws<InvalidDataException>(() => ScalarExamples(new[]
+            {
+                ExampleEntry("1+2", "3"), ExampleEntry("1+2", "4")
+            }));
 
         [TestCaseSource(nameof(WorkedExamples))]
         public void EveryNewNumericWorkedExampleExecutesThroughTheActualTslEvaluator(string code, double expected, double tolerance)

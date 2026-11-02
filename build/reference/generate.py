@@ -14,7 +14,7 @@ from pathlib import Path
 import re
 import xml.etree.ElementTree as ET
 from urllib.parse import urlparse
-import elementary, physical, mathematical, special, scientific, distributions
+import elementary, physical, mathematical, special, scientific, distributions, euclid, polynomials
 from enrichment import enrich
 from common import InlineMath, Prose
 from functools import lru_cache
@@ -86,9 +86,9 @@ def inline_style(image):
     return 'width:'+em(int(image.get('width'))/20)+';height:'+em(int(image.get('height'))/20)+';vertical-align:'+em(-int(image.get('data-depth'))/1000)+';'
 
 MAPPINGS={'ElementaryFunctions':elementary,'PhysicalConstants':physical,
-          'MathematicalConstants':mathematical,'SpecialFunctions':special}
+          'MathematicalConstants':mathematical,'SpecialFunctions':special,'Euclid':euclid,'Polynomial':polynomials}
 SCIENCE={'MatrixFunctions','ScriptingFunctions','StatisticsFunctions','Integral','Derivative',
-         'FunctionRoot','MathematicalTransformations'}
+         'FunctionRoot','MathematicalTransformations','DifferentialEquation'}
 ALLOWED_TAGS={'div','p','strong','b','code','pre','br','a','ul','li','sup','sub','img'}
 SECTIONS=(('formula','Definition / convention'),('arguments','Arguments / value'),
           ('note','Important'),('example','Example'))
@@ -156,7 +156,8 @@ def articles(inventory):
             figure=figure_html(selected)
             if figure:chunks.append(figure)
             for example in extra.examples:
-                chunks.append('<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>'+esc(example.code)+'</code></pre>'+
+                example_kind='' if example.kind=='scalar' else ' data-example-kind="'+esc(example.kind)+'"'
+                chunks.append('<div class="reference-worked-example"'+example_kind+'><p><strong>Worked example</strong></p><pre><code>'+esc(example.code)+'</code></pre>'+
                     '<p><strong>Result:</strong> '+esc(example.result)+'</p><p>'+prose_html(example.explanation)+'</p></div>')
             if urlparse(article.url).scheme!='https':raise ValueError('Reference must be HTTPS: '+signature)
         sources=list(dict.fromkeys(article.url for _,article in authored))
@@ -173,6 +174,10 @@ def validate_fragment(fragment,signature='fragment'):
     for node in root.iter():
         if node.tag not in ALLOWED_TAGS:raise ValueError('Unsupported markup in '+signature)
         allowed=('class','src','alt','width','height','data-depth') if node.tag=='img' else ('class','href')
+        if node.tag=='div' and node.get('class')=='reference-worked-example':
+            allowed+=('data-example-kind',)
+            if node.get('data-example-kind','scalar') not in ('scalar','script'):
+                raise ValueError('Unsupported worked example kind in '+signature)
         if any(name not in allowed for name in node.attrib):raise ValueError('Unsupported attribute in '+signature)
         if node.tag=='img':
             src=node.get('src','')

@@ -98,7 +98,20 @@ namespace Computator.NET.Core.NumericalCalculations
             {
                 x1 = a + i*h;
                 x2 = a + (i + 1)*h;
-                s += 0.5*h*(fx(x2) + fx(x1));
+                var y2 = fx(x2);
+                var y1 = fx(x1);
+                var sum = y2 + y1;
+                // Two finite endpoints can overflow their sum although their
+                // average and panel area are representable. Halving these
+                // large values is safe; keep the ordinary path for subnormals.
+                if (double.IsInfinity(sum) && !double.IsInfinity(y2) && !double.IsInfinity(y1))
+                    s += h*(y2/2 + y1/2);
+                else if (System.Math.Abs(h) < 2.2250738585072014e-308 && !double.IsInfinity(sum))
+                    // Halving a subnormal width can erase or round it before
+                    // a large finite sum produces a representable panel area.
+                    s += h*(sum/2);
+                else
+                    s += 0.5*h*sum;
             }
             return s;
         }
@@ -196,7 +209,20 @@ namespace Computator.NET.Core.NumericalCalculations
             {
                 x1 = a + i*h;
                 x2 = a + (i + 1)*h;
-                s += 0.5*h*(fx(x2) + fx(x1));
+                var y2 = fx(x2);
+                var y1 = fx(x1);
+                var sum = y2 + y1;
+                // Two finite endpoints can overflow their sum although their
+                // average and panel area are representable. Halving these
+                // large values is safe; keep the ordinary path for subnormals.
+                if (double.IsInfinity(sum) && !double.IsInfinity(y2) && !double.IsInfinity(y1))
+                    s += h*(y2/2 + y1/2);
+                else if (System.Math.Abs(h) < 2.2250738585072014e-308 && !double.IsInfinity(sum))
+                    // Halving a subnormal width can erase or round it before
+                    // a large finite sum produces a representable panel area.
+                    s += h*(sum/2);
+                else
+                    s += 0.5*h*sum;
             }
             return s;
         }

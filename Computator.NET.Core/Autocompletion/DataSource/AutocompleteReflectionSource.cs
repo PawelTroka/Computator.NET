@@ -52,7 +52,16 @@ namespace Computator.NET.Core.Autocompletion.DataSource
                     if (fullName)
                         fullNameExtension = m.ReflectedType.Name + ".";
 
-                    if (m.IsGenericMethod || m.IsGenericMethodDefinition)
+                    if (m.DeclaringType == typeof(MathNet.Numerics.Euclid))
+                    {
+                        // Euclid exposes both Int32 and Int64 overloads. Calling
+                        // both "integer" makes distinct operations identical in
+                        // completion, including PowerOfTwo's different bounds.
+                        items.Add(new AutocompleteItem(fullNameExtension + m.Name,
+                            MakeAddition(m, false), MakeAddition(m, true),
+                            EuclidTypeName(m.ReturnType), GetImageIndexFromType(m.ReturnType.Name)));
+                    }
+                    else if (m.IsGenericMethod || m.IsGenericMethodDefinition)
                     {
                         var sigWithTypes = m.GetSignature();
                         var nameAndAdditionWithTypes = sigWithTypes.Split('(');
@@ -123,7 +132,9 @@ namespace Computator.NET.Core.Autocompletion.DataSource
                     {
                         //var parameterName = parameters[i].Name + "1, " + parameters[i].Name + "2, ...";
                         addition += withType
-                            ? TypeNameToAlias(parameters[i].ParameterType.Name.Replace("[]", "")) + " " +
+                            ? (m.DeclaringType == typeof(MathNet.Numerics.Euclid)
+                                ? EuclidTypeName(parameters[i].ParameterType.GetElementType())
+                                : TypeNameToAlias(parameters[i].ParameterType.Name.Replace("[]", ""))) + " " +
                               parameters[i].Name + j +
                               ", "
                             : parameters[i].Name + j + ",";
@@ -131,9 +142,19 @@ namespace Computator.NET.Core.Autocompletion.DataSource
                     addition += " ...";
                 }
                 else
+                {
+                    var parameter = parameters[i];
+                    var parameterType = parameter.ParameterType;
+                    var modifier = parameterType.IsByRef
+                        ? (parameter.IsOut ? "out " : parameter.IsIn ? "in " : "ref ") : "";
+                    if (parameterType.IsByRef)
+                        parameterType = parameterType.GetElementType();
+
                     addition += withType
-                        ? TypeNameToAlias(parameters[i].ParameterType.Name) + " " + parameters[i].Name + ", "
-                        : parameters[i].Name + ",";
+                        ? modifier + (m.DeclaringType == typeof(MathNet.Numerics.Euclid)
+                            ? EuclidTypeName(parameterType) : TypeNameToAlias(parameterType.Name)) + " " + parameter.Name + ", "
+                        : modifier + parameter.Name + ",";
+                }
             }
 
 
@@ -146,6 +167,18 @@ namespace Computator.NET.Core.Autocompletion.DataSource
 
 
             return addition;
+        }
+
+        private static string EuclidTypeName(Type type)
+        {
+            if (type == typeof(int))
+                return "int";
+            if (type.IsArray)
+                return EuclidTypeName(type.GetElementType()) + "[]";
+            if (type.IsGenericType)
+                return type.Name.Split('`')[0] + "<" +
+                    string.Join(", ", type.GetGenericArguments().Select(EuclidTypeName)) + ">";
+            return TypeNameToAlias(type.Name);
         }
 
         private static void AddMetadata(MemberInfo p, Type type,

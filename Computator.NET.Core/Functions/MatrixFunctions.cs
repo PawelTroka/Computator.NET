@@ -216,7 +216,7 @@ where T : struct, System.IEquatable<T>, System.IFormattable
 		public static bool isUnitary<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
 where T : struct, System.IEquatable<T>, System.IFormattable
 		{
-			return isIndentity(M * M.ConjugateTranspose());
+			return M.RowCount == M.ColumnCount && isIndentity(M * M.ConjugateTranspose());
 		}
 
 		#endregion
@@ -671,7 +671,7 @@ where T : struct, System.IEquatable<T>, System.IFormattable
 		public static bool isUnitary<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
 where T : struct, System.IEquatable<T>, System.IFormattable
 		{
-			return isIndentity(M * M.ConjugateTranspose());
+			return M.RowCount == M.ColumnCount && isIndentity(M * M.ConjugateTranspose());
 		}
 
 		#endregion

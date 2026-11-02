@@ -26,8 +26,11 @@ namespace Computator.NET.Core.Compilation
         public const string TypesAliases = @"
         using real = System.Double;
         using complex = System.Numerics.Complex;
+        using DifferentialEquation = Computator.NET.Core.NumericalCalculations.DifferentialEquation;
+        using Polynomial = MathNet.Numerics.Polynomial;
         using natural = System.UInt64;
-        using integer = System.Int64;";
+        using integer = System.Int64;
+        using Euclid = MathNet.Numerics.Euclid;";
 
         public static readonly string[] Keywords =
         {
