@@ -5,12 +5,18 @@
 .p2align 2
 .globl _ComputatorMonoXCreateIC
 _ComputatorMonoXCreateIC:
-    cbz x5, _ComputatorMonoXCreateIC2
+    cbz x5, Lcreate_two
     b _ComputatorMonoXCreateIC3
+Lcreate_two:
+    b _ComputatorMonoXCreateIC2
 
 .p2align 2
 .globl _ComputatorMonoXVaCreateNestedList
 _ComputatorMonoXVaCreateNestedList:
-    cbz x3, _ComputatorMonoXVaCreateNestedList1
-    cbz x5, _ComputatorMonoXVaCreateNestedList2
+    cbz x3, Lnested_one
+    cbz x5, Lnested_two
     b _ComputatorMonoXVaCreateNestedList4
+Lnested_one:
+    b _ComputatorMonoXVaCreateNestedList1
+Lnested_two:
+    b _ComputatorMonoXVaCreateNestedList2
