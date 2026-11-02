@@ -8,7 +8,6 @@ root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 # escape its reserved characters, including literal percent field-code markers.
 escaped=$(printf '%s' "$root/bin/computator" | sed 's/\\/\\\\/g; s/"/\\"/g; s/`/\\`/g; s/\$/\\$/g; s/%/%%/g' | sed 's/\\/\\\\/g')
 case "$root" in
-    *'='*) echo 'The Desktop Entry specification does not support = in an executable path.' >&2; exit 2 ;;
     *'
 '*) echo 'Desktop integration does not support newline characters in the installation path.' >&2; exit 2 ;;
 esac
@@ -25,7 +24,12 @@ cat > "$temporary" <<EOF
 Type=Application
 Name=Computator.NET
 Comment=Numerical calculations, scripts and charts
-Exec="$escaped"
+EOF
+# Keep the executable name fixed: some desktop parsers validate it before
+# expanding literal %% codes. The installation path is one separately quoted
+# argument; it never becomes shell source, even when it contains reserved chars.
+printf '%s%s%s\n' 'Exec=/bin/sh -c "exec \\"\\$1\\"" computator "' "$escaped" '"' >> "$temporary"
+cat >> "$temporary" <<EOF
 Icon=computator
 Terminal=true
 Categories=Education;Science;Math;

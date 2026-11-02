@@ -15,6 +15,7 @@ import tarfile
 import tempfile
 import time
 import unittest
+from unittest import mock
 
 SPEC = importlib.util.spec_from_file_location('mono_package', Path(__file__).with_name('package.py'))
 package = importlib.util.module_from_spec(SPEC)
@@ -176,7 +177,7 @@ class PackageContracts(unittest.TestCase):
 
     @unittest.skipUnless(sys.platform.startswith('linux'), 'Uses the actual Linux desktop-entry parser.')
     def test_user_desktop_registration_launches_paths_with_reserved_characters(self):
-        install = self.base / 'Computator path $ % " ` \\'
+        install = self.base / 'Computator path = $ % " ` \\'
         (install / 'bin').mkdir(parents=True)
         (install / 'share').mkdir()
         (install / 'share/computator.png').write_bytes(b'icon fixture')
@@ -192,27 +193,27 @@ class PackageContracts(unittest.TestCase):
         entry = data / 'applications/computator-net.desktop'
         # Test argument parsing without requiring a particular terminal emulator.
         entry.write_text(entry.read_text().replace('Terminal=true', 'Terminal=false'))
-        gio = ctypes.CDLL(ctypes.util.find_library('gio-2.0'))
-        gio.g_desktop_app_info_new_from_filename.argtypes = [ctypes.c_char_p]
-        gio.g_desktop_app_info_new_from_filename.restype = ctypes.c_void_p
-        gio.g_app_info_launch.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p]
-        gio.g_app_info_launch.restype = ctypes.c_int
-        info = gio.g_desktop_app_info_new_from_filename(os.fsencode(entry))
-        self.assertTrue(info, 'The desktop parser rejected the generated entry.')
         # The launched fixture only records its own path into this test directory.
-        old_marker = os.environ.get('COMPUTATOR_INSTALL_TEST_MARKER')
-        os.environ['COMPUTATOR_INSTALL_TEST_MARKER'] = str(marker)
-        try:
-            self.assertEqual(1, gio.g_app_info_launch(info, None, None, None))
-            deadline = time.monotonic() + 5
-            while not marker.exists() and time.monotonic() < deadline:
-                time.sleep(0.01)
-            self.assertEqual(str(launcher), marker.read_text())
-        finally:
-            if old_marker is None:
-                os.environ.pop('COMPUTATOR_INSTALL_TEST_MARKER', None)
-            else:
-                os.environ['COMPUTATOR_INSTALL_TEST_MARKER'] = old_marker
+        with mock.patch.dict(os.environ, HOME=environment['HOME'], XDG_DATA_HOME=str(data),
+                             XDG_CACHE_HOME=str(self.base / 'cache'),
+                             DBUS_SESSION_BUS_ADDRESS='unix:path=' + str(self.base / 'no-session-bus'),
+                             COMPUTATOR_INSTALL_TEST_MARKER=str(marker)):
+            gio = ctypes.CDLL(ctypes.util.find_library('gio-2.0'))
+            gio.g_desktop_app_info_new_from_filename.argtypes = [ctypes.c_char_p]
+            gio.g_desktop_app_info_new_from_filename.restype = ctypes.c_void_p
+            gio.g_app_info_launch.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p]
+            gio.g_app_info_launch.restype = ctypes.c_int
+            gio.g_object_unref.argtypes = [ctypes.c_void_p]
+            info = gio.g_desktop_app_info_new_from_filename(os.fsencode(entry))
+            self.assertTrue(info, 'The desktop parser rejected the generated entry: ' + entry.read_text())
+            try:
+                self.assertEqual(1, gio.g_app_info_launch(info, None, None, None))
+                deadline = time.monotonic() + 5
+                while not marker.exists() and time.monotonic() < deadline:
+                    time.sleep(0.01)
+                self.assertEqual(str(launcher), marker.read_text())
+            finally:
+                gio.g_object_unref(info)
 
 
 if __name__ == '__main__':
