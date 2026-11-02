@@ -163,7 +163,7 @@ with zipfile.ZipFile(archive) as candidate:
         raise SystemExit('The candidate archive manifest differs from the actual extracted package that was accepted.')
 reports={name:hashlib.sha256((evidence/name).read_bytes()).hexdigest() for name in
          ('acceptance.json','mono-results.xml','relocated-native-runtime.json','native-runtime-data.json','launcher-preflight.json',
-          'preflight-contracts.log','candidate-contracts.log',
+          'preflight-contracts.log','candidate-contracts.log','capture-process-contracts.log',
           'normal-launch/normal-launch.json','normal-launch-contracts.log','normal-launch-image-contracts/image-contracts.json')}
 report={'schemaVersion':1,'scope':'accepted-for-physical-mac-testing','rid':manifest['rid'],'source':manifest['source'],
         'harnessSource':{'commit':commit,'tree':tree,'trackedChanges':False},
