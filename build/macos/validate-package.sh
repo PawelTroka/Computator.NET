@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Native, relocated acceptance of the actual Mono .app. No offscreen GUI substitute.
 set -euo pipefail
+unset COMPUTATOR_GITHUB_TOKEN # Runtime acceptance consumes an existing archive.
 configuration=${1:-Release}
 [[ $(uname -s) == Darwin && $# -eq 2 && $configuration =~ ^(Release|Debug)$ ]] || {
     echo 'Usage (on the actual Mac): bash build/macos/validate-package.sh Release|Debug ARCHIVE.zip' >&2; exit 2;
