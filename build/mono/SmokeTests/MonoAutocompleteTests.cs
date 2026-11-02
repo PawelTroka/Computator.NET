@@ -289,6 +289,7 @@ internal static partial class Program
         KeyX11("End");
         TypeX11("n");
         Check(input.Text == "sin", "Real X11 typing after reference reading did not reach the displayed editor.");
+        Check(input.Focused, "Passive reference refresh took keyboard focus from the editor.");
         CaptureAutocompleteX11(window, host, help, "autocomplete-reference-editor-typed.png");
         KeyX11("BackSpace");
         Check(input.Text == "si", "The real editor could not undo the test character after reading help.");

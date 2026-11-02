@@ -167,6 +167,10 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         
         public void ShowToolTip(AutocompleteItem autocompleteItem, Control control = null)
         {
+#if __MonoCS__
+            var editor = (Parent as AutocompleteMenuHost)?.Menu.TargetControlWrapper?.TargetControl;
+            var restoreEditorFocus = editor != null && editor.ContainsFocus;
+#endif
             var signature = autocompleteItem.Text;
             if (autocompleteItem.Details.IsNullOrEmpty())
             {
@@ -200,6 +204,12 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
                 formTip.Show();
                 formTip.SetFunctionInfo(autocompleteItem.Details, autocompleteItem.MenuText);
             }
+#if __MonoCS__
+            // Reopening a hosted Mono control can restore its previous child
+            // focus. Passive help refresh must leave typing in the real editor.
+            if (restoreEditorFocus && !editor.IsDisposed && editor.Visible && editor.Enabled && !editor.ContainsFocus)
+                editor.Focus();
+#endif
         }
 
         public void CloseToolTip()
