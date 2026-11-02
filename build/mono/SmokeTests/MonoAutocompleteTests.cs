@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using Computator.NET.Core.Autocompletion;
+using Computator.NET.Core.Autocompletion.DataSource;
 using Computator.NET.Core.Model;
 using Computator.NET.DataTypes.SettingsTypes;
 using CompletionMenu = Computator.NET.Desktop.Controls.AutocompleteMenu.AutocompleteMenu;
@@ -16,6 +17,8 @@ using Settings = Computator.NET.Core.Properties.Settings;
 
 internal static partial class Program
 {
+    private static readonly Lazy<System.Collections.Generic.IDictionary<string, FunctionInfo>> AutocompleteReferenceCatalog =
+        new Lazy<System.Collections.Generic.IDictionary<string, FunctionInfo>>(() => new FunctionsDetailsFileSource().Details);
     // This is a real Mono/WinForms-on-X11 acceptance test. The xdotool events
     // come from XTEST, rather than invoking protected OnKeyDown/OnMouseClick
     // methods or testing a fabricated bitmap of a hidden control.
@@ -41,6 +44,15 @@ internal static partial class Program
                 .GetField("toolTip", BindingFlags.Instance | BindingFlags.NonPublic)
                 .GetValue(list);
             var reference = help.Items.OfType<ToolStripControlHost>().Single().Control;
+            if (Environment.GetEnvironmentVariable("COMPUTATOR_REFERENCE_FOCUS_TRACE") == "1")
+            {
+                host.Closed += (_, e) => Console.WriteLine("Completion closed: " + e.CloseReason + Environment.NewLine + Environment.StackTrace);
+                help.Closed += (_, e) => Console.WriteLine("Reference closed: " + e.CloseReason + Environment.NewLine + Environment.StackTrace);
+                input.LostFocus += (_, _) => Console.WriteLine("Editor LostFocus, help focus=" + help.ContainsFocus + ", pointer=" + Control.MousePosition);
+                input.GotFocus += (_, _) => Console.WriteLine("Editor GotFocus");
+                input.MouseDown += (_, args) => Console.WriteLine("Editor MouseDown, focus=" + input.Focused + ", clicks=" + args.Clicks + ", pointer=" + Control.MousePosition);
+                window.LostFocus += (_, _) => Console.WriteLine("Owner LostFocus, help focus=" + help.ContainsFocus + ", pointer=" + Control.MousePosition);
+            }
             try
             {
                 Settings.Default.TooltipType = TooltipType.Default;
@@ -80,6 +92,7 @@ internal static partial class Program
                 Check(input.ContainsFocus, "Opening autocomplete moved keyboard focus away from the editor.");
                 InspectX11WindowStack(window, input, host, list, help);
                 CaptureAutocompleteX11(window, host, help, "autocomplete-after.png");
+                ExerciseRichReferenceX11(window, input, menu, host, help, reference);
 
                 // Keyboard selection and insertion through the real X11 input
                 // queue (including the existing fragment replacement logic).
@@ -167,15 +180,133 @@ internal static partial class Program
 
     private static AutocompleteItem Completion(string signature, string title)
     {
+        var shipped = AutocompleteReferenceCatalog.Value;
+        FunctionInfo source;
+        var description = shipped.TryGetValue(signature, out source) ? source.Description :
+            "<p>Readable help for " + signature + " with a complete function description.</p>";
         return new AutocompleteItem(signature)
         {
             Details = new FunctionInfo
             {
                 Title = title,
                 Signature = signature,
-                Description = "<p>Readable help for " + signature + " with a complete function description.</p>"
+                Description = description
             }
         };
+    }
+
+    private static void ExerciseRichReferenceX11(Form window, TextBox input, CompletionMenu menu,
+        ToolStripDropDown host, ToolStripDropDown help, Control reference)
+    {
+        var tabs = reference.Controls.OfType<TabControl>().Single();
+        var description = (ScrollableControl)reference.Controls.Find("referenceDescription", true).Single();
+        Check(tabs.SelectedIndex == 0 && description.AutoScrollMinSize.Height > description.ClientSize.Height,
+            "The actual illustrated reference must open in a scrollable Description tab.");
+        var textTab = tabs.GetTabRect(1);
+        var textPoint = tabs.PointToScreen(new Point(textTab.Left + textTab.Width / 2, textTab.Top + textTab.Height / 2));
+        MoveAndClickX11(textPoint.X, textPoint.Y);
+        PumpX11();
+        // Retain native screen pixels even on failure, before any cleanup hides
+        // the evidence. This captures the real X11 window stack, not a bitmap
+        // fabricated from the renderer's Draw method.
+        InspectX11WindowStack(window, input, host, (Control)menu.ListView, help);
+        Check(menu.Visible && help.Visible && tabs.SelectedIndex == 1,
+            "Clicking the reference Text tab closed autocomplete/help before the actual X11 click completed.");
+        var readable = (RichTextBox)reference.Controls.Find("referenceText", true).Single();
+        Check(readable.Visible && readable.ReadOnly && readable.Text.Contains("Sine reference"),
+            "The reference Text tab is not usable.");
+        CaptureAutocompleteX11(window, host, help, "autocomplete-reference-text.png");
+
+        var descriptionTab = tabs.GetTabRect(0);
+        var descriptionPoint = tabs.PointToScreen(new Point(descriptionTab.Left + descriptionTab.Width / 2, descriptionTab.Top + descriptionTab.Height / 2));
+        MoveAndClickX11(descriptionPoint.X, descriptionPoint.Y);
+        Check(menu.Visible && help.Visible && tabs.SelectedIndex == 0, "Returning to Description closed the help.");
+        var scrollPoint = description.PointToScreen(new Point(description.Width - SystemInformation.VerticalScrollBarWidth / 2,
+            description.Height - SystemInformation.HorizontalScrollBarHeight / 2));
+        MoveAndClickX11(scrollPoint.X, scrollPoint.Y);
+        PumpX11();
+        Check(menu.Visible && help.Visible && description.AutoScrollPosition.Y < 0,
+            "The actual tooltip scrollbar failed to scroll the illustrated reference or dismissed it.");
+        CaptureAutocompleteX11(window, host, help, "autocomplete-reference-scrolled.png");
+
+        var editorPoint = input.PointToScreen(new Point(8, input.ClientSize.Height / 2));
+        using (var other = new TextBox { Location = new Point(24, 220), Size = new Size(200, 24) })
+        {
+            window.Controls.Add(other);
+            var otherPoint = other.PointToScreen(new Point(8, other.ClientSize.Height / 2));
+            MoveAndClickX11(otherPoint.X, otherPoint.Y);
+            InspectX11WindowStack(window, input, host, (Control)menu.ListView, help);
+            Check(other.Focused, "The real X11 click did not reach the unrelated editor.");
+            WaitForX11(() => !menu.Visible && !help.Visible,
+                "Leaving the reference for an unrelated editor left autocomplete/help floating above it.");
+            // Keep the other native control alive until focus has really moved
+            // back; destroying the focused X11 window would invalidate this test.
+            // Xvfb has no window manager to reactivate a popup's owner, just as
+            // at fixture startup. Activate that actual X11 top-level window;
+            // widget focus below must still come from the real pointer click.
+            Xdotool("search --onlyvisible --name Mono.completion.X11.acceptance windowfocus --sync");
+            menu.SetAutocompleteMenu(other, menu);
+            try
+            {
+                MoveAndClickX11(editorPoint.X, editorPoint.Y);
+                Check(input.Focused, "The real editor did not regain focus after reading the reference.");
+                MoveAndClickX11(otherPoint.X, otherPoint.Y);
+                Check(other.Focused && !input.Focused, "A shared completion menu focused its previous editor instead of the actually clicked one.");
+                MoveAndClickX11(editorPoint.X, editorPoint.Y);
+                Check(input.Focused && !other.Focused, "The actual editor did not recover after another attached editor was clicked.");
+            }
+            finally { menu.SetAutocompleteMenu(other, null); }
+            KeyX11("End"); KeyX11("ctrl+space");
+            WaitForX11(() => menu.Visible && help.Visible, "Completion did not reopen for the modal reference test.");
+            window.Controls.Remove(other);
+        }
+
+        MoveAndClickX11(textPoint.X, textPoint.Y);
+        Check(help.ContainsFocus, "The modal reference test must start from actual help focus.");
+        using (var dialog = new Form { Text = "Mono reference modal acceptance", Size = new Size(240, 120), ShowInTaskbar = false })
+        using (var pulse = new System.Windows.Forms.Timer { Interval = 100 })
+        {
+            dialog.Controls.Add(new Label { Dock = DockStyle.Fill, Text = "Reference dismissed for modal dialog", TextAlign = ContentAlignment.MiddleCenter });
+            Exception failure = null; var ticks = 0;
+            pulse.Tick += (_, _) =>
+            {
+                if (ticks == 0) CaptureReferenceDesktopX11("autocomplete-reference-modal.png");
+                try { Check(!menu.Visible && !help.Visible, "A modal owner dialog left autocomplete/reference visible."); }
+                catch (Exception error) { failure = error; }
+                if (++ticks >= 3 || failure != null) dialog.Close();
+            };
+            dialog.Shown += (_, _) => pulse.Start();
+            dialog.ShowDialog(window); pulse.Stop();
+            if (failure != null) throw failure;
+            Check(ticks >= 3, "The modal reference guard was not observed across queued UI work.");
+        }
+
+        // Return through the native input queue and prove the original editor
+        // still owns subsequent selection/insertion, rather than a hidden copy.
+        Xdotool("search --onlyvisible --name Mono.completion.X11.acceptance windowfocus --sync");
+        MoveAndClickX11(editorPoint.X, editorPoint.Y);
+        Check(input.Focused, "The actual X11 editor click failed to restore keyboard focus.");
+        KeyX11("End");
+        TypeX11("n");
+        Check(input.Text == "sin", "Real X11 typing after reference reading did not reach the displayed editor.");
+        Check(input.Focused, "Passive reference refresh took keyboard focus from the editor.");
+        CaptureAutocompleteX11(window, host, help, "autocomplete-reference-editor-typed.png");
+        KeyX11("BackSpace");
+        Check(input.Text == "si", "The real editor could not undo the test character after reading help.");
+        KeyX11("ctrl+space");
+        WaitForX11(() => menu.Visible && input.Focused, "Editor focus/completion did not recover after reading help.");
+        Check(menu.SelectedItemIndex == 0 && input.Text == "si", "Reading help changed the real editor buffer or completion selection.");
+        CaptureAutocompleteX11(window, host, help, "autocomplete-reference-editor-return.png");
+    }
+
+    private static void CaptureReferenceDesktopX11(string name)
+    {
+        var screen = Screen.PrimaryScreen.Bounds;
+        using (var bitmap = new Bitmap(screen.Width, screen.Height))
+        {
+            using (var graphics = Graphics.FromImage(bitmap)) graphics.CopyFromScreen(screen.Location, Point.Empty, screen.Size);
+            bitmap.Save(Path.Combine(outputDirectory, name), ImageFormat.Png);
+        }
     }
 
     private static void ResetAutocompleteInput(CompletionMenu menu, TextBox input)

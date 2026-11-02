@@ -20,6 +20,8 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
     // a browser. Markup never creates controls, executes code or opens a URI.
     internal sealed class MonoReferenceDocument : IDisposable
     {
+        private static readonly Lazy<MonoReferenceAssets> ShippedAssets = new Lazy<MonoReferenceAssets>(() =>
+            new MonoReferenceAssets(PathUtility.GetFullPath("Static")));
         internal sealed class Run
         {
             internal string Text;
@@ -58,7 +60,9 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
                 var title = new Block { Kind = "title" };
                 title.Runs.Add(new Run { Text = info.Title ?? "", Style = FontStyle.Bold, Scale = 1.4f });
                 document.blocks.Add(title);
-                var catalog = new MonoReferenceAssets(staticDirectory ?? PathUtility.GetFullPath("Static"));
+                // Catalog metadata is immutable for the process lifetime. Image
+                // bytes are still reopened and hash-checked for every document.
+                var catalog = staticDirectory == null ? ShippedAssets.Value : new MonoReferenceAssets(staticDirectory);
                 document.ReadNodes(root, null, FontStyle.Regular, false, catalog);
                 document.PlainText = string.Join(Environment.NewLine + Environment.NewLine, document.blocks.Select(b =>
                     string.Concat(b.Runs.Select(r => r.Text ?? "")))).Trim();
@@ -266,7 +270,10 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
                         if (run.PlainOnly) continue;
                         if (run.Image != null)
                         {
-                            var scale = em / 20f;
+                            // Inline math follows the prose em/baseline. Display
+                            // equations and diagrams retain their authored CSS
+                            // pixel size at 96 DPI, then scale with the display.
+                            var scale = run.Inline ? em / 20f : graphics.DpiX / 96f;
                             if (run.Plot) scale = Math.Min(scale, Math.Max(1, right - left) / run.Width);
                             var image = new Item { Image = run.Image, Inline = run.Inline, Bounds = new RectangleF(0, 0, run.Width * scale, run.Height * scale) };
                             var depth = run.Depth * em / 1000f;

@@ -103,6 +103,20 @@ namespace Computator.NET.Desktop.Tests
             NUnit.Framework.Assert.That(layout.Items.Where(i => i.Text != null).All(i => i.Bounds.Right <= 260), Is.True);
         }
 
+        [TestCase(360)]
+        [TestCase(700)]
+        public void ScientificDiagramsRetainAuthoredReadingSizeUntilTheViewportRequiresShrinking(int width)
+        {
+            using var document = MonoReferenceDocument.Parse(new FunctionsDetailsFileSource().Details["Normal.CDF(mean,stddev,x)"]);
+            using var bitmap = new Bitmap(1, 1);
+            using var graphics = Graphics.FromImage(bitmap);
+            using var font = new Font(FontFamily.GenericSansSerif, 12);
+            using var layout = document.Layout(graphics, font, width);
+            var figure = layout.Items.Single(i => i.Image != null && i.Image.Width > 1000 && i.Image.Height > 500);
+            NUnit.Framework.Assert.That(figure.Bounds.Width, Is.EqualTo(width == 700 ? 600 : width - 32).Within(.01));
+            NUnit.Framework.Assert.That(figure.Bounds.Height / figure.Bounds.Width, Is.EqualTo(figure.Image.Height / (float)figure.Image.Width).Within(.01));
+        }
+
         [Test]
         public void MarkupAndSourceLinksAreInertAndTextRetainsMathematicalMeaning()
         {

@@ -464,6 +464,10 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             form.ResizeBegin += Form_LocationChanged;
             form.FormClosing += Form_FormClosing;
             form.LostFocus += Form_LocationChanged;
+#if __MonoCS__
+            form.EnabledChanged += Form_AvailabilityChanged;
+            form.VisibleChanged += Form_AvailabilityChanged;
+#endif
         }
 
         private void UnsubscribeForm()
@@ -475,6 +479,10 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             form.ResizeBegin -= Form_LocationChanged;
             form.FormClosing -= Form_FormClosing;
             form.LostFocus -= Form_LocationChanged;
+#if __MonoCS__
+            form.EnabledChanged -= Form_AvailabilityChanged;
+            form.VisibleChanged -= Form_AvailabilityChanged;
+#endif
             _myForm = null;
         }
 
@@ -488,9 +496,38 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             Close();
         }
 
+#if __MonoCS__
+        private void Form_AvailabilityChanged(object sender, EventArgs e)
+        {
+            if (_myForm == null || !_myForm.Enabled || !_myForm.Visible) Close();
+        }
+
+        internal void ReferenceFocusLeft(object sender, EventArgs e)
+        {
+            if (Host.IsDisposed || Host.Disposing || !Host.IsHandleCreated || !Host.Visible) return;
+            // A tab/page transition can finish transferring native focus after
+            // Leave. Check the settled owned focus context on the UI queue.
+            Host.BeginInvoke((Action)(() =>
+            {
+                if (Host.IsDisposed || Host.Disposing || !Host.Visible) return;
+                var target = TargetControlWrapper?.TargetControl;
+                if (target == null || target.IsDisposed || !target.Visible || !target.Enabled ||
+                    (!target.ContainsFocus && !Host.ContainsFocus &&
+                     (Host.ListView as AutocompleteListView)?.ReferenceContainsFocus != true)) Close();
+            }));
+        }
+#endif
+
         private void Control_MouseDown(object sender, MouseEventArgs e)
         {
             Close();
+#if __MonoCS__
+            // Mono can deliver the editor click after a dropdown focus transfer
+            // without activating that editor. Preserve the native click's caret
+            // handling while explicitly restoring its expected keyboard focus.
+            var target = sender as Control ?? (sender as ITextBoxWrapper)?.TargetControl;
+            if (target != null && !target.IsDisposed && target.Visible && target.Enabled) target.Focus();
+#endif
         }
 
         private ITextBoxWrapper FindWrapper(Control sender)
@@ -586,8 +623,16 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 #if __MonoCS__
             // Mono raises TextBox.LostFocus before the clicked dropdown child
             // receives its mouse event. Keep the pending click alive.
-            if (Host.Visible && (Host.ContainsFocus || Host.Bounds.Contains(Control.MousePosition)))
+            var target = TargetControlWrapper?.TargetControl;
+            var readingReference = target != null && target.Visible && target.Enabled &&
+                (Host.ListView as AutocompleteListView)?.ReferenceContainsFocus == true;
+            if (Host.Visible && (Host.ContainsFocus || Host.Bounds.Contains(Control.MousePosition) || readingReference))
+            {
+                // Reading help is a focus transfer within this completion UI.
+                // Stop pending editor work rather than rebuilding that article.
+                if (readingReference) _timer.Stop();
                 return;
+            }
 #endif
             if (!Host.Focused) Close();
         }
