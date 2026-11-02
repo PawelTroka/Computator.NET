@@ -16,18 +16,9 @@ npm_command=${COMPUTATOR_NPM:-npm}
 npm_command=$(command -v "$npm_command")
 export PATH="$(dirname "$npm_command"):$PATH"
 
-cd "$root/Computator.NET.WebClient"
-expected_npm=$(node -p "require('./package.json').packageManager.split('@')[1]")
-if [ "$("$npm_command" --version)" != "$expected_npm" ]; then
-  echo "Use the repository-pinned npm $expected_npm (or select it with COMPUTATOR_NPM)." >&2
-  exit 1
-fi
-"$npm_command" ci --no-audit --no-fund
-# Keep this reduced-capability bundle separate from the normal Windows bundle.
-VITE_API_BASE_URL=/api VITE_PORTABLE_LOCAL=true \
-  "$npm_command" run build -- --outDir dist-portable
 cd "$root"
-"$dotnet_command" publish Computator.NET.PortableWeb/Computator.NET.PortableWeb.csproj \
-  --configuration Release --runtime "$rid" --self-contained false --output "$output"
+"$dotnet_command" tool restore
+"$dotnet_command" cake build.cake --target=PortableWeb-Publish \
+  --portable-web-rid="$rid" --portable-web-output="$output"
 echo "Published portable local preview: $output"
 echo "Run: bash build/portable-web/run.sh '$output'"

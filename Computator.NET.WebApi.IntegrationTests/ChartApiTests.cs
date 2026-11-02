@@ -126,6 +126,19 @@ namespace Computator.NET.WebApi.IntegrationTests
                 SurfaceSampler.Sample(function, -2, 2, -2, 2, 129, cancelled.Token));
         }
 
+        [TestCase(true)]
+        [TestCase(false)]
+        public void SurfaceSamplerRejectsUnrepresentableGridBeforeEvaluating(bool narrowX)
+        {
+            var calls = 0;
+            var function = new Function(new Func<double, double, double>((x, y) => { calls++; return x+y; }), FunctionType.Real3D);
+            var adjacent = double.BitIncrement(1);
+            NUnit.Framework.Assert.Throws<ArgumentException>(() => SurfaceSampler.Sample(function,
+                narrowX ? 1 : -2, narrowX ? adjacent : 2,
+                narrowX ? -2 : 1, narrowX ? 2 : adjacent, 9, CancellationToken.None));
+            NUnit.Framework.Assert.That(calls, Is.Zero);
+        }
+
         [TestCase("png/300/300/-2.5/2.5/-0.5/0.5/x")]
         [TestCase("bmp/300/300/-2.5/2.5/-0.5/0.5/x")]
         [TestCase("300/300/-2.5/2.5/-0.5/0.5/x")]

@@ -21,8 +21,11 @@ export function isSurfaceGrid(value: unknown): value is SurfaceGrid {
       !Array.isArray(grid.z) || grid.x.length < 9 || grid.x.length > 129 ||
       grid.y.length !== grid.x.length || grid.z.length !== grid.y.length ||
       typeof grid.finiteSamples !== 'number' || typeof grid.missingSamples !== 'number') return false;
-  if (!grid.x.every((x: unknown) => typeof x === 'number' && Number.isFinite(x)) ||
-      !grid.y.every((y: unknown) => typeof y === 'number' && Number.isFinite(y))) return false;
+  const xAxis = grid.x, yAxis = grid.y;
+  if (!xAxis.every((x: unknown, index: number) => typeof x === 'number' && Number.isFinite(x) &&
+        (index === 0 || x > xAxis[index - 1])) ||
+      !yAxis.every((y: unknown, index: number) => typeof y === 'number' && Number.isFinite(y) &&
+        (index === 0 || y > yAxis[index - 1]))) return false;
   let finite = 0;
   for (const row of grid.z) {
     if (!Array.isArray(row) || row.length !== grid.x.length) return false;

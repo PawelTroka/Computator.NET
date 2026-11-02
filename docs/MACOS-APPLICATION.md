@@ -6,6 +6,20 @@ Investigation date: **28 October 2026**. Baseline: `master` at
 
 ## Decision and scope
 
+The portable preview now uses the shared Cake graph. `PortableWeb-Publish` calls
+the audited `Web-Restore` task, selects the repository's Node/npm pins, builds the
+separate portable frontend and publishes the host. `PortableWeb-Validate` adds
+the real HTTP/process smoke checks and Chromium/WebKit acceptance on the native
+Linux/macOS runner. The build wrapper below forwards to `PortableWeb-Publish`;
+it no longer performs a separate unaudited npm installation.
+
+```sh
+bash ./build.sh --target=PortableWeb-Validate --portable-web-rid=osx-arm64
+```
+
+Use `osx-x64`, `linux-x64` or `linux-arm64` for the corresponding native host.
+An RID cross-publish does not establish execution or GUI acceptance there.
+
 The least disruptive promising route is a **portable local ASP.NET Core host
 using the existing Engine and browser interface**. This change implements a
 bounded proof of concept for that architecture. It establishes a way to run a

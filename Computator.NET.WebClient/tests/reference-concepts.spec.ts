@@ -34,6 +34,27 @@ async function openArticle(page: Page, route: string, editor: string, signature:
 }
 
 for (const [route, editor] of [['/calculate', '#expressionTextArea'], ['/scripting', '#scriptTextArea']]) {
+  test(`cold completion waits for the reference catalogue in ${route}`, async ({ page }) => {
+    let release!: () => void;
+    const ready = new Promise<void>(resolve => { release = resolve; });
+    await page.route('**/api/autocomplete/**', async request => {
+      await ready;
+      await request.fulfill({ headers: { 'access-control-allow-origin': '*' }, json: [{
+        text: 'ConceptReferenceProbe(x)', menuText: 'real ConceptReferenceProbe(real x)',
+        details: { ...shippedArticle('Normal.CDF(mean,stddev,x)'), type: 'ElementaryFunctions' }
+      }] });
+    });
+    await page.goto(route);
+    await page.locator(`${editor} textarea`).fill('ConceptReferenceProbe');
+    await page.locator(`${editor} textarea`).press('Control+Space');
+    await expect(page.getByRole('tooltip')).not.toBeVisible();
+    release();
+    await expect(page.getByRole('tooltip')).toBeVisible();
+    await expect(page.getByRole('tooltip').locator('img.reference-plot')).toHaveCount(1);
+  });
+}
+
+for (const [route, editor] of [['/calculate', '#expressionTextArea'], ['/scripting', '#scriptTextArea']]) {
   for (const width of [360, 1280]) {
     for (const [signature, name] of examples) {
       test(`${name} remains readable in ${route} at ${width}px`, async ({ page }, info) => {

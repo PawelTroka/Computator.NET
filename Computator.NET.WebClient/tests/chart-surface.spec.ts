@@ -105,6 +105,18 @@ test('a malformed surface is rejected instead of rendering unbounded or non-fini
   await expect(page.getByTestId('surface-chart')).toHaveCount(0);
 });
 
+for (const axis of ['x', 'y'] as const) {
+  test(`duplicate surface ${axis} coordinates are rejected instead of drawing a degenerate mesh`, async ({ page }) => {
+    await page.route('**/api/v2/chart', route => route.fulfill({
+      json: { ...grid, [axis]: coordinates.map(() => 1) }, headers
+    }));
+    await page.goto('/'); await edit(page, 'x+y');
+    await page.getByRole('button', { name: 'Draw chart!' }).click();
+    await expect(page.getByRole('alert')).toHaveText('Invalid 3D surface response.');
+    await expect(page.getByTestId('surface-chart')).toHaveCount(0);
+  });
+}
+
 test('the submitted surface includes unsaved two-argument definitions from the current tab', async ({ page }) => {
   const requests: Record<string, unknown>[] = [];
   await page.route('**/api/v2/chart', route => {
