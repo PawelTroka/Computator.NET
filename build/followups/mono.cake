@@ -1,4 +1,16 @@
 // Explicit compatibility tasks; the default .NET 10 graph never depends on Mono.
+string MonoMacPackageRid()
+{
+    if (!System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.OSX))
+        throw new Exception("Mono Mac packaging requires a native macOS host.");
+    switch (System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture)
+    {
+        case System.Runtime.InteropServices.Architecture.Arm64: return "osx-arm64";
+        case System.Runtime.InteropServices.Architecture.X64: return "osx-x64";
+        default: throw new Exception("Use a native Intel or Apple Silicon SDK/runtime for Mono Mac packaging.");
+    }
+}
+
 Task("Mono-Build")
     .Description("Compile the reduced Framework Mono desktop and its acceptance probes.")
     .Does(() => CheckedProcess("bash", new ProcessSettings
@@ -67,3 +79,29 @@ Task("Mono-Linux-Package-Validate")
             .AppendQuoted("artifacts/mono-package/evidence-" + configuration)
     });
 });
+
+Task("Mono-Mac-Package")
+    .Description("macOS: package the accepted native Mono desktop as a runtime-dependent application bundle and ZIP.")
+    .IsDependentOn("Mono-Mac-Validate")
+    .Does(() =>
+{
+    var rid = MonoMacPackageRid();
+    var output = "artifacts/macos/package/" + configuration;
+    CheckedProcess("python3", new ProcessSettings
+    {
+        Arguments = new ProcessArgumentBuilder().AppendQuoted("build/macos/package.py")
+            .Append("--configuration").Append(configuration)
+            .Append("--output").AppendQuoted(output + "/" + rid + "/Computator.NET.app")
+            .Append("--archive").AppendQuoted(output + "/Computator.NET-mono-" + rid + ".zip")
+    });
+});
+
+Task("Mono-Mac-Package-Validate")
+    .Description("macOS: relocate and exercise the actual native application ZIP, preflight and full packaged desktop suite.")
+    .IsDependentOn("Mono-Mac-Package")
+    .Does(() => CheckedProcess("bash", new ProcessSettings
+    {
+        Arguments = new ProcessArgumentBuilder().AppendQuoted("build/macos/validate-package.sh")
+            .Append(configuration).AppendQuoted("artifacts/macos/package/" + configuration +
+                "/Computator.NET-mono-" + MonoMacPackageRid() + ".zip")
+    }));
