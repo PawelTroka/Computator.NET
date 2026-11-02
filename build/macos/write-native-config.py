@@ -33,6 +33,11 @@ mappings.update({name: x11 for name in ("libX11", "libX11.so.6")})
 mappings.update({name: xtst for name in ("libXtst", "libXtst.so.6")})
 mappings.update({"libXinerama": library("libxinerama", "libXinerama.1.dylib"),
                  "libcairo-2.dll": cairo, "gsl": gsl, "gslcblas": gslcblas})
+# Remove only the selected names from the copied configuration. This avoids
+# depending on parser duplicate ordering and retains all unrelated system maps.
+for entry in list(config.getroot()):
+    if entry.tag == "dllmap" and entry.get("dll") in mappings:
+        config.getroot().remove(entry)
 for name, target in mappings.items():
     ET.SubElement(config.getroot(), "dllmap", {"dll": name, "target": str(target), "os": "osx"})
 path = root / "mono.config"

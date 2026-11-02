@@ -25,7 +25,7 @@ sw_vers >> "$results/runtime.log"
 git rev-parse HEAD >> "$results/runtime.log"
 # Calibration proves the actual selected drawing stack and screen pixels before
 # the separate full application and shared acceptance executables are launched.
-bash build/macos/probe-xquartz.sh --gui --output "$results/prerequisites"
+MONO_LOG_LEVEL=debug MONO_LOG_MASK=dll bash build/macos/probe-xquartz.sh --gui --output "$results/prerequisites"
 application="$repository/Computator.NET/bin/mono/$configuration/net48/Computator.NET.exe"
 startup="$repository/build/mono/StartupProbe/bin/mono/$configuration/net48/Computator.NET.Mono.StartupProbe.exe"
 smoke="$repository/build/mono/SmokeTests/bin/mono/$configuration/net48/Computator.NET.Mono.SmokeTests.exe"

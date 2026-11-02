@@ -60,6 +60,7 @@ jobs:
           path: |
             artifacts/macos/**/*.log
             artifacts/macos/**/*.json
+            artifacts/macos/**/*.config
             artifacts/macos/**/*.xml
             artifacts/macos/**/*.png
           retention-days: 7
