@@ -1,0 +1,42 @@
+name: "Temporary Web chart compatibility with PR #294"
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: web-chart-294-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  combined-real-stack:
+    if: github.event_name == 'workflow_dispatch' || github.head_ref == 'feature/web-2d-chart-interactions-20261028'
+    runs-on: windows-2025
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version-file: .nvmrc
+      - name: Prepare the reviewed PR 294 combination in this disposable checkout
+        shell: pwsh
+        run: python build/compatibility/apply-webgl-294.py
+      - name: Real Windows API and Chromium/Firefox tests for 2D and WebGL
+        shell: pwsh
+        run: ./build.ps1 -Target Web-E2E
+      - name: Combined source identifiers and runtime evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: web-chart-294-compatibility-results
+          path: |
+            artifacts/compatibility/**
+            Computator.NET.WebClient/test-results/**
+            TestResults/packaged-gsl/**
+            artifacts/*.binlog
+          retention-days: 7

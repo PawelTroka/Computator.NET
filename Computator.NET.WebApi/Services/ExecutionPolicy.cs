@@ -38,6 +38,9 @@ namespace Computator.NET.WebApi.Services
                     errors["operation"] = new[] { "Unknown operation." };
                 Method(errors, request.Operation, request.Method, request.N);
             }
+            // Validate optional numerical chart limits before worker allocation or
+            // compilation. Default/legacy bitmap requests keep their own contract.
+            if (chart && request.Interactive2D) Chart2DSampler.ValidateRequest(request, errors);
             return errors;
         }
 

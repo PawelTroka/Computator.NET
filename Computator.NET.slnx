@@ -93,6 +93,7 @@
     <File Path=".github/workflows/solution.yml" />
     <File Path=".github/workflows/travis-mirror.yml" />
     <File Path=".github/workflows/web-custom-functions.yml" />
+    <File Path=".github/workflows/web-chart-compatibility.yml" />
     <File Path=".github/workflows/web-e2e.yml" />
     <File Path=".github/workflows/web-ide.yml" />
     <File Path=".github/workflows/webclient-validation.yml" />
@@ -201,6 +202,9 @@
     <File Path="build/release/versioning.py" />
   </Folder>
   <Folder Name="/Build/Validation/">
+    <File Path="build/compatibility/apply-webgl-294.py" />
+    <File Path="build/compatibility/webgl-chart-bridge.patch" />
+    <File Path="build/compatibility/chart-renderer-switching.spec.ts" />
     <File Path="build/Assert-ProjectItems.ps1" />
     <File Path="build/Assert-Solution.ps1" />
     <File Path="build/Assert-SuiteResults.ps1" />
@@ -316,6 +320,7 @@
     <File Path="docs/followups/TRAVIS.md" />
     <File Path="docs/followups/WEB-CUSTOM-FUNCTIONS.md" />
     <File Path="docs/followups/WEB-E2E.md" />
+    <File Path="docs/followups/WEB-2D-INTERACTIONS.md" />
   </Folder>
   <Folder Name="/Historical sources (not build targets)/">
     <File Path="Computator.NET.Desktop.UITests/Computator.NET.Desktop.UITests.csproj" />
