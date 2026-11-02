@@ -111,7 +111,7 @@ public sealed class StartupRunner : MarshalByRefObject
                         // Mono's Form.DrawToBitmap can omit all native children.
                         // Read the real X11 pixels after a complete paint cycle.
                         using (var graphics = Graphics.FromImage(bitmap))
-                            graphics.CopyFromScreen(form.Location, Point.Empty, bitmap.Size);
+                            NativeDesktopCapture.CopyFromScreen(graphics, form.Location, Point.Empty, bitmap.Size, form);
                         var colors = new System.Collections.Generic.HashSet<int>();
                         for (var x = 0; x < bitmap.Width; x += 7)
                             for (var y = 0; y < bitmap.Height; y += 7)
@@ -258,7 +258,7 @@ public sealed class StartupRunner : MarshalByRefObject
             throw new InvalidOperationException("Invalid native screen rectangle for " + control.Name);
         var image = new Bitmap(rectangle.Width, rectangle.Height);
         using (var graphics = Graphics.FromImage(image))
-            graphics.CopyFromScreen(rectangle.Location, Point.Empty, rectangle.Size);
+            NativeDesktopCapture.CopyFromScreen(graphics, rectangle.Location, Point.Empty, rectangle.Size, control);
         return image;
     }
 

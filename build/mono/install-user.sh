@@ -31,7 +31,7 @@ EOF
 printf '%s%s%s\n' 'Exec=/bin/sh -c "exec \\"\\$1\\"" computator "' "$escaped" '"' >> "$temporary"
 cat >> "$temporary" <<EOF
 Icon=computator
-Terminal=true
+Terminal=false
 Categories=Education;Science;Math;
 StartupNotify=false
 EOF

@@ -6,6 +6,10 @@
   </PropertyGroup>
   <!-- Deliberately no application project/package references. The real executable
        must load its dependencies from its own build output. -->
+  <ItemGroup>
+    <Compile Include="../NativeDesktopCapture.cs" Link="NativeDesktopCapture.cs" />
+    <Compile Include="../../macos/MacDesktopCapture.cs" Link="MacDesktopCapture.cs" />
+  </ItemGroup>
   <Target Name="RequireMonoCompatibilityTarget" BeforeTargets="PrepareForBuild">
     <Error Condition="'$(ComputatorMono)' != 'true'" Text="Build the Mono startup probe with -p:ComputatorMono=true." />
   </Target>

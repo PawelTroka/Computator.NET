@@ -131,10 +131,11 @@ supports the repository's C# syntax, but Mono scripts/plugins bind to Framework
 excluded from this graph.
 
 The rich reference uses the same descriptions and verified offline assets as
-Windows/web: styled prose, signatures, inline and display equations, diagrams,
+Windows/web: styled prose, inline and display equations, diagrams,
 examples and notes. Image paths are confined to the shipped manifests and their
 hashes/dimensions are checked before decode. External/file images are not fetched.
-Source links remain inert. This implements the authored reference vocabulary;
+Source links remain inert. Signatures stay in autocomplete, following the shared
+reference's existing rule against repeating them in the article. This implements the authored reference vocabulary;
 it is not a general embedded web browser.
 
 Document saves retain byte comparisons, flushed staging, atomic replacement and
