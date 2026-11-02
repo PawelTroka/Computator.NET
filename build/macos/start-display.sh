@@ -44,11 +44,14 @@ terminate() { python3 -c 'import os,signal,sys; os.killpg(int(sys.argv[1]),signa
 ready=false
 for ((attempt=0; attempt<60; attempt++)); do
     if /opt/X11/bin/xdpyinfo -display "$DISPLAY" > "$output/xdpyinfo.log" 2>&1; then ready=true; break; fi
-    if ! alive "$server"; then cat "$output/xquartz-server.log"; echo 'Owned XQuartz server exited before accepting authenticated clients.' >&2; exit 1; fi
+    # The native Mac launcher can hand the server to another PID/session. Its
+    # disappearance does not prove failure; await the private authenticated
+    # socket for the bounded interval, then record the actual server arguments.
     sleep 1
 done
 if [[ $ready != true ]]; then terminate "$server"; echo 'XQuartz did not become ready within 60 seconds.' >&2; exit 1; fi
 grep -q 'XTEST' "$output/xdpyinfo.log" || { terminate "$server"; echo 'XQuartz lacks the actual XTEST input extension.' >&2; exit 1; }
+python3 "$repository/build/macos/display-owner.py" record "$output" --display "$DISPLAY"
 # Starting Xquartz directly bypasses xinitrc, so start its ordinary window manager
 # too. Testing an unmanaged server is not the normal rootless Mac desktop path.
 DEBUG=1 python3 -c 'import os,pathlib,sys; os.setsid(); pathlib.Path(sys.argv[1]).write_text(str(os.getpgrp())+"\n"); os.execv(sys.argv[2],sys.argv[2:])' \
@@ -62,7 +65,8 @@ for ((attempt=0; attempt<30; attempt++)); do
     # The real root selection establishes that a WM owns this fresh server.
     /opt/X11/bin/xwininfo -root -events > "$output/window-manager.log" 2>&1 || true
     if grep -q 'SubstructureRedirect' "$output/window-manager.log"; then break; fi
-    if ! alive "$manager"; then cat "$output/quartz-wm.log"; echo 'Owned quartz-wm exited.' >&2; exit 1; fi
+    # Cocoa may transfer the process while initializing its native application.
+    # Readiness is the real WM root selection, not the short-lived launch PID.
     sleep 1
 done
 grep -q 'SubstructureRedirect' "$output/window-manager.log" || { echo 'Normal rootless window manager did not become ready.' >&2; exit 1; }

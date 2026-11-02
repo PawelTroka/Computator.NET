@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 [[ $(uname -s) == Darwin && ${GITHUB_ACTIONS:-} == true && $# -eq 1 ]] || exit 2
+repository=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)
+python3 "$repository/build/macos/display-owner.py" stop "$1"
 for name in quartz-wm xquartz; do
     path="$1/$name.pgid"
     [[ -f $path ]] || continue
