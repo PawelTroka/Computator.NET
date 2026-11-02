@@ -26,6 +26,7 @@ internal static partial class Program
         Settings.Default.CodeEditor = CodeEditorType.TextEditor;
         Settings.Default.ScriptingDirectory = Settings.Default.CustomFunctionsDirectory = directory;
         var bootstrapper = new WinFormsBootstrapper();
+        Console.WriteLine("Mono search stage: construct the real desktop");
         try
         {
             using (bootstrapper.Container)
@@ -36,6 +37,7 @@ internal static partial class Program
                 window.Size = new Size(1100, 760);
                 window.Show();
                 Application.DoEvents();
+                Console.WriteLine("Mono search stage: desktop shown");
                 var state = bootstrapper.Create<ISharedViewState>();
                 var scripts = bootstrapper.Create<ScriptingView>().CodeEditorView;
                 var functions = bootstrapper.Create<CustomFunctionsView>().CustomFunctionsEditor;
@@ -57,11 +59,13 @@ internal static partial class Program
                 scripts.Text = "preserve this draft";
                 scripts.NewDocument(path);
                 functions.NewDocument(library);
+                Console.WriteLine("Mono search stage: Unicode documents opened; font=" + native.Font);
                 Form scriptDialog = null;
                 Form functionsDialog = null;
 
                 foreach (ViewName view in Enum.GetValues(typeof(ViewName)))
                 {
+                    Console.WriteLine("Mono search stage: switch workspace " + view);
                     state.CurrentView = view;
                     Application.DoEvents();
                     var editable = view == ViewName.Scripting || view == ViewName.CustomFunctions;
@@ -82,6 +86,7 @@ internal static partial class Program
                 }
 
                 state.CurrentView = ViewName.Scripting;
+                Console.WriteLine("Mono search stage: literal Unicode navigation");
                 SelectSearchText(native, 0, 0);
                 replaceMenu.PerformClick();
                 Same(SearchDialog(window), scriptDialog, "Reopening search must reuse the scripting dialog.");
@@ -100,6 +105,7 @@ internal static partial class Program
                 Capture(scriptDialog, "find-replace-dialog.png");
 
                 SearchClick(scriptDialog, "replaceAll");
+                Console.WriteLine("Mono search stage: replacement and grouped undo");
                 Equal(scripts.Text, @"😀 $1\β b $1\β α $1\β");
                 AssertSearchSelection(native, 3, @"$1\β");
                 Equal(Find(scriptDialog, "searchStatus").Text, "Replaced 3 occurrence(s).");
@@ -125,6 +131,7 @@ internal static partial class Program
                 Equal(File.ReadAllText(other), "other disk text");
 
                 SelectSearchText(native, 3, 3);
+                Console.WriteLine("Mono search stage: read-only replacement");
                 scripts.ShowFindReplace(true);
                 Equal(Find(scriptDialog, "findText").Text, "a.*");
                 Find(scriptDialog, "replacementText").Text = "a replacement longer than the document";
@@ -145,6 +152,7 @@ internal static partial class Program
                 Equal(scripts.Text, original);
 
                 // Document switching must discard a selection from a longer buffer.
+                Console.WriteLine("Mono search stage: empty document switch");
                 SelectSearchText(native, 15, 3);
                 var empty = Path.Combine(directory, "empty.tsl");
                 File.WriteAllText(empty, string.Empty);
@@ -158,6 +166,7 @@ internal static partial class Program
 
                 // Whole-word replacement must not separate an enclosing combining
                 // mark from its base letter, on the native Mono editor too.
+                Console.WriteLine("Mono search stage: enclosing combining marks");
                 var combining = Path.Combine(directory, "combining.tsl");
                 File.WriteAllText(combining, "x\u20DD x x\u20E3");
                 scripts.NewDocument(combining);
@@ -174,6 +183,7 @@ internal static partial class Program
                 scripts.SwitchTab(path);
 
                 state.CurrentView = ViewName.CustomFunctions;
+                Console.WriteLine("Mono search stage: independent custom-function search");
                 Check(!scriptDialog.Visible, "Changing workspace must hide its search window.");
                 replaceMenu.PerformClick();
                 Same(SearchDialog(window), functionsDialog, "Custom functions must retain their own search dialog.");
