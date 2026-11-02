@@ -1,12 +1,19 @@
 """Distribution contracts: reject corrupted payloads, wrong ABI and unsafe archives."""
 import argparse
+import ctypes
+import ctypes.util
 import importlib.util
 import io
 import json
+import os
 from pathlib import Path
+import shutil
 import struct
+import subprocess
+import sys
 import tarfile
 import tempfile
+import time
 import unittest
 
 SPEC = importlib.util.spec_from_file_location('mono_package', Path(__file__).with_name('package.py'))
@@ -166,6 +173,46 @@ class PackageContracts(unittest.TestCase):
             self.skipTest('Host does not grant symbolic link privileges: ' + str(error))
         with self.assertRaisesRegex(ValueError, 'Unsupported'):
             package.copy_tree(source, self.base / 'copy')
+
+    @unittest.skipUnless(sys.platform.startswith('linux'), 'Uses the actual Linux desktop-entry parser.')
+    def test_user_desktop_registration_launches_paths_with_reserved_characters(self):
+        install = self.base / 'Computator path $ % " ` \\'
+        (install / 'bin').mkdir(parents=True)
+        (install / 'share').mkdir()
+        (install / 'share/computator.png').write_bytes(b'icon fixture')
+        shutil.copyfile(Path(__file__).with_name('install-user.sh'), install / 'bin/install-desktop-entry')
+        launcher = install / 'bin/computator'
+        launcher.write_text('#!/bin/sh\nprintf "%s" "$0" > "$COMPUTATOR_INSTALL_TEST_MARKER"\n')
+        launcher.chmod(0o755)
+        marker = self.base / 'launched-path'
+        data = self.base / 'desktop-data'
+        environment = dict(os.environ, XDG_DATA_HOME=str(data), HOME=str(self.base / 'profile'),
+                           COMPUTATOR_INSTALL_TEST_MARKER=str(marker))
+        subprocess.run(['sh', str(install / 'bin/install-desktop-entry')], env=environment, check=True, capture_output=True)
+        entry = data / 'applications/computator-net.desktop'
+        # Test argument parsing without requiring a particular terminal emulator.
+        entry.write_text(entry.read_text().replace('Terminal=true', 'Terminal=false'))
+        gio = ctypes.CDLL(ctypes.util.find_library('gio-2.0'))
+        gio.g_desktop_app_info_new_from_filename.argtypes = [ctypes.c_char_p]
+        gio.g_desktop_app_info_new_from_filename.restype = ctypes.c_void_p
+        gio.g_app_info_launch.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p]
+        gio.g_app_info_launch.restype = ctypes.c_int
+        info = gio.g_desktop_app_info_new_from_filename(os.fsencode(entry))
+        self.assertTrue(info, 'The desktop parser rejected the generated entry.')
+        # The launched fixture only records its own path into this test directory.
+        old_marker = os.environ.get('COMPUTATOR_INSTALL_TEST_MARKER')
+        os.environ['COMPUTATOR_INSTALL_TEST_MARKER'] = str(marker)
+        try:
+            self.assertEqual(1, gio.g_app_info_launch(info, None, None, None))
+            deadline = time.monotonic() + 5
+            while not marker.exists() and time.monotonic() < deadline:
+                time.sleep(0.01)
+            self.assertEqual(str(launcher), marker.read_text())
+        finally:
+            if old_marker is None:
+                os.environ.pop('COMPUTATOR_INSTALL_TEST_MARKER', None)
+            else:
+                os.environ['COMPUTATOR_INSTALL_TEST_MARKER'] = old_marker
 
 
 if __name__ == '__main__':
