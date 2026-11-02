@@ -142,6 +142,8 @@
     <File Path="build/mono/runtime.Dockerfile" />
     <File Path="build/mono/test_package.py" />
     <File Path="build/mono/test_preflight.py" />
+    <File Path="build/mono/DesktopMenuProbe.cs" />
+    <File Path="build/mono/validate-desktop-menu.sh" />
     <File Path="build/mono/validate-evidence.py" />
     <File Path="build/mono/validate-package.sh" />
     <File Path="build/mono/LegacyFixtureWriter.cs" />
