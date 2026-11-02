@@ -22,6 +22,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         {
 #if __MonoCS__
             referenceText = new MonoReferenceText { Dock = DockStyle.Fill };
+            referenceText.ReadingFocusLeft += (_, _) => ReferenceFocusLeft?.Invoke(this, EventArgs.Empty);
             browserHost = new ToolStripControlHost(referenceText)
             {
                 AutoSize = false, Margin = Padding.Empty, Padding = Padding.Empty
@@ -67,6 +68,8 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         }
 
 #if __MonoCS__
+        internal event EventHandler ReferenceFocusLeft;
+
         private void ShowMonoReference(Control owner)
         {
             if (!owner.IsHandleCreated || !owner.Visible) return;

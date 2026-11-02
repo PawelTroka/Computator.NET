@@ -13,6 +13,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         private readonly TabControl tabs;
         private readonly Font readingFont;
         public bool ReadOnly => true;
+        internal event EventHandler ReadingFocusLeft;
 
         public MonoReferenceText()
         {
@@ -32,6 +33,10 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             };
             description.Controls.Add(canvas); text.Controls.Add(readableText);
             tabs.TabPages.Add(description); tabs.TabPages.Add(text); Controls.Add(tabs);
+            // ToolStripDropDown does not propagate Leave from its hosted
+            // WinForms children on Mono. Observe the actual focusable leaves.
+            foreach (var control in new Control[] { this, tabs, canvas, readableText })
+                control.LostFocus += (_, _) => ReadingFocusLeft?.Invoke(this, EventArgs.Empty);
         }
 
         public void ShowDocument(FunctionInfo info)
