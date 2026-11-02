@@ -31,7 +31,10 @@ internal static class Program
         { "x11", new[] { "X11", "libX11", "libX11.so.6", "libX11.dylib", "libX11.6.dylib" } },
         { "xtst", new[] { "Xtst", "libXtst", "libXtst.so.6", "libXtst.dylib", "libXtst.6.dylib" } },
         { "xinerama", new[] { "Xinerama", "libXinerama", "libXinerama.so.1", "libXinerama.dylib", "libXinerama.1.dylib" } },
-        { "xext", new[] { "Xext", "libXext", "libXext.so.6", "libXext.dylib", "libXext.6.dylib" } }
+        { "xext", new[] { "Xext", "libXext", "libXext.so.6", "libXext.dylib", "libXext.6.dylib" } },
+        { "xcursor", new[] { "Xcursor", "libXcursor", "libXcursor.so.1", "libXcursor.dylib", "libXcursor.1.dylib" } },
+        { "xfixes", new[] { "Xfixes", "libXfixes", "libXfixes.so.3", "libXfixes.dylib", "libXfixes.3.dylib" } },
+        { "xim", new string[0] }
     };
 
     [STAThread]
@@ -135,6 +138,21 @@ internal static class Program
         foreach (var item in manifest.Native)
             if (!Aliases.ContainsKey(item.Key) || !inventory.ContainsKey(item.Value) || inventory[item.Value].Path != item.Value)
                 throw new InvalidDataException("Native library is unknown or absent from the inventory: " + item.Key);
+        if (manifest.Native.ContainsKey("xim") && (!isMac || !manifest.Native.ContainsKey("x11")))
+            throw new InvalidDataException("The XIM ABI shim requires an explicit packaged macOS X11 library.");
+        var remaining = new HashSet<string>(manifest.Files.Select(entry => entry.Path), StringComparer.Ordinal);
+        var directories = new Stack<string>();
+        directories.Push(packageRoot);
+        while (directories.Count != 0)
+            foreach (var item in Directory.EnumerateFileSystemEntries(directories.Pop()))
+            {
+                var relative = item.Substring(packageRoot.Length + 1).Replace(Path.DirectorySeparatorChar, '/');
+                PackagePath(relative); // Reject links before descending, including unlisted links.
+                if (Directory.Exists(item)) directories.Push(item);
+                else if (relative != "mono-package.json" && !remaining.Remove(relative))
+                    throw new IOException("Unrecorded package file: " + relative);
+            }
+        if (remaining.Count != 0) throw new IOException("Inventory paths do not exactly match the package files.");
         if (!inventory.ContainsKey("app/Computator.NET.exe") || !inventory.ContainsKey("app/Computator.NET.Mono.Preflight.exe"))
             throw new InvalidDataException("Package does not contain its application and runtime preflight.");
         report.VerifiedFiles = inventory.Count;
@@ -144,7 +162,8 @@ internal static class Program
     private static void PrepareConfiguration(string destination)
     {
         var directory = Marshal.PtrToStringAnsi(mono_get_config_dir());
-        var source = Path.Combine(directory ?? "", "config");
+        var source = new[] { Path.Combine(directory ?? "", "mono", "config"), Path.Combine(directory ?? "", "config") }
+            .FirstOrDefault(File.Exists);
         if (!File.Exists(source)) throw new IOException("Cannot locate the actual Mono runtime configuration.");
         XDocument config;
         using (var reader = XmlReader.Create(source, new XmlReaderSettings
@@ -163,6 +182,11 @@ internal static class Program
             foreach (var alias in aliases)
                 config.Root.Add(new XElement("dllmap", new XAttribute("dll", alias), new XAttribute("target", PackagePath(library.Value))));
         }
+        if (manifest.Native.ContainsKey("xim"))
+            foreach (var map in config.Root.Elements("dllmap").Where(node => Aliases["x11"].Contains((string)node.Attribute("dll"))))
+                foreach (var entry in new[] { "XGetIMValues", "XGetICValues", "XSetICValues", "XCreateIC", "XVaCreateNestedList" })
+                    map.Add(new XElement("dllentry", new XAttribute("name", entry),
+                        new XAttribute("dll", PackagePath(manifest.Native["xim"])), new XAttribute("target", "ComputatorMono" + entry)));
         if (File.Exists(destination) && !File.ReadAllText(destination).StartsWith(ConfigMarker, StringComparison.Ordinal))
             throw new IOException("Refusing to overwrite a file that is not a generated package configuration.");
         var builder = new StringBuilder(ConfigMarker).Append('\n');
@@ -203,12 +227,16 @@ internal static class Program
         {
             var expected = PackagePath(manifest.Native[key]);
             var observed = loaded.Where(p => IsLibrary(key, Path.GetFileName(p))).Select(RealPath).Distinct(StringComparer.Ordinal).ToArray();
-            if (observed.Length != 1 || observed[0] != RealPath(expected))
+            var imported = new[] { "gsl", "cblas", "gdiplus", "cairo", "x11" }.Contains(key);
+            if ((imported && observed.Length != 1) || observed.Length > 1 ||
+                (observed.Length == 1 && observed[0] != RealPath(expected)))
                 throw new InvalidOperationException("Native library selection differs from package " + key + ": " + string.Join(", ", observed));
-            var observation = new Library { Name = key, Path = observed[0], Sha256 = Hash(observed[0]) };
+            var actual = observed.Length == 1 ? observed[0] : RealPath(expected);
+            var observation = new Library { Name = key, Path = actual, Sha256 = Hash(actual),
+                Scope = observed.Length == 1 ? "loaded by Mono imports/drawing" : "explicit dependency inspection; GUI use is separate" };
             if (observation.Sha256 != inventory[manifest.Native[key]].Sha256.ToLowerInvariant())
                 throw new IOException("Loaded native bytes differ from the package: " + key);
-            var handle = Open(observed[0]);
+            var handle = Open(actual);
             if (key == "gsl")
             {
                 var symbol = Symbol(handle, "gsl_version");
@@ -216,6 +244,9 @@ internal static class Program
                 if (observation.Version != "2.8") throw new InvalidOperationException("The package must select GSL 2.8.");
             }
             if (key == "gdiplus") Symbol(handle, "GdipCreateFromXDrawable_linux");
+            if (key == "xim")
+                foreach (var name in new[] { "XGetIMValues", "XGetICValues", "XSetICValues", "XCreateIC", "XVaCreateNestedList" })
+                    Symbol(handle, "ComputatorMono" + name);
             report.Libraries.Add(observation);
         }
         foreach (var key in new[] { "cairo", "x11" })
@@ -234,7 +265,8 @@ internal static class Program
     private static bool IsLibrary(string key, string name)
     {
         var prefix = key == "cblas" ? "libgslcblas" : key == "x11" ? "libX11" : key == "xtst" ? "libXtst" :
-            key == "xinerama" ? "libXinerama" : key == "xext" ? "libXext" : "lib" + key;
+            key == "xinerama" ? "libXinerama" : key == "xext" ? "libXext" : key == "xcursor" ? "libXcursor" :
+            key == "xfixes" ? "libXfixes" : key == "xim" ? "libcomputator-mono-xim" : "lib" + key;
         return name == prefix + ".dylib" || name.StartsWith(prefix + ".so", StringComparison.Ordinal) ||
             (name.StartsWith(prefix + ".", StringComparison.Ordinal) && name.EndsWith(".dylib", StringComparison.Ordinal));
     }
@@ -364,6 +396,7 @@ internal static class Program
         [DataMember(Name = "sha256")] public string Sha256;
         [DataMember(Name = "version")] public string Version;
         [DataMember(Name = "externalPrerequisite")] public bool ExternalPrerequisite;
+        [DataMember(Name = "scope")] public string Scope;
     }
     [DllImport("__Internal")] private static extern IntPtr mono_get_config_dir();
     [DllImport("libc")] private static extern int uname(IntPtr buffer);
