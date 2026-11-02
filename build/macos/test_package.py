@@ -256,18 +256,35 @@ diff --git a/input.c b/input.c
                 ('wrong-blob',{'sha':'f'*40},digest),('wrong-path',{'path':'Patches/wrong'},digest),
                 ('wrong-size',{'size':len(data)+1},digest),('wrong-sha256',{},'0'*64)):
             target=self.base/(name+'.source')
-            with self.subTest(name=name),mock.patch.object(mac.urllib.request,'urlopen',
-                    return_value=io.BytesIO(json.dumps({**item,**changed}).encode())) as opened:
+            opener=mock.Mock()
+            opener.open.return_value=io.BytesIO(json.dumps({**item,**changed}).encode())
+            with self.subTest(name=name),mock.patch.object(mac.urllib.request,'build_opener',return_value=opener):
                 if name in ('valid','older-schema'):
                     proof=mac.pinned_git_blob('a'*40,item['path'],target,expected)
                     self.assertEqual(data,target.read_bytes())
                     self.assertEqual(blob,proof['gitBlobSha1'])
                     self.assertEqual(digest,proof['sha256'])
-                    self.assertIn('?ref='+('a'*40),opened.call_args[0][0].full_url)
+                    self.assertIn('?ref='+('a'*40),opener.open.call_args[0][0].full_url)
                 else:
                     with self.assertRaisesRegex(ValueError,'exact requested file|blob identity'):
                         mac.pinned_git_blob('a'*40,item['path'],target,expected)
                     self.assertFalse(target.exists())
+
+    def test_git_api_token_is_scoped_and_never_follows_redirects(self):
+        data=b'fixed bytes';blob=hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+        item={'type':'file','path':'Patches/fix.diff','encoding':'base64','size':len(data),
+              'content':base64.b64encode(data).decode(),'sha':blob}
+        opener=mock.Mock();opener.open.return_value=io.BytesIO(json.dumps(item).encode())
+        with mock.patch.dict(mac.os.environ,{'COMPUTATOR_GITHUB_TOKEN':'synthetic-test-token'}),\
+                mock.patch.object(mac.urllib.request,'build_opener',return_value=opener):
+            proof=mac.pinned_git_blob('a'*40,item['path'],self.base/'authenticated.patch')
+            request=opener.open.call_args[0][0]
+            self.assertEqual('api.github.com',mac.urllib.parse.urlsplit(request.full_url).netloc)
+            self.assertEqual('Bearer synthetic-test-token',request.get_header('Authorization'))
+            self.assertTrue(proof['authenticatedApiRead'])
+            self.assertNotIn('synthetic-test-token',json.dumps(proof))
+            with self.assertRaisesRegex(ValueError,'must not redirect'):
+                mac.ImmutableGitSourceRedirect().redirect_request(request,None,302,'redirect',{},'https://other.invalid/source')
 
     def test_post_install_equivalence_requires_the_complete_reviewed_raw_recipe(self):
         old='  post_install_steps do\n    mkdir_p "{{HOMEBREW_PREFIX}}/lib/gio/modules"\n  end\n'
