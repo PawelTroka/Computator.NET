@@ -17,8 +17,8 @@ for owner, prefix, count in (("Integral", "integration", 8), ("Derivative", "der
     if len(methods) != count:
         raise SystemExit(f"Unexpected {owner} catalog; review native acceptance discovery before release.")
     expected.extend(f"desktop-{prefix}-{name}" for name in methods)
-if len(expected) < 52:
-    raise SystemExit("The complete baseline 52-case shared Mono suite was not discovered.")
+if len(expected) < 53:
+    raise SystemExit("The complete baseline 53-case shared Mono suite was not discovered.")
 report = ET.parse(output / "mono-results.xml").getroot()
 cases = report.findall("testcase")
 observed = [case.get("name") for case in cases]

@@ -28,6 +28,7 @@ sw_vers >> "$results/runtime.log"
 git rev-parse HEAD >> "$results/runtime.log"
 run="$results/run-$(date -u +%Y%m%dT%H%M%SZ)-$$"
 mkdir -p "$run"
+export COMPUTATOR_MAC_COMPOSITOR_EVIDENCE_DIRECTORY="$run/compositor"
 status=0
 # Calibration proves the actual selected drawing stack and screen pixels before
 # the separate full application and shared acceptance executables are launched.

@@ -11,6 +11,15 @@ fi
 output=$1
 mkdir -p "$output"
 output=$(cd "$output" && pwd)
+repository=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)
+mode_tool="$repository/artifacts/macos/native-$(uname -m)/display/select-display-mode"
+[[ -x $mode_tool ]] || { echo 'Prepared native display mode diagnostic is missing.' >&2; exit 2; }
+printf '%s\n' "$mode_tool" > "$output/display-mode-tool.path"
+# These disposable hosted displays are sometimes 1024px wide. Select a real
+# supported larger mode before XQuartz starts, never crop an oversized window.
+"$mode_tool" prepare "$output/original-display-mode.txt" > "$output/display-modes.log" 2>&1 || {
+    cat "$output/display-modes.log"; echo 'No usable native CI display mode; ordinary GUI acceptance remains blocked.' >&2; exit 1;
+}
 defaults write org.xquartz.X11 enable_test_extensions -bool true
 auth="$output/Xauthority"
 (umask 077; touch "$auth")

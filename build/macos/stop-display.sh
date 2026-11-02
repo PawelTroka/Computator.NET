@@ -9,3 +9,7 @@ for name in quartz-wm xquartz; do
     # Both groups were created by this task with setsid; no user's display is selected.
     kill -TERM -- "-$group" 2>/dev/null || true
 done
+if [[ -f $1/display-mode-tool.path && -f $1/original-display-mode.txt ]]; then
+    tool=$(cat "$1/display-mode-tool.path")
+    "$tool" restore "$1/original-display-mode.txt" >> "$1/display-modes.log" 2>&1
+fi

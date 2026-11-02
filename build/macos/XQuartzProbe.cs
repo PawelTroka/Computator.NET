@@ -205,39 +205,22 @@ internal static class XQuartzProbe
                     window.Refresh();
                     Application.DoEvents();
                     Require(window.Visible && window.IsHandleCreated && paints > 0, "WinForms did not paint a visible window.");
-                    using (var capture = new Bitmap(window.ClientSize.Width, window.ClientSize.Height))
+                    using (var capture = MacDesktopCapture.Capture(new Rectangle(window.PointToScreen(Point.Empty), window.ClientSize), window))
                     {
-                        TryMacScreenCapture(Path.Combine(Path.GetDirectoryName(screenshotPath), "native-macos-screen.png"));
-                        using (Graphics graphics = Graphics.FromImage(capture))
-                            graphics.CopyFromScreen(window.PointToScreen(Point.Empty), Point.Empty, capture.Size);
                         capture.Save(screenshotPath, ImageFormat.Png);
-                        bool screenPassed = Matches(capture);
-                        if (Environment.GetEnvironmentVariable("COMPUTATOR_MAC_DRAWABLE_PROBE") == "1")
+                        Require(Matches(capture), "Measured full-compositor crop does not contain the three calibration colors and white client background.");
+                        Console.WriteLine("PASS compositor-calibration: measured actual display pixels contain all three calibration colors.");
+                        ClickNative(change);
+                        for (int attempt = 0; attempt < 30 && clicks == 0; attempt++) { Application.DoEvents(); Thread.Sleep(20); }
+                        Require(clicks == 1, "Actual XTEST pointer input did not reach the calibration button exactly once.");
+                        window.Refresh(); Application.DoEvents();
+                        using (var after = MacDesktopCapture.Capture(new Rectangle(window.PointToScreen(Point.Empty), window.ClientSize), window))
                         {
-                            using (var drawable = MacDrawableCapture.Capture(window.Handle))
-                            {
-                                drawable.Save(Path.Combine(Path.GetDirectoryName(screenshotPath), "xquartz-native-drawable.png"), ImageFormat.Png);
-                            }
-                            using (var client = MacDrawableCapture.CaptureClient(window))
-                            {
-                                client.Save(Path.Combine(Path.GetDirectoryName(screenshotPath), "xquartz-native-client.png"), ImageFormat.Png);
-                                Require(Matches(client), "Actual mapped X11 client drawable does not contain the calibration paint.");
-                            }
-                            Console.WriteLine("PASS mapped-window-pixels: actual native drawable contains all three calibration colors.");
-                            ClickNative(change);
-                            for (int attempt = 0; attempt < 30 && clicks == 0; attempt++) { Application.DoEvents(); Thread.Sleep(20); }
-                            Require(clicks == 1, "Actual XTEST pointer input did not reach the calibration button exactly once.");
-                            window.Refresh(); Application.DoEvents();
-                            using (var after = MacDrawableCapture.CaptureClient(window))
-                            {
-                                after.Save(Path.Combine(Path.GetDirectoryName(screenshotPath), "xquartz-native-after-input.png"), ImageFormat.Png);
-                                Require(Near(after.GetPixel(99, 155), Color.Purple), "Actual mapped drawable did not repaint after real pointer input.");
-                            }
-                            Console.WriteLine("PASS mapped-window-input-and-repaint: real XTEST button input changed actual server pixels.");
+                            after.Save(Path.Combine(Path.GetDirectoryName(screenshotPath), "compositor-after-input.png"), ImageFormat.Png);
+                            Require(Near(after.GetPixel(99, 155), Color.Purple), "Actual compositor pixels did not repaint after real pointer input.");
+                            Require(Near(after.GetPixel(269, 155), Orange) && Near(after.GetPixel(439, 155), Green), "Measured crop moved after native input.");
                         }
-                        Require(screenPassed,
-                            "The actual mapped drawable paints correctly, but root-screen capture does not include its pixels. " +
-                            "This is a capture/composition limitation; shared root-screen GUI acceptance has not passed.");
+                        Console.WriteLine("PASS compositor-input-and-repaint: real XTEST button input changed actual composed display pixels.");
                     }
                     captured = true;
                 }
