@@ -318,6 +318,25 @@ internal static class Program
         if (path == packageRoot || path.StartsWith(packageRoot + Path.DirectorySeparatorChar, StringComparison.Ordinal) ||
             Directory.Exists(path) || (File.Exists(path) && (File.GetAttributes(path) & FileAttributes.ReparsePoint) != 0))
             throw new IOException("Generated configuration/reports require a regular destination outside the read-only package.");
+        // XDG caches and macOS /tmp can legitimately have redirected ancestors.
+        // Resolve the existing parent rather than rejecting ordinary system
+        // aliases, and prevent an apparently external cache from writing into
+        // the installed payload through a directory symlink.
+        var parent = Path.GetDirectoryName(path);
+        var missing = new Stack<string>();
+        while (!Directory.Exists(parent))
+        {
+            if (File.Exists(parent)) throw new IOException("Generated output parent is not a directory.");
+            missing.Push(Path.GetFileName(parent));
+            parent = Path.GetDirectoryName(parent);
+            if (string.IsNullOrEmpty(parent)) throw new IOException("Cannot resolve generated output parent.");
+        }
+        parent = RealPath(parent);
+        while (missing.Count != 0) parent = Path.Combine(parent, missing.Pop());
+        var physicalPath = Path.Combine(parent, Path.GetFileName(path));
+        var physicalPackage = RealPath(packageRoot);
+        if (physicalPath == physicalPackage || physicalPath.StartsWith(physicalPackage + Path.DirectorySeparatorChar, StringComparison.Ordinal))
+            throw new IOException("Generated configuration/reports require a regular destination outside the read-only package.");
         return path;
     }
 
