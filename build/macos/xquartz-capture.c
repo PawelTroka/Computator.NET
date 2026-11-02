@@ -9,7 +9,7 @@
 #define API __attribute__((visibility("default")))
 API int ComputatorMacDrawableInfo(unsigned long window, int *info, size_t count)
 {
-    if (!info || count < 6) return -1;
+    if (!info || count < 8) return -1;
     Display *display = XOpenDisplay(NULL);
     if (!display) return -2;
     XWindowAttributes attributes;
@@ -18,6 +18,9 @@ API int ComputatorMacDrawableInfo(unsigned long window, int *info, size_t count)
         info[0] = attributes.width; info[1] = attributes.height;
         info[2] = attributes.map_state; info[3] = attributes.depth;
         info[4] = attributes.x; info[5] = attributes.y;
+        Window child;
+        if (!XTranslateCoordinates(display, window, XDefaultRootWindow(display), 0, 0,
+                                   &info[6], &info[7], &child)) result = 0;
     }
     XCloseDisplay(display);
     return result ? 0 : -3;

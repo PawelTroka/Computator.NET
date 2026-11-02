@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.IO;
+using System.Windows.Forms;
 
 // Test-only native drawable readback. Root-screen composition and occlusion are
 // separate facts, and are deliberately not inferred from this image.
@@ -10,12 +11,33 @@ internal static class MacDrawableCapture
 {
     public static Bitmap Capture(IntPtr handle)
     {
-        var info = new int[6];
-        if (Info(new UIntPtr(unchecked((ulong)handle.ToInt64())), info, new UIntPtr(6)) != 0 ||
+        Point ignored;
+        return Capture(handle, out ignored);
+    }
+
+    public static Bitmap CaptureClient(Control control)
+    {
+        Point origin;
+        using (var full = Capture(control.Handle, out origin))
+        {
+            Point client = control.PointToScreen(Point.Empty);
+            var rectangle = new Rectangle(client.X - origin.X, client.Y - origin.Y, control.ClientSize.Width, control.ClientSize.Height);
+            Console.WriteLine("Actual drawable client crop: native-origin=" + origin + " client-origin=" + client + " rectangle=" + rectangle);
+            if (!new Rectangle(Point.Empty, full.Size).Contains(rectangle))
+                throw new InvalidOperationException("Actual client coordinates extend beyond the native drawable.");
+            return full.Clone(rectangle, PixelFormat.Format32bppArgb);
+        }
+    }
+
+    private static Bitmap Capture(IntPtr handle, out Point origin)
+    {
+        var info = new int[8];
+        if (Info(new UIntPtr(unchecked((ulong)handle.ToInt64())), info, new UIntPtr(8)) != 0 ||
             info[0] <= 0 || info[1] <= 0 || info[0] > 8192 || info[1] > 8192 || info[2] != 2)
             throw new InvalidOperationException("The actual X11 drawable is not mapped and sized.");
+        origin = new Point(info[6], info[7]);
         Console.WriteLine("Actual native drawable: handle=0x" + handle.ToInt64().ToString("x") +
-            " size=" + info[0] + "x" + info[1] + " map-state=" + info[2] + " depth=" + info[3]);
+            " size=" + info[0] + "x" + info[1] + " map-state=" + info[2] + " depth=" + info[3] + " origin=" + origin);
         int count = checked(info[0] * info[1]);
         var pixels = new int[count];
         var captured = new int[4];

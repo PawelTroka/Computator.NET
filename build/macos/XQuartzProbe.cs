@@ -217,14 +217,18 @@ internal static class XQuartzProbe
                             using (var drawable = MacDrawableCapture.Capture(window.Handle))
                             {
                                 drawable.Save(Path.Combine(Path.GetDirectoryName(screenshotPath), "xquartz-native-drawable.png"), ImageFormat.Png);
-                                Require(Matches(drawable), "Actual mapped X11 drawable does not contain the calibration paint.");
+                            }
+                            using (var client = MacDrawableCapture.CaptureClient(window))
+                            {
+                                client.Save(Path.Combine(Path.GetDirectoryName(screenshotPath), "xquartz-native-client.png"), ImageFormat.Png);
+                                Require(Matches(client), "Actual mapped X11 client drawable does not contain the calibration paint.");
                             }
                             Console.WriteLine("PASS mapped-window-pixels: actual native drawable contains all three calibration colors.");
                             ClickNative(change);
                             for (int attempt = 0; attempt < 30 && clicks == 0; attempt++) { Application.DoEvents(); Thread.Sleep(20); }
                             Require(clicks == 1, "Actual XTEST pointer input did not reach the calibration button exactly once.");
                             window.Refresh(); Application.DoEvents();
-                            using (var after = MacDrawableCapture.Capture(window.Handle))
+                            using (var after = MacDrawableCapture.CaptureClient(window))
                             {
                                 after.Save(Path.Combine(Path.GetDirectoryName(screenshotPath), "xquartz-native-after-input.png"), ImageFormat.Png);
                                 Require(Near(after.GetPixel(99, 155), Color.Purple), "Actual mapped drawable did not repaint after real pointer input.");
