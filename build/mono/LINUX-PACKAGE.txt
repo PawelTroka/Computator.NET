@@ -9,15 +9,15 @@ supported build baseline is recorded in mono-package.json. Native libraries
 from different Ubuntu versions are not interchangeable (in particular libtiff).
 This package does not claim support for other Linux distributions or ARM CPUs.
 
-Runtime prerequisites on Ubuntu 24.04:
+Runtime prerequisites on Ubuntu @UBUNTU_VERSION@:
   sudo apt-get install --no-install-recommends mono-runtime \
     libmono-system-windows-forms4.0-cil libmono-system-design4.0-cil \
     libmono-system-numerics4.0-cil libmono-system-runtime-serialization4.0-cil \
     libmono-microsoft-csharp4.0-cil libmono-system-net-http4.0-cil \
     libmono-system-data4.0-cil libmono-system-xml-linq4.0-cil \
     libmono-posix4.0-cil \
-    libpangocairo-1.0-0 libcairo2 libjpeg-turbo8 libtiff6 libgif7 libpng16-16t64 \
-    libexif12 libx11-6 libxtst6 libxinerama1 libcups2t64 fonts-dejavu-core
+    libpangocairo-1.0-0 libcairo2 libjpeg-turbo8 @TIFF_PACKAGE@ libgif7 @PNG_PACKAGE@ \
+    libexif12 libx11-6 libxtst6 libxinerama1 @CUPS_PACKAGE@ fonts-dejavu-core
 
 Mono 6.8 or later, its Framework runtime assemblies, and a working X11/XWayland
 desktop are required. Run as your normal desktop user. A Wayland session needs
