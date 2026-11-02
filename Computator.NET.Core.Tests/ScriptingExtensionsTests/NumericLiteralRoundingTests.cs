@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using System.Text;
 using Computator.NET.Core.Evaluation;
+using Computator.NET.Core.Functions;
 using Computator.NET.DataTypes;
 using NUnit.Framework;
 
@@ -10,6 +11,7 @@ namespace Computator.NET.Core.Tests.ScriptingExtensionsTests
     [TestFixture, NonParallelizable]
     public class NumericLiteralRoundingTests
     {
+        private sealed class GeneratedSourceScript : ScriptEvaluator { protected override bool UsePrecompiledBuiltins => false; }
         [TestCase("8.88024331", 0x4021c2af4049f211L)]
         [TestCase("8.88024331e0", 0x4021c2af4049f211L)]
         [TestCase("888024331E-8", 0x4021c2af4049f211L)]
@@ -54,6 +56,15 @@ namespace Computator.NET.Core.Tests.ScriptingExtensionsTests
                     NUnit.Framework.Assert.Throws<FormatException>(() => text.FromMathString(), text);
                 var output = new StringBuilder();
                 new ScriptEvaluator().Evaluate("write(System.BitConverter.DoubleToInt64Bits(\"8.88024331\".FromMathString()).ToString(\"x16\"));", "")
+                    .Evaluate(text => output.Append(text));
+                NUnit.Framework.Assert.That(output.ToString(), Is.EqualTo("4021c2af4049f211"));
+                NUnit.Framework.Assert.That(BitConverter.DoubleToInt64Bits(ScriptingFunctions.convert<double>("8.88024331")), Is.EqualTo(0x4021c2af4049f211L));
+                NUnit.Framework.Assert.That(ScriptingFunctions.convert<double>("1,234"), Is.EqualTo(1234d));
+                NUnit.Framework.Assert.That(ScriptingFunctions.convert<double>("1,,2"), Is.EqualTo(12d));
+                NUnit.Framework.Assert.That(ScriptingFunctions.convert<string>("1,234"), Is.EqualTo("1,234"));
+                NUnit.Framework.Assert.Throws<InvalidCastException>(() => ScriptingFunctions.convert<int>("12"));
+                output.Clear();
+                new GeneratedSourceScript().Evaluate("write(System.BitConverter.DoubleToInt64Bits(convert<real>(\"8.88024331\")).ToString(\"x16\"));", "")
                     .Evaluate(text => output.Append(text));
                 NUnit.Framework.Assert.That(output.ToString(), Is.EqualTo("4021c2af4049f211"));
             }
