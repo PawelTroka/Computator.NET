@@ -28,7 +28,10 @@ class MacPackageContracts(unittest.TestCase):
     def setUp(self):
         temporary=tempfile.TemporaryDirectory(prefix='computator-mac-contracts-')
         self.addCleanup(temporary.cleanup)
-        self.base=Path(temporary.name)
+        # macOS /var is an alias of /private/var. The production closure queue
+        # canonicalizes each owner before resolving same-keg dependencies; the
+        # fixture and its mocked otool identities must use that same real root.
+        self.base=Path(temporary.name).resolve(strict=True)
         self.bundle=self.base/'Computator.NET.app'
         self.resources=self.bundle/'Contents/Resources'
         for name in common.REQUIRED_APP:
