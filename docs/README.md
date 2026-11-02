@@ -21,6 +21,7 @@ Start with the task you want to complete. The entry-point guides describe the cu
 | --- | --- |
 | [Function powers](FUNCTION-POWERS.md) | Mathematical power notation, disambiguation and compiler behavior |
 | [Shared portable scientific services](followups/PORTABLE-SCIENCE.md) | Shared matrix/numerical implementations and strict CLI input contracts |
+| [Ordinary differential equations](followups/ORDINARY-DIFFERENTIAL-EQUATIONS.md) | Scalar and coupled initial-value problems with fixed-step RK4 |
 | [Built-in function reference](FUNCTION-REFERENCE.md) | Authoring, generation, article identities and validation |
 | [Reference equations and diagrams](REFERENCE-EQUATIONS.md) | Typesetting, figures and rendering contracts |
 | [Numerical reference integration](NUMERICAL-REFERENCE-INTEGRATION.md) | Integration evidence and remaining reference scope |
