@@ -27,22 +27,19 @@ internal static partial class Program
 {
     private static void RuntimeFactorySidecars()
     {
-        // A unique hint matches only sidecars, making the old loader fail
-        // deterministically rather than depending on directory enumeration order.
-        var hint = "MonoChartingSidecarRegression-" + Guid.NewGuid().ToString("N");
-        var paths = new[] { ".pdb", ".dll.config" }.Select(extension =>
-            Path.Combine(Computator.NET.DataTypes.Configuration.AppInformation.Directory, hint + extension)).ToArray();
+        // The installed package is read-only. Discovery fixtures belong to an
+        // isolated application domain/directory, never beside installed DLLs.
+        var directory = Path.Combine(Path.GetTempPath(), "computator-mono-sidecars-" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(directory);
+        var source = Path.GetDirectoryName(typeof(Computator.NET.Charting.ChartFactory).Assembly.Location);
+        var domain = AppDomain.CreateDomain("Computator.NET.Mono.SidecarFixture", null, new AppDomainSetup
+        { ApplicationBase = directory, ConfigurationFile = typeof(Program).Assembly.Location + ".config" });
         try
         {
-            foreach (var path in paths) File.WriteAllText(path, "Not a managed assembly.");
-            var fallback = RuntimeObjectFactory.CreateInstance<Computator.NET.DataTypes.Charts.IChartFactory>(hint);
-            Check(fallback != null, "Ignoring debug sidecars must retain the real chart-factory fallback.");
-            Same(fallback.GetType().Assembly, typeof(Computator.NET.Charting.ChartFactory).Assembly,
-                "Runtime discovery must select the production chart factory.");
-            var hinted = RuntimeObjectFactory.CreateInstance<Computator.NET.DataTypes.Charts.IChartFactory>("Charting");
-            Check(hinted is Computator.NET.Charting.ChartFactory, "The ordinary Charting assembly hint stopped working.");
+            var runner = (SidecarFixtureRunner)domain.CreateInstanceFromAndUnwrap(typeof(Program).Assembly.Location, typeof(SidecarFixtureRunner).FullName);
+            runner.Verify(source);
         }
-        finally { foreach (var path in paths) if (File.Exists(path)) File.Delete(path); }
+        finally { AppDomain.Unload(domain); Directory.Delete(directory, true); }
     }
 
     private static void FrameworkAdjacentValues()
@@ -400,13 +397,20 @@ internal static partial class Program
             var path = Path.Combine(directory, "document.tsl");
             var caseVariant = Path.Combine(directory, "DOCUMENT.tsl");
             File.WriteAllText(path, "original");
-            File.WriteAllText(caseVariant, "different file");
-            var error = Expect<TargetInvocationException>(() => sameFile.Invoke(null, new object[] { path, caseVariant }));
-            Check(error.InnerException is IOException, "Case-only aliases must fail visibly on Unix rather than sharing one buffer.");
+            var caseSensitive = !File.Exists(caseVariant);
+            TargetInvocationException error;
+            if (caseSensitive)
+            {
+                File.WriteAllText(caseVariant, "different file");
+                error = Expect<TargetInvocationException>(() => sameFile.Invoke(null, new object[] { path, caseVariant }));
+                Check(error.InnerException is IOException, "Distinct case-only Unix files must never share one buffer.");
+            }
+            else Check((bool)sameFile.Invoke(null, new object[] { path, caseVariant }), "Case-insensitive volume aliases must reuse the same physical document.");
+            Console.WriteLine("Document fixture volume case-sensitive: " + caseSensitive);
             var baseline = capture.Invoke(null, new object[] { path });
             baseline = write.Invoke(null, new object[] { path, "saved π", baseline, null, null, null });
             Equal(File.ReadAllText(path), "saved π");
-            Equal(File.ReadAllText(caseVariant), "different file");
+            Equal(File.ReadAllText(caseVariant), caseSensitive ? "different file" : "saved π");
             File.WriteAllText(path, "external");
             error = Expect<TargetInvocationException>(() => write.Invoke(null, new object[] { path, "must not overwrite", baseline, null, null, null }));
             Check(error.InnerException is IOException, "An externally edited document must fail its save baseline check.");
@@ -422,6 +426,42 @@ internal static partial class Program
         }
         finally { Directory.Delete(directory, true); }
     }
+
+    private static void UnixDocumentIdentity()
+    {
+        var safety = typeof(TextEditorCodeEditor).Assembly.GetType("Computator.NET.Desktop.Controls.CodeEditors.DocumentFileSafety", true);
+        var capture = safety.GetMethod("Capture", BindingFlags.Static | BindingFlags.NonPublic);
+        var write = safety.GetMethod("Write", BindingFlags.Static | BindingFlags.NonPublic);
+        var same = safety.GetMethod("AreSameFile", BindingFlags.Static | BindingFlags.NonPublic);
+        var directory = Path.Combine(Path.GetTempPath(), "computator-mono-identity-" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(directory);
+        try
+        {
+            var original = Path.Combine(directory, "original.tsl");
+            var alias = Path.Combine(directory, "hardlink.tsl");
+            File.WriteAllText(original, "identical original bytes");
+            if (link(original, alias) != 0) throw new IOException("Could not create the native hard-link fixture.");
+            Check((bool)same.Invoke(null, new object[] { original, alias }), "Physical Unix aliases must share one document buffer.");
+            var baseline = capture.Invoke(null, new object[] { original });
+            var error = Expect<TargetInvocationException>(() => write.Invoke(null, new object[] { original, "must not separate aliases", baseline, null, null, null }));
+            Check(error.InnerException is IOException, "Atomic save must not silently break a Unix hard link.");
+            Equal(File.ReadAllText(original), "identical original bytes");
+            Equal(File.ReadAllText(alias), "identical original bytes");
+            File.Delete(alias);
+            baseline = capture.Invoke(null, new object[] { original });
+            var replacement = Path.Combine(directory, "replacement.tsl");
+            File.WriteAllText(replacement, "identical original bytes");
+            File.Move(original, alias);
+            File.Move(replacement, original);
+            error = Expect<TargetInvocationException>(() => write.Invoke(null, new object[] { original, "must not overwrite replacement", baseline, null, null, null }));
+            Check(error.InnerException is IOException, "An external same-byte inode replacement must invalidate the save baseline.");
+            Equal(File.ReadAllText(original), "identical original bytes");
+        }
+        finally { Directory.Delete(directory, true); }
+    }
+
+    [DllImport("libc", SetLastError = true, CharSet = CharSet.Ansi)]
+    private static extern int link(string target, string linkPath);
 
     [DllImport("libc", SetLastError = true, CharSet = CharSet.Ansi)]
     private static extern int symlink(string target, string linkPath);

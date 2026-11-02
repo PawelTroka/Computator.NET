@@ -2,7 +2,7 @@
 
 **Cake is active, not retired.** `build.cake`, `build.ps1`, `build.cmd` and `build.sh` are the current build entry points. GitHub Actions, AppVeyor and Travis select tasks from the same Cake graph. The test/result and published-process helpers under `build/` are leaf checks; there is no second PowerShell build orchestrator. See [BUILD.md](BUILD.md).
 
-The active Windows project sets in `.sln` and `.slnx` match. `Computator.NET.Portable.slnx` builds the extracted engine/CLI separately. The following paths retain explicit boundaries:
+`Computator.NET.slnx` is the single developer solution and includes the portable engine/CLI. The opt-in Mono probes are linked for discovery and built through their explicit Cake targets. The following paths retain explicit boundaries:
 
 | Path | Explicit boundary |
 | --- | --- |
@@ -15,7 +15,7 @@ The active Windows project sets in `.sln` and `.slnx` match. `Computator.NET.Por
 
 `Build-Installer` now builds MSI and Burn after explicit WiX 7 terms acceptance. `Build-Uwp` forwards to `Build-MSIX`, packaging the existing full-trust WinForms/WPF application with its original Store identity. `MSIX-Validate` performs Windows SDK validation and payload hash checks, producing an unsigned candidate. These targets share a self-contained win-x64 payload and do not sign or publish it. `Package`/`Publish` continue to create portable desktop/API/web ZIPs.
 
-Only `Install-Linux` remains deliberately disabled: no machine-wide Mono installation is provided. The reduced Mono target is built separately with `ComputatorMono=true`; it excludes WPF 3D and the advanced Windows editors. The portable engine/CLI and independent web host continue to use modern .NET on supported non-Windows runners. Reviewed GSL 2.8 is staged in normal Windows packages; development outputs without it retain the embedded legacy fallback. The Mono build instead uses the host's GSL shared libraries. See [native acceptance](followups/GSL-ADOPTION.md).
+Only `Install-Linux` remains deliberately disabled: no machine-wide Mono installation is provided. The Mono target is built separately with `ComputatorMono=true`; it excludes WPF and the advanced Windows editors, with an explicit software 3D renderer. `Mono-Linux-Package` provides a runtime-dependent archive and per-user desktop integration, including source-pinned GSL 2.8 and private libgdiplus. Raw development output still uses the host's native loader configuration. The portable engine/CLI and independent web host continue to use modern .NET. Reviewed GSL 2.8 is staged in normal Windows packages; development outputs without it retain the embedded legacy fallback. See [Mono distribution](MONO-DESKTOP.md) and [native acceptance](followups/GSL-ADOPTION.md).
 
 Installer compilation and unsigned MSIX validation are recorded separately from installation certification. The guarded `Installer-Validate` and `MSIX-Lifecycle` harnesses require disposable machines; owner signing, old-product upgrade/rollback and Store activation tests remain release work. See [RELEASE-3.0.md](RELEASE-3.0.md).
 

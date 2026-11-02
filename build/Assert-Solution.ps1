@@ -16,7 +16,7 @@ try {
     $historical = @('Computator.NET/Computator.NET.net40.csproj', 'Computator.NET.Desktop.UITests/Computator.NET.Desktop.UITests.csproj')
     # These active probes require the explicit ComputatorMono=true graph and
     # belong to Mono-Validate, rather than the default Windows solution build.
-    $monoProbes = @('build/mono/SmokeTests/Computator.NET.Mono.SmokeTests.csproj', 'build/mono/StartupProbe/Computator.NET.Mono.StartupProbe.csproj')
+    $monoProbes = @('build/mono/SmokeTests/Computator.NET.Mono.SmokeTests.csproj', 'build/mono/StartupProbe/Computator.NET.Mono.StartupProbe.csproj', 'build/mono/Preflight/Computator.NET.Mono.Preflight.csproj')
     $outsideDefaultBuild = $historical + $monoProbes
     $expected = @($tracked | Where-Object { $_.EndsWith('.csproj') -and $_ -notin $outsideDefaultBuild })
     $difference = @(Compare-Object ($expected | Sort-Object) ($projects | Sort-Object))
