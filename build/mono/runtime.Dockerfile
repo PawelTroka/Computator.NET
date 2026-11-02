@@ -4,8 +4,8 @@ FROM ubuntu:${UBUNTU_VERSION}
 ARG UBUNTU_VERSION
 RUN apt-get update && \
     case "$UBUNTU_VERSION" in \
-      22.04) codecs='libtiff5 libpng16-16' ;; \
-      24.04) codecs='libtiff6 libpng16-16t64' ;; \
+      22.04) codecs='libtiff5 libpng16-16 libcups2' ;; \
+      24.04) codecs='libtiff6 libpng16-16t64 libcups2t64' ;; \
       *) exit 2 ;; \
     esac && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
