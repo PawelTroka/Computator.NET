@@ -191,8 +191,7 @@ class PackageContracts(unittest.TestCase):
                            COMPUTATOR_INSTALL_TEST_MARKER=str(marker))
         subprocess.run(['sh', str(install / 'bin/install-desktop-entry')], env=environment, check=True, capture_output=True)
         entry = data / 'applications/computator-net.desktop'
-        # Test argument parsing without requiring a particular terminal emulator.
-        entry.write_text(entry.read_text().replace('Terminal=true', 'Terminal=false'))
+        self.assertIn('Terminal=false', entry.read_text(), 'Desktop menu launch must not require a terminal emulator.')
         # The launched fixture only records its own path into this test directory.
         with mock.patch.dict(os.environ, HOME=environment['HOME'], XDG_DATA_HOME=str(data),
                              XDG_CACHE_HOME=str(self.base / 'cache'),
