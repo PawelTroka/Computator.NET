@@ -12,6 +12,21 @@ namespace Computator.NET.Desktop.Services
         // fonts instead, reserving a usable width for each numeric input.
         internal static void ConfigureNumericGroup(GroupBox group, TableLayoutPanel table)
         {
+            // Docking against the old row styles can immediately undo the
+            // requested input height before it is measured below. Apply the
+            // complete grid in one layout transaction.
+            group.SuspendLayout();
+            table.SuspendLayout();
+            try { ConfigureNumericGroupCore(group, table); }
+            finally
+            {
+                table.ResumeLayout(true);
+                group.ResumeLayout(true);
+            }
+        }
+
+        private static void ConfigureNumericGroupCore(GroupBox group, TableLayoutPanel table)
+        {
             group.AutoSize = false;
             table.AutoSize = false;
             table.Dock = DockStyle.Fill;
@@ -20,16 +35,19 @@ namespace Computator.NET.Desktop.Services
             var minimumInputWidth = new Size(100, 0).DpiScale().Width;
             foreach (Control control in table.Controls)
             {
+                var minimumHeight = 0;
                 if (control is NumericUpDown number)
                 {
-                    var minimumHeight = Math.Max(number.PreferredHeight, number.Font.Height + 7);
+                    minimumHeight = Math.Max(number.PreferredHeight, number.Font.Height + 7);
                     number.AutoSize = false;
+                    // Mono's UpDownBase discards MinimumSize.Height. The row
+                    // must reserve the actual font height independently.
                     number.MinimumSize = new Size(minimumInputWidth, minimumHeight);
                     number.Size = new Size(Math.Max(minimumInputWidth, number.Width), minimumHeight);
                     number.Dock = DockStyle.Fill;
                 }
                 var width = control is Label ? control.PreferredSize.Width : control.Width;
-                var height = control is Label ? control.PreferredSize.Height : control.Height;
+                var height = control is Label ? control.PreferredSize.Height : Math.Max(control.Height, minimumHeight);
                 var column = table.GetColumn(control);
                 var row = table.GetRow(control);
                 if (column >= 0) widths[column] = Math.Max(widths[column], width + control.Margin.Horizontal);
