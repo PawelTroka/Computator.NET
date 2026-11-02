@@ -6,6 +6,7 @@ from pathlib import Path
 import stat
 import tempfile
 import unittest
+from unittest import mock
 import zipfile
 
 
@@ -119,6 +120,49 @@ class MacPackageContracts(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'new output'):
             mac.extract_bundle(archive,self.bundle)
         self.assertEqual(b'bootstrap fixture',(self.bundle/'Contents/MacOS/Computator.NET').read_bytes())
+
+    def test_self_install_id_is_not_traversed_but_real_load_commands_are(self):
+        commands='''/private/build/libprobe.dylib:
+Load command 0
+          cmd LC_ID_DYLIB
+      cmdsize 64
+         name @rpath/libprobe.1.dylib (offset 24)
+Load command 1
+          cmd LC_LOAD_DYLIB
+      cmdsize 64
+         name @rpath/libdependency.2.dylib (offset 24)
+Load command 2
+          cmd LC_LOAD_WEAK_DYLIB
+      cmdsize 64
+         name /usr/lib/libSystem.B.dylib (offset 24)
+'''
+        with mock.patch.object(mac,'run',return_value=commands):
+            self.assertEqual(['@rpath/libdependency.2.dylib','/usr/lib/libSystem.B.dylib'],mac.dependencies(Path('/private/build/libprobe.dylib')))
+            self.assertEqual(['@rpath/libprobe.1.dylib'],mac.command_names(Path('/private/build/libprobe.dylib'),{'LC_ID_DYLIB'}))
+
+    def test_same_keg_fallback_requires_matching_real_install_identity(self):
+        directory=self.base/'Cellar/brotli/1.2.1/lib'
+        directory.mkdir(parents=True)
+        owner=directory/'libbrotlidec.1.2.1.dylib';owner.write_bytes(b'owner')
+        sibling=directory/'libbrotlicommon.1.dylib';sibling.write_bytes(b'sibling')
+        def commands(*args):
+            if str(sibling)==args[-1]:
+                return 'library:\nLoad command 0\n cmd LC_ID_DYLIB\n name @rpath/libbrotlicommon.1.dylib (offset 24)\n'
+            return 'library:\nLoad command 0\n cmd LC_SEGMENT_64\n'
+        with mock.patch.object(mac,'run',side_effect=commands):
+            self.assertEqual(sibling.resolve(),mac.resolve_dependency('@rpath/libbrotlicommon.1.dylib',owner))
+        with mock.patch.object(mac,'run',return_value='library:\nLoad command 0\n cmd LC_ID_DYLIB\n name @rpath/WRONG-ABI.dylib (offset 24)\n'):
+            with self.assertRaisesRegex(ValueError,'one explicit installed ABI'):
+                mac.resolve_dependency('@rpath/libbrotlicommon.1.dylib',owner)
+
+    def test_runpath_ambiguity_does_not_guess_a_host_library(self):
+        first=self.base/'first';second=self.base/'second'
+        for directory in (first,second):
+            directory.mkdir();(directory/'libprobe.1.dylib').write_bytes(b'different installed file')
+        commands=f'library:\nLoad command 0\n cmd LC_RPATH\n path {first} (offset 12)\nLoad command 1\n cmd LC_RPATH\n path {second} (offset 12)\n'
+        with mock.patch.object(mac,'run',return_value=commands):
+            with self.assertRaisesRegex(ValueError,'one explicit installed ABI'):
+                mac.resolve_dependency('@rpath/libprobe.1.dylib',self.base/'owner.dylib')
 
 
 if __name__=='__main__':
