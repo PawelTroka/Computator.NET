@@ -5,6 +5,7 @@ Run natively after Mono-Mac-Validate. Mono and XQuartz are prerequisites; all
 non-system drawing/numerical dylibs are copied, relocated and inventoried.
 """
 import argparse
+import datetime
 import hashlib
 import json
 import os
@@ -233,20 +234,25 @@ def copy_closure(selected, target, architecture):
     for source in libraries:
         shutil.copy2(source, target / source.name)
         (target / source.name).chmod(0o755)
+    x11=next((source for source in libraries if source.name.startswith('libX11.')),None)
+    if x11 is not None:
+        signing_layout_probe(x11,architecture)
     provenance = []
     for source, links in libraries.items():
         copied = target / source.name
-        subprocess.run(["codesign", "--remove-signature", str(copied)], check=False,
-                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        subprocess.run(["install_name_tool", "-id", "@loader_path/" + copied.name, str(copied)], check=True)
+        # Edit intact signed Mach-O inputs. Removing the signature first can
+        # leave a LINKEDIT layout gap rejected by Apple's install_name_tool.
+        # Its documented signed-input path warns/updates the old signature;
+        # replace it with the new ad-hoc integrity signature after ALL edits.
+        edit=["install_name_tool", "-id", "@loader_path/" + copied.name]
         for link in links:
             dependency = resolve_dependency(link, source)
             if dependency is not None:
-                subprocess.run(["install_name_tool", "-change", link,
-                                "@loader_path/" + dependency.name, str(copied)], check=True)
+                edit.extend(["-change",link,"@loader_path/"+dependency.name])
         original_rpaths=load_rpaths(source)
         for search in dict.fromkeys(original_rpaths):
-            subprocess.run(['install_name_tool','-delete_rpath',search,str(copied)],check=True)
+            edit.extend(['-delete_rpath',search])
+        subprocess.run([*edit,str(copied)],check=True)
         # Apple Silicon requires valid code signatures after modifying Mach-O.
         # This is local integrity signing with no owner identity or notarization.
         subprocess.run(["codesign", "--force", "--sign", "-", "--timestamp=none", str(copied)], check=True)
@@ -266,6 +272,38 @@ def copy_closure(selected, target, architecture):
                                                    for link in links if resolve_dependency(link,source) is not None],
                            "originalDependencies": links, "packagedDependencies": dependencies(copied)})
     return provenance
+
+
+def signing_layout_probe(source,architecture):
+    """Retain actual Apple-tool before/after evidence for the observed gap."""
+    output=ROOT/'artifacts/macos'/('relocation-'+architecture)
+    output.mkdir(parents=True,exist_ok=True)
+    report={'schemaVersion':1,'scope':'native-copied-Mach-O-signature-layout-diagnostic',
+            'source':str(source),'sourceSha256':sha(source),'cases':[],
+            'tools':run('xcodebuild','-version')}
+    with tempfile.TemporaryDirectory(prefix='computator-relocation-') as temporary:
+        for stripped in (False,True):
+            copied=Path(temporary)/('stripped.dylib' if stripped else 'intact.dylib')
+            shutil.copy2(source,copied);copied.chmod(0o755)
+            case={'strippedBeforeEditing':stripped,'originalHeader':run('otool','-l',str(copied))}
+            if stripped:
+                remove=subprocess.run(['codesign','--remove-signature',str(copied)],text=True,capture_output=True)
+                case['removeSignature']={'exitCode':remove.returncode,'stdout':remove.stdout,'stderr':remove.stderr}
+            edit=subprocess.run(['install_name_tool','-id','@loader_path/'+source.name,str(copied)],text=True,capture_output=True)
+            case['edit']={'exitCode':edit.returncode,'stdout':edit.stdout,'stderr':edit.stderr}
+            if edit.returncode==0:
+                sign=subprocess.run(['codesign','--force','--sign','-','--timestamp=none',str(copied)],text=True,capture_output=True)
+                verify=subprocess.run(['codesign','--verify','--strict',str(copied)],text=True,capture_output=True)
+                case['replaceAndVerify']={'signExitCode':sign.returncode,'verifyExitCode':verify.returncode,
+                                          'signError':sign.stderr,'verifyError':verify.stderr}
+            report['cases'].append(case)
+    report_path=output/(datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S.%fZ')+'.json')
+    report_path.write_text(json.dumps(report,indent=2)+'\n')
+    first=report['cases'][0]
+    if (first['edit']['exitCode']!=0 or first.get('replaceAndVerify',{}).get('signExitCode')!=0
+            or first.get('replaceAndVerify',{}).get('verifyExitCode')!=0):
+        raise ValueError('Intact signed Mach-O edit/re-sign failed; inspect the retained native tool diagnostic '+str(report_path))
+    print('Native intact Mach-O relocation/signature diagnostic passed:',report_path)
 
 
 def retain_sources(provenance, prepared, resources):
