@@ -1,4 +1,4 @@
-name: Diagnostic native Mono subprocess streams
+name: Diagnostic native Mono writer lifecycle comparison
 on:
   workflow_dispatch:
   push:
@@ -29,15 +29,12 @@ jobs:
         run: |
           test "$(uname -m)" = arm64
           brew list --versions mono >/dev/null 2>&1 || brew install mono
-          prefix=$(brew --prefix mono)
           mkdir -p artifacts/native-tool-discriminator/evidence
           mkdir -p artifacts/macos/package/Release/acceptance-osx-arm64-20261102T234145Z-21787/harness
-          "$prefix/bin/mcs" -nologo -out:artifacts/macos/package/Release/acceptance-osx-arm64-20261102T234145Z-21787/harness/NativeToolProcessTests.exe \
-            build/mono/NativeToolProcess.cs build/mono/NativeToolProcessTests.cs
-      - name: Collect all paired exits and complete streams under unchanged assertions
+      - name: Compare Task control and joined writer with unchanged assertions
         run: |
           python3 - <<'PY'
-          import hashlib,json,os,pathlib,platform,subprocess,time
+          import hashlib,json,os,pathlib,platform,re,subprocess,time,urllib.request
           root=pathlib.Path('artifacts/native-tool-discriminator').resolve()
           evidence=root/'evidence'
           original_layout=pathlib.Path('artifacts/macos/package/Release/acceptance-osx-arm64-20261102T234145Z-21787').resolve()
@@ -69,6 +66,26 @@ jobs:
               'gacSystemCore':[file_identity(path) for path in sorted((prefix/'lib/mono/gac/System.Core').glob('*/System.Core.dll'))],
               'fullVersion':full_version}
           (evidence/'native-runtime-identity.json').write_text(json.dumps(runtime_identity,indent=2)+'\n')
+          old_commit='692160a68db14db9b7a5eb065ec0976508470958'
+          old_sha='92c62af6b046b7612f0d1af0a3f2ea7dd1098ccd1d2ead13c5febccd9a60f138'
+          joined_sha='8fd6627b4855bf2c2bf7df481031f7dae85d69613d2830e81bccb8bc3e6de554'
+          with urllib.request.urlopen('https://raw.githubusercontent.com/PawelTroka/Computator.NET/'+old_commit+'/build/mono/NativeToolProcessTests.cs',timeout=30) as response:
+              old_source=response.read(128*1024+1)
+          joined_source=pathlib.Path('build/mono/NativeToolProcessTests.cs').read_bytes()
+          if len(old_source)>128*1024 or hashlib.sha256(old_source).hexdigest()!=old_sha or hashlib.sha256(joined_source).hexdigest()!=joined_sha:
+              raise SystemExit('The paired fixture sources differ from the immutable reviewed versions.')
+          unchanged=b'            if (args[0] == "--environment")'
+          if old_source[old_source.index(unchanged):]!=joined_source[joined_source.index(unchanged):]:
+              raise SystemExit('Assertions, payload evidence, deadlines and other contracts must remain byte-identical.')
+          variants=[]
+          for label,source_bytes in (('task-control',old_source),('joined',joined_source)):
+              directory=original_layout/'harness'/label;directory.mkdir()
+              source_path=directory/'NativeToolProcessTests.cs';source_path.write_bytes(source_bytes)
+              driver=directory/'NativeToolProcessTests.exe'
+              subprocess.run([str(prefix/'bin/mcs'),'-nologo','-out:'+str(driver),'build/mono/NativeToolProcess.cs',str(source_path)],check=True,timeout=30)
+              variants.append((label,driver))
+          driver_identities={label:{'source':file_identity(driver.with_suffix('.cs')),'binary':file_identity(driver)} for label,driver in variants}
+          (evidence/'driver-identities.json').write_text(json.dumps(driver_identities,indent=2)+'\n')
           environment=os.environ.copy()
           for name in ('COMPUTATOR_GITHUB_TOKEN','GITHUB_TOKEN','GH_TOKEN','COMPUTATOR_GSL_DIRECTORY','MONO_CFG_DIR','MONO_ENV_OPTIONS','MONO_GAC_PREFIX','MONO_PATH','DYLD_PRINT_LIBRARIES','DYLD_LIBRARY_PATH','DYLD_FALLBACK_LIBRARY_PATH','DYLD_FRAMEWORK_PATH','DYLD_FALLBACK_FRAMEWORK_PATH','DYLD_INSERT_LIBRARIES','MONO_WINFORMS_XIM_STYLE'):
               environment.pop(name,None)
@@ -80,35 +97,61 @@ jobs:
           with (evidence/'prepare.log').open('wb') as output:
               subprocess.run([str(mono),str(resources/'app/Computator.NET.Mono.Preflight.exe'),'prepare','--package-root',str(resources),'--config',str(config)],env=environment,stdout=output,stderr=subprocess.STDOUT,check=True,timeout=90)
           subprocess.run(['chmod','-R','a-w',str(bundle)],check=True)
-          driver=original_layout/'harness/NativeToolProcessTests.exe'
+          common=environment.copy();common['MONO_PATH']=str(resources/'app')
+          expected_stdout='o'*(512*1024)+'stdout complete\n'
+          expected_stderr='e'*(512*1024)+'stderr complete\n'
+          shutdown=re.compile(r'(?:abort_threads: Failed aborting id: 0x[0-9a-fA-F]+, mono_thread_manage will ignore it\n\n)+\Z')
+          success='Native-tool process contracts: simultaneous stdout/stderr floods, child-only trace isolation, retained exit failure, bounded timeout and maximum deadline passed.'
           results=[]
           for ordinal in range(1,65):
-              for label,path in (('original',str(resources/'app')+':'+str(resources/'app/Facades')),('existing-only',str(resources/'app'))):
+              order=variants if ordinal%2 else list(reversed(variants))
+              for label,driver in order:
                   directory=evidence/f'{ordinal:02d}-{label}';directory.mkdir()
-                  child=environment.copy();child['MONO_PATH']=path
                   started=time.monotonic()
                   with (directory/'driver.stdout.log').open('wb') as output,(directory/'driver.stderr.log').open('wb') as error:
                       try:
-                          process=subprocess.run([str(mono),'--config',str(config),str(driver),str(mono),str(directory)],env=child,stdout=output,stderr=error,timeout=15)
+                          process=subprocess.run([str(mono),'--config',str(config),str(driver),str(mono),str(directory)],env=common,stdout=output,stderr=error,timeout=15)
                           code=process.returncode
                       except subprocess.TimeoutExpired:code='external-timeout'
-                  result={'ordinal':ordinal,'environment':label,'monoPath':path,'exitCode':code,'elapsedSeconds':round(time.monotonic()-started,3)}
+                  def read(name):
+                      path=directory/name
+                      return path.read_text(encoding='utf-8-sig',errors='replace') if path.is_file() else None
+                  actual_stdout,actual_stderr=read('flood.stdout.log'),read('flood.stderr.log')
+                  index=actual_stdout.find(expected_stdout) if actual_stdout is not None else -1
+                  suffix=actual_stdout[index+len(expected_stdout):] if index>=0 else None
+                  outer_stdout,outer_stderr=read('driver.stdout.log') or '',read('driver.stderr.log') or ''
+                  result={'ordinal':ordinal,'variant':label,'monoPath':common['MONO_PATH'],'exitCode':code,'elapsedSeconds':round(time.monotonic()-started,3),
+                      'stdoutPayloadIndex':index,'stdoutPayloadCount':actual_stdout.count(expected_stdout) if actual_stdout is not None else 0,
+                      'stdoutExact':actual_stdout==expected_stdout,'stderrExact':actual_stderr==expected_stderr,
+                      'stdoutSuffixCharacters':len(suffix) if suffix is not None else None,'stdoutSuffixPreview':suffix[-1024:] if suffix is not None else None,
+                      'runtimeShutdownSuffix':bool(suffix and shutdown.fullmatch(suffix)),
+                      'allFiveContractsPassed':code==0 and success in outer_stdout,
+                      'failedStdoutSuffixAssertion':'Complete stdout was not drained.' in outer_stderr,
+                      'outerDriverShutdownWarnings':outer_stdout.count('abort_threads: Failed aborting id:')}
                   results.append(result);print(json.dumps(result),flush=True)
           subprocess.run(['python3','build/macos/package.py','--verify','--output',str(bundle)],check=True)
-          report={'scope':'paired native process-stream diagnosis only; no GUI or release acceptance','inputArtifactId':13188499979,'inputSource':manifest['source'],
+          control=[item for item in results if item['variant']=='task-control']
+          joined=[item for item in results if item['variant']=='joined']
+          def exact_pass(item):return item['allFiveContractsPassed'] and item['stdoutExact'] and item['stderrExact']
+          reproduced=[item for item in control if item['exitCode']==1 and item['failedStdoutSuffixAssertion'] and item['stdoutPayloadIndex']==0 and item['stdoutPayloadCount']==1 and item['stderrExact'] and item['runtimeShutdownSuffix']]
+          unexpected_control=[item for item in control if not exact_pass(item) and item not in reproduced]
+          proved=len(control)==len(joined)==64 and bool(reproduced) and not unexpected_control and all(exact_pass(item) for item in joined)
+          report={'scope':'controlled writer-lifecycle comparison only; no GUI or release acceptance','inputArtifactId':13188499979,'inputSource':manifest['source'],
               'inputArchiveSha256':expected,'inputArchiveSize':archive.stat().st_size,'inputPackageAccepted':False,
               'diagnosticCommit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
-              'nativeToolProcessSha256':hashlib.sha256(helper).hexdigest(),'instrumentedDriverSha256':hashlib.sha256(pathlib.Path('build/mono/NativeToolProcessTests.cs').read_bytes()).hexdigest(),
+              'nativeToolProcessSha256':hashlib.sha256(helper).hexdigest(),'taskControlCommit':old_commit,'driverIdentities':driver_identities,
               'host':{'osVersion':subprocess.check_output(['sw_vers','-productVersion'],text=True).strip(),'osBuild':subprocess.check_output(['sw_vers','-buildVersion'],text=True).strip(),'machine':platform.machine()},
               'mono':str(mono),'monoVersion':full_version.splitlines()[0],'runtimeIdentity':runtime_identity,
-              'facadesDirectoryExists':(resources/'app/Facades').is_dir(),'attempts':results,'allAttemptsPassed':all(item['exitCode']==0 for item in results)}
-          (evidence/'paired-streams.json').write_text(json.dumps(report,indent=2)+'\n')
-          if not report['allAttemptsPassed']:raise SystemExit('At least one unchanged native process contract failed; all paired evidence is retained.')
+              'facadesDirectoryExists':(resources/'app/Facades').is_dir(),'attempts':results,
+              'taskControlReproducedSuffixFailures':len(reproduced),'unexpectedTaskControlOutcomes':len(unexpected_control),
+              'joinedAllFiveContractsPassed':sum(exact_pass(item) for item in joined),'causalComparisonPassed':proved}
+          (evidence/'writer-comparison.json').write_text(json.dumps(report,indent=2)+'\n')
+          if not proved:raise SystemExit('Causal criterion not established: control must reproduce complete-payload shutdown suffixes and all64joined variants must pass unchanged contracts. All evidence is retained.')
           PY
       - name: Retain only bounded diagnostic reports and streams
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
-          name: mono-native-tool-paired-arm64
+          name: mono-native-tool-causal-arm64
           path: artifacts/native-tool-discriminator/evidence/**
           retention-days: 7
