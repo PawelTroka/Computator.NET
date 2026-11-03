@@ -2,7 +2,7 @@ name: Diagnostic native Mono subprocess streams
 on:
   workflow_dispatch:
   push:
-    branches: [feature/mono-native-tool-diagnostic]
+    branches: [feature/mono-native-tool-stress]
 permissions:
   contents: read
   actions: read
@@ -12,7 +12,7 @@ concurrency:
 jobs:
   paired-arm64-streams:
     runs-on: macos-15
-    timeout-minutes: 30
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -58,6 +58,17 @@ jobs:
               raise SystemExit('Unexpected failed-package source identity.')
           prefix=pathlib.Path(subprocess.check_output(['brew','--prefix','mono'],text=True).strip())
           mono=prefix/'bin/mono'
+          def file_identity(path):
+              real=path.resolve(strict=True)
+              checksum=hashlib.sha256()
+              with real.open('rb') as stream:
+                  for block in iter(lambda:stream.read(1024*1024),b''):checksum.update(block)
+              return {'path':str(path),'realPath':str(real),'bytes':real.stat().st_size,'sha256':checksum.hexdigest()}
+          full_version=subprocess.check_output([str(mono),'--version'],text=True)
+          runtime_identity={'executable':file_identity(mono),'mscorlib':file_identity(prefix/'lib/mono/4.5/mscorlib.dll'),
+              'gacSystemCore':[file_identity(path) for path in sorted((prefix/'lib/mono/gac/System.Core').glob('*/System.Core.dll'))],
+              'fullVersion':full_version}
+          (evidence/'native-runtime-identity.json').write_text(json.dumps(runtime_identity,indent=2)+'\n')
           environment=os.environ.copy()
           for name in ('COMPUTATOR_GITHUB_TOKEN','GITHUB_TOKEN','GH_TOKEN','COMPUTATOR_GSL_DIRECTORY','MONO_CFG_DIR','MONO_ENV_OPTIONS','MONO_GAC_PREFIX','MONO_PATH','DYLD_PRINT_LIBRARIES','DYLD_LIBRARY_PATH','DYLD_FALLBACK_LIBRARY_PATH','DYLD_FRAMEWORK_PATH','DYLD_FALLBACK_FRAMEWORK_PATH','DYLD_INSERT_LIBRARIES','MONO_WINFORMS_XIM_STYLE'):
               environment.pop(name,None)
@@ -71,7 +82,7 @@ jobs:
           subprocess.run(['chmod','-R','a-w',str(bundle)],check=True)
           driver=original_layout/'harness/NativeToolProcessTests.exe'
           results=[]
-          for ordinal in range(1,9):
+          for ordinal in range(1,65):
               for label,path in (('original',str(resources/'app')+':'+str(resources/'app/Facades')),('existing-only',str(resources/'app'))):
                   directory=evidence/f'{ordinal:02d}-{label}';directory.mkdir()
                   child=environment.copy();child['MONO_PATH']=path
@@ -89,7 +100,7 @@ jobs:
               'diagnosticCommit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
               'nativeToolProcessSha256':hashlib.sha256(helper).hexdigest(),'instrumentedDriverSha256':hashlib.sha256(pathlib.Path('build/mono/NativeToolProcessTests.cs').read_bytes()).hexdigest(),
               'host':{'osVersion':subprocess.check_output(['sw_vers','-productVersion'],text=True).strip(),'osBuild':subprocess.check_output(['sw_vers','-buildVersion'],text=True).strip(),'machine':platform.machine()},
-              'mono':str(mono),'monoVersion':subprocess.check_output([str(mono),'--version'],text=True).splitlines()[0],
+              'mono':str(mono),'monoVersion':full_version.splitlines()[0],'runtimeIdentity':runtime_identity,
               'facadesDirectoryExists':(resources/'app/Facades').is_dir(),'attempts':results,'allAttemptsPassed':all(item['exitCode']==0 for item in results)}
           (evidence/'paired-streams.json').write_text(json.dumps(report,indent=2)+'\n')
           if not report['allAttemptsPassed']:raise SystemExit('At least one unchanged native process contract failed; all paired evidence is retained.')
