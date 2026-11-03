@@ -33,10 +33,10 @@ class NormalLaunchContracts(unittest.TestCase):
                 launch.select_windows(dict(self.snapshot, **mutation), 42)
 
     def test_foreign_or_duplicate_window_is_rejected(self):
-        for key, value in (('ownerPid', 99), ('xid', 600)):
+        for key, value, message in (('ownerPid', 99, 'unowned window'), ('xid', 600, 'duplicate window identifiers')):
             snapshot = copy.deepcopy(self.snapshot)
             snapshot['windows'][1][key] = value
-            with self.subTest(key=key), self.assertRaises(RuntimeError):
+            with self.subTest(key=key), self.assertRaisesRegex(RuntimeError, message):
                 launch.select_windows(snapshot, 42)
 
     def test_unmapped_splash_cannot_pass_main_window(self):

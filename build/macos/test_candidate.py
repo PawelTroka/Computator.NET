@@ -27,10 +27,12 @@ class CandidateAcceptanceContracts(unittest.TestCase):
         self.evidence = self.base/'evidence'
         (self.evidence/'normal-launch').mkdir(parents=True)
         (self.evidence/'normal-launch-image-contracts').mkdir()
+        (self.evidence/'xres-snapshot-contracts').mkdir()
         for name in ('relocated-native-runtime.json', 'native-runtime-data.json', 'launcher-preflight.json',
                      'preflight-contracts.log', 'normal-launch/normal-launch.json', 'normal-launch-contracts.log',
                      'normal-launch-image-contracts/image-contracts.json', 'mono-results.xml', 'candidate-contracts.log',
-                     'capture-process-contracts.log', 'native-tool-process-contracts.log'):
+                     'capture-process-contracts.log', 'native-tool-process-contracts.log',
+                     'xres-snapshot-contracts.log', 'xres-snapshot-contracts/xres-snapshot-contracts.json'):
             (self.evidence/name).write_text('retained actual-report fixture\n')
         self.archive = self.base/'Computator.NET-mono-osx-arm64.zip'
         self.reset()
