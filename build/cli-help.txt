@@ -49,6 +49,8 @@ EVERYDAY TARGETS
   PortableWeb-Publish Any OS: audited independent local browser preview; pass --portable-web-rid.
   PortableWeb-Validate Linux/macOS: publish, real HTTP/process and Chromium/WebKit checks.
   Solution-Validate   Windows: validate and build the complete developer solution.
+  Release-Prepare    Freeze classic .NET date/time identity once; review/commit before CI.
+  Release-Identity-Validate  Check frozen versions and release metadata contracts offline.
   Clean               Remove generated application/build/test output.
 
   WebTests is a historical alias for ApiTests. Use Web-Tests or Web-Validate

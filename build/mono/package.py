@@ -20,6 +20,9 @@ import tarfile
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / 'build/release'))
+from versioning import identity as release_identity, projected_identity
+
 MANIFEST = 'mono-package.json'
 RIDS = ('linux-x64', 'osx-x64', 'osx-arm64')
 MAX_FILES = 10000
@@ -106,11 +109,37 @@ def source_identity():
             'trackedChanges': bool(git('status', '--porcelain', '--untracked-files=no'))}
 
 
+def product_identity(root=None):
+    return release_identity(ROOT if root is None else root)
+
+
 def product_version():
-    props = ET.parse(ROOT / 'Version.props').getroot()
-    base = props.findtext('.//ComputatorBaseVersion')
-    suffix = props.findtext('.//ComputatorPrerelease')
-    return base + ('-' + suffix if suffix else '')
+    return product_identity()['productVersion']
+
+
+def verify_product_identity(metadata):
+    """Check a frozen package identity without depending on a source checkout."""
+    values = metadata.get('productIdentity')
+    fields = ('productVersion', 'assemblyVersion', 'fileVersion', 'msiVersion',
+              'msixVersion', 'macBundleVersion', 'macBundleShortVersion')
+    if (not isinstance(values, dict) or any(not isinstance(values.get(name), str) for name in fields)
+            or type(values.get('candidate')) is not bool):
+        raise ValueError('Package requires the complete frozen product identity.')
+    assembly = values['assemblyVersion']
+    if not re.fullmatch(r'(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)', assembly):
+        raise ValueError('Package assembly identity must have four canonical numeric components.')
+    base, revision = assembly.rsplit('.', 1)
+    product = values['productVersion']
+    suffix = product[len(assembly) + 1:] if product.startswith(assembly + '-') else ''
+    if product != assembly and not suffix:
+        raise ValueError('Package versions differ from the frozen product identity projections.')
+    try:
+        expected = projected_identity(base, revision, suffix, values.get('versionTimestamp', ''))
+    except ValueError as error:
+        raise ValueError('Invalid frozen product identity: ' + str(error)) from error
+    if values != expected or metadata.get('version') != product:
+        raise ValueError('Package versions differ from the frozen product identity projections.')
+    return values
 
 
 def inventory(root):
@@ -131,6 +160,7 @@ def verify(root):
     metadata = json.loads((root / MANIFEST).read_text(encoding='utf-8'))
     if metadata.get('schemaVersion') != 1:
         raise ValueError('Unsupported Mono package manifest.')
+    verify_product_identity(metadata)
     expected = {}
     total = 0
     for entry in metadata['files']:
@@ -198,6 +228,7 @@ def stage(args):
     if destination.resolve().is_relative_to(application) or application.is_relative_to(destination.resolve()):
         raise ValueError('Package output and application input must not overlap.')
     application_contract(application)
+    frozen_identity = product_identity()
     destination.mkdir(parents=True, exist_ok=True)
     copy_tree(application, destination / 'app')
     preflight = ROOT / f'build/mono/Preflight/bin/mono/{args.configuration}/net48'
@@ -213,7 +244,8 @@ def stage(args):
     with source.open('wb') as stream:
         subprocess.run(['git', '-C', str(ROOT), 'archive', '--format=tar.gz', '--prefix=Computator.NET/',
                         identity['commit']], stdout=stream, check=True)
-    metadata = {'version': product_version(), 'source': identity, 'native': {},
+    metadata = {'version': frozen_identity['productVersion'], 'productIdentity': frozen_identity,
+                'source': identity, 'native': {},
                 'application': {'files': len(list(payload_files(destination / 'app'))),
                                 'equationAssets': len(list((destination / 'app/Static/reference-equations').glob('*.png'))),
                                 'figureAssets': len(list((destination / 'app/Static/reference-figures').glob('*.png'))),

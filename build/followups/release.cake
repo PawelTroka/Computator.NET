@@ -1,9 +1,21 @@
+Task("Release-Prepare")
+    .Description("Freeze classic .NET date/time build numbers once; review and commit before candidate CI.")
+    .Does(() =>
+{
+    var args = new ProcessArgumentBuilder().Append("build/release/versioning.py --prepare");
+    var timestamp = Argument<string>("release-timestamp", null);
+    var published = Argument<string>("release-published-releases", null);
+    if (timestamp != null) args.Append("--timestamp").AppendQuoted(timestamp);
+    if (published != null) args.Append("--published-releases").AppendQuoted(published);
+    CheckedProcess("python", new ProcessSettings { Arguments = args });
+    Information("Release identity is frozen. Review and commit Version.props and SharedAssemblyInfo.cs before CI; this target does not publish or sign.");
+});
 Task("Release-Identity-Validate")
     .Description("Check the shared product version identity and release metadata contracts.")
     .Does(() =>
 {
     CheckedProcess("python", new ProcessSettings { Arguments = "build/release/versioning.py" });
-    CheckedProcess("python", new ProcessSettings { Arguments = "-m unittest discover -s build/release -p test_release.py" });
+    CheckedProcess("python", new ProcessSettings { Arguments = "-m unittest discover -s build/release -p test_*.py" });
 });
 Task("Release-Verify")
     .Description("Windows: gather full candidate evidence; separate native/portable matrices remain required.")

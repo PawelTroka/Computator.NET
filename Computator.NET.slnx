@@ -186,6 +186,7 @@
     <File Path="build/macos/NormalLaunchImageProbe.cs" />
     <File Path="build/macos/build-normal-launch-probe.sh" />
     <File Path="build/macos/check-normal-launch-image.py" />
+    <File Path="build/macos/compare_startup_probe.py" />
     <File Path="build/macos/normal-launch-x11.c" />
     <File Path="build/macos/normal-launch.py" />
     <File Path="build/macos/test_normal_launch.py" />
@@ -278,6 +279,7 @@
   <Folder Name="/Build/Release/">
     <File Path="build/release/evidence.py" />
     <File Path="build/release/test_release.py" />
+    <File Path="build/release/test_versioning.py" />
     <File Path="build/release/versioning.py" />
   </Folder>
   <Folder Name="/Build/Validation/">

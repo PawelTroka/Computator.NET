@@ -6,6 +6,7 @@ import io
 import json
 import os
 from pathlib import Path
+import plistlib
 import stat
 import subprocess
 import sys
@@ -51,20 +52,45 @@ class MacPackageContracts(unittest.TestCase):
             path.parent.mkdir(parents=True,exist_ok=True)
             path.write_bytes(b'bootstrap fixture')
             path.chmod(0o755 if 'MacOS' in name else 0o644)
-        self.metadata={'version':'3.0.0-preview.1','native':{},'bundleBootstrap':[
-            {'path':name,'sha256':mac.sha(self.bundle/name),'size':(self.bundle/name).stat().st_size} for name in self.bootstrap]}
+        self.metadata={'native':{}}
+        self.set_identity(common.product_identity())
+
+    def set_identity(self, identity):
+        self.metadata.update(version=identity['productVersion'],productIdentity=identity)
+        mac.write_bundle_plist(self.bundle,identity,'15.0')
+        self.metadata['bundleBootstrap']=[
+            {'path':name,'sha256':mac.sha(self.bundle/name),'size':(self.bundle/name).stat().st_size} for name in self.bootstrap]
         self.write_manifest()
 
     def write_manifest(self):
         common.write_manifest(self.resources,self.metadata)
 
     def test_whole_bundle_roundtrip_keeps_hashes_and_executable_launcher(self):
-        mac.verify_bundle(self.bundle)
-        first,second=self.base/'first.zip',self.base/'second.zip'
-        self.assertEqual(mac.archive_bundle(self.bundle,first),mac.archive_bundle(self.bundle,second))
-        extracted=mac.extract_bundle(first,self.base/'relocated folder with spaces')
-        self.assertEqual(common.inventory(self.resources),common.inventory(extracted/'Contents/Resources'))
-        self.assertTrue(os.access(extracted/'Contents/MacOS/Computator.NET',os.X_OK))
+        source=self.base/'frozen-source';source.mkdir()
+        previous=None
+        for index,(base,revision,expected_build) in enumerate((
+                ('3.0.9803','21702','3.9803.21702'),
+                ('3.0.9803','21703','3.9803.21703'),
+                ('3.0.9804','0','3.9804.0'))):
+            with self.subTest(base=base,revision=revision):
+                (source/'Version.props').write_text('<Project><ComputatorBaseVersion>'+base+'</ComputatorBaseVersion>'
+                    '<ComputatorRevision>'+revision+'</ComputatorRevision><ComputatorPrerelease>preview.1</ComputatorPrerelease></Project>')
+                identity=common.product_identity(source)
+                self.set_identity(identity)
+                with (self.bundle/'Contents/Info.plist').open('rb') as stream: info=plistlib.load(stream)
+                self.assertEqual(expected_build,info['CFBundleVersion'])
+                self.assertEqual(base,info['CFBundleShortVersionString'])
+                self.assertEqual('15.0',info['LSMinimumSystemVersion'])
+                current=tuple(map(int,info['CFBundleVersion'].split('.')))
+                if previous is not None: self.assertGreater(current,previous)
+                previous=current
+                mac.verify_bundle(self.bundle)
+                first,second=self.base/('first'+str(index)+'.zip'),self.base/('second'+str(index)+'.zip')
+                self.assertEqual(mac.archive_bundle(self.bundle,first),mac.archive_bundle(self.bundle,second))
+                extracted=mac.extract_bundle(first,self.base/('relocated folder with spaces '+str(index)))
+                self.assertEqual(common.inventory(self.resources),common.inventory(extracted/'Contents/Resources'))
+                self.assertEqual(identity,common.verify(extracted/'Contents/Resources')['productIdentity'])
+                self.assertTrue(os.access(extracted/'Contents/MacOS/Computator.NET',os.X_OK))
 
     def test_changed_launcher_is_detected_outside_resources_inventory(self):
         launcher=self.bundle/'Contents/MacOS/Computator.NET'
@@ -73,9 +99,19 @@ class MacPackageContracts(unittest.TestCase):
             mac.verify_bundle(self.bundle)
 
     def test_changed_plist_is_detected(self):
-        (self.bundle/'Contents/Info.plist').write_bytes(b'changed')
+        path=self.bundle/'Contents/Info.plist'; original=path.read_bytes()
+        path.write_bytes(b'changed')
         with self.assertRaisesRegex(ValueError,'bootstrap file differs'):
             mac.verify_bundle(self.bundle)
+        # Updating the bootstrap hash cannot legitimize a wrong version field.
+        for field in ('CFBundleVersion','CFBundleShortVersionString'):
+            with self.subTest(field=field):
+                info=plistlib.loads(original);info[field]=self.metadata['productIdentity']['assemblyVersion']
+                with path.open('wb') as stream: plistlib.dump(info,stream)
+                self.metadata['bundleBootstrap'][0].update(sha256=mac.sha(path),size=path.stat().st_size)
+                self.write_manifest()
+                with self.assertRaisesRegex(ValueError,'frozen product identity'):
+                    mac.verify_bundle(self.bundle)
 
     def test_bootstrap_metadata_cannot_traverse_outside_bundle(self):
         self.metadata['bundleBootstrap'][0]['path']='../../outside'

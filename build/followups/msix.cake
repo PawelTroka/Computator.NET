@@ -1,5 +1,6 @@
-var canonicalMsixVersion = XDocument.Load("Version.props").Descendants("ComputatorBaseVersion").Single().Value + "." +
-    XDocument.Load("Version.props").Descendants("ComputatorRevision").Single().Value;
+// The Store reserves its fourth component; the assembly's date/time revision
+// remains meaningful in the application but must not enter package identity.
+var canonicalMsixVersion = XDocument.Load("Version.props").Descendants("ComputatorBaseVersion").Single().Value + ".0";
 var msixVersion = Argument("msix-version", canonicalMsixVersion);
 Task("Build-MSIX")
     .Description("Windows: stage the self-contained desktop and build its unsigned MSIX.")
