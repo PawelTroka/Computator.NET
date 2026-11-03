@@ -2,13 +2,13 @@ name: Native macOS Mono WinForms acceptance
 on:
   workflow_dispatch:
   push:
-    branches: [master]
+    branches: [feature/mono-native-tool-full-diagnostic]
   pull_request:
 permissions:
   contents: read
 concurrency:
-  group: mono-macos-${{ github.ref }}
-  cancel-in-progress: true
+  group: mono-macos-${{ github.ref }}-${{ github.sha }}
+  cancel-in-progress: false
 jobs:
   native-application:
     strategy:
