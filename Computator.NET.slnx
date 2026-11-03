@@ -189,6 +189,7 @@
     <File Path="build/macos/normal-launch-x11.c" />
     <File Path="build/macos/normal-launch.py" />
     <File Path="build/macos/test_normal_launch.py" />
+    <File Path="build/macos/test_normal_launch_x11.py" />
     <File Path="build/macos/PACKAGE.txt" />
     <File Path="build/macos/isolate-build-dependencies.py" />
     <File Path="build/macos/launcher.sh" />
