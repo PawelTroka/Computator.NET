@@ -195,7 +195,9 @@ def main():
         raise ValueError('At least 1 GiB is required for bounded comparison evidence/build outputs')
     output.mkdir(parents=True)
     summary = {'schemaVersion': 1, 'scope': 'diagnostic forced-AppDomain-unload counterfactual; ordinary application acceptance is separate',
-               'passed': False, 'pairsRequired': args.pairs, 'controlCommit': CONTROL, 'trials': []}
+               'passed': False, 'pairsRequired': args.pairs, 'controlCommit': CONTROL, 'trials': [],
+               'monoDebugEnabled': True, 'runtimeMode': 'mono --debug',
+               'sourceContext': 'The observed 0608 source startup in build/macos/validate.sh used --debug. Both variants use that mode with the same accepted package/config.'}
     try:
         deadline = time.monotonic() + 1200
         marker_paths = list((repository / 'artifacts/macos/package/Release').glob('acceptance-osx-arm64-*/accepted-candidate.json'))
@@ -309,7 +311,7 @@ def main():
                            XDG_CONFIG_HOME=str(trial / 'config'), XDG_CACHE_HOME=str(trial / 'cache'), COMPUTATOR_DATA_DIRECTORY=str(trial / 'profile'),
                            COMPUTATOR_MAC_COMPOSITOR_EVIDENCE_DIRECTORY=str(trial / 'compositor'), DYLD_PRINT_LIBRARIES='1')
                 if not env.get('DISPLAY'): raise ValueError('The authenticated accepted XQuartz display is required')
-                result, text = process([str(mono), '--config', str(config), str(probes[label]), str(resources / 'app/Computator.NET.exe'), str(trial)], env, resources / 'app', trial / 'process', 90, deadline, merged=True)
+                result, text = process([str(mono), '--debug', '--config', str(config), str(probes[label]), str(resources / 'app/Computator.NET.exe'), str(trial)], env, resources / 'app', trial / 'process', 90, deadline, merged=True)
                 offsets = assertion_offsets(text)
                 known = offsets['orderedPostCloseAssertion'] and 'sigabrt_signal_handler' in text
                 native_problem = any(token in text for token in ('Native Crash Reporting', 'Assertion at metadata.c:', 'gclass_in_image', 'sigabrt_signal_handler'))
