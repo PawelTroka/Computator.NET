@@ -78,8 +78,10 @@ def select_windows(snapshot, pid):
     if snapshot.get('pid') != pid or snapshot.get('ownership') != 'XRes-local-client-pid' or not snapshot.get('complete'):
         raise RuntimeError('Incomplete or mismatched native PID ownership inventory.')
     windows = snapshot['windows']
-    if any(window['ownerPid'] != pid for window in windows) or len({window['xid'] for window in windows}) != len(windows):
+    if any(window['ownerPid'] != pid for window in windows):
         raise RuntimeError('Native inventory included an unowned window.')
+    if len({window['xid'] for window in windows}) != len(windows):
+        raise RuntimeError('Native inventory included duplicate window identifiers.')
     main = [window for window in windows if window['mapState'] == 2 and window['canClose']
             and window['width'] >= 600 and window['height'] >= 400 and 'Computator.NET' in window['name']]
     if len(main) > 1:

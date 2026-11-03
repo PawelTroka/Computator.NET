@@ -3,6 +3,7 @@
 // are not an ownership oracle (Mono does not publish _NET_WM_PID).
 #include <sys/types.h>
 #include <X11/Xlib.h>
+#include <X11/Xatom.h>
 #include <X11/Xutil.h>
 #include <X11/extensions/XRes.h>
 #include <errno.h>
@@ -13,7 +14,15 @@
 
 static int xerror;
 static unsigned visited;
-static int first = 1;
+#define MAX_VISITS 8192
+#define MAX_NAME_BYTES 4096
+typedef struct {
+    Window window, parent;
+    int map_state, x, y, width, height, can_close;
+    char *name;
+} WindowRecord;
+static WindowRecord records[MAX_VISITS];
+static unsigned record_count;
 static int on_error(Display *display, XErrorEvent *event)
 {
     (void)display;
@@ -62,29 +71,52 @@ static void json_string(const char *text)
     putchar('"');
 }
 
-static int enumerate(Display *display, Window window, Window parent, pid_t pid, Atom deletion, unsigned depth)
+static int read_name(Display *display, Window window, char **name)
 {
-    if (++visited > 8192 || depth > 64) return 0;
+    Atom type = None;
+    int format = 0;
+    unsigned long count = 0, remaining = 0;
+    unsigned char *value = NULL;
+    *name = NULL;
+    int status = XGetWindowProperty(display, window, XA_WM_NAME, 0, MAX_NAME_BYTES / 4,
+                                   False, XA_STRING, &type, &format, &count, &remaining, &value);
+    if (status != Success) { if (value) XFree(value); return 0; }
+    // Match XFetchName's STRING/8-bit semantics, with a fixed property bound.
+    if (type != XA_STRING || format != 8) { if (value) XFree(value); return 1; }
+    if (remaining || count > MAX_NAME_BYTES) { if (value) XFree(value); return 0; }
+    *name = (char *)value; // XGetWindowProperty supplies an extra terminating zero.
+    return 1;
+}
+
+static int enumerate(Display *display, Window window, pid_t pid, Atom deletion, unsigned depth)
+{
+    if (++visited > MAX_VISITS || depth > 64) return 0;
     XWindowAttributes attributes;
-    if (!XGetWindowAttributes(display, window, &attributes)) return 1; // a vanished splash is not a match
-    if (owner_pid(display, window) == pid) {
-        char *name = NULL;
-        XFetchName(display, window, &name);
-        printf("%s{\"xid\":%lu,\"parent\":%lu,\"ownerPid\":%ld,\"mapState\":%d,"
-               "\"x\":%d,\"y\":%d,\"width\":%d,\"height\":%d,\"canClose\":%s,\"name\":",
-               first ? "" : ",", window, parent, (long)pid, attributes.map_state,
-               attributes.x, attributes.y, attributes.width, attributes.height, closable(display, window, deletion) ? "true" : "false");
-        json_string(name);
-        printf("}");
-        if (name) XFree(name);
-        first = 0;
-    }
+    if (!XGetWindowAttributes(display, window, &attributes)) return 0;
     Window root, actual_parent, *children = NULL;
     unsigned count = 0;
-    if (!XQueryTree(display, window, &root, &actual_parent, &children, &count)) return 1;
+    if (!XQueryTree(display, window, &root, &actual_parent, &children, &count)) {
+        if (children) XFree(children);
+        return 0;
+    }
     int result = 1;
-    for (unsigned index = 0; index < count; index++)
-        if (!enumerate(display, children[index], window, pid, deletion, depth + 1)) { result = 0; break; }
+    if (owner_pid(display, window) == pid) {
+        char *name = NULL;
+        if (record_count == MAX_VISITS || !read_name(display, window, &name)) {
+            if (name) XFree(name);
+            result = 0;
+        } else {
+            WindowRecord *record = &records[record_count++];
+            record->window = window; record->parent = actual_parent;
+            record->map_state = attributes.map_state;
+            record->x = attributes.x; record->y = attributes.y;
+            record->width = attributes.width; record->height = attributes.height;
+            record->can_close = closable(display, window, deletion);
+            record->name = name;
+        }
+    }
+    for (unsigned index = 0; result && index < count; index++)
+        if (!enumerate(display, children[index], pid, deletion, depth + 1)) { result = 0; break; }
     if (children) XFree(children);
     return result;
 }
@@ -116,9 +148,28 @@ int main(int argc, char **argv)
     Atom deletion = XInternAtom(display, "WM_DELETE_WINDOW", False);
     int result = 0;
     if (!strcmp(argv[1], "inventory")) {
+        // One server-side tree, including XRes credentials and actual parents.
+        // Only requests on THIS connection run while grabbed. Never wait for
+        // application IPC, sleep or serialize to a possibly blocked pipe here.
+        XGrabServer(display);
+        XSync(display, False);
+        result = enumerate(display, XDefaultRootWindow(display), pid, deletion, 0) ? 0 : 5;
+        XUngrabServer(display);
+        XSync(display, False);
+        XCloseDisplay(display);
+        display = NULL;
         printf("{\"schemaVersion\":1,\"ownership\":\"XRes-local-client-pid\",\"pid\":%ld,"
                "\"xresVersion\":[%d,%d],\"windows\":[", (long)pid, major, minor);
-        result = enumerate(display, XDefaultRootWindow(display), None, pid, deletion, 0) ? 0 : 5;
+        for (unsigned index = 0; index < record_count; index++) {
+            WindowRecord *record = &records[index];
+            printf("%s{\"xid\":%lu,\"parent\":%lu,\"ownerPid\":%ld,\"mapState\":%d,"
+                   "\"x\":%d,\"y\":%d,\"width\":%d,\"height\":%d,\"canClose\":%s,\"name\":",
+                   index ? "," : "", record->window, record->parent, (long)pid, record->map_state,
+                   record->x, record->y, record->width, record->height, record->can_close ? "true" : "false");
+            json_string(record->name);
+            printf("}");
+            if (record->name) XFree(record->name);
+        }
         printf("],\"visited\":%u,\"complete\":%s}\n", visited, result ? "false" : "true");
     } else {
         Window window = positive(argv[3]);
@@ -146,6 +197,6 @@ int main(int argc, char **argv)
                    (long)pid, window, sent ? "true" : "false", xerror);
         }
     }
-    XCloseDisplay(display);
+    if (display) XCloseDisplay(display);
     return result;
 }

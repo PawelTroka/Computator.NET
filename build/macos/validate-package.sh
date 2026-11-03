@@ -93,6 +93,8 @@ PY
 # them while the compiler/test libraries are available, then hide dependencies
 # before launching the immutable application with its normal runtime-only PATH.
 bash build/macos/build-normal-launch-probe.sh "$evidence/harness/normal-launch" "$mcs"
+python3 build/macos/test_normal_launch_x11.py --tool "$evidence/harness/normal-launch/normal-launch-x11" \
+    --evidence "$evidence/xres-snapshot-contracts" 2>&1 | tee "$evidence/xres-snapshot-contracts.log"
 python3 build/macos/test_normal_launch.py -v 2>&1 | tee "$evidence/normal-launch-contracts.log"
 python3 build/macos/check-normal-launch-image.py --mono "$mono" --config "$evidence/mono.config" \
     --probe "$evidence/harness/normal-launch/NormalLaunchImageProbe.exe" \
@@ -168,7 +170,8 @@ with zipfile.ZipFile(archive) as candidate:
 reports={name:hashlib.sha256((evidence/name).read_bytes()).hexdigest() for name in
          ('acceptance.json','mono-results.xml','relocated-native-runtime.json','native-runtime-data.json','launcher-preflight.json',
           'preflight-contracts.log','candidate-contracts.log','capture-process-contracts.log','native-tool-process-contracts.log',
-          'normal-launch/normal-launch.json','normal-launch-contracts.log','normal-launch-image-contracts/image-contracts.json')}
+          'normal-launch/normal-launch.json','normal-launch-contracts.log','normal-launch-image-contracts/image-contracts.json',
+          'xres-snapshot-contracts.log','xres-snapshot-contracts/xres-snapshot-contracts.json')}
 report={'schemaVersion':1,'scope':'accepted-for-physical-mac-testing','rid':manifest['rid'],'source':manifest['source'],
         'harnessSource':{'commit':commit,'tree':tree,'trackedChanges':False},
         'host':{'os':'macOS','productVersion':subprocess.check_output(['/usr/bin/sw_vers','-productVersion'],text=True).strip(),
