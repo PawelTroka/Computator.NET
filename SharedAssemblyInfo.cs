@@ -18,9 +18,9 @@ using System.Runtime.InteropServices;
 // Version.props is authoritative; build/release/versioning.py --write updates
 // this block, and every normal build rejects drift rather than guessing a version.
 // BEGIN GENERATED PRODUCT VERSION
-[assembly: AssemblyVersion("3.0.0.0")]
-[assembly: AssemblyFileVersion("3.0.0.0")]
-[assembly: AssemblyInformationalVersion("3.0.0-preview.1")]
+[assembly: AssemblyVersion("3.0.9803.22582")]
+[assembly: AssemblyFileVersion("3.0.9803.22582")]
+[assembly: AssemblyInformationalVersion("3.0.9803.22582-preview.1")]
 // END GENERATED PRODUCT VERSION
 
 [assembly: NeutralResourcesLanguage("en")]

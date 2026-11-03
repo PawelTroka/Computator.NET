@@ -1,5 +1,6 @@
 """Distribution contracts: reject corrupted payloads, wrong ABI and unsafe archives."""
 import argparse
+import copy
 import ctypes
 import ctypes.util
 import importlib.util
@@ -39,16 +40,45 @@ class PackageContracts(unittest.TestCase):
             path = app / name
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes(b'content')
-        self.metadata = {'version': '3.0.0-preview.1', 'native': {}}
+        identity = package.product_identity()
+        self.metadata = {'version': identity['productVersion'], 'productIdentity': identity, 'native': {}}
         package.write_manifest(self.root, self.metadata)
 
     def test_complete_inventory_roundtrips_and_archive_is_reproducible(self):
+        frozen = self.base / 'frozen-source'
+        frozen.mkdir()
+        (frozen / 'Version.props').write_text('<Project><ComputatorBaseVersion>3.0.9803</ComputatorBaseVersion>'
+            '<ComputatorRevision>21702</ComputatorRevision><ComputatorPrerelease>preview.1</ComputatorPrerelease></Project>')
+        identity = package.product_identity(frozen)
+        self.assertEqual(identity['productVersion'], '3.0.9803.21702-preview.1')
+        self.assertEqual(identity['assemblyVersion'], '3.0.9803.21702')
+        self.assertEqual(identity['msixVersion'], '3.0.9803.0')
+        self.metadata.update(version=identity['productVersion'], productIdentity=identity)
+        package.write_manifest(self.root, self.metadata)
         package.verify(self.root)
         first, second = self.base / 'first.tar.gz', self.base / 'second.tar.gz'
         self.assertEqual(package.archive(self.root, first), package.archive(self.root, second))
         unpacked = self.base / 'unpacked'
         package.extract(first, unpacked)
         self.assertEqual(package.inventory(self.root), package.inventory(unpacked))
+        self.assertEqual(package.verify(unpacked)['productIdentity'], identity)
+
+    def test_manifest_cannot_forge_frozen_identity_or_its_package_projections(self):
+        for field, value in (('productVersion', '3.0.0-preview.1'),
+                             ('msixVersion', '3.0.0.1'),
+                             ('macBundleVersion', '3.0.0.0'),
+                             ('versionTimestamp', '1999-12-31T23:59:58+00:00')):
+            with self.subTest(field=field):
+                metadata = copy.deepcopy(self.metadata)
+                metadata['productIdentity'][field] = value
+                package.write_manifest(self.root, metadata)
+                with self.assertRaisesRegex(ValueError, 'frozen product identity'):
+                    package.verify(self.root)
+        metadata = copy.deepcopy(self.metadata)
+        del metadata['productIdentity']
+        package.write_manifest(self.root, metadata)
+        with self.assertRaisesRegex(ValueError, 'complete frozen product identity'):
+            package.verify(self.root)
 
     def test_missing_app_dependency_is_rejected(self):
         (self.root / 'app/Microsoft.CodeAnalysis.CSharp.dll').unlink()

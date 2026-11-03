@@ -1,18 +1,21 @@
 <Project>
   <PropertyGroup>
-    <!-- Authoritative product identity. This is a review candidate, not a release. -->
-    <ComputatorBaseVersion>3.0.0</ComputatorBaseVersion>
-    <!-- The fourth component is reserved for the Store and remains zero. -->
-    <ComputatorRevision>0</ComputatorRevision>
+    <!-- Frozen product identity. Publication status is recorded in GitHub Releases. -->
+    <ComputatorBaseVersion>3.0.9803</ComputatorBaseVersion>
+    <!-- Assembly/file revision is the frozen local half-seconds since midnight. -->
+    <ComputatorRevision>22582</ComputatorRevision>
+    <!-- Set only by explicit Release-Prepare; ordinary builds never read the clock. -->
+    <ComputatorVersionTimestamp>2026-11-03T12:32:44+01:00</ComputatorVersionTimestamp>
     <ComputatorPrerelease>preview.1</ComputatorPrerelease>
-    <VersionPrefix>$(ComputatorBaseVersion)</VersionPrefix>
+    <VersionPrefix>$(ComputatorBaseVersion).$(ComputatorRevision)</VersionPrefix>
     <VersionSuffix>$(ComputatorPrerelease)</VersionSuffix>
-    <Version>$(ComputatorBaseVersion)</Version>
-    <Version Condition="'$(ComputatorPrerelease)' != ''">$(ComputatorBaseVersion)-$(ComputatorPrerelease)</Version>
+    <Version>$(VersionPrefix)</Version>
+    <Version Condition="'$(ComputatorPrerelease)' != ''">$(VersionPrefix)-$(ComputatorPrerelease)</Version>
     <AssemblyVersion>$(ComputatorBaseVersion).$(ComputatorRevision)</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
     <InformationalVersion>$(Version)</InformationalVersion>
     <ComputatorMsiVersion>$(ComputatorBaseVersion)</ComputatorMsiVersion>
-    <ComputatorMsixVersion>$(AssemblyVersion)</ComputatorMsixVersion>
+    <!-- The Store reserves its fourth field; it is independent of assembly revision. -->
+    <ComputatorMsixVersion>$(ComputatorBaseVersion).0</ComputatorMsixVersion>
   </PropertyGroup>
 </Project>

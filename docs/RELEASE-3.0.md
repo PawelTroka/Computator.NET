@@ -1,8 +1,8 @@
 # Computator.NET 3.0 release preparation
 
-**Review snapshot: 2026-11-02. No 3.0 release, public deployment or Store submission has been published.** The candidate retains the Windows Forms/WPF product on .NET 10 and integrates the reviewed modernization follow-ups. Release acceptance remains tracked below; passing CI certifies only the tested commit and checks.
+**Publication status and downloadable builds:** see [GitHub Releases](https://github.com/PawelTroka/Computator.NET/releases). This source records the build/release process; the dated review checkpoints below describe their exact commits rather than the status of every later release. The application retains the Windows Forms/WPF product on .NET 10. Passing CI certifies only the tested commit and checks; release notes must state any remaining physical-machine or distribution limits.
 
-**Current integration source, 2 November 2026:** [#320](https://github.com/PawelTroka/Computator.NET/pull/320)
+**Historical integration checkpoint, 2 November 2026:** [#320](https://github.com/PawelTroka/Computator.NET/pull/320)
 consolidates browser/native Mono explicit 3D, interactive browser 2D/complex
 charts, desktop search/printing, translations and shared scientific APIs. The
 SDK minimum is now 10.0.403 and runtime packages are 10.0.14, including the
@@ -19,7 +19,64 @@ and the remaining release acceptance gates below are not implied by this work.
 Earlier dated results and benchmark runtime identities below are historical;
 use the exact final candidate's CI and artifacts for its acceptance evidence.
 
-The second review integrates #151–#164: one complete SLNX, source/IDE frontend preparation, the restrained dark interface, a self-contained protected local web package, shared execution policy, collectible generated programs, canonical candidate identity/evidence, clean-machine and signed-package acceptance harnesses, copied-profile trials, GSL error boundaries, portable scientific services and cancellable worker execution. SDK 10.0.402 and .NET/ASP.NET/JSON 10.0.13 align with October security servicing. The reviewed candidate identity is **3.0.0-preview.1** in `Version.props`.
+The second review integrates #151–#164: one complete SLNX, source/IDE frontend preparation, the restrained dark interface, a self-contained protected local web package, shared execution policy, collectible generated programs, canonical candidate identity/evidence, clean-machine and signed-package acceptance harnesses, copied-profile trials, GSL error boundaries, portable scientific services and cancellable worker execution. SDK 10.0.402 and .NET/ASP.NET/JSON 10.0.13 aligned with October security servicing at that checkpoint, whose candidate identity was **3.0.0-preview.1**. Current frozen values come from `Version.props` and the projections below.
+
+## Freeze classic .NET date/time versions
+
+Run `./build.ps1 -Target Release-Prepare` once when preparing a new release.
+It calculates the values that `AssemblyVersion("3.0.*")` would produce:
+the build is the local calendar-day count since 1 January 2000, and revision is
+the local wall-clock seconds since midnight divided by two, rounded down.
+For example, `2026-11-03T12:03:24+01:00` gives `3.0.9803.21702`.
+The controller's local zone is the convention (the release operator uses
+Europe/Warsaw). Its ISO 8601 timestamp includes the offset and is frozen into
+`Version.props`; CI hosts never substitute their own clock or zone.
+This matches the [documented wildcard formula](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.assemblyversionattribute.-ctor).
+
+The target validates existing compatibility attributes and public release
+identities before changing `Version.props` and `SharedAssemblyInfo.cs`.
+Review and commit those two files, then build and test every platform from that
+same commit. Ordinary builds remain deterministic, offline and source-clean;
+they validate the frozen literals and never stamp automatically. A literal
+compiler wildcard would conflict with deterministic compilation.
+
+For a repeatable preparation or controller-fetched GitHub release list, use:
+
+```powershell
+./build.ps1 -Target Release-Prepare --release-timestamp="2026-11-03T12:03:24+01:00" --release-published-releases="published-releases.json"
+```
+
+The optional JSON is the GitHub releases API's list, including `draft`,
+`published_at` and `tag_name`; without it, preparation reads that public API.
+No target publishes assets, creates a tag, signs with an owner identity or
+submits to a Store. Preserve the already frozen timestamp when retrying a
+release instead of preparing a new one.
+
+| Projection | Example |
+| --- | --- |
+| Assembly/file version | `3.0.9803.21702` |
+| Product/informational version and release tag | `3.0.9803.21702-preview.1`, `v3.0.9803.21702-preview.1` |
+| MSI/Burn | `3.0.9803` |
+| MSIX | `3.0.9803.0` (Store-reserved fourth component) |
+| Mac short/build versions | `3.0.9803` / `3.9803.21702` |
+
+Native manifests retain the full shared `productIdentity` and explicit platform
+projections. Mac build identifiers include the revision within three components;
+writing the four-component assembly version would lose its final component in
+Apple's version comparison. Bootstrap hashes and parsed bundle-version checks
+bind those values to the actual packaged app.
+
+MSI and MSIX still have only one distinct package identity per local day under
+this classic scheme. Preparation rejects another **published** release with the
+same package base and a different full identity, or a backwards clock/version.
+Drafts, tag-only records and CI attempts do not reserve a version. An exact
+frozen-identity retry is allowed only when both the original identity and exact
+canonical timestamp remain unchanged; even adjacent seconds in one revision
+slot cannot replace that stamp. A valid published retry leaves both source
+files byte-for-byte unchanged. Publication must still verify the same
+source and asset hashes; never replace differing released bytes. The first
+publication for a day is allowed. A second independently upgradable Windows
+package requires a later local date or a separately reviewed version policy.
 
 Integration review additionally fixed concurrent script-output limits, stale assets after changing frontend profiles, surviving worker/descendant processes, genuine historical MSI version handling, rollback ordering, mixed-case profile preservation, predeployment MSIX identity checks and release-report preservation/provenance. GSL error/recovery tests exercise both host and generated imports. See the corresponding workflow results and `artifacts/release-evidence/manifest.json` for the exact candidate; the first-wave evidence below is historical.
 

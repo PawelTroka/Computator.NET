@@ -133,6 +133,12 @@ def verify_bundle(bundle):
                 raise ValueError("Bootstrap paths cannot traverse symbolic links")
         if not path.is_file() or path.stat().st_size != entry["size"] or sha(path) != entry["sha256"]:
             raise ValueError("Bundle bootstrap file differs from its inventory: " + entry["path"])
+    with (bundle / "Contents/Info.plist").open("rb") as stream:
+        bundle_info = plistlib.load(stream)
+    identity = metadata["productIdentity"]
+    if (bundle_info.get("CFBundleVersion") != identity["macBundleVersion"]
+            or bundle_info.get("CFBundleShortVersionString") != identity["macBundleShortVersion"]):
+        raise ValueError("Mac bundle versions differ from the frozen product identity.")
     expected = {"Contents", "Contents/Resources", "Contents/MacOS", *allowed}
     for path in bundle.rglob("*"):
         relative = path.relative_to(bundle).as_posix()
@@ -143,6 +149,16 @@ def verify_bundle(bundle):
     if not os.access(bundle / "Contents/MacOS/Computator.NET", os.X_OK):
         raise ValueError("Bundle launcher is not executable")
     return metadata
+
+
+def write_bundle_plist(bundle, identity, minimum_text):
+    with (bundle / "Contents/Info.plist").open("wb") as stream:
+        plistlib.dump({"CFBundleName": "Computator.NET", "CFBundleDisplayName": "Computator.NET",
+                      "CFBundleIdentifier": "net.computator.mono", "CFBundleExecutable": "Computator.NET",
+                      "CFBundleIconFile": "Computator.NET.icns", "CFBundlePackageType": "APPL",
+                      "CFBundleVersion": identity["macBundleVersion"],
+                      "CFBundleShortVersionString": identity["macBundleShortVersion"],
+                      "LSMinimumSystemVersion": minimum_text, "NSHighResolutionCapable": True}, stream)
 
 
 def archive_bundle(bundle, archive):
@@ -792,14 +808,7 @@ def main():
                              "ownerSigned": False, "notarized": False, "adHocDylibIntegritySignatures": True},
                     nativeProvenance={"libraries": provenance, "correspondingSources": corresponding_sources})
     (resources / "mono-package.json").write_text(json.dumps(metadata, indent=2) + "\n")
-    version = metadata["version"].split("-", 1)[0]
-    with (bundle / "Contents/Info.plist").open("wb") as stream:
-        plistlib.dump({"CFBundleName": "Computator.NET", "CFBundleDisplayName": "Computator.NET",
-                      "CFBundleIdentifier": "net.computator.mono", "CFBundleExecutable": "Computator.NET",
-                      "CFBundleIconFile": "Computator.NET.icns",
-                      "CFBundlePackageType": "APPL", "CFBundleVersion": version,
-                      "CFBundleShortVersionString": version, "LSMinimumSystemVersion": minimum_text,
-                      "NSHighResolutionCapable": True}, stream)
+    write_bundle_plist(bundle, metadata["productIdentity"], minimum_text)
     metadata["bundleBootstrap"] = [{"path": name, "size": (bundle / name).stat().st_size,
                                     "sha256": sha(bundle / name)}
                                    for name in ("Contents/Info.plist", "Contents/MacOS/Computator.NET")]

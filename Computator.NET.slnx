@@ -278,6 +278,7 @@
   <Folder Name="/Build/Release/">
     <File Path="build/release/evidence.py" />
     <File Path="build/release/test_release.py" />
+    <File Path="build/release/test_versioning.py" />
     <File Path="build/release/versioning.py" />
   </Folder>
   <Folder Name="/Build/Validation/">

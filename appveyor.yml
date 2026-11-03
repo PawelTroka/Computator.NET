@@ -18,7 +18,7 @@ install:
       python -c "import sys; assert sys.version_info >= (3, 11), 'Python 3.11 or newer is required'"
       if ($LASTEXITCODE -ne 0) { throw 'Python does not satisfy the native/source-evidence tooling requirements.' }
       [xml]$identity = Get-Content Version.props -Raw
-      $productVersion = $identity.Project.PropertyGroup.ComputatorBaseVersion
+      $productVersion = "$($identity.Project.PropertyGroup.ComputatorBaseVersion).$($identity.Project.PropertyGroup.ComputatorRevision)"
       $prerelease = $identity.Project.PropertyGroup.ComputatorPrerelease
       if ($prerelease) { $productVersion += "-$prerelease" }
       Update-AppveyorBuild -Version "$productVersion.build.$env:APPVEYOR_BUILD_NUMBER"
