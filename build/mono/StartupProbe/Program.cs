@@ -25,13 +25,11 @@ internal static class Program
             ApplicationBase = applicationDirectory,
             ConfigurationFile = applicationPath + ".config"
         });
-        try
-        {
-            var runner = (StartupRunner)domain.CreateInstanceFromAndUnwrap(
-                Assembly.GetExecutingAssembly().Location, typeof(StartupRunner).FullName);
-            return runner.Run(applicationPath, Path.GetFullPath(args[1]));
-        }
-        finally { AppDomain.Unload(domain); }
+        var runner = (StartupRunner)domain.CreateInstanceFromAndUnwrap(
+            Assembly.GetExecutingAssembly().Location, typeof(StartupRunner).FullName);
+        // This dedicated process owns the domain. After the real window closes,
+        // return normally instead of exercising Mono's separate domain-unload path.
+        return runner.Run(applicationPath, Path.GetFullPath(args[1]));
     }
 }
 

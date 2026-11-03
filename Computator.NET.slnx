@@ -186,6 +186,7 @@
     <File Path="build/macos/NormalLaunchImageProbe.cs" />
     <File Path="build/macos/build-normal-launch-probe.sh" />
     <File Path="build/macos/check-normal-launch-image.py" />
+    <File Path="build/macos/compare_startup_probe.py" />
     <File Path="build/macos/normal-launch-x11.c" />
     <File Path="build/macos/normal-launch.py" />
     <File Path="build/macos/test_normal_launch.py" />

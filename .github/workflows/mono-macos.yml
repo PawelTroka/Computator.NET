@@ -1,6 +1,11 @@
 name: Native macOS Mono WinForms acceptance
 on:
   workflow_dispatch:
+    inputs:
+      startup-unload-counterfactual:
+        description: Compare the old forced domain unload with normal probe process exit on ARM
+        type: boolean
+        default: false
   push:
     branches: [master]
   pull_request:
@@ -43,6 +48,12 @@ jobs:
         env:
           COMPUTATOR_GITHUB_TOKEN: ${{ github.token }}
         run: bash ./build.sh --target=Mono-Mac-Package-Validate
+      - name: Compare probe domain unload with normal process exit on the accepted ARM app
+        if: github.event_name == 'workflow_dispatch' && inputs['startup-unload-counterfactual'] && matrix.architecture == 'arm64'
+        run: |
+          source "$COMPUTATOR_MAC_DISPLAY_ENV"
+          python3 build/macos/compare_startup_probe.py --repository "$PWD" \
+            --evidence artifacts/macos/startup-unload-counterfactual --pairs 8
       - name: Build an explicitly unaccepted diagnostic bundle after a GUI gate failure
         if: failure() && steps.application.outcome == 'failure'
         env:
