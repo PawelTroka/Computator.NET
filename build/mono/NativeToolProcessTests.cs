@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 internal static class NativeToolProcessTests
 {
@@ -16,9 +15,17 @@ internal static class NativeToolProcessTests
         {
             if (args[0] == "--flood")
             {
-                var output = Task.Run(() => { Console.Out.Write(new string('o', 512 * 1024)); Console.Out.WriteLine("stdout complete"); });
-                Console.Error.Write(new string('e', 512 * 1024)); Console.Error.WriteLine("stderr complete");
-                output.GetAwaiter().GetResult(); return 0;
+                Exception outputFailure = null;
+                var output = new Thread(() =>
+                {
+                    try { Console.Out.Write(new string('o', 512 * 1024)); Console.Out.WriteLine("stdout complete"); }
+                    catch (Exception error) { outputFailure = error; }
+                });
+                output.Start();
+                try { Console.Error.Write(new string('e', 512 * 1024)); Console.Error.WriteLine("stderr complete"); }
+                finally { output.Join(); }
+                if (outputFailure != null) throw new InvalidOperationException("The stdout flood writer failed.", outputFailure);
+                return 0;
             }
             if (args[0] == "--environment") return Environment.GetEnvironmentVariable("DYLD_PRINT_LIBRARIES") == null ? 0 : 9;
             if (args[0] == "--failure") { Console.Error.WriteLine("intentional native-tool failure"); Console.Out.WriteLine("failure stdout"); return 7; }
