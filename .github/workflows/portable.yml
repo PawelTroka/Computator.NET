@@ -24,7 +24,7 @@ jobs:
       - name: Build wrapper contracts without SDK or package restore
         shell: pwsh
         run: python -m unittest discover -s build/ci -p test_build_wrappers.py
-      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73
         with:
           global-json-file: global.json
       - name: Cake dry run does not prepare build outputs or Windows fixtures
