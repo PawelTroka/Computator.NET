@@ -59,6 +59,14 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
         }
 
+#if __MonoCS__
+        protected override bool ProcessCmdKey(ref Message message, Keys keyData)
+        {
+            return MonoKeypadInput.ProcessKey(ActiveTextAreaControl.TextArea, ref message, keyData) ||
+                   base.ProcessCmdKey(ref message, keyData);
+        }
+#endif
+
         public void SetFont(Font font)
         {
             if (font.FontFamily.Name == "Cambria")

@@ -63,6 +63,14 @@ namespace Computator.NET.Desktop.Controls
         }
 
 
+#if __MonoCS__
+        protected override bool ProcessCmdKey(ref Message message, Keys keyData)
+        {
+            return MonoKeypadInput.ProcessKey(this, ref message, keyData) ||
+                   base.ProcessCmdKey(ref message, keyData);
+        }
+#endif
+
         public bool Sort
             => Settings.Default.FunctionsOrder == FunctionsOrder.Alphabetical;
 
