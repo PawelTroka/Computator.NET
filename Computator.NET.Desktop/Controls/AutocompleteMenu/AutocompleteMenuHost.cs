@@ -136,5 +136,23 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             if (!Focused)
                 Close();
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                var control = listView as Control;
+                if (control != null) control.LostFocus -= ListView_LostFocus;
+#if __MonoCS__
+                if (listView is AutocompleteListView current)
+                    current.ReferenceFocusLeft -= Menu.ReferenceFocusLeft;
+#endif
+                // Mono's ToolStripControlHost only disposes controls whose
+                // native handle was created. Unshown editors own a menu too.
+                control?.Dispose();
+                Host?.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

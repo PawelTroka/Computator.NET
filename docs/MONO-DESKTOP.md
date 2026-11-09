@@ -130,6 +130,20 @@ supports the repository's C# syntax, but Mono scripts/plugins bind to Framework
 4.8, not .NET 10-only runtime APIs. WPF and the advanced Windows editors are
 excluded from this graph.
 
+Scripting completion uses the same `ScriptingAutocompleteItems` catalog as the
+Windows editors, including scripting functions, special functions and keywords.
+The TextEditor adapter connects the displayed text area to the shared completion
+popup: typing filters suggestions, Ctrl+Space requests completion, arrows and
+PageUp/PageDown navigate, and Enter, Tab or a mouse click insert the selected
+signature. Insertion uses the active document's native undo history. Expression
+superscript input remains independent of scripting completion.
+
+The native acceptance suite resolves the actual `MainView` scripting and
+expression controls and drives them through X11. It checks completion insertion,
+selection replacement, filtering, references, focus, document switching, pending
+popup cancellation and disposal; the standalone popup fixture remains additional
+coverage. The scripting reference capture is `scripting-autocomplete-special.png`.
+
 The rich reference uses the same descriptions and verified offline assets as
 Windows/web: styled prose, inline and display equations, diagrams,
 examples and notes. Image paths are confined to the shipped manifests and their

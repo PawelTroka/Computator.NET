@@ -187,5 +187,17 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             HTMLCode = FunctionReferenceDocument.Render(functionInfo, displayedSignature);
 #endif
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // Dispose the owned reference even when it has never been
+                // displayed; Mono's control host otherwise leaves it alive.
+                browserHost?.Control?.Dispose();
+                browserHost?.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

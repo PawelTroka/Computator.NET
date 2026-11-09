@@ -119,6 +119,9 @@ internal static partial class Program
         Run("mono-numeric-input-font-layout", NumericInputsFitActualFonts);
         Run("mono-function-reference-rich-offline-content", FunctionReference);
         Run("mono-autocomplete-real-x11-layout-and-selection", AutocompleteRealX11);
+        Run("mono-scripting-autocomplete-real-x11-insertion", ScriptingAutocompleteRealX11);
+        Run("mono-scripting-autocomplete-real-x11-lifetime", ScriptingAutocompleteLifetimeX11);
+        Run("mono-expression-autocomplete-real-x11-integration", ExpressionAutocompleteIntegrationX11);
         Run("unicode-editor-documents-and-renaming", EditorDocuments);
         Run("unshown-editor-tabs-have-backed-documents", UnshownEditorDocuments);
         Run("desktop-visible-custom-functions-file-and-script-workflow", DesktopWorkflow);
