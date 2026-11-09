@@ -91,6 +91,12 @@ acceptance cases and an unchanged final package inventory. Container evidence is
 bounded X11 acceptance; it does not certify a physical printer or every desktop
 environment.
 
+Linux package acceptance also launches the installed desktop entry three times
+with one isolated profile. Each real Mono process must accept an XRes-verified
+`WM_DELETE_WINDOW` request, exit normally with status zero, remove its temporary
+error log and leave no owned process alive. Terminating a probe process or closing
+a window inside a secondary AppDomain does not satisfy this shutdown gate.
+
 ## Source builds and runtime boundaries
 
 `ComputatorMono=true` propagates through the application project references.
@@ -266,8 +272,11 @@ execute the actual managed preflight and reject tampering, wrong architecture,
 unrecorded files, unsafe mappings and writes back through redirected caches.
 Use the final candidate's fresh workflow reports and archive hashes for release.
 
-The current suite requires at least 55 cases, including restored compiled 3D
-plot commands, exact decimal-input rounding and numeric-control font layout.
+The current suite requires at least 61 cases, including restored compiled 3D
+plot commands, exact decimal-input rounding, numeric-control font layout and
+shutdown workflows. The shutdown cases run `MainView.Close` through the real
+message loop, covering clean repeated lifetimes, Save/Discard for both editors,
+cancellation and retry, and cancelled or failed Save As without losing drafts.
 The layout regression shows the real chart-bounds view and checks all four
 numeric controls against their actual font heights at 9.75, 12 and 16 points,
 including repeated layout and scaling, to catch clipped digits.

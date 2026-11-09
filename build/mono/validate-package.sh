@@ -11,7 +11,7 @@ if [[ -e "$unpacked" || -e "$evidence" || "$unpacked" == "$evidence" || "$unpack
 fi
 configuration=${COMPUTATOR_MONO_CONFIGURATION:-Release}
 cd "$repository"
-for command in mono python3 timeout xvfb-run xauth; do command -v "$command" >/dev/null || { echo "Missing acceptance tool: $command" >&2; exit 2; }; done
+for command in mono mcs cc pkg-config python3 timeout xvfb-run xauth xdotool; do command -v "$command" >/dev/null || { echo "Missing acceptance tool: $command" >&2; exit 2; }; done
 python3 build/mono/package.py --extract "$archive" --output "$unpacked"
 python3 build/mono/test_preflight.py --package-root "$unpacked" -v
 mkdir -p "$evidence"/{profile-startup,profile-smoke,profile-launcher,config,cache,harness}
@@ -29,8 +29,13 @@ if [[ -f "$startup.config" ]]; then cp "$startup.config" "$evidence/harness/"; f
 mcs -nologo -nowarn:0414 -r:System.Drawing -out:"$evidence/harness/LegacyFixture.exe" \
     build/fixtures/LegacySettings.cs build/mono/LegacyFixtureWriter.cs
 mono "$evidence/harness/LegacyFixture.exe" "$evidence/legacy-settings.dat"
-mcs -nologo -r:System.Drawing -out:"$evidence/harness/Computator.NET.Mono.DesktopMenuProbe.exe" \
-    build/mono/DesktopMenuProbe.cs
+mcs -nologo -r:System.Drawing -r:System.Runtime.Serialization \
+    -out:"$evidence/harness/Computator.NET.Mono.DesktopMenuProbe.exe" \
+    build/mono/DesktopMenuProbe.cs build/mono/NativeToolProcess.cs
+# Shared external XRes helper; it is never installed with the application.
+read -r -a x11_flags <<< "$(pkg-config --cflags --libs xres x11)"
+cc -std=c11 -Wall -Wextra -Werror build/macos/normal-launch-x11.c \
+    "${x11_flags[@]}" -o "$evidence/harness/normal-launch-x11"
 mcs -nologo -out:"$evidence/harness/NativeToolProcessTests.exe" \
     build/mono/NativeToolProcess.cs build/mono/NativeToolProcessTests.cs
 preflight=$unpacked/app/Computator.NET.Mono.Preflight.exe
@@ -59,5 +64,7 @@ COMPUTATOR_MONO_EXPECTED_APPLICATION_DIRECTORY="$unpacked/app" \
     mono --config "$evidence/mono.config" "$evidence/harness/Computator.NET.Mono.SmokeTests.exe" \
     --application-directory "$unpacked/app" "$evidence" 2>&1 | tee "$evidence/smoke.log"
 python3 "$repository/build/mono/validate-evidence.py" "$evidence/mono-results.xml"
+timeout --kill-after=10s 240s xvfb-run -a -s '-screen 0 1440x1000x24' \
+    bash build/mono/validate-desktop-menu.sh "$unpacked" "$evidence" 2>&1 | tee "$evidence/desktop-menu.log"
 python3 "$repository/build/mono/package.py" --verify --output "$unpacked"
 printf 'Extracted package acceptance passed. Evidence: %s\n' "$evidence"

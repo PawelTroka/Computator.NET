@@ -160,6 +160,7 @@
     <File Path="build/mono/SmokeTests/MonoNumericParsingTests.cs" />
     <File Path="build/mono/SmokeTests/MonoScriptPlotTests.cs" />
     <File Path="build/mono/SmokeTests/LocalizationTests.cs" />
+    <File Path="build/mono/SmokeTests/ShutdownTests.cs" />
 
     <File Path="build/mono/SmokeTests/Program.cs" />
     <File Path="build/mono/StartupProbe/Computator.NET.Mono.StartupProbe.csproj" />
