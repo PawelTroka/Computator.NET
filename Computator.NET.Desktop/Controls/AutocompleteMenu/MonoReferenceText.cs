@@ -51,6 +51,14 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             tabs.SelectedIndex = 0;
         }
         internal int PreferredDocumentHeight(int width) => canvas.MeasureHeight(Math.Max(64, width - 24)) + tabs.ItemSize.Height + 10;
+        internal bool ScrollDescriptionAtPointer(int delta, Point screenPosition)
+        {
+            if (!canvas.Visible || !canvas.Enabled || !canvas.IsHandleCreated) return false;
+            var point = canvas.PointToClient(screenPosition);
+            if (!canvas.ClientRectangle.Contains(point)) return false;
+            canvas.ScrollWheel(delta, point);
+            return true;
+        }
         internal static string Render(FunctionInfo info)
         {
             using (var document = MonoReferenceDocument.Parse(info)) return document.PlainText;
@@ -82,6 +90,10 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             {
                 layout?.Dispose(); layout = null; document?.Dispose(); document = value;
                 AutoScrollPosition = Point.Empty; Invalidate();
+            }
+            internal void ScrollWheel(int delta, Point point)
+            {
+                OnMouseWheel(new MouseEventArgs(MouseButtons.None, 0, point.X, point.Y, delta));
             }
             internal int MeasureHeight(int width)
             {
