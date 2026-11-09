@@ -8,6 +8,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
+using System.Text;
 using System.Threading;
 using System.Xml;
 
@@ -27,16 +30,51 @@ internal static class DesktopMenuProbe
     [DllImport("libc")] private static extern int kill(int pid, int signal);
     [DllImport("libc")] private static extern int waitpid(int pid, out int status, int options);
 
+    [DataContract]
+    private sealed class Inventory
+    {
+        [DataMember(Name = "ownership", IsRequired = true)] public string Ownership { get; set; }
+        [DataMember(Name = "pid", IsRequired = true)] public int Pid { get; set; }
+        [DataMember(Name = "complete", IsRequired = true)] public bool Complete { get; set; }
+        [DataMember(Name = "windows", IsRequired = true)] public NativeWindow[] Windows { get; set; }
+    }
+
+    [DataContract]
+    private sealed class NativeWindow
+    {
+        [DataMember(Name = "xid", IsRequired = true)] public long Id { get; set; }
+        [DataMember(Name = "ownerPid", IsRequired = true)] public int Pid { get; set; }
+        [DataMember(Name = "mapState", IsRequired = true)] public int MapState { get; set; }
+        [DataMember(Name = "width", IsRequired = true)] public int Width { get; set; }
+        [DataMember(Name = "height", IsRequired = true)] public int Height { get; set; }
+        [DataMember(Name = "canClose", IsRequired = true)] public bool CanClose { get; set; }
+        [DataMember(Name = "name")] public string Name { get; set; }
+    }
+
+    [DataContract]
+    private sealed class NormalClose
+    {
+        [DataMember(Name = "pid", IsRequired = true)] public int Pid { get; set; }
+        [DataMember(Name = "xid", IsRequired = true)] public long Id { get; set; }
+        [DataMember(Name = "protocol", IsRequired = true)] public string Protocol { get; set; }
+        [DataMember(Name = "sent", IsRequired = true)] public bool Sent { get; set; }
+        [DataMember(Name = "xerror", IsRequired = true)] public int Error { get; set; }
+    }
+
     private static int Main(string[] args)
     {
-        if (args.Length < 2 || args.Length > 3 || (args.Length == 3 && args[2] != "--expect-error"))
-        { Console.Error.WriteLine("Usage: DesktopMenuProbe.exe ENTRY RESULTS [--expect-error]"); return 2; }
+        if (args.Length < 3 || args.Length > 4 || (args.Length == 4 && args[3] != "--expect-error"))
+        { Console.Error.WriteLine("Usage: DesktopMenuProbe.exe ENTRY RESULTS X11-TOOL [--expect-error]"); return 2; }
         var results = Path.GetFullPath(args[1]);
         Directory.CreateDirectory(results);
-        var expectError = args.Length == 3;
+        var x11Tool = Path.GetFullPath(args[2]);
+        var expectError = args.Length == 4;
         var label = expectError ? "desktop-menu-error" : "desktop-menu";
         var clock = Stopwatch.StartNew();
         var launchers = new List<int>();
+        var owned = new Dictionary<int, string>();
+        var cache = Path.Combine(Environment.GetEnvironmentVariable("XDG_CACHE_HOME"), "Computator.NET");
+        var previousLogs = new HashSet<string>(ErrorLogs(cache), StringComparer.Ordinal);
         Exception failure = null;
         try
         {
@@ -48,7 +86,13 @@ internal static class DesktopMenuProbe
             try
             {
                 IntPtr error;
-                Launched callback = (info, pid, data) => { if (pid > 1) launchers.Add(pid); };
+                Launched callback = (info, pid, data) =>
+                {
+                    if (pid <= 1) return;
+                    launchers.Add(pid);
+                    var identity = ProcessIdentity(pid);
+                    if (identity != null) owned[pid] = identity;
+                };
                 // SEARCH_PATH | DO_NOT_REAP_CHILD: record and reap exactly the
                 // process this test launched, rather than searching/killing apps.
                 var ok = g_desktop_app_info_launch_uris_as_manager(app, IntPtr.Zero, IntPtr.Zero,
@@ -65,30 +109,31 @@ internal static class DesktopMenuProbe
             finally { g_object_unref(app); }
             if (launchers.Count != 1) throw new InvalidOperationException("Expected exactly one owned launcher process.");
 
+            NativeWindow selected = null;
             string window = null;
-            Dictionary<string, int> geometry = null;
             while (clock.Elapsed.TotalSeconds < 30 && window == null)
             {
-                foreach (var pid in Descendants(launchers[0]).Concat(launchers).Distinct())
+                foreach (var pid in RememberOwned(launchers[0], owned))
                 {
-                    foreach (var id in Xdo("search --onlyvisible --pid " + pid + " --name Computator.NET").Split('\n'))
-                    {
-                        long numeric;
-                        if (!long.TryParse(id.Trim(), out numeric)) continue;
-                        var title = Xdo("getwindowname " + numeric).Trim();
-                        var candidate = Geometry(numeric.ToString(CultureInfo.InvariantCulture));
-                        if (expectError ? title == "Computator.NET could not start" :
-                            title.StartsWith("Computator.NET", StringComparison.Ordinal) &&
-                            title.IndexOf("could not start", StringComparison.Ordinal) < 0 &&
-                            candidate.ContainsKey("WIDTH") && candidate["WIDTH"] >= 800 && candidate["HEIGHT"] >= 500)
-                        { window = numeric.ToString(CultureInfo.InvariantCulture); geometry = candidate; break; }
-                    }
+                    // Mono does not reliably set _NET_WM_PID. XRes establishes
+                    // ownership before titles/geometry select the owned window.
+                    var inventory = ReadInventory(x11Tool, pid, null);
+                    var candidates = inventory.Windows.Where(candidate => candidate.MapState == 2 &&
+                        (expectError ? candidate.Name == "Computator.NET could not start" :
+                         candidate.Name != null && candidate.Name.StartsWith("Computator.NET", StringComparison.Ordinal) &&
+                         candidate.Name.IndexOf("could not start", StringComparison.Ordinal) < 0 &&
+                         candidate.Width >= 800 && candidate.Height >= 500 && candidate.CanClose)).ToArray();
+                    if (candidates.Length > 1)
+                        throw new InvalidOperationException("The owned process has more than one matching top-level window.");
+                    if (candidates.Length == 1)
+                    { selected = candidates[0]; window = selected.Id.ToString(CultureInfo.InvariantCulture); }
                     if (window != null) break;
                 }
                 if (window == null) Thread.Sleep(100);
             }
             if (window == null) throw new TimeoutException("The delivered menu entry did not show its expected window within 30 seconds.");
             Thread.Sleep(300); // retain an actual painted native window, not only a handle
+            var geometry = Geometry(window);
             using (var bitmap = new Bitmap(geometry["WIDTH"], geometry["HEIGHT"]))
             using (var graphics = Graphics.FromImage(bitmap))
             {
@@ -99,28 +144,55 @@ internal static class DesktopMenuProbe
             {
                 Xdo("windowfocus --sync " + window);
                 Xdo("key Return");
-                var cache = Path.Combine(Environment.GetEnvironmentVariable("XDG_CACHE_HOME"), "Computator.NET");
-                if (!Directory.GetFiles(cache, "startup-errors.*.log").Any(path =>
+                if (!ErrorLogs(cache).Except(previousLogs).Any(path =>
                     File.ReadAllText(path).Contains("fixture runtime unavailable")))
                     throw new InvalidOperationException("The visible startup error did not retain its diagnostic log.");
-                int status;
-                var wait = Stopwatch.StartNew();
-                int reaped;
-                while ((reaped = waitpid(launchers[0], out status, 1)) == 0 && wait.Elapsed.TotalSeconds < 5) Thread.Sleep(50);
-                if (reaped != launchers[0] || (status >> 8) == 0)
+                if (WaitForLauncher(launchers, owned, 5000) == 0)
                     throw new InvalidOperationException("The failed desktop launch did not exit with an error after dismissing its dialog.");
-                launchers.Clear(); // this owned child has already been reaped
             }
+            else
+            {
+                if (!owned.ContainsKey(selected.Pid) || ProcessIdentity(selected.Pid) != owned[selected.Pid] ||
+                    !Descendants(launchers[0]).Contains(selected.Pid))
+                    throw new InvalidOperationException("The selected application process is no longer owned by this launch.");
+                var beforeClose = ReadInventory(x11Tool, selected.Pid, Path.Combine(results, "desktop-menu-before-close.json"));
+                if (!beforeClose.Windows.Any(candidate => candidate.Id == selected.Id && candidate.MapState == 2 &&
+                    candidate.CanClose && candidate.Width == selected.Width && candidate.Height == selected.Height))
+                    throw new InvalidOperationException("The owned main window changed before normal close.");
+                var closeJson = NativeToolProcess.Run(new ProcessStartInfo(x11Tool,
+                    "close " + selected.Pid + " " + window), 5000).StandardOutput;
+                File.WriteAllText(Path.Combine(results, "desktop-menu-close.json"), closeJson);
+                var close = ReadJson<NormalClose>(closeJson);
+                if (close.Pid != selected.Pid || close.Id != selected.Id || close.Protocol != "WM_DELETE_WINDOW" ||
+                    !close.Sent || close.Error != 0)
+                    throw new InvalidOperationException("The native tool did not deliver the owned normal-close request.");
+                var status = WaitForLauncher(launchers, owned, 20000);
+                if (status != 0)
+                    throw new InvalidOperationException("The production launcher failed normal shutdown; raw wait status=" + status + ".");
+                if (ErrorLogs(cache).Except(previousLogs).Any())
+                    throw new InvalidOperationException("Normal shutdown retained an unexpected startup-error log.");
+            }
+            var survivors = owned.Where(process => ProcessIdentity(process.Key) == process.Value).Select(process => process.Key).ToArray();
+            if (survivors.Length != 0)
+                throw new InvalidOperationException("Owned processes survived launcher exit: " + string.Join(", ", survivors));
             Console.WriteLine("PASS " + label + ": actual delivered entry displayed native window " + window +
-                "; no terminal emulator or build tools required.");
+                (expectError ? "; startup failure was visible and retained." : "; XRes-owned WM_DELETE_WINDOW, zero exit, no error log or surviving process."));
         }
-        catch (Exception error) { failure = error; Console.Error.WriteLine("FAIL " + label + ": " + error); }
+        catch (Exception error)
+        {
+            failure = error;
+            Console.Error.WriteLine("FAIL " + label + ": " + error);
+            foreach (var path in ErrorLogs(cache).Except(previousLogs))
+                try { File.Copy(path, Path.Combine(results, Path.GetFileName(path)), true); }
+                catch (IOException) { } catch (UnauthorizedAccessException) { }
+        }
         finally
         {
             foreach (var pid in launchers)
             {
-                // The separate production StartupProbe verifies graceful Form.Close.
-                // This launch probe cancels only its owned fresh-profile process tree.
+                // Failure cleanup is never accepted as normal shutdown. Only the
+                // exact launcher and observed descendants belong to this probe.
+                RememberOwned(pid, owned);
                 int status;
                 if (waitpid(pid, out status, 1) == 0)
                 {
@@ -132,11 +204,15 @@ internal static class DesktopMenuProbe
                     while ((reaped = waitpid(pid, out status, 1)) == 0 && until.Elapsed.TotalSeconds < 5) Thread.Sleep(50);
                     if (reaped == 0)
                     {
-                        foreach (var child in Descendants(pid).AsEnumerable().Reverse()) kill(child, 15);
+                        foreach (var process in owned.Where(process => process.Key != pid))
+                            if (ProcessIdentity(process.Key) == process.Value) kill(process.Key, 15);
                         kill(pid, 9); waitpid(pid, out status, 0);
                     }
                 }
             }
+            if (failure != null)
+                foreach (var process in owned)
+                    if (ProcessIdentity(process.Key) == process.Value) kill(process.Key, 9);
         }
         using (var writer = XmlWriter.Create(Path.Combine(results, label + "-results.xml"), new XmlWriterSettings { Indent = true }))
         {
@@ -147,6 +223,74 @@ internal static class DesktopMenuProbe
             writer.WriteEndElement(); writer.WriteEndElement();
         }
         return failure == null ? 0 : 1;
+    }
+
+    private static string[] ErrorLogs(string cache)
+    {
+        return Directory.Exists(cache) ? Directory.GetFiles(cache, "startup-errors.*.log") : new string[0];
+    }
+
+    private static T ReadJson<T>(string json)
+    {
+        using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(json)))
+            return (T)new DataContractJsonSerializer(typeof(T)).ReadObject(stream);
+    }
+
+    private static Inventory ReadInventory(string tool, int pid, string evidence)
+    {
+        var json = NativeToolProcess.Run(new ProcessStartInfo(tool, "inventory " + pid), 5000).StandardOutput;
+        if (evidence != null) File.WriteAllText(evidence, json);
+        var inventory = ReadJson<Inventory>(json);
+        if (!inventory.Complete || inventory.Ownership != "XRes-local-client-pid" || inventory.Pid != pid ||
+            inventory.Windows == null || inventory.Windows.Any(window => window.Pid != pid))
+            throw new InvalidOperationException("Incomplete or inconsistent XRes process ownership inventory.");
+        return inventory;
+    }
+
+    private static int WaitForLauncher(List<int> launchers, Dictionary<int, string> owned, int milliseconds)
+    {
+        var clock = Stopwatch.StartNew();
+        while (clock.ElapsedMilliseconds < milliseconds)
+        {
+            RememberOwned(launchers[0], owned);
+            int status;
+            var reaped = waitpid(launchers[0], out status, 1);
+            if (reaped == launchers[0])
+            {
+                launchers.Clear();
+                return status;
+            }
+            if (reaped != 0) throw new InvalidOperationException("Could not reap the owned launcher.");
+            Thread.Sleep(50);
+        }
+        throw new TimeoutException("The production launcher did not exit after the native close request.");
+    }
+
+    private static int[] RememberOwned(int launcher, Dictionary<int, string> owned)
+    {
+        string launcherIdentity;
+        if (!owned.TryGetValue(launcher, out launcherIdentity) || ProcessIdentity(launcher) != launcherIdentity)
+            return new int[0];
+        var processes = Descendants(launcher).Concat(new[] { launcher }).Distinct().ToArray();
+        foreach (var pid in processes)
+        {
+            var identity = ProcessIdentity(pid);
+            if (identity != null) owned[pid] = identity;
+        }
+        return processes;
+    }
+
+    private static string ProcessIdentity(int pid)
+    {
+        try
+        {
+            var stat = File.ReadAllText("/proc/" + pid + "/stat");
+            // comm may contain spaces or parentheses. starttime is field 22;
+            // retain it so cleanup cannot signal a recycled PID.
+            return stat.Substring(stat.LastIndexOf(')') + 2).Split(' ')[19];
+        }
+        catch (IOException) { return null; }
+        catch (UnauthorizedAccessException) { return null; }
     }
 
     private static Dictionary<string, int> Geometry(string window)
@@ -162,16 +306,7 @@ internal static class DesktopMenuProbe
 
     private static string Xdo(string arguments)
     {
-        using (var process = Process.Start(new ProcessStartInfo("xdotool", arguments)
-        { UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true }))
-        {
-            var output = process.StandardOutput.ReadToEndAsync();
-            var error = process.StandardError.ReadToEndAsync();
-            if (!process.WaitForExit(2000))
-            { process.Kill(); process.WaitForExit(1000); throw new TimeoutException("X11 window query did not finish."); }
-            error.GetAwaiter().GetResult();
-            return process.ExitCode == 0 ? output.GetAwaiter().GetResult() : "";
-        }
+        return NativeToolProcess.Run(new ProcessStartInfo("xdotool", arguments), 2000).StandardOutput;
     }
 
     private static List<int> Descendants(int parent)

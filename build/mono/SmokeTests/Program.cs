@@ -122,6 +122,12 @@ internal static partial class Program
         Run("unicode-editor-documents-and-renaming", EditorDocuments);
         Run("unshown-editor-tabs-have-backed-documents", UnshownEditorDocuments);
         Run("desktop-visible-custom-functions-file-and-script-workflow", DesktopWorkflow);
+        Run("mono-shutdown-clean-repeated-lifetimes", ShutdownCleanRepeatedLifetimes);
+        Run("mono-shutdown-unsaved-save", () => ShutdownUnsavedDocuments(DialogResult.Yes));
+        Run("mono-shutdown-unsaved-discard", () => ShutdownUnsavedDocuments(DialogResult.No));
+        Run("mono-shutdown-cancel-and-retry", ShutdownCancellationPreservesBothEditors);
+        Run("mono-shutdown-cancelled-save-as", ShutdownCancelledSaveAsPreservesUntitledDraft);
+        Run("mono-shutdown-failed-save-as", ShutdownFailedSaveAsPreservesBothDocuments);
         Run("desktop-literal-find-and-replace", DesktopFindReplace);
         Run("unix-document-save-and-alias-protection", UnixDocumentSafety);
         Run("unix-document-hardlink-and-replacement-identity", UnixDocumentIdentity);

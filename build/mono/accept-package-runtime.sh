@@ -37,5 +37,5 @@ COMPUTATOR_MONO_EXPECTED_APPLICATION_DIRECTORY="$unpacked/app" \
     timeout --kill-after=10s 300s xvfb-run -a -s '-screen 0 1440x1000x24' \
     mono --config "$evidence/mono.config" "$evidence/harness/Computator.NET.Mono.SmokeTests.exe" \
     --application-directory "$unpacked/app" "$evidence" 2>&1 | tee "$evidence/smoke.log"
-timeout --kill-after=10s 120s xvfb-run -a -s '-screen 0 1440x1000x24' \
+timeout --kill-after=10s 240s xvfb-run -a -s '-screen 0 1440x1000x24' \
     bash build/mono/validate-desktop-menu.sh "$unpacked" "$evidence" 2>&1 | tee "$evidence/desktop-menu.log"

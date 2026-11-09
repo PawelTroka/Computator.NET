@@ -16,6 +16,6 @@ RUN apt-get update && \
       libmono-posix4.0-cil \
       libpangocairo-1.0-0 libcairo2 libjpeg-turbo8 $codecs libgif7 libexif12 \
       libx11-6 libxtst6 libxinerama1 fonts-dejavu-core \
-      xvfb xauth xdotool x11-utils && \
+      xvfb xauth xdotool x11-utils libxres1 && \
     rm -rf /var/lib/apt/lists/*
 ENV LANG=C.UTF-8
