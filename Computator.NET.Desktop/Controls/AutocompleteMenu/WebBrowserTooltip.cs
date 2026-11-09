@@ -8,6 +8,9 @@ using Computator.NET.Desktop.Services;
 namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 {
     internal class WebBrowserToolTip : ToolStripDropDown
+#if __MonoCS__
+        , IMessageFilter
+#endif
     {
 #if __MonoCS__
         private readonly MonoReferenceText referenceText;
@@ -69,6 +72,32 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
 #if __MonoCS__
         internal event EventHandler ReferenceFocusLeft;
+
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+            Application.RemoveMessageFilter(this);
+            if (Visible) Application.AddMessageFilter(this);
+        }
+
+        bool IMessageFilter.PreFilterMessage(ref Message message)
+        {
+            const int mouseWheel = 0x020A;
+            if (message.Msg != mouseWheel || !Visible || IsDisposed || Disposing) return false;
+            var delta = unchecked((short)(message.WParam.ToInt64() >> 16));
+            if (delta == 0) return false;
+            // Mono sends X11 wheel input to the focused editor, not the
+            // hovered child. Handle it before dispatch without moving focus.
+            // Its lParam is relative to the original X11 window, so use the
+            // actual pointer for hit testing. Consume boundary events too.
+            return referenceText.ScrollDescriptionAtPointer(delta, Control.MousePosition);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing) Application.RemoveMessageFilter(this);
+            base.Dispose(disposing);
+        }
 
         private void ShowMonoReference(Control owner)
         {

@@ -92,6 +92,7 @@ internal static partial class Program
                 Check(input.ContainsFocus, "Opening autocomplete moved keyboard focus away from the editor.");
                 InspectX11WindowStack(window, input, host, list, help);
                 CaptureAutocompleteX11(window, host, help, "autocomplete-after.png");
+                ReferenceMouseWheelX11(input, menu, help, reference);
                 ExerciseRichReferenceX11(window, input, menu, host, help, reference);
 
                 // Keyboard selection and insertion through the real X11 input
