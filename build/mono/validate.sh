@@ -67,7 +67,7 @@ rm -f -- "$results/production-complex-before.png" "$results/production-complex-a
     "$results/complex-visible-z-cubed.png" "$results/complex-visible-resized.png" \
     "$results/complex-visible-cleared.png" "$results/complex-visible-recovered.png" \
     "$results/complex-visible-render-failure.png" "$results/complex-visible-after-render-failure.png"
-rm -f -- "$results/autocomplete-after.png"
+rm -f -- "$results/autocomplete-after.png" "$results/scripting-autocomplete-special.png"
 rm -f -- "$results/find-replace.png" "$results/find-replace-dialog.png"
 
 mcs -nologo -out:"$validation_temp/NativeToolProcessTests.exe" \

@@ -253,6 +253,10 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         [DefaultValue(false)]
         public bool AllowsTabKey { get; set; }
 
+        [DefaultValue(true)]
+        [Description("Apply the expression editor's superscript input mode when filtering and inserting completion.")]
+        public bool UseExpressionExponentMode { get; set; } = true;
+
         /// <summary>
         ///     Interval of menu appear (ms)
         /// </summary>
@@ -579,6 +583,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
                     case Keys.End:
                     case Keys.Home:
                     case Keys.ControlKey:
+                    case Keys.Escape:
                     {
                         _timer.Stop();
                         return;
@@ -802,7 +807,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
             var index = text.IndexOfAny(SpecialSymbols.SuperscriptsWithoutSpace.ToCharArray());
 
-            if (_sharedViewState.IsExponent && index == -1)
+            if (UseExpressionExponentMode && _sharedViewState.IsExponent && index == -1)
             {
                 text = "";
             }
@@ -852,7 +857,12 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         {
             var tb = TargetControlWrapper;
 
-            if (tb.SelectionLength > 0) return new Range(tb);
+            if (tb.SelectionLength > 0)
+                return new Range(tb)
+                {
+                    Start = tb.SelectionStart,
+                    End = tb.SelectionStart + tb.SelectionLength
+                };
 
             var text = tb.Text;
             var regex = new Regex(searchPattern);
@@ -980,18 +990,16 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             //replace text of fragment
 
 
-            var index = fragment.Text.IndexOfAny(SpecialSymbols.SuperscriptsWithoutSpace.ToCharArray());
-
-            if (index == 0)
+            if (UseExpressionExponentMode)
             {
-                newText = SpecialSymbols.AsciiToSuperscript(newText);
+                var index = fragment.Text.IndexOfAny(SpecialSymbols.SuperscriptsWithoutSpace.ToCharArray());
+                if (index == 0)
+                    newText = SpecialSymbols.AsciiToSuperscript(newText);
+                else if (index > 0)
+                    newText = fragment.Text.Substring(0, index) + SpecialSymbols.AsciiToSuperscript(newText);
+                else if (_sharedViewState.IsExponent)
+                    newText = fragment.Text + SpecialSymbols.AsciiToSuperscript(newText);
             }
-            else if (index > 0)
-            {
-                newText = fragment.Text.Substring(0, index) + SpecialSymbols.AsciiToSuperscript(newText);
-            }
-            else if (_sharedViewState.IsExponent)
-                newText = fragment.Text + SpecialSymbols.AsciiToSuperscript(newText);
 
 
             fragment.Text = newText;

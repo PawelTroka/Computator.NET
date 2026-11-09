@@ -3,10 +3,12 @@ using System.CodeDom.Compiler;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
+using Computator.NET.Core.Autocompletion;
 using Computator.NET.Core.Model;
 using Computator.NET.Desktop.Controls.CodeEditors;
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Document;
+using Moq;
 using NUnit.Framework;
 
 namespace Computator.NET.Desktop.Tests
@@ -20,7 +22,7 @@ namespace Computator.NET.Desktop.Tests
         [SetUp]
         public void OpenLegacyEditor()
         {
-            _editor = new TextEditorCodeEditor(new SharedViewState());
+            _editor = new TextEditorCodeEditor(new SharedViewState(), Mock.Of<IAutocompleteProvider>());
             _editor.NewDocument("first.tsl", Source);
             NUnit.Framework.Assert.That(_editor.Handle, Is.Not.EqualTo(IntPtr.Zero));
         }
