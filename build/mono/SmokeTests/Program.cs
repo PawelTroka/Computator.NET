@@ -118,6 +118,10 @@ internal static partial class Program
         Run("mono-correctly-rounded-numeric-input", CorrectlyRoundedNumericInput);
         Run("mono-numeric-input-font-layout", NumericInputsFitActualFonts);
         Run("mono-function-reference-rich-offline-content", FunctionReference);
+        // Run native message preprocessing before the older DoEvents-driven
+        // popup fixture can leave Mono holding a disposed dropdown as active.
+        if (Computator.NET.DataTypes.Configuration.RuntimeInformation.IsLinux)
+            Run("mono-operator-input-real-x11-desktop", OperatorInputRealX11);
         Run("mono-autocomplete-real-x11-layout-and-selection", AutocompleteRealX11);
         Run("unicode-editor-documents-and-renaming", EditorDocuments);
         Run("unshown-editor-tabs-have-backed-documents", UnshownEditorDocuments);
