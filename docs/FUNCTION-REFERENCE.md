@@ -207,6 +207,21 @@ rectangular identity-pattern behavior of `isIndentity` and `IdentityMatrix`, the
 relative comparison tolerance `1e-10`, and the public function names are unchanged.
 The host, emitted helper and precompiled scripting surface use the same rule.
 
+## Typed zero-filled matrices and vectors
+
+`matrix<T>(n,m)` and `vector<T>(n)` construct the requested Math.NET scalar type:
+`real` (`double`), `float`, `complex` (`System.Numerics.Complex`), or
+`MathNet.Numerics.Complex32`. The single-precision types now work alongside the
+existing double-precision types. Each call allocates independent, zero-filled
+dense storage; zero dimensions remain supported, and negative dimensions throw
+`ArgumentOutOfRangeException`.
+
+Other element types, including `integer`, `natural` and `decimal`, continue to
+throw `ArgumentException`, now with the supported choices in the message. The
+older reference's warning that they could return null was inaccurate: the old
+numeric-type check inspected a `Type` object and rejected those calls. Array
+and element-list overloads keep their existing behavior.
+
 ## Known numerical differences deliberately not changed here
 
 The remaining distinctions below are preserved and documented. Each numerical correction above updates its tests and reference together; the other entries still describe current behavior:

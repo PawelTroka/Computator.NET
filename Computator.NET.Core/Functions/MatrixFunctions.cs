@@ -43,14 +43,21 @@ writeln(result);
 		public static MathNet.Numerics.LinearAlgebra.Vector<T> vector<T>(int n)
 			where T : struct, System.IEquatable<T>, System.IFormattable
 		{
-			if (typeof(T) == typeof(double) || NumericalExtensions.IsNumericType(typeof(T)))
-				return
-					new MathNet.Numerics.LinearAlgebra.Double.DenseVector(n) as MathNet.Numerics.LinearAlgebra.Vector<T>;
+			// Select an exact supported type before accessing its Math.NET builder.
+			if (typeof(T) == typeof(double))
+				return (MathNet.Numerics.LinearAlgebra.Vector<T>)(object)
+					MathNet.Numerics.LinearAlgebra.Vector<double>.Build.Dense(n);
+			if (typeof(T) == typeof(float))
+				return (MathNet.Numerics.LinearAlgebra.Vector<T>)(object)
+					MathNet.Numerics.LinearAlgebra.Vector<float>.Build.Dense(n);
 			if (typeof(T) == typeof(System.Numerics.Complex))
-				return
-					new MathNet.Numerics.LinearAlgebra.Complex.DenseVector(n) as
-						MathNet.Numerics.LinearAlgebra.Vector<T>;
-			throw new System.ArgumentException("Wrong type for vector creation, consider using real or complex");
+				return (MathNet.Numerics.LinearAlgebra.Vector<T>)(object)
+					MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Complex>.Build.Dense(n);
+			if (typeof(T) == typeof(MathNet.Numerics.Complex32))
+				return (MathNet.Numerics.LinearAlgebra.Vector<T>)(object)
+					MathNet.Numerics.LinearAlgebra.Vector<MathNet.Numerics.Complex32>.Build.Dense(n);
+			throw new System.ArgumentException("Unsupported vector element type " + typeof(T).FullName +
+				". Use real (double), float, complex (System.Numerics.Complex), or MathNet.Numerics.Complex32.");
 		}
 
 		/*public static MathNet.Numerics.LinearAlgebra.Matrix<dynamic> matrix(int n, int m)
@@ -67,15 +74,21 @@ public static MathNet.Numerics.LinearAlgebra.Matrix<dynamic> matrix(dynamic[,] a
 		public static MathNet.Numerics.LinearAlgebra.Matrix<T> matrix<T>(int n, int m)
 			where T : struct, System.IEquatable<T>, System.IFormattable
 		{
-			if (typeof(T) == typeof(double) || NumericalExtensions.IsNumericType(typeof(T)))
-				return
-					new MathNet.Numerics.LinearAlgebra.Double.DenseMatrix(n, m) as
-						MathNet.Numerics.LinearAlgebra.Matrix<T>;
+			// Select an exact supported type before accessing its Math.NET builder.
+			if (typeof(T) == typeof(double))
+				return (MathNet.Numerics.LinearAlgebra.Matrix<T>)(object)
+					MathNet.Numerics.LinearAlgebra.Matrix<double>.Build.Dense(n, m);
+			if (typeof(T) == typeof(float))
+				return (MathNet.Numerics.LinearAlgebra.Matrix<T>)(object)
+					MathNet.Numerics.LinearAlgebra.Matrix<float>.Build.Dense(n, m);
 			if (typeof(T) == typeof(System.Numerics.Complex))
-				return
-					new MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix(n, m) as
-						MathNet.Numerics.LinearAlgebra.Matrix<T>;
-			throw new System.ArgumentException("Wrong type for matrix creation, consider using real or complex");
+				return (MathNet.Numerics.LinearAlgebra.Matrix<T>)(object)
+					MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>.Build.Dense(n, m);
+			if (typeof(T) == typeof(MathNet.Numerics.Complex32))
+				return (MathNet.Numerics.LinearAlgebra.Matrix<T>)(object)
+					MathNet.Numerics.LinearAlgebra.Matrix<MathNet.Numerics.Complex32>.Build.Dense(n, m);
+			throw new System.ArgumentException("Unsupported matrix element type " + typeof(T).FullName +
+				". Use real (double), float, complex (System.Numerics.Complex), or MathNet.Numerics.Complex32.");
 		}
 
 	   /* public static MathNet.Numerics.LinearAlgebra.Double.DenseMatrix matrix(string str)
@@ -498,14 +511,21 @@ where T : struct, System.IEquatable<T>, System.IFormattable
 		public static MathNet.Numerics.LinearAlgebra.Vector<T> vector<T>(int n)
 			where T : struct, System.IEquatable<T>, System.IFormattable
 		{
-			if (typeof(T) == typeof(double) || NumericalExtensions.IsNumericType(typeof(T)))
-				return
-					new MathNet.Numerics.LinearAlgebra.Double.DenseVector(n) as MathNet.Numerics.LinearAlgebra.Vector<T>;
+			// Select an exact supported type before accessing its Math.NET builder.
+			if (typeof(T) == typeof(double))
+				return (MathNet.Numerics.LinearAlgebra.Vector<T>)(object)
+					MathNet.Numerics.LinearAlgebra.Vector<double>.Build.Dense(n);
+			if (typeof(T) == typeof(float))
+				return (MathNet.Numerics.LinearAlgebra.Vector<T>)(object)
+					MathNet.Numerics.LinearAlgebra.Vector<float>.Build.Dense(n);
 			if (typeof(T) == typeof(System.Numerics.Complex))
-				return
-					new MathNet.Numerics.LinearAlgebra.Complex.DenseVector(n) as
-						MathNet.Numerics.LinearAlgebra.Vector<T>;
-			throw new System.ArgumentException(""Wrong type for vector creation, consider using real or complex"");
+				return (MathNet.Numerics.LinearAlgebra.Vector<T>)(object)
+					MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Complex>.Build.Dense(n);
+			if (typeof(T) == typeof(MathNet.Numerics.Complex32))
+				return (MathNet.Numerics.LinearAlgebra.Vector<T>)(object)
+					MathNet.Numerics.LinearAlgebra.Vector<MathNet.Numerics.Complex32>.Build.Dense(n);
+			throw new System.ArgumentException(""Unsupported vector element type "" + typeof(T).FullName +
+				"". Use real (double), float, complex (System.Numerics.Complex), or MathNet.Numerics.Complex32."");
 		}
 
 		/*public static MathNet.Numerics.LinearAlgebra.Matrix<dynamic> matrix(int n, int m)
@@ -522,15 +542,21 @@ public static MathNet.Numerics.LinearAlgebra.Matrix<dynamic> matrix(dynamic[,] a
 		public static MathNet.Numerics.LinearAlgebra.Matrix<T> matrix<T>(int n, int m)
 			where T : struct, System.IEquatable<T>, System.IFormattable
 		{
-			if (typeof(T) == typeof(double) || NumericalExtensions.IsNumericType(typeof(T)))
-				return
-					new MathNet.Numerics.LinearAlgebra.Double.DenseMatrix(n, m) as
-						MathNet.Numerics.LinearAlgebra.Matrix<T>;
+			// Select an exact supported type before accessing its Math.NET builder.
+			if (typeof(T) == typeof(double))
+				return (MathNet.Numerics.LinearAlgebra.Matrix<T>)(object)
+					MathNet.Numerics.LinearAlgebra.Matrix<double>.Build.Dense(n, m);
+			if (typeof(T) == typeof(float))
+				return (MathNet.Numerics.LinearAlgebra.Matrix<T>)(object)
+					MathNet.Numerics.LinearAlgebra.Matrix<float>.Build.Dense(n, m);
 			if (typeof(T) == typeof(System.Numerics.Complex))
-				return
-					new MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix(n, m) as
-						MathNet.Numerics.LinearAlgebra.Matrix<T>;
-			throw new System.ArgumentException(""Wrong type for matrix creation, consider using real or complex"");
+				return (MathNet.Numerics.LinearAlgebra.Matrix<T>)(object)
+					MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>.Build.Dense(n, m);
+			if (typeof(T) == typeof(MathNet.Numerics.Complex32))
+				return (MathNet.Numerics.LinearAlgebra.Matrix<T>)(object)
+					MathNet.Numerics.LinearAlgebra.Matrix<MathNet.Numerics.Complex32>.Build.Dense(n, m);
+			throw new System.ArgumentException(""Unsupported matrix element type "" + typeof(T).FullName +
+				"". Use real (double), float, complex (System.Numerics.Complex), or MathNet.Numerics.Complex32."");
 		}
 
 	   /* public static MathNet.Numerics.LinearAlgebra.Double.DenseMatrix matrix(string str)
