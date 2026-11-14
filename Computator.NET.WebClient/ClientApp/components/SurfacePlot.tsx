@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 
 type Eye = { x: number; y: number; z: number };
 const initialEye: Eye = { x: 1.7, y: 1.7, z: 1.35 };
+type Plotly = (typeof import('plotly.js-gl3d-dist-min'))['default'];
+type Scene = { div: HTMLDivElement; plotly: Plotly | null; eye: Eye; ready: boolean; exporting: boolean };
 
 // The sample grid is produced by the same server-side expression evaluator used
 // for numerical calculations. Plotly never parses or evaluates user definitions.
@@ -41,41 +43,52 @@ export function isSurfaceGrid(value: unknown): value is SurfaceGrid {
 
 export function SurfacePlot({ grid, expression }: { grid: SurfaceGrid; expression: string }) {
   const host = useRef<HTMLDivElement>(null);
-  const cameraEye = useRef<Eye>({ ...initialEye });
-  const plotly = useRef<(typeof import('plotly.js-gl3d-dist-min'))['default'] | null>(null);
+  const scene = useRef<Scene | null>(null);
   const [ready, setReady] = useState(false), [exporting, setExporting] = useState(false);
   const [error, setError] = useState('');
+  const isCurrent = (owner: Scene) => scene.current === owner && owner.div.isConnected;
 
   // Explicit camera controls remain operable with keyboard/touch and on
   // devices whose browser/WebGL implementation does not forward drag or wheel
   // gestures reliably. The actual Plotly camera is updated, not an overlay.
   function setEye(next: Eye) {
-    const div = host.current;
-    if (!div || !plotly.current) return;
-    cameraEye.current = next;
-    void plotly.current.relayout(div, { 'scene.camera': { eye: next } })
-      .then(() => { div.dataset.camera = JSON.stringify({ eye: next }); })
-      .catch(reason => setError(reason instanceof Error ? reason.message : 'Camera update failed.'));
+    const owner = scene.current;
+    if (!owner?.ready || !owner.plotly) return;
+    owner.eye = next;
+    void owner.plotly.relayout(owner.div, { 'scene.camera': { eye: next } })
+      .then(() => { if (isCurrent(owner)) owner.div.dataset.camera = JSON.stringify({ eye: next }); })
+      .catch(reason => { if (isCurrent(owner)) setError(reason instanceof Error ? reason.message : 'Camera update failed.'); });
   }
   function rotate(angle: number) {
-    const { x, y, z } = cameraEye.current;
+    if (!scene.current) return;
+    const { x, y, z } = scene.current.eye;
     setEye({ x: x * Math.cos(angle) - y * Math.sin(angle),
       y: x * Math.sin(angle) + y * Math.cos(angle), z });
   }
   function zoom(scale: number) {
-    const { x, y, z } = cameraEye.current;
+    if (!scene.current) return;
+    const { x, y, z } = scene.current.eye;
     const radius = Math.hypot(x, y, z);
     const factor = Math.max(0.25, Math.min(15, radius * scale)) / radius;
     setEye({ x: x * factor, y: y * factor, z: z * factor });
   }
 
-  useEffect(() => {
-    const div = host.current;
-    if (!div) return;
+  useLayoutEffect(() => {
+    const container = host.current;
+    if (!container) return;
+    // Plotly initialization is asynchronous and cannot be cancelled. Give each
+    // render its own node: late initialization/cleanup can then touch only the
+    // detached old scene, never a replacement using the same React host.
+    const div = document.createElement('div');
+    div.className = 'chart-surface';
+    div.setAttribute('role', 'img');
+    div.setAttribute('aria-label', 'Interactive 3D surface: ' + expression);
+    div.dataset.testid = 'surface-chart';
+    container.appendChild(div);
+    const owner: Scene = { div, plotly: null, eye: { ...initialEye }, ready: false, exporting: false };
+    scene.current = owner;
     let disposed = false;
-    cameraEye.current = { ...initialEye };
-    delete div.dataset.camera;
-    setReady(false); setError('');
+    setReady(false); setExporting(false); setError('');
     let wheelHandler: ((event: WheelEvent) => void) | undefined;
     let resize: ResizeObserver | null = null;
     const start = async () => {
@@ -89,7 +102,7 @@ export function SurfacePlot({ grid, expression }: { grid: SurfaceGrid; expressio
         // Load the offline, pinned WebGL surface bundle only for f(x,y).
         const { default: Plotly } = await import('plotly.js-gl3d-dist-min');
         if (disposed) return;
-        plotly.current = Plotly;
+        owner.plotly = Plotly;
         const axis = (name: string) => ({
           title: { text: name, font: { size: 15, color: '#eff0f3' } },
           tickfont: { color: '#eff0f3', size: 12 }, gridcolor: '#5b6570',
@@ -118,8 +131,8 @@ export function SurfacePlot({ grid, expression }: { grid: SurfaceGrid; expressio
         const graph = div as HTMLDivElement & { on?: (name: string, listener: (value: Record<string, unknown>) => void) => void };
         graph.on?.('plotly_relayout', event => {
           const camera = event['scene.camera'] as { eye?: Eye } | undefined;
-          if (camera?.eye && [camera.eye.x, camera.eye.y, camera.eye.z].every(Number.isFinite)) {
-            cameraEye.current = { ...camera.eye };
+          if (isCurrent(owner) && camera?.eye && [camera.eye.x, camera.eye.y, camera.eye.z].every(Number.isFinite)) {
+            owner.eye = { ...camera.eye };
             div.dataset.camera = JSON.stringify(camera);
           }
         });
@@ -132,8 +145,8 @@ export function SurfacePlot({ grid, expression }: { grid: SurfaceGrid; expressio
         };
         div.addEventListener('wheel', wheelHandler, { passive: false });
         resize = new ResizeObserver(async () => {
-          // A queued observer may run after React removes the surface, before
-          // passive effect cleanup. Plotly rejects hidden/detached resize work.
+          // A queued observer may run after its surface is removed. Plotly
+          // rejects hidden/detached resize work.
           if (disposed || !div.isConnected || !div.clientWidth || !div.clientHeight) return;
           try { await Plotly.Plots.resize(div); }
           catch (reason) {
@@ -142,39 +155,43 @@ export function SurfacePlot({ grid, expression }: { grid: SurfaceGrid; expressio
           }
         });
         resize.observe(div);
+        owner.ready = true;
         setReady(true);
       } catch (reason) {
-        if (!disposed) setError(reason instanceof Error ? reason.message : '3D rendering is unavailable.');
+        if (disposed) owner.plotly?.purge(div);
+        else setError(reason instanceof Error ? reason.message : '3D rendering is unavailable.');
       }
     };
     void start();
     return () => {
       disposed = true;
+      if (scene.current === owner) scene.current = null;
       resize?.disconnect();
       if (wheelHandler) div.removeEventListener('wheel', wheelHandler);
-      if (plotly.current) plotly.current.purge(div);
-      plotly.current = null;
+      div.remove();
+      owner.plotly?.purge(div);
     };
   }, [grid, expression]);
 
   async function download() {
-    const div = host.current;
-    if (!div || !plotly.current || !ready) return;
+    const owner = scene.current;
+    if (!owner?.ready || !owner.plotly || owner.exporting) return;
+    owner.exporting = true;
     setExporting(true); setError('');
     try {
       // Plotly composites WebGL + axis annotations into a real image.
-      const png = await plotly.current.toImage(div, { format: 'png', width: 1200, height: 800, scale: 1 });
+      const png = await owner.plotly.toImage(owner.div, { format: 'png', width: 1200, height: 800, scale: 1 });
+      if (!isCurrent(owner)) return;
       const link = document.createElement('a');
       link.href = png; link.download = 'computator-chart.png';
       document.body.appendChild(link); link.click(); link.remove();
     } catch (reason) {
-      setError(reason instanceof Error ? reason.message : 'PNG export failed.');
-    } finally { setExporting(false); }
+      if (isCurrent(owner)) setError(reason instanceof Error ? reason.message : 'PNG export failed.');
+    } finally { owner.exporting = false; if (isCurrent(owner)) setExporting(false); }
   }
 
   return <figure>
-    <div className="chart-surface" ref={host} role="img"
-      aria-label={'Interactive 3D surface: ' + expression} data-testid="surface-chart" />
+    <div ref={host} />
     <figcaption>Rendered expression: <code>{expression}</code>
       <span className="d-block small">Axes use a normalized display scale; tick labels show the original values.</span>
     </figcaption>
