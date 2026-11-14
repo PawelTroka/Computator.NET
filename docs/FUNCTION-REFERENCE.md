@@ -153,6 +153,24 @@ binary64 value, `inverseErfc(double.Epsilon)` is approximately
 at high precision with the exact binary64 inputs, alongside cases immediately
 on either side of the implementation transition.
 
+## Directly scaled complementary error function
+
+`erfcx(x)` keeps finite positive-tail values after the unscaled `erfc(x)` and
+`exp(-x*x)` underflow. For example, `erfcx(30)` returns approximately
+`0.0187958888614168`, and the value at `double.MaxValue` remains a positive
+subnormal. The complex overload also avoids losing the complementary tail by
+subtracting `erf(z)` from one.
+
+The [Faddeeva identity](https://dlmf.nist.gov/7.2.E3), `erfcx(z)=w(i*z)`, allows
+reuse of the already pinned [Meta.Numerics 4.2.0 implementation](https://github.com/dcwuser/metanumerics/blob/v4.2.0/Numerics/Functions/AdvancedMath_Error.cs).
+Real inputs below two retain the existing real-error-function path for accuracy
+near the origin and the established negative-input behavior. Purely real
+complex inputs share this real path, including the positive-infinity limit zero
+and negative-infinity limit positive infinity. Negative real values and some
+complex directions still grow exponentially and can overflow; no new arbitrary
+precision or native dependency is introduced. Host, emitted TSL and precompiled
+built-ins follow the same implementation.
+
 ## Corrected real inverse hyperbolic tangents
 
 `artanh` and its `artgh` alias now use the runtime inverse hyperbolic tangent.

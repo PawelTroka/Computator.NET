@@ -18576,12 +18576,13 @@ write(p.Evaluate(2));</code></pre><p><strong>Result:</strong> Approximately 3</p
     <Category>Functions related to probability distributions</Category>
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><code>real erfcx(real x)</code></p>
-<p class="reference-summary">Removes the leading Gaussian exponential from erfc mathematically.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>erfcx(z)=exp(z²)erfc(z)</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> Real or complex input; erfcx(0)=1.</p>
-<p class="reference-note"><strong>Important:</strong> The current wrapper forms erfc(z)/exp(−z²) directly. It can still overflow, underflow or suffer cancellation; do not assume the name guarantees a stabilized scaled algorithm.</p>
+<p class="reference-summary">Removes the leading Gaussian exponential from the complementary error function.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>erfcx(z)=exp(z²)erfc(z)=w(i·z)</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Real input; erfcx(0)=1. The limit at +∞ is 0 and at −∞ is +∞; NaN remains NaN.</p>
+<p class="reference-note"><strong>Important:</strong> Positive tails use the Faddeeva function directly, retaining finite scaled values even after erfc(x) underflows. Negative inputs grow exponentially and can legitimately overflow to +∞.</p>
 <p class="reference-explanation">The scaled complementary error function removes the leading exponential decay on the positive real axis. It is useful for small-tail calculations where separately computing exp(z²) and erfc(z) would overflow and underflow.</p>
-<p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/c20dfe7296eff9312cb900f3c00daef9d15a7aac05db32c667a1fcd9eb242702.png" alt="erfcx(z)=exp(z²)erfc(z)" width="187" height="34" /></p>
+<p class="reference-example"><strong>Example:</strong> erfcx(30) ≈ 0.0187958888614168; erfc(30) has already underflowed to zero.</p>
+<p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/c20dfe7296eff9312cb900f3c00daef9d15a7aac05db32c667a1fcd9eb242702.png" alt="erfcx(z)=exp(z²)erfc(z)=w(i·z)" width="187" height="34" /></p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/7.2">dlmf.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://dlmf.nist.gov/7.2</Url>
@@ -18592,12 +18593,13 @@ write(p.Evaluate(2));</code></pre><p><strong>Result:</strong> Approximately 3</p
     <Category>Functions related to probability distributions</Category>
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><code>complex erfcx(complex z)</code></p>
-<p class="reference-summary">Removes the leading Gaussian exponential from erfc mathematically.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>erfcx(z)=exp(z²)erfc(z)</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> Real or complex input; erfcx(0)=1.</p>
-<p class="reference-note"><strong>Important:</strong> The current wrapper forms erfc(z)/exp(−z²) directly. It can still overflow, underflow or suffer cancellation; do not assume the name guarantees a stabilized scaled algorithm.</p>
+<p class="reference-summary">Removes the leading Gaussian exponential from the complementary error function.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>erfcx(z)=exp(z²)erfc(z)=w(i·z)</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Complex input. Real-axis values agree with the real overload; erfcx(0)=1.</p>
+<p class="reference-note"><strong>Important:</strong> Uses the Faddeeva identity erfcx(z)=w(i·z), avoiding separately formed complementary tails and exponentials. Large left-half-plane values can still exceed floating-point range; scaling does not bound the function everywhere in the complex plane.</p>
 <p class="reference-explanation">The scaled complementary error function removes the leading exponential decay on the positive real axis. It is useful for small-tail calculations where separately computing exp(z²) and erfc(z) would overflow and underflow.</p>
-<p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/c20dfe7296eff9312cb900f3c00daef9d15a7aac05db32c667a1fcd9eb242702.png" alt="erfcx(z)=exp(z²)erfc(z)" width="187" height="34" /></p>
+<p class="reference-example"><strong>Example:</strong> erfcx(30+i) ≈ 0.0187750853155415 − 0.000625143491488i.</p>
+<p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/c20dfe7296eff9312cb900f3c00daef9d15a7aac05db32c667a1fcd9eb242702.png" alt="erfcx(z)=exp(z²)erfc(z)=w(i·z)" width="187" height="34" /></p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/7.2">dlmf.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://dlmf.nist.gov/7.2</Url>

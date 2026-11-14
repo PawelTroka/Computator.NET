@@ -128,7 +128,7 @@ def probability(name,args,complex_arg):
     data={
      'erf':('Error function','The normalized integral of a Gaussian, continued to an entire complex function.', 'erf(z)=2/sqrt(PI) ∫₀ᶻ exp(−t²)dt', 'Real or complex input; erf(0)=0. For real x, erf(x) lies in [−1,1].'),
      'erfc':('Complementary error function','The upper Gaussian integral complementary to erf.', 'erfc(z)=1−erf(z)', 'Real or complex input. For real x, erfc(x) decreases from 2 to 0.'),
-     'erfcx':('Exponentially scaled complementary error','Removes the leading Gaussian exponential from erfc mathematically.', 'erfcx(z)=exp(z²)erfc(z)', 'Real or complex input; erfcx(0)=1.'),
+     'erfcx':('Exponentially scaled complementary error','Removes the leading Gaussian exponential from the complementary error function.', 'erfcx(z)=exp(z²)erfc(z)=w(i·z)', 'Real or complex input; erfcx(0)=1.'),
      'erfi':('Imaginary error function','An entire counterpart of erf defined by rotating its argument.', 'erfi(z)=−i·erf(i·z)', 'Complex input; for real z its mathematical value is real, despite the name.'),
      'faddeeva':('Faddeeva complex probability function','A complex Gaussian-response function used in Voigt line profiles and wave propagation.', 'w(z)=exp(−z²)erfc(−i·z)', 'Complex z; w is entire. This is not simply erf(z) or a real probability.'),
      'inverseErf':('Inverse error function',P('Solves ', M('\\operatorname{erf}(y)=x', 'erf(y)=x'), ' on the real principal inverse.'), 'erf(inverseErf(x))=x', 'Real domain −1≤x≤1. Negative inputs give negative results; x=−1 gives −∞, x=0 gives 0 and x=1 gives +∞. Inputs outside the domain return NaN.'),
@@ -142,11 +142,19 @@ def probability(name,args,complex_arg):
      'Logit':('Log-odds transform','The inverse of the logistic sigmoid on probabilities strictly between zero and one.', 'logit(p)=ln[p/(1−p)]', '0≤p≤1 in this wrapper; endpoints give −∞ and +∞. Outside the interval returns NaN.')
     }
     title,definition,formula,domain=data[name]
-    note=''
-    if name=='erfcx':note='The current wrapper forms erfc(z)/exp(−z²) directly. It can still overflow, underflow or suffer cancellation; do not assume the name guarantees a stabilized scaled algorithm.'
+    note='';example=''
+    if name=='erfcx':
+        if complex_arg:
+            domain='Complex input. Real-axis values agree with the real overload; erfcx(0)=1.'
+            note='Uses the Faddeeva identity erfcx(z)=w(i·z), avoiding separately formed complementary tails and exponentials. Large left-half-plane values can still exceed floating-point range; scaling does not bound the function everywhere in the complex plane.'
+            example='erfcx(30+i) ≈ 0.0187750853155415 − 0.000625143491488i.'
+        else:
+            domain='Real input; erfcx(0)=1. The limit at +∞ is 0 and at −∞ is +∞; NaN remains NaN.'
+            note='Positive tails use the Faddeeva function directly, retaining finite scaled values even after erfc(x) underflows. Negative inputs grow exponentially and can legitimately overflow to +∞.'
+            example='erfcx(30) ≈ 0.0187958888614168; erfc(30) has already underflowed to zero.'
     if name=='erfc' and complex_arg:note='The complex wrapper subtracts erf(z) from 1, so very small complementary tails may lose relative accuracy.'
     if name=='inverseErfc':note='Positive binary64 tails, including subnormal inputs, have finite inverses. Complementary inversion is evaluated directly: forming inverseErf(1−x) first would round very small x away.'
-    return A(title,definition,formula,domain,note,url=DLMF+('7.17' if name in ('inverseErf','inverseErfc') else '7.2') if name not in ('OwenT','Logistic','Logit') else 'https://accord-framework.net/docs/html/T_Accord_Math_OwensT.htm' if name=='OwenT' else MATHNET+'MathNet.Numerics/SpecialFunctions.htm')
+    return A(title,definition,formula,domain,note,example,url=DLMF+('7.17' if name in ('inverseErf','inverseErfc') else '7.2') if name not in ('OwenT','Logistic','Logit') else 'https://accord-framework.net/docs/html/T_Accord_Math_OwensT.htm' if name=='OwenT' else MATHNET+'MathNet.Numerics/SpecialFunctions.htm')
 
 def bessel(name,args,alias):
     if name in ('StruveL0','StruveL1'):
