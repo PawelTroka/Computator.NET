@@ -45,13 +45,25 @@ namespace Computator.NET.Desktop.Controls
                 }),
                 new ToolStripMenuItem(Strings.Delete_file, null, (o, e) =>
                 {
-                    if (ctxNode?.Parent == null || ctxNode.TreeView != this || Directory.Exists(ctxNode.FullPath)) return;
-                    File.Delete(ctxNode.FullPath);
-                    // A failed deletion must leave its unsaved editor buffer open.
-                    CodeEditorWrapper?.RemoveTab(ctxNode.FullPath);
-                    ctxNode.Remove();
-                    SelectedNode = Nodes.Count > 0 ? Nodes[0] : null;
-                    ctxNode = SelectedNode;
+                    var target = ctxNode;
+                    if (target?.Parent == null || target.TreeView != this || Directory.Exists(target.FullPath)) return;
+                    var filename = target.FullPath;
+                    // The editor owns unsaved-change approval and disk deletion.
+                    // Cancel and failed writes/deletes must retain the tree node.
+                    if (CodeEditorWrapper != null)
+                    {
+                        if (!CodeEditorWrapper.TryDeleteFile(filename)) return;
+                    }
+                    else File.Delete(filename);
+                    // A modal Save As may pump selection/refresh events. Remove
+                    // only the original node, never the current context target.
+                    if (target.TreeView == this) target.Remove();
+                    else RefreshDisplay();
+                    if (ctxNode == target)
+                    {
+                        SelectedNode = Nodes.Count > 0 ? Nodes[0] : null;
+                        ctxNode = SelectedNode;
+                    }
                 })
             });
             _fileMenu.Opening += (sender, args) =>

@@ -34,6 +34,7 @@ namespace Computator.NET.Core.Abstract.Controls
         void EnsureCanRenameDocument(string oldPath, string fullPath);
         void RenameDocument(string oldPath, string fullPath);
         void RenameFile(string oldPath, string fullPath);
+        bool TryDeleteFile(string fullPath);
 
         void SwitchTab(string fullPath);
     }

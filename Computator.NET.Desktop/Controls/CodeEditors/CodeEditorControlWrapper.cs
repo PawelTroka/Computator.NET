@@ -40,6 +40,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             new Dictionary<TabPage, DocumentFileSnapshot>();
         private string _selectedSavePath;
         private DocumentFileSnapshot _selectedSaveSnapshot;
+        private string _saveCopySourcePath;
         private TabPage _activeTab;
         private bool _restoringTabs;
         private int _documentOperationDepth;
@@ -360,6 +361,87 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         {
             var documentTab = FindDocumentTab(tabName);
             if (documentTab != null) tabControl.TryCloseTabs(new[] { documentTab });
+        }
+
+        public bool TryDeleteFile(string filename)
+        {
+            filename = DocumentFilePath.Normalize(filename);
+            var document = FindDocumentTab(filename);
+            // An independently edited copy in the other workspace must be closed
+            // explicitly before this tree can remove its backing file.
+            EnsureSaveDestinationAvailable(document, filename);
+            var previous = tabControl.SelectedTab;
+            var approvedName = document?.Text;
+            var approvedText = document == null ? null : ReadDocumentText(document);
+            var keepCopyOpen = false;
+            try
+            {
+                return DocumentFileDeletion.TryDelete(filename, () =>
+                {
+                    if (document == null || !IsDirty(document, approvedText)) return true;
+                    SwitchTab(document.Text);
+                    var decision = PromptToDeleteFile(filename);
+                    if (!IsDocumentTab(document) || tabControl.SelectedTab != document ||
+                        document.Text != approvedName || ReadDocumentText(document) != approvedText) return false;
+                    if (decision == DialogResult.No) return true;
+                    if (decision != DialogResult.Yes) return false;
+
+                    try { SaveCopyBeforeDelete(filename); }
+                    catch (Exception exception) when (exception is IOException || exception is UnauthorizedAccessException ||
+                                                      exception is ArgumentException || exception is NotSupportedException)
+                    {
+                        ShowCloseSaveError(exception.Message);
+                        return false;
+                    }
+                    if (!IsDocumentTab(document) || !(document.Tag is string copyPath) ||
+                        DocumentFileSafety.AreSameFile(copyPath, filename) ||
+                        IsDirty(document, ReadDocumentText(document))) return false;
+                    approvedName = document.Text;
+                    approvedText = ReadDocumentText(document);
+                    keepCopyOpen = true;
+                    return true;
+                }, () =>
+                {
+                    EnsureSaveDestinationAvailable(document, filename);
+                    if (document == null) return FindDocumentTab(filename) == null;
+                    return IsDocumentTab(document) && CurrentCodeEditor.ContainsDocument(document.Text) &&
+                        document.Text == approvedName && ReadDocumentText(document) == approvedText;
+                }, () =>
+                {
+                    // Approval has already been checked. Do not show another
+                    // cancellable close prompt after the file has been deleted.
+                    if (document != null && !keepCopyOpen) tabControl.TabPages.Remove(document);
+                });
+            }
+            finally
+            {
+                if (IsDocumentTab(previous)) SwitchTab(previous.Text);
+            }
+        }
+
+        protected virtual DialogResult PromptToDeleteFile(string filename)
+        {
+            return System.Windows.Forms.MessageBox.Show(this,
+                "'" + filename + "' has unsaved changes. Save a copy before deleting the original file?" +
+                Environment.NewLine + Environment.NewLine +
+                "Yes: save a copy under another name and keep it open." + Environment.NewLine +
+                "No: discard the changes and delete the file." + Environment.NewLine +
+                "Cancel: keep the original file and unsaved changes.",
+                "Delete file with unsaved changes", MessageBoxButtons.YesNoCancel,
+                MessageBoxIcon.Warning, MessageBoxDefaultButton.Button3);
+        }
+
+        private void SaveCopyBeforeDelete(string sourcePath)
+        {
+            _saveCopySourcePath = sourcePath;
+            try { SaveAs(); }
+            finally { _saveCopySourcePath = null; }
+        }
+
+        private void EnsureDistinctSaveCopy(string filename)
+        {
+            if (_saveCopySourcePath != null && DocumentFileSafety.AreSameFile(filename, _saveCopySourcePath))
+                throw new IOException("Choose a different file for the saved copy. The original file has not been deleted.");
         }
 
         private void Editor_TextChanged(object sender, EventArgs e)
@@ -718,6 +800,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             if (selectedTab != tabControl.SelectedTab || CurrentFileName != originalName)
                 throw new IOException("The active document changed while choosing a filename. Select the document and save again.");
             filename = DocumentFilePath.Normalize(filename);
+            EnsureDistinctSaveCopy(filename);
             var selectedSnapshot = string.Equals(filename, _selectedSavePath, StringComparison.Ordinal)
                 ? _selectedSaveSnapshot : null;
             SaveToFile(selectedTab, filename, selectedSnapshot);
@@ -734,6 +817,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             try
             {
                 var filename = DocumentFilePath.Normalize(saveFileDialog.FileName);
+                EnsureDistinctSaveCopy(filename);
                 EnsureSaveDestinationAvailable(tabControl.SelectedTab, filename);
                 // Record the chosen destination at FileOk; changes after this
                 // snapshot must not be silently adopted at commit time.

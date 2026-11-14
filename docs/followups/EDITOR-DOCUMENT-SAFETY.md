@@ -69,9 +69,27 @@ A cleanup failure must not turn a completed save into a reported failure.
 
 Folder-tree renames do not yet relocate the identities of all open descendants.
 An affected document retains its buffer and original baseline; saving to a new
-filename is the recovery path. Explicitly closing a dirty document still follows
-the application's existing behavior; survivor-preservation tests are not a claim
-that unsaved-close prompting has been implemented.
+filename is the recovery path. The initial #187/#189 review did not implement
+unsaved-close prompts; the later #270 change added Save/Discard/Cancel approval.
+
+## Deleting files from the folder tree
+
+Deleting a dirty open file asks how to preserve its unsaved text **before** touching
+the file. **Yes** opens Save As to save a copy under a different filename and keeps
+that copied document open. **No** explicitly discards the draft and deletes the
+original. **Cancel** retains the original file, draft and tree node. A cancelled
+Save As also cancels deletion. The copy cannot use the original path or a physical
+alias such as a hard link.
+
+Clean files and explicitly discarded drafts close only after disk deletion
+succeeds. A file open in the other editor workspace must be closed there first;
+deletion refuses to discard that independent buffer. The source's identity/bytes
+are checked again after any dialogs. An external change or I/O failure retains
+the tree node and current buffer. If a copy was already saved, that copy and its
+new tab identity remain intact even when deleting the original subsequently fails.
+
+The final snapshot comparison and filesystem delete are separate operations;
+this is not an atomic compare-and-delete against concurrent external renames.
 
 ## Automated validation
 
@@ -130,6 +148,13 @@ fault seams for partial staging, destination changes, and partial replacement.
 Windows-specific file-identity cases must be assessed in the Windows result, not
 in a Linux-only run.
 
+`DocumentFileDeletionTests` exercises the production disk-deletion transaction
+on every OS, including cancellation, approval invalidation, copying, external
+changes and actual file-lock/permission failures. `DocumentCloseWorkflowTests`
+also drives the real tree menu and all three editor implementations for deletion,
+including hard-link copy rejection, the other editor workspace, and a tree refresh
+while the prompt is open. Those desktop cases require Windows execution.
+
 Run the existing acceptance target on Windows with the repository-pinned SDK:
 
 ```powershell
@@ -155,6 +180,10 @@ and TextEditor; include both scripting and custom-functions views.
 | Close selected tab; close left/right/other tabs | Every surviving tab retains its own text and destination. |
 | Rename an open file, including case-only rename | Tab/key/path move together and the old name can be reused safely. |
 | Delete B externally, then try to rename A to B in the tree | Refused before moving A; B's unsaved buffer survives. |
+| Delete dirty A from the tree, then Cancel (or cancel Save As) | A's original disk contents, draft and tree node survive. |
+| Delete dirty A and choose to save a copy B | A is deleted only after B saves successfully; B remains open with the draft. |
+| Delete dirty A and explicitly discard | A's file, buffer and tree node are removed; unrelated drafts survive. |
+| Copy target is A or its hard-link alias; A is open in the other workspace | Deletion is refused without discarding either buffer or original file. |
 | Open a locked/unreadable file | Error leaves the previously selected buffer and its Save destination unchanged. |
 | Change editor implementation with several dirty/locked files | All buffers and selection survive; files are not reread or saved. |
 | Native Save As: Cancel, Esc, close button | No disk write, filename change or lost buffer. |
