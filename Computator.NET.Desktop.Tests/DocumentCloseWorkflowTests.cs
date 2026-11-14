@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using Computator.NET.Core.Bootstrapping;
@@ -407,6 +408,202 @@ namespace Computator.NET.Desktop.Tests
             return path;
         }
 
+        [TestCase(CodeEditorType.Scintilla)]
+        [TestCase(CodeEditorType.AvalonEdit)]
+        [TestCase(CodeEditorType.TextEditor)]
+        public void CancellingTreeDeletionKeepsDiskDraftAndTreeNode(CodeEditorType kind)
+        {
+            OpenEditor(kind);
+            var path = OpenFile("delete-cancel.tsl", "original");
+            _editor.Text = "unsaved draft";
+            _editor.Decisions.Enqueue(DialogResult.Cancel);
+            using var tree = SelectFileInTree(path);
+            var node = tree.SelectedNode;
+            tree.ContextMenuStrip.Items[2].PerformClick();
+            NUnit.Framework.Assert.That(File.ReadAllText(path), Is.EqualTo("original"));
+            NUnit.Framework.Assert.That(_editor.ContainsDocument(path), Is.True);
+            NUnit.Framework.Assert.That(_editor.Text, Is.EqualTo("unsaved draft"));
+            NUnit.Framework.Assert.That(Tabs.SelectedTab.ImageIndex, Is.EqualTo(1));
+            NUnit.Framework.Assert.That(node.TreeView, Is.SameAs(tree));
+        }
+
+        [TestCase(CodeEditorType.Scintilla)]
+        [TestCase(CodeEditorType.AvalonEdit)]
+        [TestCase(CodeEditorType.TextEditor)]
+        public void SavingCopyBeforeTreeDeletionPreservesEditsAndKeepsCopiedTabOpen(CodeEditorType kind)
+        {
+            OpenEditor(kind);
+            var path = OpenFile("delete-copy.tsl", "original");
+            _editor.Text = "unsaved draft";
+            _editor.SavePath = Path.Combine(_directory, "saved-copy.tsl");
+            _editor.Decisions.Enqueue(DialogResult.Yes);
+            using var tree = SelectFileInTree(path);
+            var node = tree.SelectedNode;
+            tree.ContextMenuStrip.Items[2].PerformClick();
+            NUnit.Framework.Assert.That(File.Exists(path), Is.False);
+            NUnit.Framework.Assert.That(File.ReadAllText(_editor.SavePath), Is.EqualTo("unsaved draft"));
+            NUnit.Framework.Assert.That(_editor.ContainsDocument(path), Is.False);
+            NUnit.Framework.Assert.That(_editor.ContainsDocument(_editor.SavePath), Is.True);
+            NUnit.Framework.Assert.That(_editor.CurrentFileName, Is.EqualTo(_editor.SavePath));
+            NUnit.Framework.Assert.That(_editor.Text, Is.EqualTo("unsaved draft"));
+            NUnit.Framework.Assert.That(Tabs.SelectedTab.ImageIndex, Is.Zero);
+            NUnit.Framework.Assert.That(node.TreeView, Is.Null);
+        }
+
+        [TestCase(CodeEditorType.Scintilla, false)]
+        [TestCase(CodeEditorType.AvalonEdit, false)]
+        [TestCase(CodeEditorType.TextEditor, false)]
+        [TestCase(CodeEditorType.Scintilla, true)]
+        [TestCase(CodeEditorType.AvalonEdit, true)]
+        [TestCase(CodeEditorType.TextEditor, true)]
+        public void CancelledOrSamePathCopyAbortsTreeDeletion(CodeEditorType kind, bool chooseOriginal)
+        {
+            OpenEditor(kind);
+            var path = OpenFile("delete-aborted-copy.tsl", "original");
+            _editor.Text = "unsaved draft";
+            _editor.SavePath = chooseOriginal ? Path.Combine(_directory, ".", Path.GetFileName(path)) : null;
+            _editor.Decisions.Enqueue(DialogResult.Yes);
+            using var tree = SelectFileInTree(path);
+            var node = tree.SelectedNode;
+            tree.ContextMenuStrip.Items[2].PerformClick();
+            NUnit.Framework.Assert.That(File.ReadAllText(path), Is.EqualTo("original"));
+            NUnit.Framework.Assert.That(_editor.ContainsDocument(path), Is.True);
+            NUnit.Framework.Assert.That(_editor.Text, Is.EqualTo("unsaved draft"));
+            NUnit.Framework.Assert.That(node.TreeView, Is.SameAs(tree));
+            NUnit.Framework.Assert.That(_editor.SaveErrors.Count, Is.EqualTo(chooseOriginal ? 1 : 0));
+        }
+
+        [TestCase(CodeEditorType.Scintilla, false)]
+        [TestCase(CodeEditorType.AvalonEdit, false)]
+        [TestCase(CodeEditorType.TextEditor, false)]
+        [TestCase(CodeEditorType.Scintilla, true)]
+        [TestCase(CodeEditorType.AvalonEdit, true)]
+        [TestCase(CodeEditorType.TextEditor, true)]
+        public void CleanOrExplicitlyDiscardedTreeDeletionRemovesOnlyTheTarget(CodeEditorType kind, bool dirty)
+        {
+            OpenEditor(kind);
+            var path = OpenFile("delete-discard.tsl", "original");
+            if (dirty)
+            {
+                _editor.Text = "discard this draft";
+                _editor.Decisions.Enqueue(DialogResult.No);
+            }
+            var other = OpenFile("keep.tsl", "other disk");
+            _editor.Text = "other draft";
+            using var tree = SelectFileInTree(path);
+            var node = tree.SelectedNode;
+            _editor.SwitchTab(other);
+            tree.ContextMenuStrip.Items[2].PerformClick();
+            NUnit.Framework.Assert.That(File.Exists(path), Is.False);
+            NUnit.Framework.Assert.That(_editor.ContainsDocument(path), Is.False);
+            NUnit.Framework.Assert.That(node.TreeView, Is.Null);
+            NUnit.Framework.Assert.That(_editor.CurrentFileName, Is.EqualTo(other));
+            NUnit.Framework.Assert.That(_editor.Text, Is.EqualTo("other draft"));
+            NUnit.Framework.Assert.That(File.ReadAllText(other), Is.EqualTo("other disk"));
+        }
+
+        [TestCase(CodeEditorType.Scintilla)]
+        [TestCase(CodeEditorType.AvalonEdit)]
+        [TestCase(CodeEditorType.TextEditor)]
+        public void ExternalEditWhileSavingCopyKeepsOriginalCopyAndTreeNode(CodeEditorType kind)
+        {
+            OpenEditor(kind);
+            var path = OpenFile("delete-external.tsl", "original");
+            _editor.Text = "unsaved draft";
+            _editor.SavePath = Path.Combine(_directory, "saved-copy.tsl");
+            _editor.Decisions.Enqueue(DialogResult.Yes);
+            _editor.BeforePrompt = () => File.WriteAllText(path, "external edit");
+            using var tree = SelectFileInTree(path);
+            var node = tree.SelectedNode;
+            NUnit.Framework.Assert.Throws<IOException>(() => tree.ContextMenuStrip.Items[2].PerformClick());
+            NUnit.Framework.Assert.That(File.ReadAllText(path), Is.EqualTo("external edit"));
+            NUnit.Framework.Assert.That(File.ReadAllText(_editor.SavePath), Is.EqualTo("unsaved draft"));
+            NUnit.Framework.Assert.That(_editor.ContainsDocument(_editor.SavePath), Is.True);
+            NUnit.Framework.Assert.That(_editor.CurrentFileName, Is.EqualTo(_editor.SavePath));
+            NUnit.Framework.Assert.That(node.TreeView, Is.SameAs(tree));
+        }
+
+        private DirectoryTree SelectFileInTree(string path)
+        {
+            var tree = new DirectoryTree { CodeEditorWrapper = _editor, Path = _directory };
+            var node = tree.Nodes[0].Nodes.Cast<TreeNode>().Single(item => item.FullPath == path);
+            tree.SelectedNode = node;
+            typeof(DirectoryTree).GetField("ctxNode", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(tree, node);
+            return tree;
+        }
+
+        [TestCase(CodeEditorType.Scintilla)]
+        [TestCase(CodeEditorType.AvalonEdit)]
+        [TestCase(CodeEditorType.TextEditor)]
+        public void HardLinkAliasCannotBeUsedAsTheSavedCopyBeforeDeletion(CodeEditorType kind)
+        {
+            OpenEditor(kind);
+            var path = OpenFile("delete-hardlink.tsl", "original");
+            var alias = Path.Combine(_directory, "alias.tsl");
+            NUnit.Framework.Assert.That(CreateHardLink(alias, path, IntPtr.Zero), Is.True,
+                "The test filesystem must support hard links. Error: " + Marshal.GetLastWin32Error());
+            _editor.Text = "unsaved draft";
+            _editor.SavePath = alias;
+            _editor.Decisions.Enqueue(DialogResult.Yes);
+            using var tree = SelectFileInTree(path);
+            tree.ContextMenuStrip.Items[2].PerformClick();
+            NUnit.Framework.Assert.That(File.ReadAllText(path), Is.EqualTo("original"));
+            NUnit.Framework.Assert.That(File.ReadAllText(alias), Is.EqualTo("original"));
+            NUnit.Framework.Assert.That(_editor.CurrentFileName, Is.EqualTo(path));
+            NUnit.Framework.Assert.That(_editor.Text, Is.EqualTo("unsaved draft"));
+            NUnit.Framework.Assert.That(_editor.SaveErrors, Has.Count.EqualTo(1));
+        }
+
+        [TestCase(CodeEditorType.Scintilla)]
+        [TestCase(CodeEditorType.AvalonEdit)]
+        [TestCase(CodeEditorType.TextEditor)]
+        public void FileOpenInAnotherEditorCannotBeDeletedByThisTree(CodeEditorType kind)
+        {
+            OpenEditor(kind);
+            var path = OpenFile("delete-other-editor.tsl", "original");
+            _editor.Text = "this workspace draft";
+            using var other = new PromptedEditor(_services.Create<ScintillaCodeEditorControl>(),
+                _services.Create<AvalonEditCodeEditor>(), _services.Create<TextEditorCodeEditor>());
+            other.NewDocument(path);
+            other.Text = "other workspace draft";
+            using var tree = SelectFileInTree(path);
+            var node = tree.SelectedNode;
+            NUnit.Framework.Assert.Throws<IOException>(() => tree.ContextMenuStrip.Items[2].PerformClick());
+            NUnit.Framework.Assert.That(File.ReadAllText(path), Is.EqualTo("original"));
+            NUnit.Framework.Assert.That(_editor.Text, Is.EqualTo("this workspace draft"));
+            NUnit.Framework.Assert.That(other.Text, Is.EqualTo("other workspace draft"));
+            NUnit.Framework.Assert.That(other.ContainsDocument(path), Is.True);
+            NUnit.Framework.Assert.That(node.TreeView, Is.SameAs(tree));
+            NUnit.Framework.Assert.That(_editor.PromptedFiles, Is.Empty);
+        }
+
+        [TestCase(CodeEditorType.Scintilla)]
+        [TestCase(CodeEditorType.AvalonEdit)]
+        [TestCase(CodeEditorType.TextEditor)]
+        public void TreeRefreshDuringDeletePromptDoesNotRemoveTheNewRoot(CodeEditorType kind)
+        {
+            OpenEditor(kind);
+            var path = OpenFile("delete-refresh.tsl", "original");
+            var otherPath = Path.Combine(_directory, "keep.tsl");
+            File.WriteAllText(otherPath, "keep");
+            _editor.Text = "discard";
+            _editor.Decisions.Enqueue(DialogResult.No);
+            using var tree = SelectFileInTree(path);
+            var oldRoot = tree.Nodes[0];
+            _editor.BeforePrompt = tree.RefreshDisplay;
+            tree.ContextMenuStrip.Items[2].PerformClick();
+            NUnit.Framework.Assert.That(File.Exists(path), Is.False);
+            NUnit.Framework.Assert.That(File.ReadAllText(otherPath), Is.EqualTo("keep"));
+            NUnit.Framework.Assert.That(tree.Nodes.Count, Is.EqualTo(1));
+            NUnit.Framework.Assert.That(tree.Nodes[0], Is.Not.SameAs(oldRoot));
+            NUnit.Framework.Assert.That(tree.Nodes[0].Nodes.Cast<TreeNode>().Any(node => node.FullPath == otherPath), Is.True);
+            NUnit.Framework.Assert.That(tree.Nodes[0].Nodes.Cast<TreeNode>().Any(node => node.FullPath == path), Is.False);
+        }
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool CreateHardLink(string filename, string existingFilename, IntPtr securityAttributes);
+
         private void InsertText(string text)
         {
             if (_kind == CodeEditorType.Scintilla)
@@ -448,6 +645,8 @@ namespace Computator.NET.Desktop.Tests
                 NUnit.Framework.Assert.That(Decisions, Is.Not.Empty, "Unexpected unsaved-document prompt for " + filename);
                 return Decisions.Dequeue();
             }
+
+            protected override DialogResult PromptToDeleteFile(string filename) => PromptToSaveChanges(filename);
 
             protected override string SelectSaveFileName() { SaveRequests++; return SavePath; }
             protected override void ShowCloseSaveError(string message) { SaveErrors.Add(message); }

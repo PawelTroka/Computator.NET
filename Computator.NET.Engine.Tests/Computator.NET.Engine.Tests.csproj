@@ -14,6 +14,9 @@
     <Compile Include="../Computator.NET.Desktop/Controls/CodeEditors/AvalonEdit/BraceFoldingRanges.cs" Link="Editors/BraceFoldingRanges.cs" />
     <!-- Literal editor searches use the same UTF-16 offsets on every platform. -->
     <Compile Include="../Computator.NET.Desktop/Controls/CodeEditors/TextSearch.cs" Link="Editors/TextSearch.cs" />
+    <!-- Exercise the real disk deletion transaction without a desktop runtime. -->
+    <Compile Include="../Computator.NET.Desktop/Controls/CodeEditors/DocumentFileSafety.cs" Link="Editors/DocumentFileSafety.cs" />
+    <Compile Include="../Computator.NET.Desktop/Controls/CodeEditors/DocumentFileDeletion.cs" Link="Editors/DocumentFileDeletion.cs" />
     <!-- Printer-independent production pagination and hard-margin geometry. -->
     <Compile Include="../Computator.NET.Desktop/Controls/CodeEditors/Printing/CodePrintLayoutException.cs" Link="Editors/CodePrintLayoutException.cs" />
     <Compile Include="../Computator.NET.Desktop/Controls/CodeEditors/Printing/CodePrintPaginator.cs" Link="Editors/CodePrintPaginator.cs" />
