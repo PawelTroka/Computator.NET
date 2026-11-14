@@ -3,7 +3,8 @@ from common import A, SOURCE, MATHNET
 
 def matrix(name,args,sig):
     url=SOURCE+'Computator.NET.Core/Functions/MatrixFunctions.cs'
-    generic='For generic numeric matrix creation use T=real (double) or T=complex. The wrapper’s attempted cast for other numeric T can return null; the generic-looking name is not a guarantee of all scalar types.'
+    generic=('The element type T must be real (double), float, complex (System.Numerics.Complex), or MathNet.Numerics.Complex32. '
+             'Other element types, including integer, natural and decimal, throw ArgumentException; they are not silently converted to double.')
     if name in ('matrix','vector'):
         if name=='matrix' and args=='array':
             return A('Dense matrix from a rectangular array','Copies a rectangular two-dimensional array into a Math.NET real or complex dense matrix.',
@@ -16,7 +17,9 @@ def matrix(name,args,sig):
                      'The returned vector is mutable; do not confuse a length argument with the single-element params overload.',url=url,category='Matrix construction')
         return A('Zero-filled '+name,'Allocates a dense '+name+' of the requested size.',
                  'matrix<T>(n,m): n rows, m columns; vector<T>(n): n elements.',
-                 'Nonnegative dimensions within available memory; library-specific zero-size constraints apply.',generic,url=url,category='Matrix construction')
+                 'Nonnegative dimensions within available memory; zero dimensions create empty matrices or vectors. Negative dimensions throw ArgumentOutOfRangeException.',
+                 generic,example=('matrix<float>(2,3).RowCount returns 2.' if name=='matrix' else 'vector<float>(3).Count returns 3.'),
+                 url=url,category='Matrix construction')
     if name in ('IdentityMatrix','OnesMatrix','ZerosMatrix'):
         word={'IdentityMatrix':'diagonal ones','OnesMatrix':'all ones','ZerosMatrix':'all zeros'}[name]
         return A({'IdentityMatrix':'Identity-pattern matrix','OnesMatrix':'All-ones matrix','ZerosMatrix':'Zero matrix'}[name],

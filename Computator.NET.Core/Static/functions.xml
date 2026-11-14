@@ -19384,9 +19384,10 @@ write(p.Evaluate(2));</code></pre><p><strong>Result:</strong> Approximately 3</p
 <p class="reference-signature"><code>Matrix matrix&lt;T&gt;(integer n, integer m)</code></p>
 <p class="reference-summary">Allocates a dense matrix of the requested size.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>matrix&lt;T&gt;(n,m): n rows, m columns; vector&lt;T&gt;(n): n elements.</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> Nonnegative dimensions within available memory; library-specific zero-size constraints apply.</p>
-<p class="reference-note"><strong>Important:</strong> For generic numeric matrix creation use T=real (double) or T=complex. The wrapper’s attempted cast for other numeric T can return null; the generic-looking name is not a guarantee of all scalar types.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Nonnegative dimensions within available memory; zero dimensions create empty matrices or vectors. Negative dimensions throw ArgumentOutOfRangeException.</p>
+<p class="reference-note"><strong>Important:</strong> The element type T must be real (double), float, complex (System.Numerics.Complex), or MathNet.Numerics.Complex32. Other element types, including integer, natural and decimal, throw ArgumentException; they are not silently converted to double.</p>
 <p class="reference-explanation">Rows and columns have different roles: row i and column j select one entry, using zero-based indices. Create a small matrix first and verify its shape before applying an operation to a larger data set.</p>
+<p class="reference-example"><strong>Example:</strong> matrix&lt;float&gt;(2,3).RowCount returns 2.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/MatrixFunctions.cs">github.com</a></p>
 </div>]]></Description>
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/MatrixFunctions.cs</Url>
@@ -20452,9 +20453,10 @@ var roots = p.Roots();</code></pre><p><strong>Result:</strong> Three roots appro
 <p class="reference-signature"><code>Vector`1 vector&lt;T&gt;(integer n)</code></p>
 <p class="reference-summary">Allocates a dense vector of the requested size.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>matrix&lt;T&gt;(n,m): n rows, m columns; vector&lt;T&gt;(n): n elements.</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> Nonnegative dimensions within available memory; library-specific zero-size constraints apply.</p>
-<p class="reference-note"><strong>Important:</strong> For generic numeric matrix creation use T=real (double) or T=complex. The wrapper’s attempted cast for other numeric T can return null; the generic-looking name is not a guarantee of all scalar types.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Nonnegative dimensions within available memory; zero dimensions create empty matrices or vectors. Negative dimensions throw ArgumentOutOfRangeException.</p>
+<p class="reference-note"><strong>Important:</strong> The element type T must be real (double), float, complex (System.Numerics.Complex), or MathNet.Numerics.Complex32. Other element types, including integer, natural and decimal, throw ArgumentException; they are not silently converted to double.</p>
 <p class="reference-explanation">A vector is a one-dimensional collection with linear-algebra operations. A single scalar can be interpreted as a size or as one element depending on the overload; use the displayed typed signature to make the intended construction explicit.</p>
+<p class="reference-example"><strong>Example:</strong> vector&lt;float&gt;(3).Count returns 3.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/MatrixFunctions.cs">github.com</a></p>
 </div>]]></Description>
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/MatrixFunctions.cs</Url>
