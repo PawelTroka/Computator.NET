@@ -2334,7 +2334,16 @@ namespace Computator.NET.Core.Functions
 
         public static double erfcx(double x)
         {
-            return ((erfc(x))/System.Math.Exp(-((x))*(x)));
+            // Keep the accurate real erfc path near the origin and preserve
+            // the genuine exponential growth/overflow for negative inputs.
+            if (x < 2.0)
+                return erfc(x)/System.Math.Exp(-x*x);
+            if (double.IsPositiveInfinity(x))
+                return 0.0;
+            // erfcx(x) = w(i*x): evaluate the scaled function directly, before
+            // the unscaled Gaussian tail and exponential underflow separately.
+            return Meta.Numerics.Functions.AdvancedComplexMath.Faddeeva(
+                new Meta.Numerics.Complex(0.0, x)).Re;
         }
 
 
@@ -2352,7 +2361,11 @@ namespace Computator.NET.Core.Functions
 
         public static System.Numerics.Complex erfcx(System.Numerics.Complex z)
         {
-            return ((erfc(z))/System.Numerics.Complex.Exp(-((z))*(z)));
+            if (z.Imaginary == 0.0)
+                return new System.Numerics.Complex(erfcx(z.Real), 0.0);
+            // Rotate the components directly. Forming 1-erf(z) first loses
+            // small complementary tails; a separate exponential can overflow.
+            return faddeeva(new System.Numerics.Complex(-z.Imaginary, z.Real));
         }
 
 
@@ -5604,7 +5617,16 @@ EntryPoint = "gsl_sf_mathieu_Ms", CallingConvention = System.Runtime.InteropServ
 
         public static double erfcx(double x)
         {
-            return ((erfc(x))/System.Math.Exp(-((x))*(x)));
+            // Keep the accurate real erfc path near the origin and preserve
+            // the genuine exponential growth/overflow for negative inputs.
+            if (x < 2.0)
+                return erfc(x)/System.Math.Exp(-x*x);
+            if (double.IsPositiveInfinity(x))
+                return 0.0;
+            // erfcx(x) = w(i*x): evaluate the scaled function directly, before
+            // the unscaled Gaussian tail and exponential underflow separately.
+            return Meta.Numerics.Functions.AdvancedComplexMath.Faddeeva(
+                new Meta.Numerics.Complex(0.0, x)).Re;
         }
 
 
@@ -5622,7 +5644,11 @@ EntryPoint = "gsl_sf_mathieu_Ms", CallingConvention = System.Runtime.InteropServ
 
         public static System.Numerics.Complex erfcx(System.Numerics.Complex z)
         {
-            return ((erfc(z))/System.Numerics.Complex.Exp(-((z))*(z)));
+            if (z.Imaginary == 0.0)
+                return new System.Numerics.Complex(erfcx(z.Real), 0.0);
+            // Rotate the components directly. Forming 1-erf(z) first loses
+            // small complementary tails; a separate exponential can overflow.
+            return faddeeva(new System.Numerics.Complex(-z.Imaginary, z.Real));
         }
 
 
