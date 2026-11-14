@@ -17980,10 +17980,11 @@ write(p.Evaluate(2));</code></pre><p><strong>Result:</strong> Approximately 3</p
     <Category>Script input</Category>
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><code>T convert&lt;T&gt;(string result)</code></p>
-<p class="reference-summary">Converts text using the application’s legacy string/real/complex conversion helper.</p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> Use T=string, real (double), or complex; numeric parsing uses the invariant decimal point.</p>
-<p class="reference-note"><strong>Important:</strong> The numeric branch boxes a double and casts it to T, so other numeric T such as integer can fail rather than perform a general numeric conversion. Empty/cancelled text can also fail for value types; this is not a TryParse API.</p>
+<p class="reference-summary">Parses text directly into the requested scalar type, retaining exact integers and decimal values without an intermediate double.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Supported T: string, real (double), float, decimal, complex, and the built-in integer types sbyte, byte, short, ushort, int, uint, integer (long) and natural (ulong). Numeric parsing uses invariant culture.</p>
+<p class="reference-note"><strong>Important:</strong> Integers accept an optional sign and surrounding whitespace; decimal points, exponents and grouping separators are rejected with FormatException. Integer/decimal values outside the requested range raise OverflowException. Real, float and decimal parsing accepts the invariant decimal point, exponent and comma grouping. String text is preserved. Empty/cancelled text still yields an empty string for T=string and InvalidCastException for value types. Unsupported nonempty conversions raise NotSupportedException; this is not a TryParse API.</p>
 <p class="reference-explanation">A conversion changes the representation or type of a value. It does not add physical units or improve the original numerical precision; handle out-of-range and unsupported conversions explicitly.</p>
+<p class="reference-example"><strong>Example:</strong> convert&lt;integer&gt;(&quot;9007199254740993&quot;) returns the exact integer 9007199254740993.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/ScriptingFunctions.cs">github.com</a></p>
 </div>]]></Description>
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/ScriptingFunctions.cs</Url>
@@ -19805,7 +19806,7 @@ var roots = p.Roots();</code></pre><p><strong>Result:</strong> Three roots appro
 <p class="reference-signature"><code>T read&lt;T&gt;()</code></p>
 <p class="reference-summary">Displays a modal desktop input dialog and converts its result.</p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Optional caption labels the dialog. This requires an interactive Windows UI and is not browser/CLI standard input. The result is returned to the caller.</p>
-<p class="reference-note"><strong>Important:</strong> Typed overloads use convert&lt;T&gt;; prefer string, real or complex and handle invalid/empty input. Cancellation may produce empty text and conversion errors; no value should be assumed without handling that outcome.</p>
+<p class="reference-note"><strong>Important:</strong> Typed overloads use convert&lt;T&gt;, including exact integer/natural and decimal parsing. Handle invalid, out-of-range and empty input. Cancellation may produce empty text and conversion errors; no value should be assumed without handling that outcome.</p>
 <p class="reference-explanation">Interactive input pauses execution until data is supplied. Keep the expected type and conversion rules explicit. A script that works with a desktop input dialog may not have the same interaction in a headless or worker-backed environment.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/ScriptingFunctions.cs">github.com</a></p>
 </div>]]></Description>
@@ -19819,7 +19820,7 @@ var roots = p.Roots();</code></pre><p><strong>Result:</strong> Three roots appro
 <p class="reference-signature"><code>T read&lt;T&gt;(string caption)</code></p>
 <p class="reference-summary">Displays a modal desktop input dialog and converts its result.</p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Optional caption labels the dialog. This requires an interactive Windows UI and is not browser/CLI standard input. The result is returned to the caller.</p>
-<p class="reference-note"><strong>Important:</strong> Typed overloads use convert&lt;T&gt;; prefer string, real or complex and handle invalid/empty input. Cancellation may produce empty text and conversion errors; no value should be assumed without handling that outcome.</p>
+<p class="reference-note"><strong>Important:</strong> Typed overloads use convert&lt;T&gt;, including exact integer/natural and decimal parsing. Handle invalid, out-of-range and empty input. Cancellation may produce empty text and conversion errors; no value should be assumed without handling that outcome.</p>
 <p class="reference-explanation">Interactive input pauses execution until data is supplied. Keep the expected type and conversion rules explicit. A script that works with a desktop input dialog may not have the same interaction in a headless or worker-backed environment.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/ScriptingFunctions.cs">github.com</a></p>
 </div>]]></Description>
@@ -19833,7 +19834,7 @@ var roots = p.Roots();</code></pre><p><strong>Result:</strong> Three roots appro
 <p class="reference-signature"><code>T read&lt;T&gt;(File file)</code></p>
 <p class="reference-summary">Reads all remaining text from the current file position.</p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> file is a Computator File object, not a pathname or StreamReader. The result is returned to the caller.</p>
-<p class="reference-note"><strong>Important:</strong> Typed overloads use convert&lt;T&gt;; prefer string, real or complex and handle invalid/empty input. readln can return null at end of file; read returns an empty string when no text remains.</p>
+<p class="reference-note"><strong>Important:</strong> Typed overloads use convert&lt;T&gt;, including exact integer/natural and decimal parsing. Handle invalid, out-of-range and empty input. readln can return null at end of file; read returns an empty string when no text remains.</p>
 <p class="reference-explanation">File operations affect external state, unlike a pure mathematical expression. Use a deliberate working directory and a disposable example file when learning. Check the stated append/overwrite and ownership rules; opening a writer is not a numerical calculation.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/ScriptingFunctions.cs">github.com</a></p>
 </div>]]></Description>
@@ -19847,7 +19848,7 @@ var roots = p.Roots();</code></pre><p><strong>Result:</strong> Three roots appro
 <p class="reference-signature"><code>void read&lt;T&gt;(File file, out T output)</code></p>
 <p class="reference-summary">Reads all remaining text from the current file position.</p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> file is a Computator File object, not a pathname or StreamReader. output is an out argument assigned by the method.</p>
-<p class="reference-note"><strong>Important:</strong> Typed overloads use convert&lt;T&gt;; prefer string, real or complex and handle invalid/empty input. readln can return null at end of file; read returns an empty string when no text remains.</p>
+<p class="reference-note"><strong>Important:</strong> Typed overloads use convert&lt;T&gt;, including exact integer/natural and decimal parsing. Handle invalid, out-of-range and empty input. readln can return null at end of file; read returns an empty string when no text remains.</p>
 <p class="reference-explanation">File operations affect external state, unlike a pure mathematical expression. Use a deliberate working directory and a disposable example file when learning. Check the stated append/overwrite and ownership rules; opening a writer is not a numerical calculation.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/ScriptingFunctions.cs">github.com</a></p>
 </div>]]></Description>
@@ -19861,7 +19862,7 @@ var roots = p.Roots();</code></pre><p><strong>Result:</strong> Three roots appro
 <p class="reference-signature"><code>void read&lt;T&gt;(out T output)</code></p>
 <p class="reference-summary">Displays a modal desktop input dialog and converts its result.</p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Optional caption labels the dialog. This requires an interactive Windows UI and is not browser/CLI standard input. output is an out argument assigned by the method.</p>
-<p class="reference-note"><strong>Important:</strong> Typed overloads use convert&lt;T&gt;; prefer string, real or complex and handle invalid/empty input. Cancellation may produce empty text and conversion errors; no value should be assumed without handling that outcome.</p>
+<p class="reference-note"><strong>Important:</strong> Typed overloads use convert&lt;T&gt;, including exact integer/natural and decimal parsing. Handle invalid, out-of-range and empty input. Cancellation may produce empty text and conversion errors; no value should be assumed without handling that outcome.</p>
 <p class="reference-explanation">Interactive input pauses execution until data is supplied. Keep the expected type and conversion rules explicit. A script that works with a desktop input dialog may not have the same interaction in a headless or worker-backed environment.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/ScriptingFunctions.cs">github.com</a></p>
 </div>]]></Description>
@@ -19875,7 +19876,7 @@ var roots = p.Roots();</code></pre><p><strong>Result:</strong> Three roots appro
 <p class="reference-signature"><code>void read&lt;T&gt;(out T output, string caption)</code></p>
 <p class="reference-summary">Displays a modal desktop input dialog and converts its result.</p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Optional caption labels the dialog. This requires an interactive Windows UI and is not browser/CLI standard input. output is an out argument assigned by the method.</p>
-<p class="reference-note"><strong>Important:</strong> Typed overloads use convert&lt;T&gt;; prefer string, real or complex and handle invalid/empty input. Cancellation may produce empty text and conversion errors; no value should be assumed without handling that outcome.</p>
+<p class="reference-note"><strong>Important:</strong> Typed overloads use convert&lt;T&gt;, including exact integer/natural and decimal parsing. Handle invalid, out-of-range and empty input. Cancellation may produce empty text and conversion errors; no value should be assumed without handling that outcome.</p>
 <p class="reference-explanation">Interactive input pauses execution until data is supplied. Keep the expected type and conversion rules explicit. A script that works with a desktop input dialog may not have the same interaction in a headless or worker-backed environment.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/ScriptingFunctions.cs">github.com</a></p>
 </div>]]></Description>
@@ -19903,7 +19904,7 @@ var roots = p.Roots();</code></pre><p><strong>Result:</strong> Three roots appro
 <p class="reference-signature"><code>T readln&lt;T&gt;(File file)</code></p>
 <p class="reference-summary">Reads up to the next line ending, advancing the wrapper’s reader.</p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> file is a Computator File object, not a pathname or StreamReader. The result is returned to the caller.</p>
-<p class="reference-note"><strong>Important:</strong> Typed overloads use convert&lt;T&gt;; prefer string, real or complex and handle invalid/empty input. readln can return null at end of file; read returns an empty string when no text remains.</p>
+<p class="reference-note"><strong>Important:</strong> Typed overloads use convert&lt;T&gt;, including exact integer/natural and decimal parsing. Handle invalid, out-of-range and empty input. readln can return null at end of file; read returns an empty string when no text remains.</p>
 <p class="reference-explanation">File operations affect external state, unlike a pure mathematical expression. Use a deliberate working directory and a disposable example file when learning. Check the stated append/overwrite and ownership rules; opening a writer is not a numerical calculation.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/ScriptingFunctions.cs">github.com</a></p>
 </div>]]></Description>
@@ -19917,7 +19918,7 @@ var roots = p.Roots();</code></pre><p><strong>Result:</strong> Three roots appro
 <p class="reference-signature"><code>void readln&lt;T&gt;(File file, out T output)</code></p>
 <p class="reference-summary">Reads up to the next line ending, advancing the wrapper’s reader.</p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> file is a Computator File object, not a pathname or StreamReader. output is an out argument assigned by the method.</p>
-<p class="reference-note"><strong>Important:</strong> Typed overloads use convert&lt;T&gt;; prefer string, real or complex and handle invalid/empty input. readln can return null at end of file; read returns an empty string when no text remains.</p>
+<p class="reference-note"><strong>Important:</strong> Typed overloads use convert&lt;T&gt;, including exact integer/natural and decimal parsing. Handle invalid, out-of-range and empty input. readln can return null at end of file; read returns an empty string when no text remains.</p>
 <p class="reference-explanation">File operations affect external state, unlike a pure mathematical expression. Use a deliberate working directory and a disposable example file when learning. Check the stated append/overwrite and ownership rules; opening a writer is not a numerical calculation.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/ScriptingFunctions.cs">github.com</a></p>
 </div>]]></Description>

@@ -18,9 +18,10 @@ def scripting(name,args,sig):
                  'Uses a desktop file-selection dialog; requires an interactive Windows UI.' if chooser else 'Explicit path; relative paths use the process working directory. File permissions and encoding follow the underlying stream implementation.',
                  note+(' Interactive chooser calls are not supported as browser dialogs in API workers.' if chooser else ''),url=url,category='Script files')
     if name=='convert':
-        return A('Convert an input string to a script scalar','Converts text using the application’s legacy string/real/complex conversion helper.',
-                 '', 'Use T=string, real (double), or complex; numeric parsing uses the invariant decimal point.',
-                 'The numeric branch boxes a double and casts it to T, so other numeric T such as integer can fail rather than perform a general numeric conversion. Empty/cancelled text can also fail for value types; this is not a TryParse API.',url=url,category='Script input')
+        return A('Convert an input string to a script scalar','Parses text directly into the requested scalar type, retaining exact integers and decimal values without an intermediate double.',
+                 '', 'Supported T: string, real (double), float, decimal, complex, and the built-in integer types sbyte, byte, short, ushort, int, uint, integer (long) and natural (ulong). Numeric parsing uses invariant culture.',
+                 'Integers accept an optional sign and surrounding whitespace; decimal points, exponents and grouping separators are rejected with FormatException. Integer/decimal values outside the requested range raise OverflowException. Real, float and decimal parsing accepts the invariant decimal point, exponent and comma grouping. String text is preserved. Empty/cancelled text still yields an empty string for T=string and InvalidCastException for value types. Unsupported nonempty conversions raise NotSupportedException; this is not a TryParse API.',
+                 'convert<integer>("9007199254740993") returns the exact integer 9007199254740993.',url=url,category='Script input')
     if name in ('read','readln'):
         fromfile='file' in args;out='output' in args;generic='<T>' in sig
         line=name=='readln'
@@ -28,7 +29,7 @@ def scripting(name,args,sig):
                  ('Reads up to the next line ending, advancing the wrapper’s reader.' if line and fromfile else 'Reads all remaining text from the current file position.' if fromfile else 'Displays a modal desktop input dialog and converts its result.'),
                  '', ('file is a Computator File object, not a pathname or StreamReader.' if fromfile else 'Optional caption labels the dialog. This requires an interactive Windows UI and is not browser/CLI standard input.')+
                  (' output is an out argument assigned by the method.' if out else ' The result is returned to the caller.'),
-                 ('Typed overloads use convert<T>; prefer string, real or complex and handle invalid/empty input. ' if generic else '')+
+                 ('Typed overloads use convert<T>, including exact integer/natural and decimal parsing. Handle invalid, out-of-range and empty input. ' if generic else '')+
                  ('readln can return null at end of file; read returns an empty string when no text remains.' if fromfile else 'Cancellation may produce empty text and conversion errors; no value should be assumed without handling that outcome.'),url=url,category='Script input')
     if name in ('write','writeln','show'):
         if name=='show':
