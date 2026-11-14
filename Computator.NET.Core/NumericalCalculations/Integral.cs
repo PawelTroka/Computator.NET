@@ -116,18 +116,63 @@ namespace Computator.NET.Core.NumericalCalculations
             return s;
         }
 
+        private static void AddWeightedSample(ref double sum, ref double scale, double sample, int weight)
+        {
+            // Keep the ordinary arithmetic until a finite weighted sample or
+            // partial sum would overflow. Binary scaling keeps those large
+            // contributions representable without evaluating the function again.
+            var term = (sample / scale) * weight;
+            while (double.IsInfinity(term) && !double.IsInfinity(sample))
+            {
+                sum *= 0.5;
+                scale *= 2;
+                term = (sample / scale) * weight;
+            }
+            var combined = sum + term;
+            if (double.IsInfinity(combined) && !double.IsInfinity(sum) && !double.IsInfinity(term))
+            {
+                combined = sum * 0.5 + term * 0.5;
+                scale *= 2;
+            }
+            sum = combined;
+
+            // Cancellation can make the sum representable again. Restore its
+            // scale before the next sample so later subnormals are not erased.
+            while (scale > 1 && System.Math.Abs(sum) <= double.MaxValue / 2)
+            {
+                sum *= 2;
+                scale *= 0.5;
+            }
+        }
+
+        private static double QuadratureArea(double step, double sum, double scale, int divisor)
+        {
+            var product = step * sum;
+            if ((scale == 1 && !double.IsInfinity(product)) || double.IsInfinity(step) || double.IsInfinity(sum))
+                return product / divisor;
+
+            // Put the binary scale on the small step, or apply Simpson's
+            // divisor before a large product. Preserve actual nonfinite input
+            // and overflow when the final area itself is not representable.
+            // A finite sum with scale > 1 is above MaxValue/2 in magnitude,
+            // so dividing that scaled sum by the divisor cannot underflow.
+            return System.Math.Abs(step) < 1
+                ? (step * scale) * (sum / divisor)
+                : ((step / divisor) * sum) * scale;
+        }
+
         public static double rectangleMethod(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
         {
             var panels = CompositePanelCount(N, requireEven: false);
             var h = (b - a)/panels;
-            double s = 0, x;
+            double s = 0, scale = 1, x;
 
             for (var i = 0; i < panels; i++)
             {
                 x = a + (i + 0.5)*h;
-                s += fx(x);
+                AddWeightedSample(ref s, ref scale, fx(x), 1);
             }
-            return h*s;
+            return QuadratureArea(h, s, scale, 1);
         }
 
         public static double simpsonMethod(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
@@ -135,19 +180,17 @@ namespace Computator.NET.Core.NumericalCalculations
             var panels = CompositePanelCount(N, requireEven: true);
 
             var h = (b - a)/panels;
-            double s = 0, x;
+            double s = 0, scale = 1, x;
 
             for (var i = 1; i < panels; i++)
             {
                 x = a + i*h;
-
-                if (i%2 == 1)
-                    s += 4*fx(x);
-                else
-                    s += 2*fx(x);
+                AddWeightedSample(ref s, ref scale, fx(x), i%2 == 1 ? 4 : 2);
             }
 
-            return h*(fx(a) + s + fx(b))/3.0;
+            AddWeightedSample(ref s, ref scale, fx(a), 1);
+            AddWeightedSample(ref s, ref scale, fx(b), 1);
+            return QuadratureArea(h, s, scale, 3);
         }
 
         public const string ToCode = @"
@@ -227,18 +270,63 @@ namespace Computator.NET.Core.NumericalCalculations
             return s;
         }
 
+        private static void AddWeightedSample(ref double sum, ref double scale, double sample, int weight)
+        {
+            // Keep the ordinary arithmetic until a finite weighted sample or
+            // partial sum would overflow. Binary scaling keeps those large
+            // contributions representable without evaluating the function again.
+            var term = (sample / scale) * weight;
+            while (double.IsInfinity(term) && !double.IsInfinity(sample))
+            {
+                sum *= 0.5;
+                scale *= 2;
+                term = (sample / scale) * weight;
+            }
+            var combined = sum + term;
+            if (double.IsInfinity(combined) && !double.IsInfinity(sum) && !double.IsInfinity(term))
+            {
+                combined = sum * 0.5 + term * 0.5;
+                scale *= 2;
+            }
+            sum = combined;
+
+            // Cancellation can make the sum representable again. Restore its
+            // scale before the next sample so later subnormals are not erased.
+            while (scale > 1 && System.Math.Abs(sum) <= double.MaxValue / 2)
+            {
+                sum *= 2;
+                scale *= 0.5;
+            }
+        }
+
+        private static double QuadratureArea(double step, double sum, double scale, int divisor)
+        {
+            var product = step * sum;
+            if ((scale == 1 && !double.IsInfinity(product)) || double.IsInfinity(step) || double.IsInfinity(sum))
+                return product / divisor;
+
+            // Put the binary scale on the small step, or apply Simpson's
+            // divisor before a large product. Preserve actual nonfinite input
+            // and overflow when the final area itself is not representable.
+            // A finite sum with scale > 1 is above MaxValue/2 in magnitude,
+            // so dividing that scaled sum by the divisor cannot underflow.
+            return System.Math.Abs(step) < 1
+                ? (step * scale) * (sum / divisor)
+                : ((step / divisor) * sum) * scale;
+        }
+
         public static double rectangleMethod(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
         {
             var panels = CompositePanelCount(N, requireEven: false);
             var h = (b - a)/panels;
-            double s = 0, x;
+            double s = 0, scale = 1, x;
 
             for (var i = 0; i < panels; i++)
             {
                 x = a + (i + 0.5)*h;
-                s += fx(x);
+                AddWeightedSample(ref s, ref scale, fx(x), 1);
             }
-            return h*s;
+            return QuadratureArea(h, s, scale, 1);
         }
 
         public static double simpsonMethod(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
@@ -246,19 +334,17 @@ namespace Computator.NET.Core.NumericalCalculations
             var panels = CompositePanelCount(N, requireEven: true);
 
             var h = (b - a)/panels;
-            double s = 0, x;
+            double s = 0, scale = 1, x;
 
             for (var i = 1; i < panels; i++)
             {
                 x = a + i*h;
-
-                if (i%2 == 1)
-                    s += 4*fx(x);
-                else
-                    s += 2*fx(x);
+                AddWeightedSample(ref s, ref scale, fx(x), i%2 == 1 ? 4 : 2);
             }
 
-            return h*(fx(a) + s + fx(b))/3.0;
+            AddWeightedSample(ref s, ref scale, fx(a), 1);
+            AddWeightedSample(ref s, ref scale, fx(b), 1);
+            return QuadratureArea(h, s, scale, 3);
         }    
   
     }   
