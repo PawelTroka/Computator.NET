@@ -118,7 +118,11 @@ internal static partial class Program
             }
         }
         Equal(ScriptingFunctions.convert<string>("1,234"), "1,234");
-        Expect<InvalidCastException>(() => ScriptingFunctions.convert<int>("12"));
+        Check(ScriptingFunctions.convert<int>("12") == 12, "Integer conversion did not parse the requested type.");
+        Check(ScriptingFunctions.convert<long>("9007199254740993") == 9007199254740993L, "Integer conversion rounded through double.");
+        Check(ScriptingFunctions.convert<ulong>("18446744073709551615") == ulong.MaxValue, "Unsigned conversion lost its upper boundary.");
+        Expect<FormatException>(() => ScriptingFunctions.convert<long>("1.5"));
+        Expect<OverflowException>(() => ScriptingFunctions.convert<long>("9223372036854775808"));
         Expect<InvalidCastException>(() => ScriptingFunctions.convert<double>(null));
         Expect<InvalidCastException>(() => ScriptingFunctions.convert<double>(""));
         Check(ScriptingFunctions.convert<Complex>("1+2i") == new Complex(1, 2), "Non-double conversion changed.");
@@ -135,6 +139,10 @@ internal static partial class Program
         {
             var output = new StringBuilder(); evaluator.Evaluate(code, "").Evaluate(text => output.Append(text));
             Equal(output.ToString(), string.Concat(expected.Select(bits => unchecked((ulong)bits).ToString("x16") + "|")) + "4021c2af4049f211");
+            output.Clear();
+            evaluator.Evaluate("write(convert<integer>(\"9007199254740993\")); write(\"|\"); write(convert<natural>(\"18446744073709551615\"));", "")
+                .Evaluate(text => output.Append(text));
+            Equal(output.ToString(), "9007199254740993|18446744073709551615");
         }
     }
 }

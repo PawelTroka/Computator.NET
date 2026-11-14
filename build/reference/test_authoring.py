@@ -92,6 +92,25 @@ class AuthoringTests(unittest.TestCase):
                 self.assertIn('<strong>Result:</strong> 105',text)
                 self.assertIn('<img class="reference-math"',text)
 
+    def test_typed_input_documents_exact_integers_and_rejected_forms(self):
+        inventory={'items':[{'signature':'convert<T>(result)',
+            'menu':'T convert<T>(string result)','type':'ScriptingFunctions'}], 'constants':[]}
+        text=articles(inventory)[0]['description']
+        for contract in ('without an intermediate double', 'integer (long)', 'natural (ulong)',
+                         'decimal points, exponents and grouping separators are rejected',
+                         'OverflowException', 'NotSupportedException', 'InvalidCastException',
+                         '9007199254740993'):
+            self.assertIn(contract,text)
+        self.assertNotIn('boxes a double',text)
+
+    def test_typed_file_input_refers_to_exact_conversion_and_keeps_eof_contract(self):
+        inventory={'items':[{'signature':'readln<T>(file)',
+            'menu':'T readln<T>(File file)','type':'ScriptingFunctions'}], 'constants':[]}
+        text=articles(inventory)[0]['description']
+        self.assertIn('exact integer/natural and decimal parsing',text)
+        self.assertIn('invalid, out-of-range and empty input',text)
+        self.assertIn('readln can return null at end of file',text)
+
     def ode_inventory(self):
         return {'items':[
             {'signature':'DifferentialEquation.rungeKutta4(derivative,y0,start,end,samples)',

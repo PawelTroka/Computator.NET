@@ -62,7 +62,7 @@ namespace Computator.NET.Core.Tests.ScriptingExtensionsTests
                 NUnit.Framework.Assert.That(ScriptingFunctions.convert<double>("1,234"), Is.EqualTo(1234d));
                 NUnit.Framework.Assert.That(ScriptingFunctions.convert<double>("1,,2"), Is.EqualTo(12d));
                 NUnit.Framework.Assert.That(ScriptingFunctions.convert<string>("1,234"), Is.EqualTo("1,234"));
-                NUnit.Framework.Assert.Throws<InvalidCastException>(() => ScriptingFunctions.convert<int>("12"));
+                NUnit.Framework.Assert.That(ScriptingFunctions.convert<int>("12"), Is.EqualTo(12));
                 output.Clear();
                 new GeneratedSourceScript().Evaluate("write(System.BitConverter.DoubleToInt64Bits(convert<real>(\"8.88024331\")).ToString(\"x16\"));", "")
                     .Evaluate(text => output.Append(text));

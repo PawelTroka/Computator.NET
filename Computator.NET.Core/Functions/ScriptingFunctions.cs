@@ -33,27 +33,40 @@ namespace Computator.NET.Core.Functions
 
         public static T convert<T>(string result)
         {
+            // Retain the existing empty/cancel contract: strings become empty;
+            // value types reject the empty string instead of silently becoming zero.
             if (string.IsNullOrEmpty(result))
-                return (T)(object)(string.Empty);
+                return (T)(object)string.Empty;
 
-            var x = default(T);
-            if (x == null)
-                x = (T)(object)(string.Empty);//TODO: find better way to provide something which is not null for reference types
+            var type = typeof(T);
+            var culture = System.Globalization.CultureInfo.InvariantCulture;
+            const System.Globalization.NumberStyles integerStyle = System.Globalization.NumberStyles.Integer;
+            const System.Globalization.NumberStyles floatingStyle =
+                System.Globalization.NumberStyles.Float | System.Globalization.NumberStyles.AllowThousands;
 
-            if (x.IsNumericType())
+            // Parse into the requested type. Passing integers through double
+            // loses exact values above 2^53 and cannot be unboxed as T.
+            if (type == typeof(sbyte)) return (T)(object)sbyte.Parse(result, integerStyle, culture);
+            if (type == typeof(byte)) return (T)(object)byte.Parse(result, integerStyle, culture);
+            if (type == typeof(short)) return (T)(object)short.Parse(result, integerStyle, culture);
+            if (type == typeof(ushort)) return (T)(object)ushort.Parse(result, integerStyle, culture);
+            if (type == typeof(int)) return (T)(object)int.Parse(result, integerStyle, culture);
+            if (type == typeof(uint)) return (T)(object)uint.Parse(result, integerStyle, culture);
+            if (type == typeof(long)) return (T)(object)long.Parse(result, integerStyle, culture);
+            if (type == typeof(ulong)) return (T)(object)ulong.Parse(result, integerStyle, culture);
+            if (type == typeof(float)) return (T)(object)float.Parse(result, floatingStyle, culture);
+            if (type == typeof(decimal)) return (T)(object)decimal.Parse(result, floatingStyle, culture);
+            if (type == typeof(double))
 #if __MonoCS__
-                x = (T)((object)Computator.NET.Core.Compilation.MonoDoubleParser.Parse(result,
-                    System.Globalization.NumberStyles.Float | System.Globalization.NumberStyles.AllowThousands));
+                return (T)(object)Computator.NET.Core.Compilation.MonoDoubleParser.Parse(result, floatingStyle);
 #else
-                x = (T)((object)double.Parse(result, System.Globalization.CultureInfo.InvariantCulture));
+                return (T)(object)double.Parse(result, floatingStyle, culture);
 #endif
+            if (type == typeof(string)) return (T)(object)result;
+            if (type == typeof(System.Numerics.Complex))
+                return (T)(object)MathNet.Numerics.ComplexExtensions.ToComplex(result, culture);
 
-            if (x is string)
-                x = (T)((object)(result));
-
-            if (x is System.Numerics.Complex)
-                x = (T)((object)MathNet.Numerics.ComplexExtensions.ToComplex(result, System.Globalization.CultureInfo.InvariantCulture));
-            return x;
+            throw new System.NotSupportedException("Input conversion supports string, real/double, float, decimal, complex and the built-in integer types.");
         }
 
         public static T read<T>(string caption)
@@ -475,22 +488,36 @@ double YMax = 5, double quality = 0.5)
                 return global::Computator.NET.Core.Functions.ScriptingFunctions.convert<T>(result);
 " +
 #endif
-@"            if (string.IsNullOrEmpty(result))
-                return (T)(object)(string.Empty);
+@"            // Retain the existing empty/cancel contract: strings become empty;
+            // value types reject the empty string instead of silently becoming zero.
+            if (string.IsNullOrEmpty(result))
+                return (T)(object)string.Empty;
 
-            var x = default(T);
-            if (x == null)
-                x = (T)(object)(string.Empty);//TODO: find better way to provide something which is not null for reference types
+            var type = typeof(T);
+            var culture = System.Globalization.CultureInfo.InvariantCulture;
+            const System.Globalization.NumberStyles integerStyle = System.Globalization.NumberStyles.Integer;
+            const System.Globalization.NumberStyles floatingStyle =
+                System.Globalization.NumberStyles.Float | System.Globalization.NumberStyles.AllowThousands;
 
-            if (x.IsNumericType())
-                x = (T)((object)double.Parse(result, System.Globalization.CultureInfo.InvariantCulture));
+            // Parse into the requested type. Passing integers through double
+            // loses exact values above 2^53 and cannot be unboxed as T.
+            if (type == typeof(sbyte)) return (T)(object)sbyte.Parse(result, integerStyle, culture);
+            if (type == typeof(byte)) return (T)(object)byte.Parse(result, integerStyle, culture);
+            if (type == typeof(short)) return (T)(object)short.Parse(result, integerStyle, culture);
+            if (type == typeof(ushort)) return (T)(object)ushort.Parse(result, integerStyle, culture);
+            if (type == typeof(int)) return (T)(object)int.Parse(result, integerStyle, culture);
+            if (type == typeof(uint)) return (T)(object)uint.Parse(result, integerStyle, culture);
+            if (type == typeof(long)) return (T)(object)long.Parse(result, integerStyle, culture);
+            if (type == typeof(ulong)) return (T)(object)ulong.Parse(result, integerStyle, culture);
+            if (type == typeof(float)) return (T)(object)float.Parse(result, floatingStyle, culture);
+            if (type == typeof(decimal)) return (T)(object)decimal.Parse(result, floatingStyle, culture);
+            if (type == typeof(double))
+                return (T)(object)double.Parse(result, floatingStyle, culture);
+            if (type == typeof(string)) return (T)(object)result;
+            if (type == typeof(System.Numerics.Complex))
+                return (T)(object)MathNet.Numerics.ComplexExtensions.ToComplex(result, culture);
 
-            if (x is string)
-                x = (T)((object)(result));
-
-            if (x is System.Numerics.Complex)
-                x = (T)((object)MathNet.Numerics.ComplexExtensions.ToComplex(result, System.Globalization.CultureInfo.InvariantCulture));
-            return x;
+            throw new System.NotSupportedException(""Input conversion supports string, real/double, float, decimal, complex and the built-in integer types."");
         }
 
         public static T read<T>(string caption)
