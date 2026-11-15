@@ -12,7 +12,11 @@ namespace Computator.NET.Desktop.Controls
     public class DocumentsTabControl : TabControl
     {
         public event EventHandler<DocumentTabsClosingEventArgs> DocumentsClosing;
+        public event EventHandler<DocumentTabEventArgs> DocumentCloneRequested;
         private TabPage addTabPage;
+        private TabPage contextDocument;
+        private TabPage mouseContextDocument;
+        private bool hasMouseContextDocument;
         private ToolStripMenuItem cloneTabToolStripMenuItem;
         private ToolStripMenuItem closeOtherTabsToolStripMenuItem;
         private ToolStripMenuItem closeTabsToTheLeftToolStripMenuItem;
@@ -116,6 +120,14 @@ namespace Computator.NET.Desktop.Controls
             });
             contextMenuStrip1.Name = "contextMenuStrip1";
             contextMenuStrip1.Size = new Size(191, 142);
+            contextMenuStrip1.Opening += ContextMenuStrip_Opening;
+            contextMenuStrip1.Closed += (sender, args) =>
+            {
+                // Native menu activation may close the dropdown before Click.
+                // Keep its document until the clone handler consumes it.
+                if (args.CloseReason != ToolStripDropDownCloseReason.ItemClicked)
+                    contextDocument = null;
+            };
             // 
             // newTabToolStripMenuItem
             // 
@@ -279,6 +291,47 @@ namespace Computator.NET.Desktop.Controls
 
         private void cloneTabToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var document = contextDocument ?? SelectedTab;
+            contextDocument = null;
+            if (!IsDocumentTab(document)) return;
+            DocumentCloneRequested?.Invoke(this, new DocumentTabEventArgs(document));
+        }
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            hasMouseContextDocument = e.Button == MouseButtons.Right;
+            mouseContextDocument = null;
+            if (hasMouseContextDocument)
+                for (var index = 0; index < TabPages.Count; index++)
+                    if (GetTabRect(index).Contains(e.Location))
+                    {
+                        mouseContextDocument = TabPages[index];
+                        break;
+                    }
+            base.OnMouseDown(e);
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            // A keyboard context menu belongs to the selected document, even
+            // after a right click that did not open a menu.
+            if (e.KeyCode == Keys.Apps || e.KeyData == (Keys.Shift | Keys.F10))
+                hasMouseContextDocument = false;
+            base.OnKeyDown(e);
+        }
+
+        private void ContextMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+            contextDocument = hasMouseContextDocument ? mouseContextDocument : SelectedTab;
+            hasMouseContextDocument = false;
+            mouseContextDocument = null;
+            cloneTabToolStripMenuItem.Enabled = IsDocumentTab(contextDocument);
+            if (cloneTabToolStripMenuItem.Enabled) SelectedTab = contextDocument;
+        }
+
+        private bool IsDocumentTab(TabPage document)
+        {
+            return document != null && document != addTabPage && TabPages.Contains(document);
         }
 
         private void this_SelectedIndexChanged(object sender, EventArgs e)
@@ -287,6 +340,16 @@ namespace Computator.NET.Desktop.Controls
             {
                 AddTab();
             }
+        }
+    }
+
+    public sealed class DocumentTabEventArgs : EventArgs
+    {
+        public TabPage Document { get; }
+
+        public DocumentTabEventArgs(TabPage document)
+        {
+            Document = document;
         }
     }
 

@@ -102,6 +102,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             tabControl.ControlRemoved += TabControl_ControlRemoved;
             tabControl.ControlAdded += TabControl_ControlAdded;
             tabControl.DocumentsClosing += TabControl_DocumentsClosing;
+            tabControl.DocumentCloneRequested += TabControl_DocumentCloneRequested;
             foreach (var editor in _codeEditors.Values)
                 editor.TextChanged += Editor_TextChanged;
 #if !__MonoCS__
@@ -151,6 +152,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
                 saveFileDialog.FileOk -= SaveFileDialog_FileOk;
                 saveFileDialog.Dispose();
                 tabControl.DocumentsClosing -= TabControl_DocumentsClosing;
+                tabControl.DocumentCloneRequested -= TabControl_DocumentCloneRequested;
                 foreach (var editor in _codeEditors.Values)
                     editor.TextChanged -= Editor_TextChanged;
                 lock (LiveEditors)
@@ -419,6 +421,19 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         {
             var approval = PrepareToCloseDocuments(e.Documents, false);
             if (approval == null || !approval()) e.Cancel = true;
+        }
+
+        private void TabControl_DocumentCloneRequested(object sender, DocumentTabEventArgs e)
+        {
+            if (!IsDocumentTab(e.Document) || !CurrentCodeEditor.ContainsDocument(e.Document.Text)) return;
+            // Copy the open buffer, including unsaved edits. A clone gets its own
+            // untitled identity and must never inherit the original Save target.
+            var text = ReadDocumentText(e.Document);
+            RunDocumentOperation(() =>
+            {
+                NewDocument();
+                Text = text;
+            });
         }
 
         public bool ConfirmCloseDocuments()
