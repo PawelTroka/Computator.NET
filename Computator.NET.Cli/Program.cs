@@ -8,7 +8,7 @@ const string help = """
 Computator portable scientific engine. Run only code you trust.
 calculate --expression <TSL> [--x <number>] [--y <number>] [--functions <file.tslf>]
 complex --expression <TSL> [--real <number>] [--imaginary <number>] [--functions <file.tslf>]
-script --file <file.tsl> [--functions <file.tslf>]
+script --file <file.tsl|-> [--functions <file.tslf>]
 integrate --expression <TSL> --a <number> --b <number> [--steps <even integer>] [--functions <file.tslf>]
 differentiate --expression <TSL> --x <number> [--order <integer>] [--functions <file.tslf>]
 root --expression <TSL> --a <number> --b <number> [--tolerance <number>] [--iterations <integer>] [--functions <file.tslf>]
@@ -21,6 +21,8 @@ compilation diagnostics, exit 1 for invalid input or execution failure. --help e
 Use write(...) for script result text. Ordinary Console output is ignored through shutdown so
 messages from scripts or custom functions cannot mix with the CLI's JSON responses.
 UTF-8 documents are limited to 256 KiB and 65,536 characters; an optional UTF-8 BOM is accepted.
+For script --file -, pipe or redirect UTF-8 source through standard input; reading stops at EOF.
+Use ./- (or an absolute path) to read a file literally named '-'. Custom functions still use a file.
 No native GSL, charts or desktop interaction is available here. Work budgets are not a sandbox or timeout.
 """;
 var protocolOutput = Console.Out;
@@ -77,7 +79,7 @@ try
     {
         "calculate" => Format(engine.EvaluateReal(Required("--expression"), Number("--x"), Number("--y"), functions)),
         "complex" => engine.EvaluateComplex(Required("--expression"), new Complex(Number("--real"), Number("--imaginary")), functions).ToString("R", CultureInfo.InvariantCulture),
-        "script" => engine.ExecuteScript(ReadDocument(Required("--file")), functions),
+        "script" => engine.ExecuteScript(ReadScript(Required("--file")), functions),
         "integrate" => Format(engine.Integrate(Required("--expression"), Number("--a", required: true), Number("--b", required: true), checked((int)Integer("--steps", 10000)), functions)),
         "differentiate" => Format(engine.Differentiate(Required("--expression"), Number("--x", required: true), Integer("--order", 1), functions)),
         "root" => Format(engine.FindRoot(Required("--expression"), Number("--a", required: true), Number("--b", required: true), Number("--tolerance", 1e-8), Integer("--iterations", 10000), functions)),
@@ -115,11 +117,25 @@ static string ExecuteWithIsolatedConsole(Func<string> execute)
     }
 }
 
+static string ReadScript(string path)
+{
+    if (path != "-") return ReadDocument(path);
+    if (!Console.IsInputRedirected)
+        throw new ArgumentException("script --file - requires piped or redirected UTF-8 standard input.");
+    using var stream = Console.OpenStandardInput();
+    return DecodeDocument(stream);
+}
+
 static string ReadDocument(string path)
+{
+    using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+    return DecodeDocument(stream);
+}
+
+static string DecodeDocument(Stream stream)
 {
     const int maximumBytes = 262144;
     // Bound the actual read, not just a racy length check before ReadAllText.
-    using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
     var bytes = new byte[maximumBytes + 1];
     var count = 0;
     while (count < bytes.Length)
