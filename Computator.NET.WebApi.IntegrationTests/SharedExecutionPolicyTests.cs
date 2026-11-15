@@ -92,6 +92,52 @@ namespace Computator.NET.WebApi.IntegrationTests
             NUnit.Framework.Assert.That(ExecutionPolicy.ValidateLegacy("NumericalCalculations", "GetRealIntegral",
                 new Dictionary<string, object> { ["n"] = (double)iterations }), Is.Not.Empty);
         }
+        [TestCase("n")]
+        [TestCase("maxIterations")]
+        [TestCase("order")]
+        [TestCase("epsilon")]
+        [TestCase("maxError")]
+        public void LegacyPolicyTurnsMalformedNumericStringsIntoFieldErrors(string field)
+        {
+            var arguments = new Dictionary<string, object>
+            {
+                ["equation"] = "x",
+                [field] = "not-a-number"
+            };
+
+            var errors = ExecutionPolicy.ValidateLegacy("NumericalCalculations",
+                field == "order" ? "GetRealDerrivative" : "GetRealIntegral", arguments);
+
+            NUnit.Framework.Assert.That(errors.ContainsKey(field), Is.True,
+                $"Expected a validation error for {field}, not a conversion exception.");
+        }
+
+        [Test]
+        public void LegacyChartDimensionsRejectValuesThatCannotBeConvertedToNumbers()
+        {
+            var errors = ExecutionPolicy.ValidateLegacy("Chart", "Get",
+                new Dictionary<string, object> { ["width"] = new object() });
+            NUnit.Framework.Assert.That(errors.ContainsKey("dimensions"), Is.True);
+        }
+
+        [TestCase(1.5)]
+        [TestCase(double.NaN)]
+        [TestCase(double.PositiveInfinity)]
+        public void LegacyPolicyRejectsNonIntegralOrNonFiniteDerivativeOrder(double order)
+        {
+            var errors = ExecutionPolicy.ValidateLegacy("NumericalCalculations", "GetRealDerrivative",
+                new Dictionary<string, object> { ["order"] = order });
+            NUnit.Framework.Assert.That(errors.ContainsKey("order"), Is.True);
+        }
+
+        [Test]
+        public void LegacyPolicyDoesNotTreatBooleansAsNumericIterationCounts()
+        {
+            var errors = ExecutionPolicy.ValidateLegacy("NumericalCalculations", "GetRealIntegral",
+                new Dictionary<string, object> { ["n"] = true });
+            NUnit.Framework.Assert.That(errors.ContainsKey("n"), Is.True);
+        }
+
         [Test]
         public void BoundedOutputAllowsTheExactLimitButNotOneCharacterMore()
         {
