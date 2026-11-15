@@ -216,6 +216,9 @@ stop the host. `localhost` is intentionally not an accepted alternate Host.
 The launcher uses the native published apphost, so the selected runtime must
 match that apphost's architecture; it does not reinterpret an x64 publication
 through an arm64 `dotnet` process.
+The launcher clears inherited `DOTNET_ROOT_*` overrides for its child before
+selecting the resolved runtime. A stale architecture-specific root therefore
+cannot override `COMPUTATOR_DOTNET` or the `dotnet` selected through `PATH`.
 The build script also accepts an output directory as its second argument.
 Linux development validation uses `linux-x64` (or `linux-arm64`) in the same
 commands. Cross-publishing a Mac RID on Linux proves packaging only.

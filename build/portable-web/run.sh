@@ -20,6 +20,9 @@ while [ -L "$dotnet_command" ]; do
   target=$(readlink "$dotnet_command")
   case "$target" in /*) dotnet_command=$target ;; *) dotnet_command="$runtime_directory/$target" ;; esac
 done
+# Apphosts prefer architecture-specific roots over DOTNET_ROOT. Do not let an
+# inherited root silently override the runtime selected above (including Rosetta).
+for runtime_variable in "${!DOTNET_ROOT_@}"; do unset "$runtime_variable"; done
 export DOTNET_ROOT="$(cd -P "$(dirname "$dotnet_command")" && pwd)"
 # No shell background process or machine-wide service; Ctrl-C stops this host.
 exec "$directory/Computator.NET.PortableWeb" "$@"

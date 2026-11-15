@@ -25,6 +25,7 @@ Task("PortableWeb-HTTP")
     .Description("Linux/macOS: exercise the actual published portable apphost and worker lifetimes.")
     .IsDependentOn("PortableWeb-Publish").Does(() =>
 {
+    CheckedProcess("python3", new ProcessSettings { Arguments = "-m unittest discover -s build/portable-web -p test_run.py" });
     var arguments = new ProcessArgumentBuilder().Append("build/portable-web/smoke.py")
         .Append("--publish-directory").AppendQuoted(MakeAbsolute(Directory(portableWebOutput)).FullPath)
         .Append("--expected-rid").Append(portableWebRid)
