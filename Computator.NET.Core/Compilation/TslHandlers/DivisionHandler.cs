@@ -8,7 +8,11 @@ namespace Computator.NET.Core.Compilation.TslHandlers
         {
             var ret = DivisionByIntegerRegex.Replace(input, @"/$1$2.0$3");
 
-            ret = DivisionByParenthesisRegex.Replace(ret, @"/$1(1.0*($2))");
+            // In 1/(double)x the parentheses name a type; the operand is x.
+            // Promoting just (double) would turn valid casts into invalid code.
+            ret = DivisionByParenthesisRegex.Replace(ret, match =>
+                Groups.IsScalarCast(match.Groups[2].Value, ret, match.Index + match.Length)
+                    ? match.Value : match.Result(@"/$1(1.0*($2))"));
 
             return ret;
         }

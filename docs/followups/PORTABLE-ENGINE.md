@@ -92,6 +92,24 @@ The full native GSL/special-function catalog, interactive input dialogs, desktop
 
 All executed code remains trusted, in-process code with the user's permissions. Work budgets and collectible load contexts are **not a sandbox, wall-clock timeout or filesystem/network isolation**. Generated assemblies use unique identities and request unloading when released; dynamic-binder caches can still retain programs until process exit. See [program lifetime](../PROGRAM-LIFETIME.md) for that boundary.
 
+## Explicit scalar casts
+
+TSL preserves casts to built-in scalar types and its `real`, `complex`, `integer`
+and `natural` aliases. For example, `(int)x` truncates a real input toward zero,
+and `(real)(integer)x` converts that integer result back to a real value.
+
+An explicit cast keeps its requested arithmetic type. `1/(int)2.75` therefore
+uses integer division and returns `0`; `1.0/(int)2.75` and `1/(double)2` return
+`0.5`. Ordinary TSL numeric and grouped denominators still promote division:
+`1/2` and `1/((int)2.75)` both return `0.5`. Use a real numerator or cast when a
+fractional result is required.
+
+This recognition is limited to known scalar type spellings. Mathematical
+products such as `(x)y`, `(x+1)(y+1)` and `sin(x)y` retain implicit multiplication.
+The alias spelling `(real)3` consistently means a cast, including when a value
+is also named `real`; use `real*3` to multiply that value instead. Parentheses
+around a complete denominator such as `1/(real)` continue to refer to the value.
+
 ## Boolean operators and absolute values
 
 Conditions, scripts and custom functions support short-circuit logical OR chains such as `true || false || false` and `|x| > 0 || |y| > 0 || |x+y| > 0`. Later operands are evaluated only when the earlier operands are false. Single bars still denote absolute values; nested `||x||` and the supported adjacent expression `|x||y|` retain their mathematical meanings.
