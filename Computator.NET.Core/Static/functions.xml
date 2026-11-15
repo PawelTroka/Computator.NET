@@ -2082,9 +2082,10 @@
 <p class="reference-signature"><code>real CarlsonC(real x, real y)</code></p>
 <p class="reference-summary">A symmetric-form elliptic integral useful for expressing many Legendre-form elliptic integrals.</p>
 <p class="reference-equation"><strong>Definition</strong><br /><img class="reference-math" src="reference-equations/289927deb9de024c26d530857021390b7461c8257e6d0d5cebb08f12250bfdf7.png" alt="R_C(x,y)=1/2 ∫₀^∞ dt/[(t+y)sqrt(t+x)]" width="297" height="59" /></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> This wrapper requires every supplied argument to be strictly positive, even where broader limiting definitions exist.</p>
-<p class="reference-note"><strong>Important:</strong> R_D is symmetric in x,y; R_F and R_J are symmetric in x,y,z; R_D(x,y,z)=R_J(x,y,z,z).</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Real x≥0 and y&gt;0, including x=0. Negative arguments and singular zero combinations return NaN. The underlying numerical backend still limits the supported magnitude range.</p>
+<p class="reference-note"><strong>Important:</strong> R_D is symmetric in x,y; R_F and R_J are symmetric in x,y,z; R_D(x,y,z)=R_J(x,y,z,z). Negative-argument Cauchy principal values are not exposed.</p>
 <p class="reference-explanation">Symmetric elliptic forms avoid selecting an amplitude/modulus representation first. Their arguments are not simply the k and φ of Legendre-form integrals, so translate the formula rather than reusing arguments by position.</p>
+<p class="reference-example"><strong>Example:</strong> CarlsonC(0,1) = PI/2</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/19.16">dlmf.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://dlmf.nist.gov/19.16</Url>
@@ -2097,9 +2098,10 @@
 <p class="reference-signature"><code>real CarlsonD(real x, real y, real z)</code></p>
 <p class="reference-summary">A symmetric-form elliptic integral useful for expressing many Legendre-form elliptic integrals.</p>
 <p class="reference-equation"><strong>Definition</strong><br /><img class="reference-math" src="reference-equations/bc460c8c881015af3aa0e972b288522ffc889f3562a318afa2213de70f91a752.png" alt="R_D(x,y,z)=3/2 ∫₀^∞ dt/[(t+z)sqrt((t+x)(t+y)(t+z))]" width="448" height="61" /></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> This wrapper requires every supplied argument to be strictly positive, even where broader limiting definitions exist.</p>
-<p class="reference-note"><strong>Important:</strong> R_D is symmetric in x,y; R_F and R_J are symmetric in x,y,z; R_D(x,y,z)=R_J(x,y,z,z).</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Real x,y≥0 with at most one zero, and z&gt;0. Negative arguments and singular zero combinations return NaN. The underlying numerical backend still limits the supported magnitude range.</p>
+<p class="reference-note"><strong>Important:</strong> R_D is symmetric in x,y; R_F and R_J are symmetric in x,y,z; R_D(x,y,z)=R_J(x,y,z,z). Negative-argument Cauchy principal values are not exposed.</p>
 <p class="reference-explanation">Symmetric elliptic forms avoid selecting an amplitude/modulus representation first. Their arguments are not simply the k and φ of Legendre-form integrals, so translate the formula rather than reusing arguments by position.</p>
+<p class="reference-example"><strong>Example:</strong> CarlsonD(0,1,1) = 3*PI/4</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/19.16">dlmf.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://dlmf.nist.gov/19.16</Url>
@@ -2112,9 +2114,10 @@
 <p class="reference-signature"><code>real CarlsonF(real x, real y, real z)</code></p>
 <p class="reference-summary">A symmetric-form elliptic integral useful for expressing many Legendre-form elliptic integrals.</p>
 <p class="reference-equation"><strong>Definition</strong><br /><img class="reference-math" src="reference-equations/64fd4b90a0148b7388900bfb4d50c5ee1da9c5508edf7fdd465a89cc6a7da12a.png" alt="R_F(x,y,z)=1/2 ∫₀^∞ dt/sqrt((t+x)(t+y)(t+z))" width="391" height="61" /></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> This wrapper requires every supplied argument to be strictly positive, even where broader limiting definitions exist.</p>
-<p class="reference-note"><strong>Important:</strong> R_D is symmetric in x,y; R_F and R_J are symmetric in x,y,z; R_D(x,y,z)=R_J(x,y,z,z).</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Real x,y,z≥0 with at most one zero. Negative arguments and singular zero combinations return NaN. The underlying numerical backend still limits the supported magnitude range.</p>
+<p class="reference-note"><strong>Important:</strong> R_D is symmetric in x,y; R_F and R_J are symmetric in x,y,z; R_D(x,y,z)=R_J(x,y,z,z). Negative-argument Cauchy principal values are not exposed.</p>
 <p class="reference-explanation">Symmetric elliptic forms avoid selecting an amplitude/modulus representation first. Their arguments are not simply the k and φ of Legendre-form integrals, so translate the formula rather than reusing arguments by position.</p>
+<p class="reference-example"><strong>Example:</strong> CarlsonF(0,1,1) = PI/2</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/19.16">dlmf.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://dlmf.nist.gov/19.16</Url>
@@ -2127,9 +2130,10 @@
 <p class="reference-signature"><code>real CarlsonJ(real x, real y, real z, real p)</code></p>
 <p class="reference-summary">A symmetric-form elliptic integral useful for expressing many Legendre-form elliptic integrals.</p>
 <p class="reference-equation"><strong>Definition</strong><br /><img class="reference-math" src="reference-equations/304bc09a606afafd663c26c45a90a02ee05042d920011c1039e8c70a9bb68117.png" alt="R_J(x,y,z,p)=3/2 ∫₀^∞ dt/[(t+p)sqrt((t+x)(t+y)(t+z))]" width="465" height="61" /></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> This wrapper requires every supplied argument to be strictly positive, even where broader limiting definitions exist.</p>
-<p class="reference-note"><strong>Important:</strong> R_D is symmetric in x,y; R_F and R_J are symmetric in x,y,z; R_D(x,y,z)=R_J(x,y,z,z).</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Real x,y,z≥0 with at most one zero, and p&gt;0. Negative arguments and singular zero combinations return NaN. The underlying numerical backend still limits the supported magnitude range.</p>
+<p class="reference-note"><strong>Important:</strong> R_D is symmetric in x,y; R_F and R_J are symmetric in x,y,z; R_D(x,y,z)=R_J(x,y,z,z). Negative-argument Cauchy principal values are not exposed.</p>
 <p class="reference-explanation">Symmetric elliptic forms avoid selecting an amplitude/modulus representation first. Their arguments are not simply the k and φ of Legendre-form integrals, so translate the formula rather than reusing arguments by position.</p>
+<p class="reference-example"><strong>Example:</strong> CarlsonJ(0,1,1,1) = 3*PI/4</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/19.16">dlmf.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://dlmf.nist.gov/19.16</Url>
