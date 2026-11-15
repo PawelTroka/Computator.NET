@@ -407,6 +407,9 @@
   <data name="Broyden_s_method" xml:space="preserve">
     <value>Broydenova metoda</value>
   </data>
+  <data name="Steffensen_s_method" xml:space="preserve">
+    <value>Steffensenova metoda</value>
+  </data>
   <data name="secant_Newton_Raphson_method" xml:space="preserve">
     <value>Newtonova–Raphsonova metoda sečen</value>
   </data>

@@ -115,6 +115,11 @@ namespace Computator.NET.Core.NumericalCalculations
                                         FunctionRoot.BroydenMethod
                                 },
                                 {
+                                    Strings.Steffensen_s_method,
+                                    (Func<Func<double, double>, double, double, double, uint, double>)
+                                        FunctionRoot.SteffensenMethod
+                                },
+                                {
                                     Strings.secant_Newton_Raphson_method,
                                     (Func<Func<double, double>, double, double, double, uint, double>)
                                         FunctionRoot.secantNewtonRaphsonMethod

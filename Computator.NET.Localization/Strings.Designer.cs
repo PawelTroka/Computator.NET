@@ -870,6 +870,16 @@ namespace Computator.NET.Localization {
                 return ResourceManager.GetString("secant_Newton_Raphson_method", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Steffensen's method.
+        /// </summary>
+        public static string Steffensen_s_method {
+            get {
+                return ResourceManager.GetString("Steffensen_s_method", resourceCulture);
+            }
+        }
+
         
         /// <summary>
         ///   Looks up a localized string similar to Simpson&apos;s method.

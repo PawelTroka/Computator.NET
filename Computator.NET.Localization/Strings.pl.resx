@@ -371,6 +371,9 @@
   <data name="Chart3D_is_not_supported_on_Mono" xml:space="preserve">
     <value>Chart3D nie jest wspierany na Mono</value>
   </data>
+  <data name="Steffensen_s_method" xml:space="preserve">
+    <value>metoda Steffensena</value>
+  </data>
   <data name="secant_Newton_Raphson_method" xml:space="preserve">
     <value>metoda siecznych Newton-Raphson</value>
   </data>

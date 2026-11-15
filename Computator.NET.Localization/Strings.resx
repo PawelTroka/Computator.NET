@@ -414,6 +414,9 @@
   <data name="Broyden_s_method" xml:space="preserve">
     <value>Broyden's method</value>
   </data>
+  <data name="Steffensen_s_method" xml:space="preserve">
+    <value>Steffensen's method</value>
+  </data>
   <data name="secant_Newton_Raphson_method" xml:space="preserve">
     <value>secant Newton Raphson method</value>
   </data>
