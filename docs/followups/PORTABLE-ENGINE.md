@@ -31,6 +31,29 @@ Expected results are `17`, approximately `9`, approximately `6` and approximatel
 
 `Portable-Test` stops after the guarded engine test run; `Portable-Validate` adds publication and CLI process checks. The original syntax regressions and production-code tests run through the portable suite. Windows tests remain relevant when changing shared code used by the desktop.
 
+### Probability distributions
+
+The portable CLI and local browser import the same `MathNet.Numerics.Distributions`
+namespace as the desktop. Existing desktop calls such as `Normal.CDF`,
+`Binomial.PMF` and `Poisson.PMF`, distribution constructors and interfaces work in
+expressions, scripts, custom definitions and numerical services. They use the
+existing managed Math.NET dependency and require no native GSL library.
+
+```sh
+dotnet artifacts/portable/computator.dll calculate --expression 'Normal.CDF(0,1,0)'
+# {"result":"0.5"}
+dotnet artifacts/portable/computator.dll calculate --expression 'Binomial.PMF(0.5,4,2)'
+# {"result":"0.375"}
+```
+
+For instance-based calculations, a script can use
+`var bell = new Normal(2,3); write(bell.CumulativeDistribution(2));`, which returns
+`0.5`. The normal distribution's parameters are mean and standard deviation;
+the binomial example specifies success probability, trial count and success
+count. Math.NET's parameter validation and custom type-name precedence are
+unchanged. This import does not add distribution autocomplete entries or
+convenience functions for fitting arbitrary sample arrays.
+
 ## Command reference
 
 | Command | Required input | Optional input / defaults |
@@ -66,29 +89,6 @@ dotnet artifacts/portable/computator.dll script --file example.tsl --functions f
 ```
 
 Both return `{"result":"3"}`. Files accept an optional UTF-8 BOM and are bounded during reading to 256 KiB and 65,536 characters. Convert older UTF-16 or non-UTF-8 files explicitly. Quote paths containing spaces.
-
-### Probability distributions
-
-The portable CLI and local browser import the same `MathNet.Numerics.Distributions`
-namespace as the desktop. Existing desktop calls such as `Normal.CDF`,
-`Binomial.PMF` and `Poisson.PMF`, distribution constructors and interfaces work in
-expressions, scripts, custom definitions and numerical services. They use the
-existing managed Math.NET dependency and require no native GSL library.
-
-```sh
-dotnet artifacts/portable/computator.dll calculate --expression 'Normal.CDF(0,1,0)'
-# {"result":"0.5"}
-dotnet artifacts/portable/computator.dll calculate --expression 'Binomial.PMF(0.5,4,2)'
-# {"result":"0.375"}
-```
-
-For instance-based calculations, a script can use
-`var bell = new Normal(2,3); write(bell.CumulativeDistribution(2));`, which returns
-`0.5`. The normal distribution's parameters are mean and standard deviation;
-the binomial example specifies success probability, trial count and success
-count. Math.NET's parameter validation and custom type-name precedence are
-unchanged. This import does not add distribution autocomplete entries or
-convenience functions for fitting arbitrary sample arrays.
 
 ### Results and failures
 
