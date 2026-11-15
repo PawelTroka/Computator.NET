@@ -26,6 +26,7 @@ internal static class PortableCatalog
                      .Where(property => property.PropertyType == typeof(double) || property.PropertyType == typeof(System.Numerics.Complex)))
             entries.Add(Item(property.Name, property.Name, "Mathematical constants"));
         if (scripting) entries.Add(Item("write", "write(value)", "Script output"));
+        if (scripting) entries.Add(Item("writeln", "writeln(value)", "Script output"));
         return entries.ToArray();
     }
     private static object Item(string name, string signature, string category) => new
