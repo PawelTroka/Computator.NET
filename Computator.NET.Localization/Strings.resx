@@ -438,4 +438,13 @@
   <data name="CheckChartAreaValues" xml:space="preserve">
     <value>Check chart area values</value>
   </data>
+  <data name="ChartFiniteNumber" xml:space="preserve">
+    <value>Enter a finite number.</value>
+  </data>
+  <data name="ChartNumberOrAutomatic" xml:space="preserve">
+    <value>Enter a finite number, or NaN for automatic scaling.</value>
+  </data>
+  <data name="ChartNonNegativeInterval" xml:space="preserve">
+    <value>Enter a non-negative interval (0 or NaN selects automatic spacing).</value>
+  </data>
 </root>

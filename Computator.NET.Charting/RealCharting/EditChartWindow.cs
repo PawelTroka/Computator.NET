@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
+using Computator.NET.Charting.Controls;
 using System.Windows.Forms;
 using Computator.NET.DataTypes.Properties;
 
@@ -11,16 +13,19 @@ namespace Computator.NET.Charting.RealCharting
         private Font axesFont, legendFont;
         private Font titleFont;
         private Font valuesFont;
+        private readonly ChartEditorValidation validation;
 
         public EditChartWindow()
         {
             InitializeComponent();
+            validation = new ChartEditorValidation(this, components ?? (components = new Container()));
             this.Icon = GraphicsResources.computator_net_icon;
         }
 
         public EditChartWindow(Chart2D chart)
         {
             InitializeComponent();
+            validation = new ChartEditorValidation(this, components ?? (components = new Container()));
             this.chart = chart;
             loadData();
             this.Icon = GraphicsResources.computator_net_icon;
@@ -60,22 +65,33 @@ namespace Computator.NET.Charting.RealCharting
                 legendVisible.Checked = chart.Series[0].IsVisibleInLegend;
         }
 
-        private void saveData()
+        private bool saveData()
         {
+            validation.Clear();
+            var xMin = validation.ReadNumber(xMinChartTextBox, true);
+            var xMax = validation.ReadNumber(xMaxChartTextBox, true);
+            var yMin = validation.ReadNumber(yMinChartTextBox, true);
+            var yMax = validation.ReadNumber(yMaxChartTextBox, true);
+            var xInterval = validation.ReadInterval(xDeltaChartTextBox);
+            var yInterval = validation.ReadInterval(yDeltaChartTextBox);
+            validation.ValidateRange(xMinChartTextBox, xMin, xMaxChartTextBox, xMax);
+            validation.ValidateRange(yMinChartTextBox, yMin, yMaxChartTextBox, yMax);
+            if (!validation.CanApply()) return false;
+
             chart.LineThickness = (int) lineThicknessNumericUpDown.Value;
             chart.PointsSize = (int) pointsSizeNumericUpDown.Value;
             chart.Titles[0].Text = tittleOfChartTextBox.Text;
             chart.ChartAreas[0].AxisY.Title = yLabelChartTextBox.Text;
             chart.ChartAreas[0].AxisX.Title = xLabelChartTextBox.Text;
 
-            chart.XMin = double.Parse(xMinChartTextBox.Text);
-            chart.YMin = double.Parse(yMinChartTextBox.Text);
+            chart.XMin = xMin;
+            chart.YMin = yMin;
 
-            chart.XMax = double.Parse(xMaxChartTextBox.Text);
-            chart.YMax = double.Parse(yMaxChartTextBox.Text);
+            chart.XMax = xMax;
+            chart.YMax = yMax;
 
-            chart.ChartAreas[0].AxisY.Interval = double.Parse(yDeltaChartTextBox.Text);
-            chart.ChartAreas[0].AxisX.Interval = double.Parse(xDeltaChartTextBox.Text);
+            chart.ChartAreas[0].AxisY.Interval = yInterval;
+            chart.ChartAreas[0].AxisX.Interval = xInterval;
 
             chart.Titles[0].Font = titleFont;
             chart.ChartAreas[0].AxisY.TitleFont = chart.ChartAreas[0].AxisX.TitleFont = axesFont;
@@ -93,11 +109,12 @@ namespace Computator.NET.Charting.RealCharting
                 chart.Series[3].LegendText = legendaEtykieta4.Text;
             foreach (var serie in chart.Series)
                 serie.IsVisibleInLegend = legendVisible.Checked;
+            return true;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            saveData();
+            if (!saveData()) return;
             chart.Invalidate();
             Close();
         }

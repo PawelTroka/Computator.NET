@@ -298,6 +298,7 @@
     <File Path="build/fixtures/LegacySettings.cs" />
     <File Path="build/portable/Test-Cli.ps1" />
     <File Path="build/validation/LocalizationResourceContract.cs" />
+    <File Path="build/validation/ChartEditorValidationContract.cs" />
   </Folder>
   <Folder Name="/Build/Workstreams/">
     <File Path="build/followups/appveyor.cake" />

@@ -431,4 +431,13 @@
   <data name="CheckChartAreaValues" xml:space="preserve">
     <value>Zkontrolujte hodnoty rozsahu grafu</value>
   </data>
+  <data name="ChartFiniteNumber" xml:space="preserve">
+    <value>Zadejte konečné číslo.</value>
+  </data>
+  <data name="ChartNumberOrAutomatic" xml:space="preserve">
+    <value>Zadejte konečné číslo nebo NaN pro automatické měřítko.</value>
+  </data>
+  <data name="ChartNonNegativeInterval" xml:space="preserve">
+    <value>Zadejte nezáporný interval (0 nebo NaN zvolí automatické rozestupy).</value>
+  </data>
 </root>

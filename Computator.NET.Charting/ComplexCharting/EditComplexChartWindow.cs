@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
+using Computator.NET.Charting.Controls;
 using System.Linq;
 using System.Windows.Forms;
 using Computator.NET.DataTypes.Charts;
@@ -13,16 +15,19 @@ namespace Computator.NET.Charting.ComplexCharting
         private Font axesFont, legendFont;
         private Font titleFont;
         private Font valuesFont;
+        private readonly ChartEditorValidation validation;
 
         public EditComplexChartWindow()
         {
             InitializeComponent();
+            validation = new ChartEditorValidation(this, components ?? (components = new Container()));
             this.Icon = GraphicsResources.computator_net_icon;
         }
 
         public EditComplexChartWindow(ComplexChart chart)
         {
             InitializeComponent();
+            validation = new ChartEditorValidation(this, components ?? (components = new Container()));
             this.chart = chart;
             loadData();
             this.Icon = GraphicsResources.computator_net_icon;
@@ -68,17 +73,26 @@ namespace Computator.NET.Charting.ComplexCharting
             titlesColorRectangleShape.FillColor = chart.TitleColor;
         }
 
-        private void saveData()
+        private bool saveData()
         {
+            validation.Clear();
+            var xMin = validation.ReadNumber(xMinChartTextBox, false);
+            var xMax = validation.ReadNumber(xMaxChartTextBox, false);
+            var yMin = validation.ReadNumber(yMinChartTextBox, false);
+            var yMax = validation.ReadNumber(yMaxChartTextBox, false);
+            validation.ValidateRange(xMinChartTextBox, xMin, xMaxChartTextBox, xMax);
+            validation.ValidateRange(yMinChartTextBox, yMin, yMaxChartTextBox, yMax);
+            if (!validation.CanApply()) return false;
+
             chart.Title = tittleOfChartTextBox.Text;
             chart.YLabel = yLabelChartTextBox.Text;
             chart.XLabel = xLabelChartTextBox.Text;
 
-            chart.YMin = double.Parse(yMinChartTextBox.Text);
-            chart.YMax = double.Parse(yMaxChartTextBox.Text);
+            chart.YMin = yMin;
+            chart.YMax = yMax;
 
-            chart.XMax = double.Parse(xMaxChartTextBox.Text);
-            chart.XMin = double.Parse(xMinChartTextBox.Text);
+            chart.XMax = xMax;
+            chart.XMin = xMin;
 
             chart.TitleFont = titleFont;
             chart.LabelsFont = axesFont;
@@ -96,11 +110,12 @@ namespace Computator.NET.Charting.ComplexCharting
             chart.LabelsColor = labelsColorRectangleShape.FillColor;
             chart.TitleColor = titlesColorRectangleShape.FillColor;
             chart.Redraw();
+            return true;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            saveData();
+            if (!saveData()) return;
             Close();
         }
 
