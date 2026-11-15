@@ -757,9 +757,54 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static System.Numerics.Complex arcosh(System.Numerics.Complex z)
         {
-            return
-                System.Numerics.Complex.Log(z +
-                                            System.Numerics.Complex.Sqrt(z + 1)*System.Numerics.Complex.Sqrt(z - 1));
+            if (double.IsInfinity(z.Real) || double.IsInfinity(z.Imaginary))
+                return new System.Numerics.Complex(double.PositiveInfinity, System.Math.Atan2(z.Imaginary, z.Real));
+            if (double.IsNaN(z.Real) || double.IsNaN(z.Imaginary))
+                return new System.Numerics.Complex(double.NaN, double.NaN);
+
+            // Retain both signed-zero sides of the real-axis cut, including
+            // the endpoints, and use the stable real implementation off it.
+            if (z.Imaginary == 0)
+            {
+                if (z.Real >= 1)
+                    return new System.Numerics.Complex(arcosh(z.Real), z.Imaginary);
+                if (z.Real <= -1)
+                    return new System.Numerics.Complex(arcosh(-z.Real), RuntimeMath.CopySign(System.Math.PI, z.Imaginary));
+                return new System.Numerics.Complex(0, RuntimeMath.CopySign(System.Math.Acos(z.Real), z.Imaginary));
+            }
+
+            // acosh(z) = log(2z) + O(1/z^2). Here the correction is far below
+            // double precision. Scale the modulus to avoid overflowing either
+            // a square or 2*z, also on Framework's older Complex.Acos path.
+            var scale = System.Math.Max(System.Math.Abs(z.Real), System.Math.Abs(z.Imaginary));
+            if (scale > 1e150)
+            {
+                var ratio = System.Math.Min(System.Math.Abs(z.Real), System.Math.Abs(z.Imaginary))/scale;
+                return new System.Numerics.Complex(
+                    System.Math.Log(scale) + System.Math.Log(2.0) + 0.5*System.Math.Log(1.0 + ratio*ratio),
+                    System.Math.Atan2(z.Imaginary, z.Real));
+            }
+
+            // At the branch points the local square-root limit retains even
+            // a subnormal imaginary displacement. The O(Im(z)) relative
+            // correction is below double precision at this threshold.
+            if (System.Math.Abs(z.Real) == 1 && System.Math.Abs(z.Imaginary) < 1e-150)
+            {
+                var root = System.Math.Sqrt(System.Math.Abs(z.Imaginary));
+                return new System.Numerics.Complex(root,
+                    RuntimeMath.CopySign(z.Real > 0 ? root : System.Math.PI - root, z.Imaginary));
+            }
+
+            // acosh(z) = +/- i*acos(z). Rotate components without multiplying
+            // by i; choose the principal value with nonnegative real part.
+            // Modern .NET's inverse cosine retains small components near the
+            // cut; older Framework/Mono runtimes can still lose precision.
+            // Framework's logarithmic Acos cancels in the lower half-plane.
+            // Evaluate its conjugate above the cut, then restore the input side.
+            var upper = new System.Numerics.Complex(z.Real, System.Math.Abs(z.Imaginary));
+            var inverse = System.Numerics.Complex.Acos(upper);
+            return new System.Numerics.Complex(System.Math.Abs(inverse.Imaginary),
+                RuntimeMath.CopySign(inverse.Real, z.Imaginary));
         }
 
         /*Angielska nazwa funkcji"),
@@ -1986,9 +2031,54 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex arcosh(System.Numerics.Complex z)
         {
-            return
-                System.Numerics.Complex.Log(z +
-                                            System.Numerics.Complex.Sqrt(z + 1)*System.Numerics.Complex.Sqrt(z - 1));
+            if (double.IsInfinity(z.Real) || double.IsInfinity(z.Imaginary))
+                return new System.Numerics.Complex(double.PositiveInfinity, System.Math.Atan2(z.Imaginary, z.Real));
+            if (double.IsNaN(z.Real) || double.IsNaN(z.Imaginary))
+                return new System.Numerics.Complex(double.NaN, double.NaN);
+
+            // Retain both signed-zero sides of the real-axis cut, including
+            // the endpoints, and use the stable real implementation off it.
+            if (z.Imaginary == 0)
+            {
+                if (z.Real >= 1)
+                    return new System.Numerics.Complex(arcosh(z.Real), z.Imaginary);
+                if (z.Real <= -1)
+                    return new System.Numerics.Complex(arcosh(-z.Real), Computator.NET.Core.Compatibility.FrameworkElementaryMath.CopySign(System.Math.PI, z.Imaginary));
+                return new System.Numerics.Complex(0, Computator.NET.Core.Compatibility.FrameworkElementaryMath.CopySign(System.Math.Acos(z.Real), z.Imaginary));
+            }
+
+            // acosh(z) = log(2z) + O(1/z^2). Here the correction is far below
+            // double precision. Scale the modulus to avoid overflowing either
+            // a square or 2*z, also on Framework's older Complex.Acos path.
+            var scale = System.Math.Max(System.Math.Abs(z.Real), System.Math.Abs(z.Imaginary));
+            if (scale > 1e150)
+            {
+                var ratio = System.Math.Min(System.Math.Abs(z.Real), System.Math.Abs(z.Imaginary))/scale;
+                return new System.Numerics.Complex(
+                    System.Math.Log(scale) + System.Math.Log(2.0) + 0.5*System.Math.Log(1.0 + ratio*ratio),
+                    System.Math.Atan2(z.Imaginary, z.Real));
+            }
+
+            // At the branch points the local square-root limit retains even
+            // a subnormal imaginary displacement. The O(Im(z)) relative
+            // correction is below double precision at this threshold.
+            if (System.Math.Abs(z.Real) == 1 && System.Math.Abs(z.Imaginary) < 1e-150)
+            {
+                var root = System.Math.Sqrt(System.Math.Abs(z.Imaginary));
+                return new System.Numerics.Complex(root,
+                    Computator.NET.Core.Compatibility.FrameworkElementaryMath.CopySign(z.Real > 0 ? root : System.Math.PI - root, z.Imaginary));
+            }
+
+            // acosh(z) = +/- i*acos(z). Rotate components without multiplying
+            // by i; choose the principal value with nonnegative real part.
+            // Modern .NET's inverse cosine retains small components near the
+            // cut; older Framework/Mono runtimes can still lose precision.
+            // Framework's logarithmic Acos cancels in the lower half-plane.
+            // Evaluate its conjugate above the cut, then restore the input side.
+            var upper = new System.Numerics.Complex(z.Real, System.Math.Abs(z.Imaginary));
+            var inverse = System.Numerics.Complex.Acos(upper);
+            return new System.Numerics.Complex(System.Math.Abs(inverse.Imaginary),
+                Computator.NET.Core.Compatibility.FrameworkElementaryMath.CopySign(inverse.Real, z.Imaginary));
         }
 
         /*Angielska nazwa funkcji""),
