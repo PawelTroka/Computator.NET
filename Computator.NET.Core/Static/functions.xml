@@ -9871,9 +9871,9 @@
 <p class="reference-summary">Inverts the map <img class="reference-math-inline" src="reference-equations/164106451b80496c953cd6dc9e594602e7162bb2bd794fdc68e4fb3353b11862.png" alt="w↦w·exp(w)" width="125" height="21" data-depth="275" />, selecting one branch.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>W(x)·exp(W(x))=x.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> The principal real branch has x≥−1/e and W≥−1.</p>
-<p class="reference-note"><strong>Important:</strong> This wrapper rejects x=−1/e as well as smaller inputs, although the mathematical endpoint is W=−1. </p>
-<p class="reference-explanation">On the negative real interval where two solutions exist, the branch number chooses which one is returned. Branch zero stays above −1; branch −1 stays below −1. The wrapper’s endpoint restrictions must still be respected.</p>
-<p class="reference-example"><strong>Example:</strong> LambertW0(0) = 0</p>
+<p class="reference-note"><strong>Important:</strong> Both real branches include x=−1/e, where W=−1. Inputs below this boundary return NaN. </p>
+<p class="reference-explanation">Both branches meet at x=−1/e with W=−1. On −1/e&lt;x&lt;0, two real solutions exist: branch zero lies above −1, and branch −1 lies below −1. The branch number chooses which solution is returned.</p>
+<p class="reference-example"><strong>Example:</strong> LambertW0(-1/e) = -1; LambertW0(0) = 0</p>
 <p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/abe6c7eb01dbe65e5b8ae78419f00c7b6dab274c986db00ea111e489ac74cc66.png" alt="W(x)·exp(W(x))=x." width="139" height="32" /></p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/4.13">dlmf.nist.gov</a></p>
 </div>]]></Description>
@@ -9888,8 +9888,9 @@
 <p class="reference-summary">Inverts the map <img class="reference-math-inline" src="reference-equations/164106451b80496c953cd6dc9e594602e7162bb2bd794fdc68e4fb3353b11862.png" alt="w↦w·exp(w)" width="125" height="21" data-depth="275" />, selecting one branch.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>W(x)·exp(W(x))=x.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> The negative real branch has x∈[−1/e,0) and W≤−1.</p>
-<p class="reference-note"><strong>Important:</strong> This wrapper rejects x=−1/e as well as smaller inputs, although the mathematical endpoint is W=−1. For positive x, GSL’s W₋₁ routine returns its W₀ continuation; that is not a real negative-branch value.</p>
-<p class="reference-explanation">On the negative real interval where two solutions exist, the branch number chooses which one is returned. Branch zero stays above −1; branch −1 stays below −1. The wrapper’s endpoint restrictions must still be respected.</p>
+<p class="reference-note"><strong>Important:</strong> Both real branches include x=−1/e, where W=−1. Inputs below this boundary return NaN. At x=0, GSL’s W₋₁ routine returns 0; for positive x, it returns its W₀ continuation. These nonnegative-input results are retained for compatibility and are not real negative-branch values.</p>
+<p class="reference-explanation">Both branches meet at x=−1/e with W=−1. On −1/e&lt;x&lt;0, two real solutions exist: branch zero lies above −1, and branch −1 lies below −1. The branch number chooses which solution is returned.</p>
+<p class="reference-example"><strong>Example:</strong> LambertWm1(-1/e) = -1</p>
 <p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/abe6c7eb01dbe65e5b8ae78419f00c7b6dab274c986db00ea111e489ac74cc66.png" alt="W(x)·exp(W(x))=x." width="139" height="32" /></p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/4.13">dlmf.nist.gov</a></p>
 </div>]]></Description>
