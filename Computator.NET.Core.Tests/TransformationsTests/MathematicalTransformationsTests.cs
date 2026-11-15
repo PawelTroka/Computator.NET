@@ -37,7 +37,7 @@ namespace Computator.NET.Core.Tests.TransformationsTests
 
         [Test, Combinatorial]
         public void ComplexTransformsMatchIndependentRectangularCoefficients(
-            [Values("DCT", "IDCT", "DHT")] string transform,
+            [Values("DCT", "IDCT", "DHT", "DST", "IDST")] string transform,
             [Values(1, 2, 3, 5)] int length)
         {
             var samples = Samples(length);
@@ -52,11 +52,12 @@ namespace Computator.NET.Core.Tests.TransformationsTests
 
         [Test, Combinatorial]
         public void ComplexTransformsRoundTripIncludingEmptyAndSingleSampleArrays(
-            [Values("DCT", "IDCT", "DHT")] string transform,
+            [Values("DCT", "IDCT", "DHT", "DST", "IDST")] string transform,
             [Values(0, 1, 2, 3, 5)] int length)
         {
             var samples = Samples(length);
-            var inverse = transform == "DCT" ? "IDCT" : transform == "IDCT" ? "DCT" : "DHT";
+            var inverse = transform == "DCT" ? "IDCT" : transform == "IDCT" ? "DCT"
+                : transform == "DST" ? "IDST" : transform == "IDST" ? "DST" : "DHT";
 
             var transformed = MathematicalTransformations.Transform(samples, transform);
             var restored = MathematicalTransformations.Transform(transformed, inverse);
@@ -124,6 +125,12 @@ namespace Computator.NET.Core.Tests.TransformationsTests
                                 var angle = 2 * Math.PI * (inputRow * outputRow / (double)samples.Length
                                     + inputColumn * outputColumn / 2.0);
                                 weight = (Math.Cos(angle) + Math.Sin(angle)) / Math.Sqrt(2 * samples.Length);
+                            }
+                            else if (transform == "DST" || transform == "IDST")
+                            {
+                                weight = Math.Sin(Math.PI * (inputRow + 1) * (outputRow + 1) / (samples.Length + 1))
+                                    * Math.Sin(Math.PI * (inputColumn + 1) * (outputColumn + 1) / 3);
+                                if (transform == "IDST") weight *= 2.0 / (samples.Length + 1) * (2.0 / 3);
                             }
                             else if (transform == "DCT")
                             {
