@@ -91,10 +91,53 @@ namespace Computator.NET.Core.NumericalCalculations
             if (order == 0)
                 return fx(x);
             if (order == 1)
-                return (fx(x - 2*dx) - 8*fx(x - dx) + 8*fx(x + dx) - fx(x + 2*dx))/(12*dx);
-            return (centeredFivePointMethod(fx, x - 2*dx, order - 1, eps) - 8*centeredFivePointMethod(fx, x - dx, order - 1, eps) +
-                    8*centeredFivePointMethod(fx, x + dx, order - 1, eps) - centeredFivePointMethod(fx, x + 2*dx, order - 1, eps))/
-                   (12*dx);
+                return FivePointDifference(fx(x - 2*dx), fx(x - dx), fx(x + dx), fx(x + 2*dx), dx);
+            return FivePointDifference(centeredFivePointMethod(fx, x - 2*dx, order - 1, eps),
+                centeredFivePointMethod(fx, x - dx, order - 1, eps),
+                centeredFivePointMethod(fx, x + dx, order - 1, eps),
+                centeredFivePointMethod(fx, x + 2*dx, order - 1, eps), dx);
+        }
+
+        private static double FivePointDifference(double left2, double left1, double right1, double right2, double step)
+        {
+            // Preserve the existing arithmetic for actual nonfinite inputs.
+            if (!IsFinite(left2) || !IsFinite(left1) || !IsFinite(right1) || !IsFinite(right2) || !IsFinite(step))
+                return (left2 - 8*left1 + 8*right1 - right2)/(12*step);
+            if (left2 == left1 && left1 == right1 && right1 == right2)
+                return 0.0/step;
+
+            // Preserve ordinary cancellation order: regrouping every stencil
+            // can erase a small residual which the original order retains.
+            var numerator = left2 - 8*left1 + 8*right1 - right2;
+            if (!IsFinite(numerator))
+            {
+                // Symmetric differences can cancel large common offsets before
+                // weighting. Apply this only when the original path overflows.
+                var inner = right1 - left1;
+                var outer = left2 - right2;
+                numerator = 8*inner + outer;
+                if (!IsFinite(numerator))
+                {
+                    // Dividing by 32 bounds the full numerator below MaxValue.
+                    // Retain already finite differences after cancellation.
+                    var scaledInner = IsFinite(inner) ? inner/32 : right1/32 - left1/32;
+                    var scaledOuter = IsFinite(outer) ? outer/32 : left2/32 - right2/32;
+                    var scaledNumerator = 8*scaledInner + scaledOuter;
+                    // Exact cancellation stays zero even when scaling a
+                    // subnormal step would round the denominator to zero.
+                    return scaledNumerator == 0 ? scaledNumerator/step : scaledNumerator/(0.375*step);
+                }
+            }
+
+            var denominator = 12*step;
+            // A large finite step can overflow only the denominator. In that
+            // case divide by the step before the remaining factor.
+            return double.IsInfinity(denominator) ? (numerator/step)/12 : numerator/denominator;
+        }
+
+        private static bool IsFinite(double value)
+        {
+            return !double.IsNaN(value) && !double.IsInfinity(value);
         }
 
         public static double derivativeAtPoint(System.Func<double, double> fx, double x, uint order = 1, double eps = EPS_MAX)
@@ -213,10 +256,53 @@ namespace Computator.NET.Core.NumericalCalculations
             if (order == 0)
                 return fx(x);
             if (order == 1)
-                return (fx(x - 2*dx) - 8*fx(x - dx) + 8*fx(x + dx) - fx(x + 2*dx))/(12*dx);
-            return (centeredFivePointMethod(fx, x - 2*dx, order - 1, eps) - 8*centeredFivePointMethod(fx, x - dx, order - 1, eps) +
-                    8*centeredFivePointMethod(fx, x + dx, order - 1, eps) - centeredFivePointMethod(fx, x + 2*dx, order - 1, eps))/
-                   (12*dx);
+                return FivePointDifference(fx(x - 2*dx), fx(x - dx), fx(x + dx), fx(x + 2*dx), dx);
+            return FivePointDifference(centeredFivePointMethod(fx, x - 2*dx, order - 1, eps),
+                centeredFivePointMethod(fx, x - dx, order - 1, eps),
+                centeredFivePointMethod(fx, x + dx, order - 1, eps),
+                centeredFivePointMethod(fx, x + 2*dx, order - 1, eps), dx);
+        }
+
+        private static double FivePointDifference(double left2, double left1, double right1, double right2, double step)
+        {
+            // Preserve the existing arithmetic for actual nonfinite inputs.
+            if (!IsFinite(left2) || !IsFinite(left1) || !IsFinite(right1) || !IsFinite(right2) || !IsFinite(step))
+                return (left2 - 8*left1 + 8*right1 - right2)/(12*step);
+            if (left2 == left1 && left1 == right1 && right1 == right2)
+                return 0.0/step;
+
+            // Preserve ordinary cancellation order: regrouping every stencil
+            // can erase a small residual which the original order retains.
+            var numerator = left2 - 8*left1 + 8*right1 - right2;
+            if (!IsFinite(numerator))
+            {
+                // Symmetric differences can cancel large common offsets before
+                // weighting. Apply this only when the original path overflows.
+                var inner = right1 - left1;
+                var outer = left2 - right2;
+                numerator = 8*inner + outer;
+                if (!IsFinite(numerator))
+                {
+                    // Dividing by 32 bounds the full numerator below MaxValue.
+                    // Retain already finite differences after cancellation.
+                    var scaledInner = IsFinite(inner) ? inner/32 : right1/32 - left1/32;
+                    var scaledOuter = IsFinite(outer) ? outer/32 : left2/32 - right2/32;
+                    var scaledNumerator = 8*scaledInner + scaledOuter;
+                    // Exact cancellation stays zero even when scaling a
+                    // subnormal step would round the denominator to zero.
+                    return scaledNumerator == 0 ? scaledNumerator/step : scaledNumerator/(0.375*step);
+                }
+            }
+
+            var denominator = 12*step;
+            // A large finite step can overflow only the denominator. In that
+            // case divide by the step before the remaining factor.
+            return double.IsInfinity(denominator) ? (numerator/step)/12 : numerator/denominator;
+        }
+
+        private static bool IsFinite(double value)
+        {
+            return !double.IsNaN(value) && !double.IsInfinity(value);
         }
    public static double derivativeAtPoint(System.Func<double, double> fx, double x, uint order = 1, double eps = EPS_MAX)
         {
