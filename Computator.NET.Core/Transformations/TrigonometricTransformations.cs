@@ -90,11 +90,15 @@ namespace Computator.NET.Core.Transformations
             switch (transformate)
             {
                 case "FFT":
+                    // Math.NET's Fourier methods mutate their argument. Complex transforms
+                    // return a new buffer, just like DCT, DST and the other transforms.
+                    copyofFunctionsPoints = (Complex[])functionPoints.Clone();
                     Fourier.Forward(copyofFunctionsPoints);
                     break;
 
 
                 case "IFFT":
+                    copyofFunctionsPoints = (Complex[])functionPoints.Clone();
                     Fourier.Inverse(copyofFunctionsPoints);
                     break;
 
