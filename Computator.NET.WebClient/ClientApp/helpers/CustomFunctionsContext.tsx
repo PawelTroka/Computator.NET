@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { maximumSourceCharacters } from './sourceLimits';
 const key = 'computator.custom-functions.v1';
-const maximum = 65536;
+const maximum = maximumSourceCharacters;
 type State = { code: string; setCode: (code: string) => void; save: () => void; clear: () => void; dirty: boolean; error: string };
 const Context = createContext<State | null>(null);
 function read() {
@@ -16,7 +17,10 @@ function read() {
 export function CustomFunctionsProvider({ children }: { children: ReactNode }) {
   const [initial] = useState(read);
   const [code, update] = useState(initial.code), [saved, setSaved] = useState(initial.code);
-  const [error, setError] = useState(initial.error), [blocked, setBlocked] = useState(Boolean(initial.error));
+  const [storageError, setError] = useState(initial.error), [blocked, setBlocked] = useState(Boolean(initial.error));
+  const error = code.length > maximum
+    ? 'Custom functions exceed 65,536 characters and are kept in memory only. Shorten them before running or saving; export a .tslf copy to keep all edits.'
+    : storageError;
   const dirty = code !== saved;
   // Definitions also stay in memory while visiting another tool. Keep the
   // reload/close warning with the shared provider to protect edits after
@@ -27,8 +31,11 @@ export function CustomFunctionsProvider({ children }: { children: ReactNode }) {
     window.addEventListener('beforeunload', warn);
     return () => window.removeEventListener('beforeunload', warn);
   }, [dirty]);
-  function setCode(next: string) { if (next.length <= maximum) update(next); else setError('Definitions exceed 65,536 characters.'); }
+  // Preserve the exact visible source and Ace's undo history. Oversized edits
+  // remain recoverable drafts; neither saving nor execution accepts them.
+  function setCode(next: string) { update(next); }
   function save() {
+    if (code.length > maximum) return;
     if (blocked) { setError('Stored definitions could not be read. Clear explicitly before replacing them.'); return; }
     try { sessionStorage.setItem(key, JSON.stringify({ schemaVersion: 1, code })); setSaved(code); setError(''); }
     catch { setError('The browser could not save this tab’s definitions. Export a .tslf copy instead.'); }

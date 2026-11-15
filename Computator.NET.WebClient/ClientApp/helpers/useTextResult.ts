@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { WEB_API_BASE_URL } from '../config';
 import { useCustomFunctions } from './CustomFunctionsContext';
+import { executionSourceError } from './sourceLimits';
 
 function problemMessage(body: unknown, fallback: string) {
   if (!body || typeof body !== 'object' || Array.isArray(body)) return fallback;
@@ -28,7 +29,9 @@ export function useTextResult() {
     setPending(false); setError('Execution cancelled.');
   }
   async function execute(operation: string, parameters: Record<string, unknown>) {
-    active.current?.abort();
+    active.current?.abort(); active.current = null;
+    const sourceError = executionSourceError(parameters.expression, functions.code);
+    if (sourceError) { setPending(false); setResult(''); setError(sourceError); return; }
     const controller = new AbortController(); active.current = controller;
     setPending(true); setError(''); setResult('');
     try {
