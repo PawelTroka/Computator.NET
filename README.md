@@ -98,6 +98,7 @@ Cake defaults to **Release**; `dotnet build`, `dotnet test` and Rider commonly u
 | I want to… | Start here |
 | --- | --- |
 | Find a project, fix missing Rider items, or run one test | [Developer guide](docs/DEVELOPING.md) |
+| Learn TSL through calculations, scripts, matrices and numerical exercises | [Guided TSL tutorial](docs/TUTORIAL-TSL.md) |
 | Understand CLI commands and portable capabilities | [Portable engine and CLI](docs/followups/PORTABLE-ENGINE.md) |
 | Change the parser or mathematical notation | [TSL and engine source](Computator.NET.Engine/Computator.NET.Engine.csproj), [function powers](docs/FUNCTION-POWERS.md) |
 | Improve built-in function help and illustrations | [Reference authoring](docs/FUNCTION-REFERENCE.md), [equations and diagrams](docs/REFERENCE-EQUATIONS.md) |
