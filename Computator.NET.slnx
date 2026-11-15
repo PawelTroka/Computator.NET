@@ -152,6 +152,7 @@
     <File Path="build/mono/validate-package.sh" />
     <File Path="build/mono/LegacyFixtureWriter.cs" />
     <File Path="build/mono/SmokeTests/CompatibilityTests.cs" />
+    <File Path="build/mono/SmokeTests/UnixDocumentPermissionTests.cs" />
     <File Path="build/mono/SmokeTests/EditorSearchTests.cs" />
     <File Path="build/mono/SmokeTests/Computator.NET.Mono.SmokeTests.csproj" />
     <File Path="build/mono/SmokeTests/ComplexChartUiAcceptance.cs" />

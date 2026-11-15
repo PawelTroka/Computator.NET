@@ -385,6 +385,7 @@ internal static partial class Program
 
     private static void UnixDocumentSafety()
     {
+        UnixDocumentPermissions();
         // These tests invoke the production internal helper, not a copied implementation.
         var safety = typeof(TextEditorCodeEditor).Assembly.GetType("Computator.NET.Desktop.Controls.CodeEditors.DocumentFileSafety", true);
         var capture = safety.GetMethod("Capture", BindingFlags.Static | BindingFlags.NonPublic);
