@@ -201,9 +201,9 @@ def _describe(item, values):
         return A('Lambert W, real branch '+('−1' if lower else '0'), P('Inverts the map ', M('w\\mapsto w\\exp(w)', 'w↦w·exp(w)'), ', selecting one branch.'),
                  'W(x)·exp(W(x))=x.',
                  ('The negative real branch has x∈[−1/e,0) and W≤−1.' if lower else 'The principal real branch has x≥−1/e and W≥−1.'),
-                 'This wrapper rejects x=−1/e as well as smaller inputs, although the mathematical endpoint is W=−1. '+
-                 ('For positive x, GSL’s W₋₁ routine returns its W₀ continuation; that is not a real negative-branch value.' if lower else ''),
-                 '' if lower else 'LambertW0(0) = 0',DLMF+'4.13')
+                 'Both real branches include x=−1/e, where W=−1. Inputs below this boundary return NaN. '+
+                 ('At x=0, GSL’s W₋₁ routine returns 0; for positive x, it returns its W₀ continuation. These nonnegative-input results are retained for compatibility and are not real negative-branch values.' if lower else ''),
+                 'LambertWm1(-1/e) = -1' if lower else 'LambertW0(-1/e) = -1; LambertW0(0) = 0',DLMF+'4.13')
     if name in ('CoulombF','CoulombG','CoulombFprime','CoulombGprime','CoulombC','CoulombW','HydrogenicR'):
         if name=='HydrogenicR':
             return A('Normalized hydrogenic radial wavefunction','The radial part of a bound-state wavefunction in a point-nucleus Coulomb potential.',

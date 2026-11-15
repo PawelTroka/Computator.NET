@@ -715,12 +715,12 @@ namespace Computator.NET.Core.Functions
 
         public static double LambertW0(double x)
         {
-            return (x <= -1/System.Math.E) ? double.NaN : gsl_sf_lambert_W0(x);
+            return (x < -1/System.Math.E) ? double.NaN : gsl_sf_lambert_W0(x);
         }
 
         public static double LambertWm1(double x)
         {
-            return (x <= -1/System.Math.E) ? double.NaN : gsl_sf_lambert_Wm1(x);
+            return (x < -1/System.Math.E) ? double.NaN : gsl_sf_lambert_Wm1(x);
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
@@ -3985,12 +3985,12 @@ EntryPoint = "gsl_sf_mathieu_Ms", CallingConvention = System.Runtime.InteropServ
 
         public static double LambertW0(double x)
         {
-            return (x <= -1/System.Math.E) ? double.NaN : gsl_sf_lambert_W0(x);
+            return (x < -1/System.Math.E) ? double.NaN : gsl_sf_lambert_W0(x);
         }
 
         public static double LambertWm1(double x)
         {
-            return (x <= -1/System.Math.E) ? double.NaN : gsl_sf_lambert_Wm1(x);
+            return (x < -1/System.Math.E) ? double.NaN : gsl_sf_lambert_Wm1(x);
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
