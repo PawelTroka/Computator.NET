@@ -32,7 +32,46 @@ namespace Computator.NET.Core.NumericalCalculations
                     return BrentMethod(fx, a, b, errorMax, N);
                 case "Broyden's method":
                     return BroydenMethod(fx, a, b, errorMax, N);
+                case "Steffensen's method":
+                    return SteffensenMethod(fx, a, b, errorMax, N);
 
+            }
+            return double.NaN;
+        }
+
+        /// <summary>Derivative-free Steffensen root search from the interval midpoint.</summary>
+        /// <remarks>The interval supplies an initial guess, not a guaranteed bracket.</remarks>
+        public static double SteffensenMethod(System.Func<double, double> fx, double a, double b, double errorMax = ERROR_MAX_MIN, uint N = ITERATIONS_MAX)
+        {
+            if (fx == null) throw new System.ArgumentNullException(nameof(fx));
+            if (double.IsNaN(errorMax) || double.IsInfinity(errorMax) || errorMax <= 0)
+                throw new System.ArgumentOutOfRangeException(nameof(errorMax));
+            if (double.IsNaN(a) || double.IsInfinity(a) || double.IsNaN(b) || double.IsInfinity(b) || a >= b || N == 0)
+                return double.NaN;
+
+            // Avoid overflowing the width of an interval spanning opposite extremes.
+            var width = b - a;
+            var x = double.IsInfinity(width) ? a / 2 + b / 2 : a + width / 2;
+            for (uint iteration = 0; iteration < N; iteration++)
+            {
+                var residual = fx(x);
+                if (double.IsNaN(residual) || double.IsInfinity(residual)) return double.NaN;
+                if (System.Math.Abs(residual) <= errorMax) return x;
+
+                var probe = x + residual;
+                if (double.IsNaN(probe) || double.IsInfinity(probe) || probe == x) return double.NaN;
+                var probeResidual = fx(probe);
+                if (double.IsNaN(probeResidual) || double.IsInfinity(probeResidual)) return double.NaN;
+
+                // Divide by the actual representable probe distance, rather than
+                // the ideal residual, to retain accuracy when addition rounded.
+                var difference = probeResidual - residual;
+                if (difference == 0 || double.IsInfinity(difference)) return double.NaN;
+                var slope = difference / (probe - x);
+                if (slope == 0 || double.IsNaN(slope) || double.IsInfinity(slope)) return double.NaN;
+                var next = x - residual / slope;
+                if (double.IsNaN(next) || double.IsInfinity(next) || next == x) return double.NaN;
+                x = next;
             }
             return double.NaN;
         }
@@ -226,7 +265,46 @@ namespace Computator.NET.Core.NumericalCalculations
                     return BrentMethod(fx, a, b, errorMax, N);
                 case ""Broyden's method"":
                     return BroydenMethod(fx, a, b, errorMax, N);
+                case ""Steffensen's method"":
+                    return SteffensenMethod(fx, a, b, errorMax, N);
 
+            }
+            return double.NaN;
+        }
+
+        /// <summary>Derivative-free Steffensen root search from the interval midpoint.</summary>
+        /// <remarks>The interval supplies an initial guess, not a guaranteed bracket.</remarks>
+        public static double SteffensenMethod(System.Func<double, double> fx, double a, double b, double errorMax = ERROR_MAX_MIN, uint N = ITERATIONS_MAX)
+        {
+            if (fx == null) throw new System.ArgumentNullException(nameof(fx));
+            if (double.IsNaN(errorMax) || double.IsInfinity(errorMax) || errorMax <= 0)
+                throw new System.ArgumentOutOfRangeException(nameof(errorMax));
+            if (double.IsNaN(a) || double.IsInfinity(a) || double.IsNaN(b) || double.IsInfinity(b) || a >= b || N == 0)
+                return double.NaN;
+
+            // Avoid overflowing the width of an interval spanning opposite extremes.
+            var width = b - a;
+            var x = double.IsInfinity(width) ? a / 2 + b / 2 : a + width / 2;
+            for (uint iteration = 0; iteration < N; iteration++)
+            {
+                var residual = fx(x);
+                if (double.IsNaN(residual) || double.IsInfinity(residual)) return double.NaN;
+                if (System.Math.Abs(residual) <= errorMax) return x;
+
+                var probe = x + residual;
+                if (double.IsNaN(probe) || double.IsInfinity(probe) || probe == x) return double.NaN;
+                var probeResidual = fx(probe);
+                if (double.IsNaN(probeResidual) || double.IsInfinity(probeResidual)) return double.NaN;
+
+                // Divide by the actual representable probe distance, rather than
+                // the ideal residual, to retain accuracy when addition rounded.
+                var difference = probeResidual - residual;
+                if (difference == 0 || double.IsInfinity(difference)) return double.NaN;
+                var slope = difference / (probe - x);
+                if (slope == 0 || double.IsNaN(slope) || double.IsInfinity(slope)) return double.NaN;
+                var next = x - residual / slope;
+                if (double.IsNaN(next) || double.IsInfinity(next) || next == x) return double.NaN;
+                x = next;
             }
             return double.NaN;
         }
