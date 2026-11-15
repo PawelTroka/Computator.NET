@@ -36,6 +36,12 @@ document close prompts or session recovery (issues #60 and #59).
   the exception identifies the retained original backup. A successful replacement
   also retains and reports its backup if that backup contains an unexpected
   external version or cannot be safely verified and removed.
+- Unix saves retain the existing destination's ordinary owner/group/other
+  permissions, including Save As overwrites. The mode comes from the open file
+  at the final save check, so an earlier external `chmod` is respected. Staged
+  text is private to the owner until that final mode is applied. New files keep
+  the process's umask defaults. Special setuid, setgid and sticky bits are not
+  copied onto edited contents; ownership and extended ACLs are not copied.
 - Cancelling a filename dialog makes no write or identity change. A changed
   document selection during the dialog aborts the save before writing.
 

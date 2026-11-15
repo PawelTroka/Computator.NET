@@ -157,10 +157,20 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             var stagedPath = Path.Combine(directory, ".computator-save-" + Guid.NewGuid().ToString("N") + ".tmp");
             var backupPath = Path.Combine(directory, ".computator-backup-" + Guid.NewGuid().ToString("N") + ".tmp");
             var replacedExisting = false;
+            uint newFilePermissions = 0;
             try
             {
-                using (var staged = new FileStream(stagedPath, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+                if (!IsWindows && !expected.Exists)
+                    newFilePermissions = GetNewUnixFilePermissions(directory);
+                using (var staged = CreateStagedFile(stagedPath))
                 {
+                    if (!IsWindows)
+                    {
+                        // Creation is already no wider than 0600. A restrictive
+                        // umask may remove owner access, so restore it before
+                        // staging and the subsequent snapshot read.
+                        SetUnixPermissions(staged.SafeFileHandle, 0x180);
+                    }
                     if (stageWriter == null)
                     {
                         using (var writer = new StreamWriter(staged, new UTF8Encoding(false), 4096, true))
@@ -186,6 +196,18 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
                         throw new IOException("This destination is a filesystem reparse point or has multiple hard links. Choose a new file name with Save As to preserve the linked files.");
                     if ((current.Attributes & FileAttributes.ReadOnly) != 0)
                         throw new UnauthorizedAccessException("The destination is read-only. Your unsaved document has been kept.");
+
+                    if (!IsWindows)
+                    {
+                        // Read the destination's current mode from its open
+                        // handle, not the loaded snapshot or a path alias. A
+                        // chmod before this check is therefore retained. Edited
+                        // bytes never inherit setuid/setgid/sticky special bits.
+                        var permissions = destination == null
+                            ? newFilePermissions : GetUnixPermissions(destination.SafeFileHandle);
+                        using (var staged = new FileStream(stagedPath, FileMode.Open, FileAccess.Read, FileShare.None))
+                            SetUnixPermissions(staged.SafeFileHandle, permissions);
+                    }
 
                     if (current.Exists)
                     {
@@ -217,6 +239,55 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             {
                 TryDelete(stagedPath);
             }
+        }
+
+        private static FileStream CreateStagedFile(string path)
+        {
+            if (IsWindows) return new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.None);
+#if __MonoCS__
+            return MonoFileIdentity.CreatePrivateFile(path);
+#else
+            if (OperatingSystem.IsWindows()) throw new PlatformNotSupportedException("Unix document permissions are not used on Windows.");
+            return new FileStream(path, new FileStreamOptions
+            {
+                Mode = FileMode.CreateNew, Access = FileAccess.Write, Share = FileShare.None,
+                UnixCreateMode = UnixFileMode.UserRead | UnixFileMode.UserWrite
+            });
+#endif
+        }
+
+        private static uint GetNewUnixFilePermissions(string directory)
+        {
+            // Observe the filesystem's normal creation mode without changing
+            // the process-wide umask. This separate probe never contains text;
+            // the content-bearing file is created privately from the outset.
+            var path = Path.Combine(directory, ".computator-mode-" + Guid.NewGuid().ToString("N") + ".tmp");
+            try
+            {
+                using (var probe = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+                    return GetUnixPermissions(probe.SafeFileHandle);
+            }
+            finally { TryDelete(path); }
+        }
+
+        private static uint GetUnixPermissions(SafeFileHandle handle)
+        {
+#if __MonoCS__
+            return MonoFileIdentity.GetPermissions(handle);
+#else
+            if (OperatingSystem.IsWindows()) throw new PlatformNotSupportedException("Unix document permissions are not used on Windows.");
+            return (uint)File.GetUnixFileMode(handle) & 0x1ff; // ordinary 0777 permissions
+#endif
+        }
+
+        private static void SetUnixPermissions(SafeFileHandle handle, uint permissions)
+        {
+#if __MonoCS__
+            MonoFileIdentity.SetPermissions(handle, permissions);
+#else
+            if (OperatingSystem.IsWindows()) throw new PlatformNotSupportedException("Unix document permissions are not used on Windows.");
+            File.SetUnixFileMode(handle, (UnixFileMode)(permissions & 0x1ff));
+#endif
         }
 
         private static bool TryDeleteVerifiedBackup(string path, DocumentFileSnapshot expected)
