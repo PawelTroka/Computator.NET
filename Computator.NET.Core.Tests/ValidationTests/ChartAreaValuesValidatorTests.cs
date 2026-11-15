@@ -41,5 +41,18 @@ namespace Computator.NET.Core.Tests.ValidationTests
         {
             Assert.IsTrue(ChartAreaValuesValidator.IsValid(-2, 0, -2, 0));
         }
+
+        [TestCase(double.NegativeInfinity, 1, -1, 1)]
+        [TestCase(0, double.PositiveInfinity, -1, 1)]
+        [TestCase(0, 1, double.NegativeInfinity, 1)]
+        [TestCase(0, 1, -1, double.PositiveInfinity)]
+        [TestCase(double.NaN, 1, -1, 1)]
+        [TestCase(0, double.NaN, -1, 1)]
+        [TestCase(0, 1, double.NaN, 1)]
+        [TestCase(0, 1, -1, double.NaN)]
+        public void NonFiniteChartLimits_AreNotValid(double xmin, double xmax, double ymin, double ymax)
+        {
+            Assert.IsFalse(ChartAreaValuesValidator.IsValid(xmin, xmax, ymin, ymax));
+        }
     }
 }
