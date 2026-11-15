@@ -126,6 +126,7 @@ internal static partial class Program
         Run("unix-document-save-and-alias-protection", UnixDocumentSafety);
         Run("unix-document-hardlink-and-replacement-identity", UnixDocumentIdentity);
         Run("real-chart-samples-and-png-rendering", RealChart);
+        Run("real-chart-cleared-points-stay-removed", RealChartClear);
         Run("complex-chart-png-and-domain-colors", ComplexChart);
         Run("native-mono-3d-surface-and-visible-x11-interaction", Native3D);
         Run("native-mono-3d-singularities-custom-functions-and-points", Native3DEdges);

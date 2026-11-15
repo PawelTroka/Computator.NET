@@ -162,6 +162,7 @@
     <File Path="build/mono/SmokeTests/LocalizationTests.cs" />
 
     <File Path="build/mono/SmokeTests/Program.cs" />
+    <File Path="build/mono/SmokeTests/RealChartClearTests.cs" />
     <File Path="build/mono/StartupProbe/Computator.NET.Mono.StartupProbe.csproj" />
     <File Path="build/mono/StartupProbe/Program.cs" />
     <File Path="build/mono/build.sh" />
