@@ -125,6 +125,13 @@ try {
         [IO.File]::WriteAllBytes($scriptFile, $bytes)
         $null = Invoke-Cli -Arguments @('script','--file',$scriptFile) -ExpectedExit 1
     }
+    # Desktop distribution names must also bind in the published portable host.
+    Assert-Number -Arguments @('calculate','--expression','Normal.CDF(0,1,0)') -Expected 0.5 -Tolerance 1e-14
+    [IO.File]::WriteAllText($functions, 'static real Probability(real x) { return Normal.CDF(0,1,x); }', [Text.UTF8Encoding]::new($false))
+    Assert-Number -Arguments @('calculate','--expression','Probability(0)','--functions',$functions) -Expected 0.5 -Tolerance 1e-14
+    [IO.File]::WriteAllText($scriptFile, 'IDiscreteDistribution coins = new Binomial(0.5,4); write(coins.Probability(2));', [Text.UTF8Encoding]::new($false))
+    $value = Invoke-Cli -Arguments @('script','--file',$scriptFile)
+    if ($value.result -ne '0.375') { throw 'Published portable distribution script failed.' }
     # Failure must not poison the next independent invocation.
     Assert-Number -Arguments @('integrate','--expression','x','--a','0','--b','2','--steps','2') -Expected 2 -Tolerance 1e-12
     if ($script:cases -lt 39) { throw "Expected at least 39 published CLI process checks, but ran $script:cases." }
