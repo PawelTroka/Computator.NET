@@ -69,7 +69,8 @@ namespace Computator.NET.WebApi.Services
             if (arguments.ContainsKey("order"))
             {
                 var order = Number(arguments, "order", 0);
-                if (order < 1 || order > MaximumDerivativeOrder) errors["order"] = new[] { "Derivative order must be from 1 to 10." };
+                if (!double.IsFinite(order) || order < 1 || order > MaximumDerivativeOrder || order != Math.Truncate(order))
+                    errors["order"] = new[] { "Derivative order must be a whole number from 1 to 10." };
             }
             foreach (var name in new[] { "epsilon", "maxError" })
                 if (arguments.ContainsKey(name))
@@ -89,8 +90,18 @@ namespace Computator.NET.WebApi.Services
             return errors;
         }
 
-        private static double Number(IDictionary<string, object> values, string key, double fallback) =>
-            values.TryGetValue(key, out var value) && value != null ? Convert.ToDouble(value, CultureInfo.InvariantCulture) : fallback;
+        private static double Number(IDictionary<string, object> values, string key, double fallback)
+        {
+            if (!values.TryGetValue(key, out var value) || value == null) return fallback;
+            // Route model-binding rejects invalid numbers, but direct controller
+            // calls and legacy adapters also use this policy. Return a sentinel
+            // which the corresponding validation path reports as a 400 error.
+            if (value is bool) return double.NaN;
+            try { return Convert.ToDouble(value, CultureInfo.InvariantCulture); }
+            catch (FormatException) { return double.NaN; }
+            catch (InvalidCastException) { return double.NaN; }
+            catch (OverflowException) { return double.NaN; }
+        }
 
         private static void Source(IDictionary<string, string[]> errors, string name, string source, bool allowEmpty)
         {
