@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { maximumSourceCharacters } from './sourceLimits';
 
 export const scriptStorageKey = 'computator.script-document.v1';
-export const maximumScriptCharacters = 65536;
+export const maximumScriptCharacters = maximumSourceCharacters;
 export const maximumScriptBytes = 262144;
 type Document = { code: string; name: string };
 type State = Document & { error: string; unstored: boolean; replace: (code: string, name?: string) => void; clear: () => void };
@@ -31,15 +32,21 @@ export function ScriptDocumentProvider({ children }: { children: ReactNode }) {
   const [initial] = useState(read);
   const [document, setDocument] = useState<Document>({ code: initial.code, name: initial.name });
   const [blocked, setBlocked] = useState(initial.blocked);
-  const [error, setError] = useState(initial.error);
+  const [storageError, setError] = useState(initial.error);
   const [unstored, setUnstored] = useState(false);
+  const error = document.code.length > maximumScriptCharacters
+    ? 'The script exceeds 65,536 characters and is kept in memory only. Shorten it before running or saving; export a .tsl copy to keep all edits.'
+    : storageError;
   function replace(code: string, name = document.name) {
-    if (code.length > maximumScriptCharacters || !validName(name)) {
-      setError('Choose a .tsl document of at most 65,536 characters with a valid file name. The draft has not been replaced.');
+    if (!validName(name)) {
+      setError('Choose a .tsl document with a valid file name. The draft has not been replaced.');
       return;
     }
+    // Keep the editor and draft identical, including an over-limit paste. Rolling
+    // Ace back via a repeated error can leave hidden old source and erase undo.
     setDocument({ code, name });
     setUnstored(true);
+    if (code.length > maximumScriptCharacters) return;
     if (blocked) {
       setError('The unreadable stored script is preserved. Export your current work before reloading, or choose New script to reset storage.');
       return;

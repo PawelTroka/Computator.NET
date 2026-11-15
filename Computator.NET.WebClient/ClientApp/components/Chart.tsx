@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { WEB_API_BASE_URL } from '../config';
 import { useCustomFunctions } from '../helpers/CustomFunctionsContext';
 import { useChartDraft } from '../helpers/ToolDraftContext';
+import { executionSourceError } from '../helpers/sourceLimits';
 import { Expression } from './Expression';
 import { NumericInput } from './NumericInput';
 import { Plot2D } from './Plot2D';
@@ -141,6 +142,8 @@ export function Chart() {
 
   function draw(add = false) {
     if (!expression.trim()) return;
+    const sourceError = executionSourceError(expression, functions.code);
+    if (sourceError) { setError(sourceError); return; }
     const current = shown.current;
     const bounds = add && current?.kind === 'data' ? current.bounds : { xMin, xMax, yMin, yMax };
     if (!validBounds(bounds)) {
