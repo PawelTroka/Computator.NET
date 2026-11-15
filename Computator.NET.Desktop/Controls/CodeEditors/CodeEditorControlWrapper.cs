@@ -102,6 +102,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             tabControl.ControlRemoved += TabControl_ControlRemoved;
             tabControl.ControlAdded += TabControl_ControlAdded;
             tabControl.DocumentsClosing += TabControl_DocumentsClosing;
+            tabControl.DocumentCloneRequested += TabControl_DocumentCloneRequested;
             foreach (var editor in _codeEditors.Values)
                 editor.TextChanged += Editor_TextChanged;
 #if !__MonoCS__
@@ -151,6 +152,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
                 saveFileDialog.FileOk -= SaveFileDialog_FileOk;
                 saveFileDialog.Dispose();
                 tabControl.DocumentsClosing -= TabControl_DocumentsClosing;
+                tabControl.DocumentCloneRequested -= TabControl_DocumentCloneRequested;
                 foreach (var editor in _codeEditors.Values)
                     editor.TextChanged -= Editor_TextChanged;
                 lock (LiveEditors)
@@ -168,6 +170,22 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         public void NewDocument()
         {
             NewDocument("");
+        }
+
+        private void TabControl_DocumentCloneRequested(object sender, EventArgs e)
+        {
+            var source = tabControl.SelectedTab;
+            if (!IsDocumentTab(source) || source != _activeTab ||
+                !CurrentCodeEditor.ContainsDocument(source.Text)) return;
+
+            // Copy the visible buffer, including unsaved edits. A fresh untitled
+            // document owns its own buffer and must choose its own save target.
+            var text = Text;
+            RunDocumentOperation(() =>
+            {
+                NewDocument();
+                Text = text;
+            });
         }
 
         public override bool Focused
