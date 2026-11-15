@@ -89,6 +89,30 @@ namespace Computator.NET.Core.Tests.TransformationsTests
             AssertClose(MathematicalTransformations.Transform(samples, "DHT"), expected);
         }
 
+        [Test]
+        public void ComplexHilbertForwardRetainsImaginaryInputWithoutMutatingTheSamples()
+        {
+            // Accord's complex FHT accepts complex input. The adapter used to
+            // construct its working copy with an always-zero imaginary component.
+            var samples = new[]
+            {
+                new Complex(1, 5), new Complex(2, 5),
+                new Complex(0, 5), new Complex(-1, 5)
+            };
+            var untouched = (Complex[])samples.Clone();
+            var expected = (Complex[])samples.Clone();
+            Accord.Math.HilbertTransform.FHT(expected, Accord.Math.FourierTransform.Direction.Forward);
+
+            var realOnly = Array.ConvertAll(samples, sample => new Complex(sample.Real, 0));
+            Accord.Math.HilbertTransform.FHT(realOnly, Accord.Math.FourierTransform.Direction.Forward);
+            NUnit.Framework.Assert.That((expected[0] - realOnly[0]).Magnitude, Is.GreaterThan(1.0),
+                "The fixture must detect lost imaginary samples.");
+
+            var actual = MathematicalTransformations.Transform(samples, "FHT");
+            AssertClose(actual, expected);
+            NUnit.Framework.Assert.That(samples, Is.EqualTo(untouched), "The adapter must not modify caller data.");
+        }
+
         private static Complex[] Samples(int length)
         {
             var samples = new Complex[length];
