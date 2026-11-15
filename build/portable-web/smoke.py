@@ -222,6 +222,27 @@ def main() -> int:
         execute({'operation': 'integral', 'expression': '2', 'a': 0, 'b': 3,
                  'method': 'Unavailable native method'}, 400)
 
+    def managed_scalar_parity() -> None:
+        number({'operation': 'calculate', 'expression': 'arcsin(0.5)+arccos(0.5)'}, math.pi / 2)
+        number({'operation': 'calculate', 'expression': 'sinh(ln(2))+cosh(ln(2))'}, 2)
+        number({'operation': 'calculate', 'expression': 'log2(8)+log10(1000)+log(81,3)+log(100)'}, 12)
+        require(execute({'operation': 'script',
+                         'expression': 'write(Probe(new complex(3,4))); write(" λ "); write(log2(8));',
+                         'customFunctions': 'static real Probe(complex z) { return Re(conj(z))+Magnitude(z); }'})
+                == '8 λ 3', 'Managed scalar functions did not execute in scripts/custom definitions.')
+        # These entries come from the published host's reflection catalog. Both
+        # editors must offer the same names that their real execution supports.
+        names = {'tg', 'arcsin', 'arccos', 'arctan', 'arctg', 'sinh', 'cosh', 'tanh', 'tgh',
+                 'log2', 'log10', 'conj', 'Re', 'Im', 'Phase', 'Magnitude'}
+        for editor in ('expression', 'scripting'):
+            code, items, _ = request(f'/api/autocomplete/{editor}')
+            require(code == 200 and isinstance(items, list), f'Invalid {editor} completion catalog.')
+            require(names.issubset({item.get('text') for item in items}),
+                    f'Managed scalar names are missing from {editor} completion.')
+            require(any(item.get('menuText') == 'log(x, y)' for item in items) and
+                    any(item.get('menuText') == 'log(z, nbase)' for item in items),
+                    f'Base-log overloads are missing from {editor} completion.')
+
     def local_boundary() -> None:
         payload = {'operation': 'calculate', 'expression': '2+2'}
         for headers in ({'Host': 'example.com'}, {'Origin': 'https://example.com'},
@@ -420,6 +441,7 @@ def main() -> int:
             run('real complex calculation', complex_calculation)
             run('scripts, UTF-8 and request-local unsaved functions', custom_functions)
             run('portable numerical methods with known answers', numerical_methods)
+            run('managed scalar functions, definitions and both completion catalogs', managed_scalar_parity)
             run('local HTTP origin, host and source boundaries', local_boundary)
             run('explicit unsupported operations and error recovery', unsupported_and_recovery)
             run('execution deadline reaps worker and recovers', timeout_and_recovery)
