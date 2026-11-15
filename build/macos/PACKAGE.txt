@@ -24,6 +24,10 @@ clipboard, international/IME input, accessibility, Retina/multiple displays,
 file dialogs and prolonged use remains a release gate even after hosted GUI tests.
 
 Run Contents/MacOS/Computator.NET --preflight from a terminal for diagnostic JSON.
+Pass one .tsl or .tslf document as the first argument to open it in the matching
+workspace. Relative document paths use your terminal's current directory:
+  /Applications/Computator.NET.app/Contents/MacOS/Computator.NET "examples/my script.tsl"
+Use ./ before a document name that starts with --, so it is not treated as an option.
 Set COMPUTATOR_NONINTERACTIVE=1 to send launch failures only to stderr.
 Custom functions and scripts execute trusted local code with your permissions.
 

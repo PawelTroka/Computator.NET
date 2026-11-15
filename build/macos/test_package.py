@@ -7,6 +7,8 @@ import json
 import os
 from pathlib import Path
 import plistlib
+import shlex
+import shutil
 import stat
 import subprocess
 import sys
@@ -417,6 +419,125 @@ diff --git a/input.c b/input.c
                     self.assertEqual(10,accepted['applicationTraceCounts']['normal-launch/launcher.stderr.log'])
                     self.assertIn(str(helper),accepted['loadedImages'])
                     self.assertNotIn('/opt/X11/lib/libX11.6.dylib',accepted['loadedImages'])
+
+
+@unittest.skipUnless(os.name == 'posix' and shutil.which('bash'), 'Runs the Bash launcher with isolated prerequisite stubs.')
+class MacLauncherArgumentContracts(unittest.TestCase):
+    """Exercise the complete launcher shell; native Mono and XQuartz are stubbed."""
+
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory(prefix='computator-mac-launch-arguments-')
+        self.addCleanup(temporary.cleanup)
+        self.base = Path(temporary.name).resolve()
+        self.caller = self.base / 'caller with spaces'
+        self.caller.mkdir()
+        self.app = self.base / 'Relocated application.app/Contents/Resources/app'
+        self.app.mkdir(parents=True)
+        self.launcher = self.app.parents[1] / 'MacOS/Computator.NET'
+        self.launcher.parent.mkdir()
+        self.tools = self.base / 'tools'
+        self.tools.mkdir()
+        self.record = self.base / 'invocations.jsonl'
+
+        def executable(name, body):
+            path = self.tools / name
+            path.write_text('#!/bin/sh\n' + body, encoding='utf-8')
+            path.chmod(0o755)
+            return path
+
+        executable('uname', 'case "$1" in -s) echo Darwin;; -m) echo arm64;; *) exit 2;; esac\n')
+        replacements = {
+            '/opt/X11/bin/Xquartz': executable('Xquartz', 'exit 0\n'),
+            '/usr/sbin/pkgutil': executable('pkgutil', 'echo "version: 2.8.6"\n'),
+            '/opt/X11/bin/xdpyinfo': executable('xdpyinfo', 'exit 0\n'),
+        }
+        # Only host prerequisite paths are substituted. Argument handling, cwd
+        # changes, quoting, preflight sequencing and exit handling stay intact.
+        source = Path(__file__).with_name('launcher.sh').read_text(encoding='utf-8')
+        for original, replacement in replacements.items():
+            self.assertIn(original, source)
+            source = source.replace(original, shlex.quote(str(replacement)))
+        self.launcher.write_text(source, encoding='utf-8')
+        probe = self.tools / 'mono_probe.py'
+        probe.write_text('''import json, os, pathlib, sys
+args = sys.argv[1:]
+entry = {'arguments': args, 'cwd': os.getcwd()}
+if 'prepare' in args:
+    entry['stage'] = 'prepare'
+    pathlib.Path(args[args.index('--config') + 1]).write_text('<configuration/>')
+elif 'verify' in args:
+    entry['stage'] = 'verify'
+    pathlib.Path(args[args.index('--report') + 1]).write_text('{"fixture":true}\\n')
+else:
+    entry['stage'] = 'application'
+    if len(args) > 3:
+        document = pathlib.Path(args[3])
+        entry['documentText'] = document.read_text(encoding='utf-8') if document.is_file() else None
+with open(os.environ['COMPUTATOR_MAC_LAUNCH_TEST_RECORD'], 'a', encoding='utf-8') as stream:
+    stream.write(json.dumps(entry) + '\\n')
+''', encoding='utf-8')
+        mono = executable('mono', 'exec ' + shlex.quote(sys.executable) + ' ' + shlex.quote(str(probe)) + ' "$@"\n')
+        self.environment = dict(os.environ, PATH=str(self.tools) + os.pathsep + os.environ.get('PATH', ''),
+                                DISPLAY='fixture:1', COMPUTATOR_MONO=str(mono), COMPUTATOR_NONINTERACTIVE='1',
+                                COMPUTATOR_MAC_LAUNCH_TEST_RECORD=str(self.record))
+        self.environment.pop('BASH_ENV', None)
+        self.environment.pop('ENV', None)
+
+    def launch(self, *arguments, preflight=False):
+        self.record.unlink(missing_ok=True)
+        result = subprocess.run([shutil.which('bash'), str(self.launcher), *arguments], cwd=self.caller,
+                                env=self.environment, text=True, capture_output=True, timeout=10)
+        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+        invocations = [json.loads(line) for line in self.record.read_text(encoding='utf-8').splitlines()]
+        self.assertEqual(['prepare', 'verify'] + ([] if preflight else ['application']),
+                         [entry['stage'] for entry in invocations])
+        if preflight:
+            self.assertEqual({'fixture': True}, json.loads(result.stdout))
+            return None
+        self.assertEqual(str(self.app), invocations[-1]['cwd'])
+        self.assertEqual('Computator.NET.exe', invocations[-1]['arguments'][2])
+        return invocations[-1]
+
+    def test_relative_documents_use_caller_directory_instead_of_bundle_namesake(self):
+        for name in ('example.tsl', 'functions.tslf', 'UPPER.TSL', 'mixed.TsLf',
+                     'Żółć and spaces.tsl', 'quotes " $HOME `command` \\.tsl', 'line\nbreak.tsl', '-draft.tsl'):
+            with self.subTest(name=name):
+                (self.caller / name).write_text('caller document', encoding='utf-8')
+                (self.app / name).write_text('wrong bundled document', encoding='utf-8')
+                invocation = self.launch(name)
+                self.assertEqual('caller document', invocation['documentText'])
+                self.assertEqual([str(self.caller / name)], invocation['arguments'][3:])
+
+    def test_explicit_relative_paths_preserve_arguments_and_parent_components(self):
+        (self.caller / 'nested').mkdir()
+        (self.caller / '--draft.tslf').write_text('custom functions', encoding='utf-8')
+        for relative in ('./--draft.tslf', 'nested/../--draft.tslf'):
+            with self.subTest(relative=relative):
+                tail = ('another.tsl', '', 'tail " $HOME `command`')
+                invocation = self.launch(relative, *tail)
+                self.assertEqual('custom functions', invocation['documentText'])
+                self.assertEqual([str(self.caller) + '/' + relative, *tail], invocation['arguments'][3:])
+
+    def test_caller_directory_with_trailing_newline_is_preserved(self):
+        self.caller = self.base / 'caller\n'
+        self.caller.mkdir()
+        (self.caller / 'example.tsl').write_text('newline caller', encoding='utf-8')
+        invocation = self.launch('example.tsl')
+        self.assertEqual('newline caller', invocation['documentText'])
+        self.assertEqual([str(self.caller / 'example.tsl')], invocation['arguments'][3:])
+
+    def test_absolute_document_is_unchanged(self):
+        document = self.caller / 'absolute Żółć.tslf'
+        document.write_text('absolute custom functions', encoding='utf-8')
+        invocation = self.launch(str(document))
+        self.assertEqual([str(document)], invocation['arguments'][3:])
+        self.assertEqual('absolute custom functions', invocation['documentText'])
+
+    def test_no_document_control_arguments_and_other_extensions_are_unchanged(self):
+        for arguments in ((), ('--diagnostic.tsl',), ('notes.txt',), ('',), ('--other', 'example.tsl')):
+            with self.subTest(arguments=arguments):
+                self.assertEqual(list(arguments), self.launch(*arguments)['arguments'][3:])
+        self.launch('--preflight', preflight=True)
 
 
 if __name__=='__main__':
