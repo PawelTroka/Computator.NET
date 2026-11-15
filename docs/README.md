@@ -10,6 +10,7 @@ Start with the task you want to complete. The entry-point guides describe the cu
 | --- | --- |
 | Open the repository in Rider or Visual Studio, find projects, run/debug, or discover tests | **[Developer guide](DEVELOPING.md)** |
 | Pick a build target, run validation, find output or update dependencies | **[Build and test](BUILD.md)** |
+| Learn TSL through runnable calculations, scripts, matrices and numerical exercises | **[Guided TSL tutorial](TUTORIAL-TSL.md)** |
 | Run calculations, scripts and numerical commands on Windows, Linux or macOS | **[Portable engine and CLI](followups/PORTABLE-ENGINE.md)** |
 | Launch the web API and frontend from source | **[Web development](WEB-DEVELOPMENT.md)** |
 | Build the complete local browser package | **[Local web package](LOCAL-WEB-PACKAGE.md)** |
