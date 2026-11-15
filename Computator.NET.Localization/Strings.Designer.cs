@@ -526,6 +526,16 @@ namespace Computator.NET.Localization {
                 return ResourceManager.GetString("infinity_adaptive_Gauss_Kronrod_method", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to 61-point Gauss–Kronrod method.
+        /// </summary>
+        public static string Gauss_Kronrod_61_point_method {
+            get {
+                return ResourceManager.GetString("Gauss_Kronrod_61_point_method", resourceCulture);
+            }
+        }
+
         
         /// <summary>
         ///   Looks up a localized string similar to Integral.

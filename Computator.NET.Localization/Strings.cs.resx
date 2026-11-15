@@ -410,6 +410,9 @@
   <data name="secant_Newton_Raphson_method" xml:space="preserve">
     <value>Newtonova–Raphsonova metoda sečen</value>
   </data>
+  <data name="Gauss_Kronrod_61_point_method" xml:space="preserve">
+    <value>61bodová Gaussova–Kronrodova metoda</value>
+  </data>
   <data name="non_adaptive_Gauss_Kronrod_method" xml:space="preserve">
     <value>Neadaptivní Gaussova–Kronrodova metoda</value>
   </data>

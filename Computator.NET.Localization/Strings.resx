@@ -417,6 +417,9 @@
   <data name="secant_Newton_Raphson_method" xml:space="preserve">
     <value>secant Newton Raphson method</value>
   </data>
+  <data name="Gauss_Kronrod_61_point_method" xml:space="preserve">
+    <value>61-point Gauss–Kronrod method</value>
+  </data>
   <data name="non_adaptive_Gauss_Kronrod_method" xml:space="preserve">
     <value>non-adaptive Gauss–Kronrod method</value>
   </data>
