@@ -12,7 +12,14 @@ namespace Computator.NET.Core.Compilation.TslHandlers
         public string Replace(string input) //OK
         {
             return MultiplyingRegexes.Aggregate(input,
-                (current, multiplyingRegex) => multiplyingRegex.Replace(current, "$1$2*$3"));
+                (current, multiplyingRegex) => multiplyingRegex.Replace(current, match =>
+                    // A leading (real)x is a cast, while f(real)x is still
+                    // multiplication after a call with an argument named real.
+                    // The unescaped return keyword may be adjacent to a cast.
+                    (match.Groups[1].Length == 0 || (match.Groups[1].Value == "return"
+                        && (match.Index == 0 || current[match.Index - 1] != '@'))) && Groups.IsScalarCast(match.Groups[2].Value,
+                        current, match.Groups[2].Index + match.Groups[2].Length)
+                        ? match.Value : match.Result("$1$2*$3")));
         }
 
 
