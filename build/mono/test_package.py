@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import signal
 import struct
 import subprocess
 import sys
@@ -21,6 +22,174 @@ from unittest import mock
 SPEC = importlib.util.spec_from_file_location('mono_package', Path(__file__).with_name('package.py'))
 package = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(package)
+
+
+@unittest.skipUnless(os.name == 'posix', 'Runs the Unix launcher and sends process signals.')
+class LauncherLifetimeContracts(unittest.TestCase):
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory(prefix='computator-launcher-')
+        self.addCleanup(self.temporary.cleanup)
+        self.base = Path(self.temporary.name)
+        self.root = self.base / 'package with spaces'
+        (self.root / 'bin').mkdir(parents=True)
+        (self.root / 'app').mkdir()
+        self.launcher = self.root / 'bin/computator'
+        shutil.copyfile(Path(__file__).with_name('launcher.sh'), self.launcher)
+        tools = self.base / 'tools'
+        tools.mkdir()
+        # Replace prerequisites at process boundaries; the real launcher still
+        # creates its configuration, starts/waits for each child, and cleans up.
+        (tools / 'id').write_text('#!/bin/sh\nprintf "1000\\n"\n')
+        (tools / 'xmessage').write_text('#!/bin/sh\nprintf "%s\\n" "$*" > "$COMPUTATOR_TEST_DIALOG"\n')
+        (tools / 'mono').write_text('''#!/usr/bin/env python3
+import json, os, signal, sys, time
+from pathlib import Path
+arguments = sys.argv[1:]
+stage = 'prepare' if 'prepare' in arguments else 'verify' if 'verify' in arguments else 'desktop'
+configuration = Path(arguments[arguments.index('--config') + 1])
+if stage == 'prepare':
+    configuration.write_text('<configuration/>')
+def stop(signum, frame):
+    signal.signal(signal.SIGTERM, signal.SIG_IGN)
+    Path(os.environ['COMPUTATOR_TEST_STOPPING']).touch()
+    time.sleep(0.1)
+    Path(os.environ['COMPUTATOR_TEST_STOPPED']).write_text(json.dumps({'configurationExists': configuration.exists()}))
+    sys.exit(0)
+signal.signal(signal.SIGTERM, stop)
+with open(os.environ['COMPUTATOR_TEST_TRACE'], 'a') as trace:
+    trace.write(json.dumps({'stage': stage, 'pid': os.getpid()}) + '\\n')
+if stage == os.environ.get('COMPUTATOR_TEST_BLOCK_STAGE'):
+    while True: time.sleep(1)
+print('fixture ' + stage + ' output', flush=True)
+if stage == os.environ.get('COMPUTATOR_TEST_FAIL_STAGE'):
+    sys.exit(int(os.environ['COMPUTATOR_TEST_EXIT_CODE']))
+if stage == 'verify':
+    Path(arguments[arguments.index('--report') + 1]).write_text('{}')
+''')
+        for tool in tools.iterdir():
+            tool.chmod(0o755)
+        self.cache = self.base / 'cache'
+        self.trace = self.base / 'trace.jsonl'
+        self.dialog = self.base / 'dialog'
+        self.stopping = self.base / 'stopping'
+        self.stopped = self.base / 'stopped.json'
+        self.environment = dict(os.environ, PATH=str(tools) + os.pathsep + os.environ['PATH'],
+                                DISPLAY=':launcher-fixture', XDG_CACHE_HOME=str(self.cache),
+                                COMPUTATOR_TEST_TRACE=str(self.trace), COMPUTATOR_TEST_DIALOG=str(self.dialog),
+                                COMPUTATOR_TEST_STOPPING=str(self.stopping), COMPUTATOR_TEST_STOPPED=str(self.stopped))
+
+    def launch(self, arguments=(), **environment):
+        process = subprocess.Popen(['sh', str(self.launcher), *arguments],
+                                   env=dict(self.environment, **environment),
+                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                   text=True, start_new_session=True)
+
+        def cleanup():
+            # Reap even an unpatched launcher that leaves a blocked preflight.
+            try:
+                os.killpg(process.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            process.communicate(timeout=5)
+        self.addCleanup(cleanup)
+        return process
+
+    def stages(self):
+        return [json.loads(line) for line in self.trace.read_text().splitlines()] if self.trace.exists() else []
+
+    def wait_for_stage(self, stage):
+        deadline = time.monotonic() + 5
+        while time.monotonic() < deadline:
+            records = self.stages()
+            if records and records[-1]['stage'] == stage:
+                return records
+            time.sleep(0.01)
+        self.fail('Launcher did not reach ' + stage)
+
+    def assert_cleaned(self):
+        self.assertEqual([], list(self.cache.glob('Computator.NET/runtime.*')))
+        self.assertEqual([], list(self.cache.glob('Computator.NET/startup-errors.*.log')))
+        self.assertFalse(self.dialog.exists(), 'Cancellation is not a startup failure dialog.')
+        for record in self.stages():
+            with self.assertRaises(ProcessLookupError, msg='Mono child was not reaped: ' + repr(record)):
+                os.kill(record['pid'], 0)
+
+    def cancel_at(self, stage, signum=signal.SIGTERM, arguments=(), repeat=False):
+        process = self.launch(arguments, COMPUTATOR_TEST_BLOCK_STAGE=stage)
+        before = self.wait_for_stage(stage)
+        process.send_signal(signum)
+        if repeat:
+            deadline = time.monotonic() + 2
+            while not self.stopping.exists() and time.monotonic() < deadline:
+                time.sleep(0.001)
+            self.assertTrue(self.stopping.exists(), 'The first signal was not forwarded to Mono.')
+            process.send_signal(signum)
+        try:
+            stdout, stderr = process.communicate(timeout=2)
+        except subprocess.TimeoutExpired:
+            self.fail('Cancellation did not terminate and reap the active ' + stage + ' child.')
+        self.assertEqual(128 + signum, process.returncode, stderr)
+        self.assertEqual(before, self.stages(), 'Cancellation must not start another Mono stage.')
+        self.assertNotIn('Runtime check passed', stdout)
+        self.assertTrue(json.loads(self.stopped.read_text())['configurationExists'],
+                        'The runtime configuration was removed before the child finished stopping.')
+        self.assert_cleaned()
+
+    def test_term_during_prepare_stops_startup_and_reaps_child(self):
+        self.cancel_at('prepare')
+
+    def test_term_during_verify_stops_startup_and_reaps_child(self):
+        self.cancel_at('verify')
+
+    def test_interrupt_during_prepare_stops_startup(self):
+        self.cancel_at('prepare', signal.SIGINT)
+
+    def test_hangup_during_verify_stops_startup(self):
+        self.cancel_at('verify', signal.SIGHUP)
+
+    def test_check_cancellation_never_reports_success(self):
+        self.cancel_at('verify', arguments=('--check',))
+
+    def test_desktop_cancellation_reaps_before_cleanup(self):
+        self.cancel_at('desktop')
+
+    def test_repeated_signals_still_wait_for_graceful_preflight_exit(self):
+        self.cancel_at('verify', repeat=True)
+
+    def test_successful_check_does_not_start_desktop(self):
+        process = self.launch(('--check',))
+        stdout, stderr = process.communicate(timeout=5)
+        self.assertEqual(0, process.returncode, stderr)
+        self.assertIn('Runtime check passed', stdout)
+        self.assertEqual(['prepare', 'verify'], [record['stage'] for record in self.stages()])
+        self.assert_cleaned()
+
+    def test_successful_desktop_keeps_zero_exit(self):
+        process = self.launch()
+        _, stderr = process.communicate(timeout=5)
+        self.assertEqual(0, process.returncode, stderr)
+        self.assertEqual(['prepare', 'verify', 'desktop'], [record['stage'] for record in self.stages()])
+        self.assert_cleaned()
+
+    def assert_failure(self, stage, expected_stages, expected_status):
+        process = self.launch(COMPUTATOR_TEST_FAIL_STAGE=stage, COMPUTATOR_TEST_EXIT_CODE='17')
+        _, stderr = process.communicate(timeout=5)
+        self.assertEqual(expected_status, process.returncode, stderr)
+        self.assertEqual(expected_stages, [record['stage'] for record in self.stages()])
+        logs = list(self.cache.glob('Computator.NET/startup-errors.*.log'))
+        self.assertEqual(1, len(logs), 'A real failure must retain its diagnostic log.')
+        self.assertIn('fixture ' + stage + ' output', logs[0].read_text())
+        self.assertTrue(self.dialog.exists())
+        self.assertEqual([], list(self.cache.glob('Computator.NET/runtime.*')))
+
+    def test_prepare_failure_keeps_diagnostics_and_does_not_continue(self):
+        self.assert_failure('prepare', ['prepare'], 1)
+
+    def test_verify_failure_keeps_diagnostics_and_does_not_start_desktop(self):
+        self.assert_failure('verify', ['prepare', 'verify'], 1)
+
+    def test_desktop_failure_preserves_exit_status_and_diagnostics(self):
+        self.assert_failure('desktop', ['prepare', 'verify', 'desktop'], 17)
 
 
 class PackageContracts(unittest.TestCase):
