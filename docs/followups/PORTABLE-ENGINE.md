@@ -92,6 +92,41 @@ The full native GSL/special-function catalog, interactive input dialogs, desktop
 
 All executed code remains trusted, in-process code with the user's permissions. Work budgets and collectible load contexts are **not a sandbox, wall-clock timeout or filesystem/network isolation**. Generated assemblies use unique identities and request unloading when released; dynamic-binder caches can still retain programs until process exit. See [program lifetime](../PROGRAM-LIFETIME.md) for that boundary.
 
+## Scientific completion in the portable browser
+
+The [portable local browser](../MACOS-APPLICATION.md) offers the existing managed
+scientific APIs in both expression and scripting completion. Press **Ctrl+Space**
+after a type prefix such as `Euclid.Greatest` or `Integral.simp`. Selecting a
+suggestion inserts its qualified name once; supply the arguments afterward.
+
+| Family | Example expression | Result |
+| --- | --- | --- |
+| Integer utilities | `Euclid.GreatestCommonDivisor(12,18)` | `6` |
+| Polynomials | `Polynomial.Evaluate(2,1,-3,2)` | `3` |
+| Ordinary differential equations | `DifferentialEquation.rungeKutta4((t,u) => 2*t,3.0,0.0,2.0,21)[20]` | Approximately `7` |
+| Integration | `Integral.simpsonMethod(t => t*t,0,1,100)` | Approximately `1/3` |
+| Differentiation | `Derivative.derivative(t => t*t,3)` | Approximately `6` |
+| Roots | `FunctionRoot.BrentMethod(t => t*t-2,0,2)` | Approximately `sqrt(2)` |
+
+Captions show argument and result types, optional defaults, `params` arrays, and
+`out`/`ref` arguments. For example, `Euclid.PowerOfTwo` has separate 32-bit `int`
+and 64-bit `integer` overloads. Object and array results remain available in the
+expression editor because they can be composed, as in the RK4 example above or
+`Polynomial.Add(new Polynomial(1,2),new Polynomial(3,-1)).Evaluate(2)`.
+
+For construction, type `new Poly`, choose a `new Polynomial(...)` overload, and
+add its arguments. The completion inserts the type name after the existing `new`.
+The captions distinguish a coefficient-slot count (`int n`), a constant
+coefficient (`real coefficient`), and a coefficient sequence.
+`Polynomial.Zero` is also available. See the [polynomial guide](../POLYNOMIALS.md)
+for coefficient order, roots, fitting and the distinction between a single
+integer constructor argument and a constant real coefficient.
+
+Completion exposes methods that the portable engine already supports; the
+numerical screen keeps its existing selected method list. `write` is offered
+only in scripting, and completion after arbitrary variable names remains a
+separate capability.
+
 ## Boolean operators and absolute values
 
 Conditions, scripts and custom functions support short-circuit logical OR chains such as `true || false || false` and `|x| > 0 || |y| > 0 || |x+y| > 0`. Later operands are evaluated only when the earlier operands are false. Single bars still denote absolute values; nested `||x||` and the supported adjacent expression `|x||y|` retain their mathematical meanings.
