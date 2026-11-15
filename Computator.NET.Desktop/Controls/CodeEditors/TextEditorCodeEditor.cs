@@ -21,6 +21,9 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         private readonly Dictionary<string, IDocument>
             _documents;
         private readonly HashSet<IDocument> _highlightedDocuments = new HashSet<IDocument>();
+#if __MonoCS__
+        private Font _configuredFont;
+#endif
 
         private sealed class CompilationErrorMarker : TextMarker
         {
@@ -61,6 +64,12 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
         public void SetFont(Font font)
         {
+#if __MonoCS__
+            _configuredFont = CustomFonts.GetFontFromFont(font);
+            foreach (var document in _documents.Values)
+                document.TextEditorProperties.Font = _configuredFont;
+            Font = _configuredFont;
+#else
             if (font.FontFamily.Name == "Cambria")
             {
                 Font = CustomFonts.GetMathFont(font.Size);
@@ -73,6 +82,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             {
                 Font = font;
             }
+#endif
         }
 
 
@@ -99,6 +109,12 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             var document = new DocumentFactory().CreateDocument();
             document.TextContent = text;
             document.HighlightingStrategy = HighlightingStrategyFactory.CreateHighlightingStrategy("VS-C#");
+#if __MonoCS__
+            // Each legacy document owns its editor properties. Without carrying
+            // the chosen font into a new document, opening a tab resets it to
+            // the library's system default and loses the mathematical glyphs.
+            document.TextEditorProperties.Font = _configuredFont ?? Font;
+#endif
             Document = document;
 
             _documents.Add(filename, Document);

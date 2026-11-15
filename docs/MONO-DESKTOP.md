@@ -112,6 +112,27 @@ input and poisoned the editor's drawing context. The package avoids that stack;
 Unicode checks remain mandatory. See the earlier
 [dependency experiment](evidence/mono-drawing-2026-11-02.json).
 
+The Mono default mathematical and scripting fonts are process-private Noto
+Serif and Noto Sans Mono, with Noto Sans Ol Chiki supplying the existing TSL
+superscript decimal mark. The package includes the unmodified OFL font files,
+license and [pinned source/hash manifest](../Computator.NET.DataTypes/Fonts/manifest.json).
+No font installation is required. Other explicit font selections remain in
+effect; new and switched editor documents retain the configured font. Existing
+TSL characters and saved source text are unchanged. Windows keeps its existing
+font defaults. A profile returned to Windows keeps an installed Noto family;
+an unavailable bundled family restores its matching Cambria/Consolas default
+with the stored size and style. `Mono-Fonts-Validate` checks the complete TSL
+symbol vocabulary offline; native acceptance separately exercises rendering,
+font settings reload and the actual editor drawing fonts.
+Production startup registers the fonts before System.Drawing/WinForms first
+uses Pango. Linux uses Fontconfig's process-only application font set, supporting
+the stock libgdiplus 6.1 source lane as well as the packaged drawing stack.
+macOS uses the existing patched private collection. Custom Mono hosts must call
+`CustomFonts.Initialize()` before their first drawing/WinForms use too; font
+registration after a Pango map is already in use cannot refresh its cached fonts.
+The [Linux before/after evidence](evidence/mono-fonts-2026-11-15/README.md)
+records the tested stack and the remaining platform boundaries.
+
 | Boundary | Mono implementation | Windows implementation |
 | --- | --- | --- |
 | Runtime | Explicit Framework `net48` graph | .NET 10 desktop |
@@ -266,8 +287,9 @@ execute the actual managed preflight and reject tampering, wrong architecture,
 unrecorded files, unsafe mappings and writes back through redirected caches.
 Use the final candidate's fresh workflow reports and archive hashes for release.
 
-The current suite requires at least 55 cases, including restored compiled 3D
-plot commands, exact decimal-input rounding and numeric-control font layout.
+The current suite requires at least 58 cases, including restored compiled 3D
+plot commands, exact decimal-input rounding, numeric-control font layout and
+the three mathematical-font rendering, saved-settings and editor cases.
 The layout regression shows the real chart-bounds view and checks all four
 numeric controls against their actual font heights at 9.75, 12 and 16 points,
 including repeated layout and scaling, to catch clipped digits.

@@ -34,6 +34,8 @@ REQUIRED_APP = (
     'Computator.NET.DataTypes.dll', 'Computator.NET.Localization.dll', 'DataVisualizationX.dll',
     'Microsoft.CodeAnalysis.dll', 'Microsoft.CodeAnalysis.CSharp.dll',
     'Static/functions.xml', 'Static/TSL-Syntax.xshd',
+    'Static/fonts/NotoSansMono-Regular.ttf', 'Static/fonts/NotoSerif-Regular.ttf',
+    'Static/fonts/NotoSansOlChiki-Regular.ttf', 'Static/fonts/OFL.txt', 'Static/fonts/manifest.json',
 )
 
 

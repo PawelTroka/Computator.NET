@@ -11,6 +11,13 @@ string MonoMacPackageRid()
     }
 }
 
+Task("Mono-Fonts-Validate")
+    .Description("Verify the bundled Mono font provenance and complete TSL glyph coverage offline.")
+    .Does(() => CheckedProcess("python3", new ProcessSettings
+    {
+        Arguments = "-m unittest discover -s build/mono -p test_font_assets.py"
+    }));
+
 Task("Mono-Build")
     .Description("Compile the reduced Framework Mono desktop and its acceptance probes.")
     .Does(() => CheckedProcess("bash", new ProcessSettings
@@ -21,6 +28,7 @@ Task("Mono-Build")
 Task("Mono-Validate")
     .Description("Exercise the Mono desktop startup, calculations, editors and supported charts.")
     .IsDependentOn("Mono-Build")
+    .IsDependentOn("Mono-Fonts-Validate")
     .Does(() => CheckedProcess("bash", new ProcessSettings
     {
         Arguments = new ProcessArgumentBuilder().AppendQuoted("build/mono/validate.sh").Append(configuration).Append("--no-build")
@@ -40,6 +48,7 @@ Task("Mono-Mac-Prepare")
 Task("Mono-Mac-Validate")
     .Description("macOS: exercise the production Mono application and full native X11 desktop acceptance.")
     .IsDependentOn("Mono-Mac-Prepare").IsDependentOn("Mono-Build")
+    .IsDependentOn("Mono-Fonts-Validate")
     .Does(() => CheckedProcess("bash", new ProcessSettings
     {
         Arguments = new ProcessArgumentBuilder().AppendQuoted("build/macos/validate.sh")
@@ -49,6 +58,7 @@ Task("Mono-Mac-Validate")
 Task("Mono-Linux-Package")
     .Description("Linux: stage the full Mono desktop, pinned native payload, runtime preflight and release inventory.")
     .IsDependentOn("Mono-Build")
+    .IsDependentOn("Mono-Fonts-Validate")
     .Does(() =>
     {
         if (!System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Linux))

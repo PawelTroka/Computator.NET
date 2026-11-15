@@ -39,6 +39,9 @@ namespace Computator.NET.Desktop
             // method path can fail during startup on systems without an XIM server.
             if (RuntimeInformation.IsUnix)
                 Environment.SetEnvironmentVariable("MONO_WINFORMS_XIM_STYLE", "disabled");
+            // The Linux Pango font map snapshots Fontconfig on first drawing
+            // use. Register bundled fonts before WinForms creates that map.
+            Computator.NET.DataTypes.Text.CustomFonts.Initialize();
 #endif
             if (RuntimeInformation.IsWindows10S)
             {

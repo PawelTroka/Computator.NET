@@ -83,7 +83,7 @@ namespace Computator.NET.Core.Configuration
         public Font ToFont()
         {
             Validate();
-            return new Font(Name, Size, Style, Unit, GdiCharSet, GdiVerticalFont);
+            return Computator.NET.DataTypes.Text.CustomFonts.RestoreSavedFont(Name, Size, Style, Unit, GdiCharSet, GdiVerticalFont);
         }
     }
 

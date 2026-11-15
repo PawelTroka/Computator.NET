@@ -93,10 +93,14 @@ internal static partial class Program
             Environment.SetEnvironmentVariable("MONO_WINFORMS_XIM_STYLE", "disabled");
         CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
         CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("en");
+        // Match production Startup.Start: registration must precede the first
+        // WinForms/Pango use, while font-family creation remains lazy.
+        Computator.NET.DataTypes.Text.CustomFonts.Initialize();
         Application.SetCompatibleTextRenderingDefault(false);
         Application.EnableVisualStyles();
         Application.SetUnhandledExceptionMode(UnhandledExceptionMode.ThrowException);
 
+        Run("mono-math-font-settings-roundtrip", MathematicalFontSettings);
         Run("mono-runtime-and-shared-source-graph", RuntimeAndSharedGraph);
         Run("compiled-german-ui-resources-and-regional-fallback", () => CompiledUiTranslations("de", "de-DE"));
         Run("compiled-czech-ui-resources-and-regional-fallback", () => CompiledUiTranslations("cs", "cs-CZ"));
@@ -117,6 +121,8 @@ internal static partial class Program
         Run("native-gsl-generated-import-and-error-recovery", NativeGsl);
         Run("mono-correctly-rounded-numeric-input", CorrectlyRoundedNumericInput);
         Run("mono-numeric-input-font-layout", NumericInputsFitActualFonts);
+        Run("mono-math-font-rendering", MathematicalFontRendering);
+        Run("mono-editor-math-fonts-and-document-switches", MathematicalEditorDocuments);
         Run("mono-function-reference-rich-offline-content", FunctionReference);
         Run("mono-autocomplete-real-x11-layout-and-selection", AutocompleteRealX11);
         Run("unicode-editor-documents-and-renaming", EditorDocuments);
