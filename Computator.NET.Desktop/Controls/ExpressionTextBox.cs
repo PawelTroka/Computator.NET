@@ -17,9 +17,10 @@ namespace Computator.NET.Desktop.Controls
 {
     public class ExpressionTextBox : TextBox, IExpressionTextBox
     {
-        private ISharedViewState _sharedViewState;
-        private AutocompleteMenu.AutocompleteMenu _autocompleteMenu;
+        private readonly ISharedViewState _sharedViewState;
+        private readonly AutocompleteMenu.AutocompleteMenu _autocompleteMenu;
         private readonly IAutocompleteProvider _autocompleteProvider;
+        private bool _disposed;
 
         public ExpressionTextBox(ISharedViewState sharedViewState, IAutocompleteProvider autocompleteProvider)
         {
@@ -32,34 +33,60 @@ namespace Computator.NET.Desktop.Controls
             GotFocus += ExpressionTextBox_GotFocus;
             MouseDoubleClick += Control_MouseDoubleClick;
             SetFont(Settings.Default.ExpressionFont);
-            SizeChanged +=
-                (o, e) =>
-                {
-                    _autocompleteMenu.MaximumSize = new Size(Size.Width, _autocompleteMenu.MaximumSize.Height);
-                };
+            SizeChanged += ExpressionTextBox_SizeChanged;
 
-            Settings.Default.PropertyChanged += (o, e) =>
-            {
-                switch (e.PropertyName)
-                {
-                    case nameof(Settings.Default.FunctionsOrder):
-                        RefreshAutoComplete();
-                        break;
-
-                    case nameof(Settings.Default.ExpressionFont):
-                        SetFont(Settings.Default.ExpressionFont);
-                        break;
-                }
-            };
+            Settings.Default.PropertyChanged += Settings_PropertyChanged;
 
             if (!DesignMode)
             {
                 RefreshAutoComplete();
-                _sharedViewState.PropertyChanged += (o, e) =>
-                {
-                    if (e.PropertyName == nameof(SharedViewState.IsExponent)) _showCaret();
-                };
+                _sharedViewState.PropertyChanged += SharedViewState_PropertyChanged;
             }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && !_disposed)
+            {
+                _disposed = true;
+                Settings.Default.PropertyChanged -= Settings_PropertyChanged;
+                _sharedViewState.PropertyChanged -= SharedViewState_PropertyChanged;
+                KeyPress -= ExpressionTextBox_KeyPress;
+                GotFocus -= ExpressionTextBox_GotFocus;
+                MouseDoubleClick -= Control_MouseDoubleClick;
+                SizeChanged -= ExpressionTextBox_SizeChanged;
+
+                // The menu is not a child control. Remove its static editor
+                // binding and stop pending completion before disposing it.
+                _autocompleteMenu.Close();
+                _autocompleteMenu.SetAutocompleteMenu(this, null);
+                _autocompleteMenu.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        private void Settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (_disposed) return;
+            switch (e.PropertyName)
+            {
+                case nameof(Settings.Default.FunctionsOrder):
+                    RefreshAutoComplete();
+                    break;
+                case nameof(Settings.Default.ExpressionFont):
+                    SetFont(Settings.Default.ExpressionFont);
+                    break;
+            }
+        }
+
+        private void SharedViewState_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (!_disposed && e.PropertyName == nameof(SharedViewState.IsExponent)) _showCaret();
+        }
+
+        private void ExpressionTextBox_SizeChanged(object sender, EventArgs e)
+        {
+            _autocompleteMenu.MaximumSize = new Size(Size.Width, _autocompleteMenu.MaximumSize.Height);
         }
 
 
