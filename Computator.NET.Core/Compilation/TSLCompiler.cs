@@ -27,6 +27,7 @@ namespace Computator.NET.Core.Compilation
         using real = System.Double;
         using complex = System.Numerics.Complex;
         using DifferentialEquation = Computator.NET.Core.NumericalCalculations.DifferentialEquation;
+        using FunctionExtremum = Computator.NET.Core.NumericalCalculations.FunctionExtremum;
         using Polynomial = MathNet.Numerics.Polynomial;
         using natural = System.UInt64;
         using integer = System.Int64;

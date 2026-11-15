@@ -92,6 +92,31 @@ class AuthoringTests(unittest.TestCase):
                 self.assertIn('<strong>Result:</strong> 105',text)
                 self.assertIn('<img class="reference-math"',text)
 
+    def extrema_inventory(self):
+        return {'items':[{'signature':'FunctionExtremum.'+name+'(fx,a,b,tolerance,iterations)',
+            'menu':'real FunctionExtremum.'+name+'(function fx, real a, real b, real tolerance, integer iterations)',
+            'type':'FunctionExtremum'} for name in ('minimize','maximize')], 'constants':[]}
+
+    def test_extrema_articles_distinguish_location_value_and_search_limits(self):
+        entries=articles(self.extrema_inventory())
+        self.assertEqual(len(entries),2)
+        for article in entries:
+            text=article['description']
+            self.assertEqual(article['category'],'Function extrema')
+            for contract in ('returns the x coordinate', 'unimodal', 'Both endpoints',
+                             'callbacks never leave', 'iteration budget throws',
+                             'not a certified global search', 'extremum value 7'):
+                self.assertIn(contract,text)
+            self.assertIn('/v3.8.0/Sources/Accord.Math/Optimization/BrentSearch.cs',article['url'])
+
+    def test_unknown_extremum_methods_and_signatures_fail_authoring(self):
+        for signature in ('FunctionExtremum.globalMinimum(fx,a,b,tolerance,iterations)',
+                          'FunctionExtremum.minimize(fx,a,b,valueTolerance,iterations)'):
+            inventory=self.extrema_inventory()
+            inventory['items']=inventory['items'][:1]
+            inventory['items'][0]['signature']=signature
+            with self.assertRaises(KeyError): articles(inventory)
+
     def ode_inventory(self):
         return {'items':[
             {'signature':'DifferentialEquation.rungeKutta4(derivative,y0,start,end,samples)',

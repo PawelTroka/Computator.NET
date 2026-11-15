@@ -132,6 +132,15 @@ def extra_enrichment(item,article,name):
           'integrate':'The method name selects a numerical approximation, not a symbolic antiderivative. Choose a rule suited to smoothness, endpoints and oscillation, then check stability under a tighter work budget.'}
         return Enrichment((Equation(r'I=\int_a^b f(x)\,dx', 'Signed area from a to b under f(x).','Quantity being approximated'),),(methods[base],
             'Integration returns signed area: values below the axis contribute negatively. Splitting at known singularities or discontinuities is often more informative than only increasing the number of samples.'),(),False)
+    if kind=='FunctionExtremum':
+        minimum=name.endswith('.minimize')
+        operation='minimize' if minimum else 'maximize'
+        expression='(t-2)*(t-2)+7' if minimum else '7-(t-2)*(t-2)'
+        return Enrichment((),(
+            'An extremum search finds where a function is smallest or largest. The returned coordinate and the function value are different quantities: a parabola centered at t=2 with height 7 has location 2 and extremum value 7.',
+            'Choose an interval containing one trough for minimization or one peak for maximization. If a plotted function has several peaks or troughs, split the domain into suitable intervals and compare values at the returned coordinates and boundaries.'),
+            (WorkedExample('FunctionExtremum.'+operation+'(t => '+expression+',0,5)',
+                           'approximately 2','The solver returns the coordinate t=2. Substituting that coordinate into the supplied quadratic gives the extremum value 7.'),),False)
     if kind=='DifferentialEquation':
         return Enrichment((),(
             'An initial-value problem needs both a rate equation and a starting state. For y′=2t with y(0)=3, integration gives y(t)=3+t², so the value at t=2 is seven. The returned array stores the evolving state, not derivative values.',

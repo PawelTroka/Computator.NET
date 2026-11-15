@@ -1,6 +1,7 @@
 using System.Reflection;
 using Computator.NET.Core.Constants;
 using Computator.NET.Core.Functions;
+using Computator.NET.Core.NumericalCalculations;
 using Computator.NET.Engine;
 
 namespace Computator.NET.PortableWeb;
@@ -19,6 +20,13 @@ internal static class PortableCatalog
                 var signature = method.Name + generic + "(" + parameters + ")";
                 entries.Add(Item(method.Name, signature, type == typeof(ScalarFunctions) ? "Portable scalar functions" : "Managed matrix functions"));
             }
+        foreach (var method in typeof(FunctionExtremum).GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
+                     .OrderBy(method => method.Name))
+        {
+            var name = nameof(FunctionExtremum) + "." + method.Name;
+            var parameters = string.Join(", ", method.GetParameters().Select(parameter => parameter.Name));
+            entries.Add(Item(name, name + "(" + parameters + ")", "Function extrema"));
+        }
         foreach (var field in typeof(MathematicalConstants).GetFields(BindingFlags.Public | BindingFlags.Static)
                      .Where(field => field.FieldType == typeof(double) || field.FieldType == typeof(System.Numerics.Complex)))
             entries.Add(Item(field.Name, field.Name, "Mathematical constants"));

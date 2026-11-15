@@ -23,6 +23,7 @@
     <Compile Include="../Computator.NET.Core/NumericalCalculations/Derivative.cs" Link="Mathematics/Derivative.cs" />
     <Compile Include="../Computator.NET.Core/NumericalCalculations/FunctionRoot.cs" Link="Mathematics/FunctionRoot.cs" />
     <Compile Include="../Computator.NET.Core/NumericalCalculations/DifferentialEquation.cs" Link="Mathematics/DifferentialEquation.cs" />
+    <Compile Include="../Computator.NET.Core/NumericalCalculations/FunctionExtremum.cs" Link="Mathematics/FunctionExtremum.cs" />
   </ItemGroup>
   <ItemGroup Condition="'$(ComputatorMono)' == 'true'">
     <Reference Include="System.Numerics" />
