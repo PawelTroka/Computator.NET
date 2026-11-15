@@ -16,6 +16,6 @@ required_exports = {'native-chart-export-localized-choices-and-mode-switches'} |
     for kind in ('real', 'complex', 'surface')
     for format in ('png', 'gif', 'jpeg', 'bmp', 'tiff', 'unsupported-preserves-files')
 }
-if not required_exports.issubset({case.get('name') for case in cases}):
+if len(cases) < 55 + len(required_exports) or not required_exports.issubset({case.get('name') for case in cases}):
     raise SystemExit('Packaged Mono acceptance must execute all native chart export format cases.')
 print(f'Packaged Mono acceptance: {len(cases)} passed; zero skipped.')
