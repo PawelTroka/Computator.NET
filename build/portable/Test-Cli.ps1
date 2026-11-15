@@ -54,6 +54,15 @@ New-Item -ItemType Directory -Path $temp | Out-Null
 try {
     Assert-Number -Arguments @('calculate','--expression','2x+3','--x','7') -Expected 17
     Assert-Number -Arguments @('calculate','--expression','x/y','--x','-7.5','--y','2') -Expected -3.75
+    Assert-Number -Arguments @('calculate','--expression','arcsin(0.5)+arccos(0.5)') -Expected ([Math]::PI/2)
+    Assert-Number -Arguments @('calculate','--expression','sinh(ln(2))+cosh(ln(2))+tanh(ln(2))+tgh(-ln(2))') -Expected 2
+    Assert-Number -Arguments @('calculate','--expression','log2(8)+log10(1000)+log(81,3)+log(100)') -Expected 12
+    Assert-Number -Arguments @('calculate','--expression','Magnitude(new complex(3,4))+Re(conj(new complex(3,4)))') -Expected 8
+    $complex = Invoke-Cli -Arguments @('complex','--expression','conj(z)','--real','3','--imaginary','4')
+    if ($complex.result -ne [Numerics.Complex]::new(3, -4).ToString('R', [Globalization.CultureInfo]::InvariantCulture)) {
+        throw 'Published portable complex scalar overload did not return 3-4i.'
+    }
+    Assert-Number -Arguments @('integrate','--expression','sinh(x)','--a','0','--b','0.6931471805599453','--steps','100') -Expected 0.25 -Tolerance 1e-10
     $functions = Join-Path $temp 'Żółć functions.tslf'
     $scriptFile = Join-Path $temp 'script λ.tsl'
     [IO.File]::WriteAllText($functions, 'static real Probe(real x) { return x/2; }', [Text.UTF8Encoding]::new($true))
@@ -127,6 +136,6 @@ try {
     }
     # Failure must not poison the next independent invocation.
     Assert-Number -Arguments @('integrate','--expression','x','--a','0','--b','2','--steps','2') -Expected 2 -Tolerance 1e-12
-    if ($script:cases -lt 39) { throw "Expected at least 39 published CLI process checks, but ran $script:cases." }
+    if ($script:cases -lt 45) { throw "Expected at least 45 published CLI process checks, but ran $script:cases." }
     Write-Host "Published portable CLI passed $script:cases process checks: numerical commands, documents, strict options, Console isolation, errors and recovery."
 } finally { Remove-Item -LiteralPath $temp -Recurse -Force }

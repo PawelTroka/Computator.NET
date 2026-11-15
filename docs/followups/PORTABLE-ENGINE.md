@@ -79,7 +79,36 @@ Use TSL `write(...)` for script result text. Ordinary managed Console writes are
 
 ## Supported capabilities and boundaries
 
-The portable surface includes real/two-variable and complex arithmetic, TSL notation, mathematical constants, custom definitions, managed scripts, the imported matrix functions, qualified `Euclid.*` integer utilities, and the shared integration/differentiation/root services. The scalar adapters (`sin`, `cos`, `tan`, `sqrt`, `exp`, `ln`, `log`, `abs`, `pow`, `floor`, `ceil`, `round`) delegate to .NET's functions. [ScalarFunctions.cs](../../Computator.NET.Engine/ScalarFunctions.cs) defines available scalar spellings; [portable science](PORTABLE-SCIENCE.md) explains shared numerical implementations.
+The portable surface includes real/two-variable and complex arithmetic, TSL notation, mathematical constants, custom definitions, managed scripts, the imported matrix functions, qualified `Euclid.*` integer utilities, and the shared integration/differentiation/root services. The scalar adapters use .NET's managed functions and are available in expressions, scripts, custom definitions and numerical commands:
+
+| Family | Available spellings |
+| --- | --- |
+| Trigonometric | `sin`, `cos`, `tan`, `tg` |
+| Inverse trigonometric | `arcsin`, `arccos`, `arctan`, `arctg` |
+| Hyperbolic | `sinh`, `cosh`, `tanh`, `tgh` |
+| Roots and powers | `sqrt`, `exp`, `pow` |
+| Logarithms | `ln`, `log2`, `log10`, `log(value)`, `log(value, base)` |
+| Complex components | `conj`, `Re`, `Im`, `Phase`, `Magnitude` |
+| Magnitude and rounding | `abs`, real `floor`, `ceil`, `round` |
+
+The trigonometric, inverse trigonometric, hyperbolic, root/power and logarithm
+families accept either real or complex arguments; the base in `log(value, base)`
+is real. Names and aliases follow the corresponding desktop functions. Existing
+portable `log(value)` remains base ten, `ln(value)` is natural logarithm, and
+`log(value, base)` uses the requested base. Complex component names are case
+sensitive; `Phase` returns radians and `Magnitude` returns a real number.
+
+The argument type selects the domain. For example, `log2(-4)` returns real
+`NaN`, while `log2(new complex(-4,0))` has real part `2` and imaginary part
+`PI/ln(2)`. Requesting a complex result alone does not promote a real argument
+or change the existing portable `sqrt(-1)` behavior. Use an explicitly complex
+argument for complex continuation. Real invalid domains and singular endpoints
+retain .NET's `NaN`/infinity behavior.
+
+[ScalarFunctions.cs](../../Computator.NET.Engine/ScalarFunctions.cs) defines the
+available overloads; [portable science](PORTABLE-SCIENCE.md) explains shared
+numerical implementations. The portable local browser application uses this
+same catalog for execution and autocomplete.
 
 `Euclid.GreatestCommonDivisor(-84,30)` returns `6`, and
 `Euclid.Modulus(-7,3)` returns `2`. These qualified calls use the existing pinned
