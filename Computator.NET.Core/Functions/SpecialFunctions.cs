@@ -406,13 +406,15 @@ namespace Computator.NET.Core.Functions
 
         public static double Pochhammer(double a, double x)
         {
-            if (((int) (x) == x && x <= 0) || ((int) (a + x) == a + x && a + x <= 0)) return double.NaN;
+            // Zero and negative orders are valid; retain the existing a+x pole guard.
+            if ((int) (a + x) == a + x && a + x <= 0) return double.NaN;
             return gsl_sf_poch(a, x);
         }
 
         public static double PochhammerRelative(double a, double x)
         {
-            if (((int) (x) == x && x <= 0) || ((int) (a + x) == a + x && a + x <= 0)) return double.NaN;
+            // Zero and negative orders are valid; retain the existing a+x pole guard.
+            if ((int) (a + x) == a + x && a + x <= 0) return double.NaN;
             return gsl_sf_pochrel(a, x);
         }
 
@@ -3676,13 +3678,15 @@ EntryPoint = "gsl_sf_mathieu_Ms", CallingConvention = System.Runtime.InteropServ
 
         public static double Pochhammer(double a, double x)
         {
-            if (((int) (x) == x && x <= 0) || ((int) (a + x) == a + x && a + x <= 0)) return double.NaN;
+            // Zero and negative orders are valid; retain the existing a+x pole guard.
+            if ((int) (a + x) == a + x && a + x <= 0) return double.NaN;
             return gsl_sf_poch(a, x);
         }
 
         public static double PochhammerRelative(double a, double x)
         {
-            if (((int) (x) == x && x <= 0) || ((int) (a + x) == a + x && a + x <= 0)) return double.NaN;
+            // Zero and negative orders are valid; retain the existing a+x pole guard.
+            if ((int) (a + x) == a + x && a + x <= 0) return double.NaN;
             return gsl_sf_pochrel(a, x);
         }
 

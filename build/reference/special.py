@@ -142,9 +142,9 @@ def _describe(item, values):
         return A('Relative Pochhammer increment' if relative else 'Pochhammer rising factorial',
                  'A cancellation-aware relative increment of the gamma ratio.' if relative else 'A gamma ratio extending a product of consecutively increasing factors.',
                  '[(a)ₓ−1]/x, with limiting value ψ(a) at x=0.' if relative else '(a)ₓ=Γ(a+x)/Γ(a); (a)ₙ=a(a+1)…(a+n−1).',
-                 'The mathematical gamma ratio requires appropriate continuation at poles. Use positive a and positive x for a straightforward real value.',
-                 'This wrapper rejects nonpositive integer x (including zero) and nonpositive integer a+x. Thus it blocks some mathematical limits, including the relative x=0 limit; it is not a falling factorial.',
-                 '' if relative else 'Pochhammer(3,2) = 12',DLMF+'5.2')
+                 'Real a and x; zero and negative x are accepted when the gamma ratio is defined. Positive a and a+x avoid gamma poles.',
+                 'At x=0, the relative form evaluates the digamma limit ψ(a); the ordinary form is 1 for positive a. This wrapper still rejects nonpositive integer a+x, including removable singularities. It is not a falling factorial.',
+                 'PochhammerRelative(1,0) ≈ -0.5772156649015329' if relative else 'Pochhammer(3,0) = 1; Pochhammer(3,-1) = 0.5',GSL+'#pochhammer-symbol')
     if name in ('diLog','SpencesIntegral','PolyLog','RiemannZeta','DirichletEta','HurwitzZeta'):
         if name in ('diLog','SpencesIntegral','PolyLog'):
             spence=name=='SpencesIntegral'; general=name=='PolyLog'

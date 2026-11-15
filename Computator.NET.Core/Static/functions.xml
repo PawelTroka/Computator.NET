@@ -13226,14 +13226,14 @@
 <p class="reference-signature"><code>real Pochhammer(real a, real x)</code></p>
 <p class="reference-summary">A gamma ratio extending a product of consecutively increasing factors.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>(a)ₓ=Γ(a+x)/Γ(a); (a)ₙ=a(a+1)…(a+n−1).</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> The mathematical gamma ratio requires appropriate continuation at poles. Use positive a and positive x for a straightforward real value.</p>
-<p class="reference-note"><strong>Important:</strong> This wrapper rejects nonpositive integer x (including zero) and nonpositive integer a+x. Thus it blocks some mathematical limits, including the relative x=0 limit; it is not a falling factorial.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Real a and x; zero and negative x are accepted when the gamma ratio is defined. Positive a and a+x avoid gamma poles.</p>
+<p class="reference-note"><strong>Important:</strong> At x=0, the relative form evaluates the digamma limit ψ(a); the ordinary form is 1 for positive a. This wrapper still rejects nonpositive integer a+x, including removable singularities. It is not a falling factorial.</p>
 <p class="reference-explanation">For a nonnegative integer x this is a rising product starting at a. It differs from a falling factorial, which steps down instead. Analytic continuation needs the stated parameter restrictions and pole conventions.</p>
-<p class="reference-example"><strong>Example:</strong> Pochhammer(3,2) = 12</p>
+<p class="reference-example"><strong>Example:</strong> Pochhammer(3,0) = 1; Pochhammer(3,-1) = 0.5</p>
 <p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/7dbb8b0f7e615b602b83152c164d945146740fda79adee805d0137abfb101c93.png" alt="(a)ₓ=Γ(a+x)/Γ(a); (a)ₙ=a(a+1)…(a+n−1)." width="154" height="57" /></p>
-<p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/5.2">dlmf.nist.gov</a></p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://www.gnu.org/software/gsl/doc/html/specfunc.html#pochhammer-symbol">www.gnu.org</a></p>
 </div>]]></Description>
-    <Url>https://dlmf.nist.gov/5.2</Url>
+    <Url>https://www.gnu.org/software/gsl/doc/html/specfunc.html#pochhammer-symbol</Url>
   </FunctionInfo>
   <FunctionInfo Signature="PochhammerRelative(a,x)">
     <Title>Relative Pochhammer increment</Title>
@@ -13243,13 +13243,14 @@
 <p class="reference-signature"><code>real PochhammerRelative(real a, real x)</code></p>
 <p class="reference-summary">A cancellation-aware relative increment of the gamma ratio.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>[(a)ₓ−1]/x, with limiting value ψ(a) at x=0.</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> The mathematical gamma ratio requires appropriate continuation at poles. Use positive a and positive x for a straightforward real value.</p>
-<p class="reference-note"><strong>Important:</strong> This wrapper rejects nonpositive integer x (including zero) and nonpositive integer a+x. Thus it blocks some mathematical limits, including the relative x=0 limit; it is not a falling factorial.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Real a and x; zero and negative x are accepted when the gamma ratio is defined. Positive a and a+x avoid gamma poles.</p>
+<p class="reference-note"><strong>Important:</strong> At x=0, the relative form evaluates the digamma limit ψ(a); the ordinary form is 1 for positive a. This wrapper still rejects nonpositive integer a+x, including removable singularities. It is not a falling factorial.</p>
 <p class="reference-explanation">The relative form is useful near x=0, where directly subtracting one from a quantity near one loses digits. Its limiting value is digamma(a) when that limit exists.</p>
+<p class="reference-example"><strong>Example:</strong> PochhammerRelative(1,0) ≈ -0.5772156649015329</p>
 <p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/470b24d89b3e1bda0f905e9cfc9e8db3640c8acaaf4aad6b9feb4625e97f75a9.png" alt="[(a)ₓ−1]/x, with limiting value ψ(a) at x=0." width="88" height="52" /></p>
-<p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/5.2">dlmf.nist.gov</a></p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://www.gnu.org/software/gsl/doc/html/specfunc.html#pochhammer-symbol">www.gnu.org</a></p>
 </div>]]></Description>
-    <Url>https://dlmf.nist.gov/5.2</Url>
+    <Url>https://www.gnu.org/software/gsl/doc/html/specfunc.html#pochhammer-symbol</Url>
   </FunctionInfo>
   <FunctionInfo Signature="PogsonRatio">
     <Title>Pogson brightness ratio</Title>
