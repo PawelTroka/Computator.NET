@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
@@ -9,3 +10,6 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("b74cd9d5-d77e-418d-b50a-7ee5f040f819")]
+
+// Test the internal example-copy helper without exposing it in the public API.
+[assembly: InternalsVisibleTo("Computator.NET.Core.Tests")]
