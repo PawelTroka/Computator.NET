@@ -17531,12 +17531,13 @@ write(p.Evaluate(2));</code></pre><p><strong>Result:</strong> Approximately 3</p
     <Category>Inverse hyperbolic functions</Category>
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><code>complex arcosh(complex z)</code></p>
-<p class="reference-summary">The nonnegative real inverse of hyperbolic cosine.</p>
+<p class="reference-summary">The principal inverse of hyperbolic cosine for a complex argument.</p>
 <p class="reference-equation"><strong>Definition</strong><br /><img class="reference-math" src="reference-equations/404bcfda1bc4ef7e7931847bfb8cfce57ab3e6b5e2ad2f2d5b124f6aeea2b7a3.png" alt="arcosh(t) = ln(t + sqrt(t+1)·sqrt(t−1))" width="300" height="33" /></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> Results are in radians where interpreted as angles. Complex z. The implementation uses System.Numerics principal inverse/logarithm/square-root values in the displayed formula; branch cuts and endpoint side matter. It returns one value, not all inverse branches.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Results are in radians where interpreted as angles. Complex z. The result has a nonnegative real component and an imaginary component between −PI and PI. The real-axis branch cut extends from −∞ to 1; the sign of the input imaginary component, including signed zero, selects its side.</p>
+<p class="reference-note"><strong>Important:</strong> Finite large coordinates are evaluated without overflowing intermediate products. On .NET 10 the inverse-cosine relation also preserves tiny components near the branch cut; older Framework/Mono inverse-cosine implementations can still lose accuracy there.</p>
 <p class="reference-explanation">An inverse function answers which input produces a given output. When several inputs are possible, this routine chooses one branch; the stated domain and range specify which value you receive.</p>
 <p class="reference-explanation">An inverse is not a reciprocal. For example, arccos(x) finds an angle, whereas 1/cos(x) is secant. For complex inputs, branch choices are part of the definition and ordinary real inverse identities cannot be applied across a cut without care.</p>
-<p class="reference-example"><strong>Example:</strong> arcosh(1) = 0</p>
+<p class="reference-example"><strong>Example:</strong> arcosh(1+i) ≈ 1.0612750619 + 0.9045568943i</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/4.37">dlmf.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://dlmf.nist.gov/4.37</Url>

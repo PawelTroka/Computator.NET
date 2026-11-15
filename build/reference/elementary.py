@@ -79,6 +79,11 @@ def _describe(item, values):
         if complex_input:
             domain='Complex z. The implementation uses System.Numerics principal inverse/logarithm/square-root values in the displayed formula; branch cuts and endpoint side matter. It returns one value, not all inverse branches.'
             if name=='arccot':note+=' The PI/2−atan convention need not equal atan(1/z) across branches.'
+            if name=='arcosh':
+                definition='The principal inverse of hyperbolic cosine for a complex argument.'
+                domain='Complex z. The result has a nonnegative real component and an imaginary component between −PI and PI. The real-axis branch cut extends from −∞ to 1; the sign of the input imaginary component, including signed zero, selects its side.'
+                note='Finite large coordinates are evaluated without overflowing intermediate products. On .NET 10 the inverse-cosine relation also preserves tiny components near the branch cut; older Framework/Mono inverse-cosine implementations can still lose accuracy there.'
+                example='arcosh(1+i) ≈ 1.0612750619 + 0.9045568943i'
         return A(title+(' — complex argument' if complex_input else ''),definition,formula,
                  'Results are in radians where interpreted as angles. '+domain,note,example,DLMF+('4.37' if name in ('arsinh','arcosh','artanh','arcoth','arcsch','arsech') else '4.23'))
     if name in OTHER:

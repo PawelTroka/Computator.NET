@@ -164,6 +164,24 @@ For example, `artanh(1e-20)` and `arcoth(1e20)` now both give approximately
 `1e-20`. Real domains, endpoint infinities and complex overloads retain their
 existing conventions. See the [DLMF inverse hyperbolic definitions](https://dlmf.nist.gov/4.37).
 
+## Complex inverse hyperbolic cosine
+
+`arcosh(z)` keeps the principal value with a nonnegative real component and
+imaginary component in `[-PI,PI]`. Signed imaginary zero selects the upper or
+lower side of the real-axis branch cut. At real component `-2`, an imaginary
+component of negative zero produces imaginary result `-PI`; positive zero
+produces `PI`.
+
+Real-axis values reuse the stable real inverse, and very large finite complex
+coordinates use a scaled logarithmic limit. Other values use the runtime
+inverse-cosine relation in the upper half-plane, restoring the original side
+afterward to avoid cancellation in older runtimes. On .NET 10,
+`arcosh(1+1e-20i)` retains both components
+near `1e-10`. Older Framework/Mono `Complex.Acos` implementations can still lose
+precision near the cut. The host, complete emitted helper and precompiled
+surface share this implementation; the separate complex `arsech` function
+keeps its existing behavior. See the [DLMF principal branches](https://dlmf.nist.gov/4.37).
+
 ## Corrected spherical Riccati–Hankel convention
 
 `RiccatiBesselξ(n,x)` and `RiccatiBesselζ(n,x)` use the
