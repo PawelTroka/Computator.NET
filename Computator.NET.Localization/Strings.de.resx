@@ -431,4 +431,13 @@
   <data name="CheckChartAreaValues" xml:space="preserve">
     <value>Werte des Diagrammbereichs prüfen</value>
   </data>
+  <data name="ChartFiniteNumber" xml:space="preserve">
+    <value>Geben Sie eine endliche Zahl ein.</value>
+  </data>
+  <data name="ChartNumberOrAutomatic" xml:space="preserve">
+    <value>Geben Sie eine endliche Zahl oder NaN für die automatische Skalierung ein.</value>
+  </data>
+  <data name="ChartNonNegativeInterval" xml:space="preserve">
+    <value>Geben Sie ein nicht negatives Intervall ein (0 oder NaN wählt den automatischen Abstand).</value>
+  </data>
 </root>

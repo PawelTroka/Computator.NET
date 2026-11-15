@@ -434,4 +434,13 @@
   <data name="trapezoidal_method" xml:space="preserve">
     <value>metoda trapezów</value>
   </data>
+  <data name="ChartFiniteNumber" xml:space="preserve">
+    <value>Wpisz skończoną liczbę.</value>
+  </data>
+  <data name="ChartNumberOrAutomatic" xml:space="preserve">
+    <value>Wpisz skończoną liczbę lub NaN, aby włączyć automatyczne skalowanie.</value>
+  </data>
+  <data name="ChartNonNegativeInterval" xml:space="preserve">
+    <value>Wpisz nieujemny odstęp (0 lub NaN wybiera odstęp automatyczny).</value>
+  </data>
 </root>
