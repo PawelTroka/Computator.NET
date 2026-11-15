@@ -10,7 +10,9 @@ namespace Computator.NET.Core.Helpers
         {
             dataSource.PropertyChanged += (o, e) =>
             {
-                if (e.PropertyName == dataSourcePropertyName)
+                // INotifyPropertyChanged permits null/empty to report that all
+                // properties changed, not just a particular named property.
+                if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == dataSourcePropertyName)
                     action();
             };
         }
@@ -21,19 +23,18 @@ namespace Computator.NET.Core.Helpers
             var receiverProperty = dataReceiver.GetType().GetProperty(dataReceiverPropertyName);
             var sourceProperty = dataSource.GetType().GetProperty(dataSourcePropertyName);
 
-
-            /*  dataReceiver.PropertyChanged += (o, e) =>
-            {
-                if (e.PropertyName != dataReceiverPropertyName) return;
-                var value1 = receiverProperty.GetValue(dataReceiver, null);
-                sourceProperty.SetValue(dataSource, value1, null);
-            };*/
-
             dataSource.PropertyChanged += (o, e) =>
             {
-                if (e.PropertyName != dataSourcePropertyName) return;
-                var value2 = sourceProperty.GetValue(dataSource, null);
-                receiverProperty.SetValue(dataReceiver, value2, null);
+                if (!string.IsNullOrEmpty(e.PropertyName) && e.PropertyName != dataSourcePropertyName)
+                    return;
+
+                var value = sourceProperty.GetValue(dataSource, null);
+
+                // A setter may raise PropertyChanged even if its value does not
+                // change. Writing the same value back would make TwoWayBinding
+                // recursively notify both objects until the stack overflows.
+                if (!Equals(receiverProperty.GetValue(dataReceiver, null), value))
+                    receiverProperty.SetValue(dataReceiver, value, null);
             };
         }
 
@@ -42,23 +43,6 @@ namespace Computator.NET.Core.Helpers
         {
             OneWayBinding(object1, propertyName1, object2, propertyName2);
             OneWayBinding(object2, propertyName2, object1, propertyName1);
-            /*var property1 = object1.GetType().GetProperty(propertyName1);
-            var property2 = object2.GetType().GetProperty(propertyName2);
-
-
-            object1.PropertyChanged += (o, e) =>
-            {
-                if (e.PropertyName != propertyName1) return;
-                var value1 = property1.GetValue(object1, null);
-                property2.SetValue(object2, value1, null);
-            };
-
-            object2.PropertyChanged += (o, e) =>
-            {
-                if (e.PropertyName != propertyName2) return;
-                var value2 = property2.GetValue(object2, null);
-                property1.SetValue(object1, value2, null);
-            };*/
         }
     }
 }
