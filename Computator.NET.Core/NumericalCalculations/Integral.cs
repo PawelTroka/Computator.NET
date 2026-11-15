@@ -65,8 +65,12 @@ namespace Computator.NET.Core.NumericalCalculations
 
         public static double rombergMethod(System.Func<double, double> fx, double a, double b, double N = 6)
         {
-            if(N>30)
-                throw new System.ArgumentException("Number of steps should be small for rombergMethod, default is 6", "N");
+            // The legacy double-valued API must not silently truncate fractional
+            // step counts or allow invalid counts into Accord's integration loop.
+            if (double.IsNaN(N) || double.IsInfinity(N) || N < 1 || N > 30 ||
+                N != System.Math.Truncate(N))
+                throw new System.ArgumentOutOfRangeException(nameof(N), N,
+                    "Romberg steps must be whole numbers from 1 to 30.");
             return Accord.Math.Integration.RombergMethod.Integrate(fx, a, b, (int) N);
         }
 
@@ -176,8 +180,9 @@ namespace Computator.NET.Core.NumericalCalculations
 
         public static double rombergMethod(System.Func<double, double> fx, double a, double b, int N = 6)
         {
-            if(N>30)
-                throw new System.ArgumentException(""Number of steps should be small for rombergMethod, default is 6"", ""N"");
+            if (N < 1 || N > 30)
+                throw new System.ArgumentOutOfRangeException(nameof(N), N,
+                    ""Romberg steps must be whole numbers from 1 to 30."");
             return Accord.Math.Integration.RombergMethod.Integrate(fx, a, b, N);
         }
 
