@@ -75,7 +75,35 @@ Both return `{"result":"3"}`. Files accept an optional UTF-8 BOM and are bounded
 | `1` | stderr | JSON error for invalid input, file access or an execution failure |
 | `2` | stderr | JSON compilation error with document-relative diagnostic file/line/column information |
 
-Use TSL `write(...)` for script result text. Ordinary managed Console writes are suppressed during execution and shutdown to preserve the JSON protocol. [Published CLI checks](../../build/portable/Test-Cli.ps1) exercise this behavior, numerical answers, UTF-8 documents, custom functions and recovery after errors.
+Use TSL `write(value)` or `writeln(value)` for script result text. Ordinary managed Console writes are suppressed during execution and shutdown to preserve the JSON protocol. [Published CLI checks](../../build/portable/Test-Cli.ps1) exercise this behavior, numerical answers, UTF-8 documents, custom functions and recovery after errors.
+
+### Script output
+
+`write(value)` appends text; `writeln(value)` appends the value followed by the
+operating system's newline. Both use invariant formatting and treat `null` as
+empty text. They also work inside custom functions used by a script:
+
+```csharp
+// functions.tslf
+static void Report(real value) { write("value="); writeln(value); }
+
+// example.tsl
+Report(1.25);
+writeln("done");
+```
+
+The result contains `value=1.25` and `done` on separate lines. The same helpers
+are available in the portable local browser's scripting completion. They are
+script output operations; calculation and numerical expressions do not import
+them. File-output and interactive-dialog overloads are outside this API.
+
+Output, including newline characters, is limited to 65,536 characters. A line
+that would exceed the remaining budget is rejected without appending part of
+it. Child tasks that inherit the script's execution context share its output;
+wait for them before the script returns to include their results. Writes made
+through a completed script's captured output context are ignored. Concurrent
+and nested scripts keep separate output, and a nested call restores its caller's
+output context after success or failure.
 
 ## Supported capabilities and boundaries
 

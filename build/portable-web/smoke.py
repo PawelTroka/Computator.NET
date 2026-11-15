@@ -207,6 +207,25 @@ def main() -> int:
         execute({'operation': 'calculate', 'expression': 'Probe(3)'}, 400)
         number({'operation': 'calculate', 'expression': '2+3'}, 5)
 
+    def script_output() -> None:
+        definitions = 'static void Report(real x) { Console.WriteLine("discarded"); write("value="); writeln(x); }'
+        result = execute({'operation': 'script', 'expression': 'Report(1.25); writeln("zażółć λ");',
+                          'customFunctions': definitions})
+        require(result == 'value=1.25' + os.linesep + 'zażółć λ' + os.linesep,
+                f'Script/custom-function line output differs: {result!r}')
+        for endpoint, expected in (('scripting', True), ('expression', False)):
+            code, entries, _ = request(f'/api/autocomplete/{endpoint}')
+            require(code == 200 and isinstance(entries, list), f'Invalid {endpoint} completion response.')
+            for name in ('write', 'writeln'):
+                matches = [entry for entry in entries if entry.get('text') == name]
+                require(len(matches) == (1 if expected else 0),
+                        f'{name} completion has incorrect {endpoint} scope: {matches}')
+        # A failed line must not leak partial result text into the error response.
+        error = execute({'operation': 'script', 'expression': 'writeln(new string(\'x\', 65536));'}, 400)
+        require('output' in error['detail'].lower(), f'Missing output-limit explanation: {error}')
+        require(execute({'operation': 'script', 'expression': 'writeln("recovered");'}) == 'recovered' + os.linesep,
+                'Script output did not recover after an output-limit failure.')
+
     def numerical_methods() -> None:
         expected = {'integral': "Simpson's method", 'derivative': 'Finite difference derivative',
                     'function-root': "Brent's method"}
@@ -419,6 +438,7 @@ def main() -> int:
                 number({'operation': 'calculate', 'expression': '2x+3', 'x': 9}, 21)))
             run('real complex calculation', complex_calculation)
             run('scripts, UTF-8 and request-local unsaved functions', custom_functions)
+            run('bounded script/custom-function output and scripting completion', script_output)
             run('portable numerical methods with known answers', numerical_methods)
             run('local HTTP origin, host and source boundaries', local_boundary)
             run('explicit unsupported operations and error recovery', unsupported_and_recovery)

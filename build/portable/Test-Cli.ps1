@@ -60,6 +60,26 @@ try {
     [IO.File]::WriteAllText($scriptFile, 'write(Probe(6)); write("zażółć λ");', [Text.UTF8Encoding]::new($true))
     $value = Invoke-Cli -Arguments @('script','--file',$scriptFile,'--functions',$functions)
     if ($value.result -ne '3zażółć λ') { throw 'Published portable UTF-8 document execution failed.' }
+    # Script/custom-function output shares the same bounded JSON result. These
+    # checks remain additive to the existing numerical and protocol cases.
+    $outputFunctions = Join-Path $temp 'output functions.tslf'
+    $outputFile = Join-Path $temp 'output script.tsl'
+    $outputCasesBefore = $script:cases
+    [IO.File]::WriteAllText($outputFunctions, 'static void Report(real value) { Console.WriteLine("discarded"); write("value="); writeln(value); }', [Text.UTF8Encoding]::new($false))
+    [IO.File]::WriteAllText($outputFile, 'Report(1.25); writeln("zażółć λ");', [Text.UTF8Encoding]::new($false))
+    $value = Invoke-Cli -Arguments @('script','--file',$outputFile,'--functions',$outputFunctions)
+    if ($value.result -ne ('value=1.25' + [Environment]::NewLine + 'zażółć λ' + [Environment]::NewLine)) { throw 'Custom write/writeln output was lost or polluted the JSON protocol.' }
+    $lineLength = 65536 - [Environment]::NewLine.Length
+    [IO.File]::WriteAllText($outputFile, "writeln(new string('x', $lineLength));", [Text.UTF8Encoding]::new($false))
+    $value = Invoke-Cli -Arguments @('script','--file',$outputFile)
+    if ($value.result -ne (('x' * $lineLength) + [Environment]::NewLine)) { throw 'WriteLine did not preserve the exact output boundary.' }
+    [IO.File]::WriteAllText($outputFile, 'writeln(new string(''x'', 65536));', [Text.UTF8Encoding]::new($false))
+    $value = Invoke-Cli -Arguments @('script','--file',$outputFile) -ExpectedExit 1
+    if ($value.error -ne 'InvalidOperationException') { throw 'WriteLine did not enforce the output boundary.' }
+    [IO.File]::WriteAllText($outputFile, "writeln(1);`nwriteln(missing);", [Text.UTF8Encoding]::new($false))
+    $value = Invoke-Cli -Arguments @('script','--file',$outputFile) -ExpectedExit 2
+    if (@($value.diagnostics | Where-Object { $_.file -eq 'script.tsl' -and $_.line -eq 2 }).Count -eq 0) { throw 'WriteLine lost script-relative diagnostics.' }
+    if ($script:cases - $outputCasesBefore -ne 4) { throw 'The four script-output process checks did not run.' }
     # Ordinary trusted code and referenced libraries may write to Console. Those
     # messages must not become extra JSON documents or corrupt structured errors.
     [IO.File]::WriteAllText($scriptFile, 'Console.WriteLine("discarded stdout λ"); Console.Error.WriteLine("discarded stderr λ"); write("kept λ");', [Text.UTF8Encoding]::new($false))

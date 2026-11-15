@@ -31,21 +31,24 @@ public sealed partial class PortableEngine
     }
     public string ExecuteScript(string script, string customFunctions = "")
     {
-        using var program = Compile<Action<Action<string>>>(script, customFunctions,
-            "public static void Run(Action<string> output) { Action<object> write = value => output(Convert.ToString(value, System.Globalization.CultureInfo.InvariantCulture) ?? \"\");\n#line 1 \"script.tsl\"\n",
-            "\n#line default\n}");
         var result = new StringBuilder();
-        program.Invoke(text =>
+        using (var output = PortableScriptOutput.Capture(text =>
         {
             lock (result)
             {
                 if (text.Length > MaximumSourceCharacters - result.Length) throw new InvalidOperationException("Script output exceeds the configured limit.");
                 result.Append(text);
             }
-        });
+        }))
+        {
+            using var program = Compile<Action<Action<string>>>(script, customFunctions,
+                "public static void Run(Action<string> output) { Action<object> write = value => output(Convert.ToString(value, System.Globalization.CultureInfo.InvariantCulture) ?? \"\");\n#line 1 \"script.tsl\"\n",
+                "\n#line default\n}", scripting: true);
+            program.Invoke(output.Append);
+        }
         lock (result) return result.ToString();
     }
-    private static Compiled<T> Compile<T>(string input, string customFunctions, string prefix, string suffix) where T : Delegate
+    private static Compiled<T> Compile<T>(string input, string customFunctions, string prefix, string suffix, bool scripting = false) where T : Delegate
     {
         if (input == null) throw new ArgumentNullException(nameof(input));
         if (customFunctions == null) throw new ArgumentNullException(nameof(customFunctions));
@@ -55,6 +58,7 @@ public sealed partial class PortableEngine
         var source = "using System; using System.Numerics; using Computator.NET.Engine; using Computator.NET.Core.NumericalCalculations; " +
             "using static Computator.NET.Engine.ScalarFunctions; using static Computator.NET.Core.Constants.MathematicalConstants; " +
             "using static Computator.NET.Core.Functions.MatrixFunctions;\n" +
+            (scripting ? "using static Computator.NET.Engine.PortableScriptOutput;\n" : "") +
             TslCompiler.TypesAliases + "\npublic static class Program {\n#line 1 \"custom-functions.tslf\"\n" +
             compiler.TransformToCSharp(customFunctions, string.Empty, deferSymbolicFunctionPowers: true) + "\n#line default\n" + prefix +
             compiler.TransformToCSharp(input, customFunctions, deferSymbolicFunctionPowers: true) + suffix + "\n}";
