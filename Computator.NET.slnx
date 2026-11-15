@@ -159,6 +159,7 @@
     <File Path="build/mono/SmokeTests/MonoNumericLayoutTests.cs" />
     <File Path="build/mono/SmokeTests/MonoNumericParsingTests.cs" />
     <File Path="build/mono/SmokeTests/MonoScriptPlotTests.cs" />
+    <File Path="build/mono/SmokeTests/ScriptWorkingDirectoryTests.cs" />
     <File Path="build/mono/SmokeTests/LocalizationTests.cs" />
 
     <File Path="build/mono/SmokeTests/Program.cs" />

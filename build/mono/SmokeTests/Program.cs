@@ -113,6 +113,8 @@ internal static partial class Program
         Run("legacy-nrbf-import-on-mono", LegacySettingsMigration);
         Run("desktop-real-and-complex-expression-evaluation", DesktopExpressions);
         Run("desktop-script-and-custom-functions", DesktopScripts);
+        Run("unix-script-working-directory-precompiled", () => ScriptWorkingDirectories(false));
+        Run("unix-script-working-directory-generated", () => ScriptWorkingDirectories(true));
         Run("desktop-numerical-method-catalog", NumericalMethodCatalog);
         Run("native-gsl-generated-import-and-error-recovery", NativeGsl);
         Run("mono-correctly-rounded-numeric-input", CorrectlyRoundedNumericInput);

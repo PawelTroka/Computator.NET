@@ -77,8 +77,10 @@ namespace Computator.NET.Core.Evaluation
                 "Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType." +
                 Settings.Default.NumericalOutputNotation);//DataTypes.SettingsTypes.NumericalOutputNotationType.MathematicalNotation
 
-            InitCodeAfterFunctionSignature =
-                $@"setWorkingDirectory(@""{Settings.Default.WorkingDirectory}"");";
+            // Unix directory names may contain quotes or line breaks. Keep the
+            // complete path in one C# literal instead of inserting it as source.
+            InitCodeAfterFunctionSignature = "setWorkingDirectory(" +
+                Microsoft.CodeAnalysis.CSharp.SymbolDisplay.FormatLiteral(Settings.Default.WorkingDirectory, quote: true) + ");";
             
 
             var function = Compile();
