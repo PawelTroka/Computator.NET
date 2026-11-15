@@ -110,7 +110,7 @@ def pinned_git_blob(commit,path,destination,expected_sha256=None):
     with destination.open('xb') as stream: stream.write(data)
     return {'commit':commit,'path':path,'gitBlobSha1':blob,'sha256':digest,'declaredSha256':expected_sha256,
             'authenticatedApiRead':bool(token),
-            'basis':'immutable receipt commit and verified Git blob'+('; declared SHA256 also checked' if expected_sha256 else '; SHA256 computed from verified bytes')}
+            'basis':'immutable tap commit and verified Git blob'+('; declared SHA256 also checked' if expected_sha256 else '; SHA256 computed from verified bytes')}
 
 
 def verify_bundle(bundle):
@@ -451,17 +451,23 @@ def retain_sources(provenance, prepared, resources):
             matching=[entry for entry in frozen.get('formulae',[]) if entry.get('name')==formula]
             if len(matching)!=1: raise ValueError('No frozen local-patch formula metadata: '+formula)
             metadata=matching[0]
-            receipt_data=json.loads(receipt.read_text()) if receipt.is_file() else {}
-            head=receipt_data.get('source',{}).get('tap_git_head','');source_path=metadata.get('ruby_source_path','')
+            receipt_data=json.loads(receipt.read_text()) if receipt.is_file() else None
+            declarations=re.findall(r'^\s*file\s+"(Patches/[^"#]+)"\s*$',ruby_code(content),re.M)
+            head,head_basis=local_patch_commit(metadata,receipt_data,formula,declarations)
+            source_path=metadata.get('ruby_source_path','')
             formula_hash=metadata.get('ruby_source_checksum',{}).get('sha256','')
-            if (not re.fullmatch('[0-9a-f]{40}',head) or not re.fullmatch('[0-9a-f]{64}',formula_hash)
-                    or not source_path.startswith('Formula/') or not source_path.endswith('.rb')
+            if (not isinstance(formula_hash,str) or not re.fullmatch('[0-9a-f]{64}',formula_hash)
+                    or not isinstance(source_path,str) or not source_path.startswith('Formula/') or not source_path.endswith('.rb')
                     or '\\' in source_path or ':' in source_path or any(part in ('','.','..') for part in source_path.split('/'))):
                 raise ValueError('Unsafe frozen formula reference for '+formula)
             frozen_file=directory/('frozen-upstream-'+formula+'.rb')
             formula_proof=pinned_git_blob(head,source_path,frozen_file,formula_hash)
+            metadata_file=directory/'frozen-homebrew-info.json'
+            with metadata_file.open('x') as stream: stream.write(json.dumps(metadata,indent=2)+'\n')
+            formula_proof.update(tapCommitBasis=head_basis,receiptTapCommit=receipt_data['source'].get('tap_git_head'),
+                                 infoTapCommit=metadata['tap_git_head'],metadataFile=metadata_file.relative_to(resources).as_posix())
             frozen_recipe=frozen_file.read_text()
-            for path in re.findall(r'^\s*file\s+"(Patches/[^"#]+)"\s*$',ruby_code(content),re.M):
+            for path in declarations:
                 patch_file=directory/('local-'+Path(path).name)
                 declared=(metadata.get('local_patch_checksums') or {}).get(path)
                 patch_proofs[path]=pinned_git_blob(head,path,patch_file,declared)
@@ -556,6 +562,30 @@ def external_patches(content,label):
     return patches
 
 
+def local_patch_commit(metadata,receipt,formula,paths):
+    if not isinstance(receipt,dict) or not isinstance(receipt.get('source'),dict):
+        raise ValueError('No installed receipt source metadata for local patches: '+formula)
+    info_head=metadata.get('tap_git_head')
+    if not isinstance(info_head,str) or not re.fullmatch('[0-9a-f]{40}',info_head):
+        raise ValueError('No immutable frozen tap commit for local patches: '+formula)
+    head=receipt['source'].get('tap_git_head')
+    if head is not None:
+        # A real receipt commit remains authoritative, even when the frozen
+        # info snapshot is newer. Malformed values must not select another tree.
+        if not isinstance(head,str) or not re.fullmatch('[0-9a-f]{40}',head):
+            raise ValueError('Invalid installed receipt tap commit for local patches: '+formula)
+        return head,'installed-receipt'
+    # API-loaded Homebrew receipts can legitimately omit this optional commit.
+    # The frozen snapshot is usable only with an independent SHA256 for EVERY
+    # patch. local_patch_pins still proves exact recipe/version equivalence.
+    checksums=metadata.get('local_patch_checksums')
+    for path in paths:
+        declared=checksums.get(path) if isinstance(checksums,dict) else None
+        if not isinstance(declared,str) or not re.fullmatch('[0-9a-f]{64}',declared):
+            raise ValueError('Missing valid declared local patch SHA256 for '+formula+': '+path)
+    return info_head,'frozen-formula-metadata'
+
+
 def local_patch_pins(content,formula,version,recipe_sha,frozen,frozen_recipe=None,receipt=None,patch_proofs=None):
     code=ruby_code(content)
     declarations=re.findall(r'^\s*file\s+"(Patches/[^"#]+)"\s*$',code,re.M)
@@ -564,17 +594,16 @@ def local_patch_pins(content,formula,version,recipe_sha,frozen,frozen_recipe=Non
     matches=[entry for entry in frozen.get('formulae',[]) if entry.get('name')==formula]
     if len(matches)!=1: raise ValueError('No exact frozen installed formula metadata: '+formula)
     metadata=matches[0]
+    head,head_basis=local_patch_commit(metadata,receipt,formula,declarations)
     expected_version=metadata['versions']['stable']+('_'+str(metadata['revision']) if metadata.get('revision') else '')
-    info_head=metadata.get('tap_git_head','')
+    info_head=metadata['tap_git_head']
     original_sha=metadata.get('ruby_source_checksum',{}).get('sha256')
-    source=(receipt or {}).get('source',{})
-    head=source.get('tap_git_head','')
+    source=receipt['source']
     if (metadata.get('tap')!='homebrew/core' or expected_version!=version
-            or not re.fullmatch('[0-9a-f]{40}',head) or not re.fullmatch('[0-9a-f]{40}',info_head)
             or source.get('tap')!='homebrew/core'
             or source.get('versions',{}).get('stable')!=metadata['versions']['stable']):
         raise ValueError('Frozen local patch metadata does not match the actual installed recipe/version: '+formula)
-    if (not re.fullmatch('[0-9a-f]{64}',original_sha or '')
+    if (not isinstance(original_sha,str) or not re.fullmatch('[0-9a-f]{64}',original_sha)
             or hashlib.sha256(content.encode()).hexdigest()!=recipe_sha):
         raise ValueError('Installed recipe bytes differ from their recorded SHA256: '+formula)
     if original_sha!=recipe_sha:
@@ -598,9 +627,10 @@ def local_patch_pins(content,formula,version,recipe_sha,frozen,frozen_recipe=Non
             raise ValueError('No exact pinned local patch checksum/strip level: '+path)
         result.append({'path':path,'tapCommit':head,'sha256':digest,'strip':entries[0]['strip'],
                        'url':'https://raw.githubusercontent.com/Homebrew/homebrew-core/'+head+'/'+path,
-                       'scope':'local patch from the recipe-bound immutable receipt tap commit',
+                       'scope':'local patch from the recipe-bound immutable tap commit',
+                       'tapCommitBasis':head_basis,'receiptTapCommit':source.get('tap_git_head'),
                        'infoTapCommit':info_head,'gitBlobSha1':proof['gitBlobSha1'],
-                       'sha256Basis':'declared checksum plus verified receipt Git blob' if declared else 'computed from verified receipt Git blob; older API has no declared SHA256'})
+                       'sha256Basis':'declared checksum plus verified Git blob' if declared else 'computed from verified receipt Git blob; older API has no declared SHA256'})
     if set(declarations)!={item['file'] for item in metadata.get('patches',[]) if 'file' in item}:
         raise ValueError('Frozen local patch set differs from the installed recipe: '+formula)
     return result

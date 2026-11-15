@@ -191,6 +191,21 @@ original drawing candidates and build-host font/module data are temporarily
 hidden and restored; process traces must select the packaged drawing closure.
 The ordinary launcher never changes display modes or hides system dependencies.
 
+Native source retention uses the installed Homebrew recipe and receipt. For a
+local recipe patch, an available receipt tap commit remains authoritative. Some
+API-loaded receipts have a missing or null `source.tap_git_head`; in that case,
+packaging may use the frozen `brew info` commit only when every local patch has
+a declared SHA-256. The immutable Git blobs must match those hashes, and the
+recipe, tap, stable version and revision must still match the installed inputs
+through the existing reviewed staging transformations. Missing pins, malformed
+commits or changed build instructions stop packaging. The bundle retains the
+original receipt, frozen metadata and verified recipe/patch bytes, and records
+which commit source was used without inventing a receipt commit.
+
+The portable source-retention and bundle contracts can run without macOS:
+`python3 build/macos/test_package.py -v`. They include the actual GLib 2.90.1
+recipe/metadata from the ARM64 failure; they do not certify native Mac execution.
+
 Package validation also starts the ordinary shell launcher as a fresh process.
 An external XRes tool matches its native window to the actual Mono process;
 the fixture verifies the application directory, captures real client pixels,
