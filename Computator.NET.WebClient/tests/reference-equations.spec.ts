@@ -10,7 +10,7 @@ const gamma = Object.entries(equations).find(([, equation]) => equation.tex.incl
 if (!gamma) throw new Error('The shipped gamma integral is missing');
 const [id, asset] = gamma;
 
-for (const [route, editor] of [['/calculate', '#expressionTextArea'], ['/scripting', '#scriptTextArea']]) {
+for (const [route, editor] of [['/calculate', '#expressionTextArea'], ['/scripting', '#scriptTextArea'], ['/custom-functions', '#customFunctionsTextArea']]) {
   for (const caption of ['real ReferenceEquationProbe(real x)', 'ReferenceEquationProbe(x)']) {
   test(`offline equation without repeated signatures in ${route} with ${caption}`, async ({ page }, info) => {
     const remoteImages: string[] = [];

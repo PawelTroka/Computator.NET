@@ -1,13 +1,17 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-csharp';
 import 'ace-builds/src-noconflict/theme-ambiance';
+import 'ace-builds/src-noconflict/ext-language_tools';
+import { CustomCompleter } from '../helpers/CustomCompleter';
 import { useCustomFunctions } from '../helpers/CustomFunctionsContext';
 
 export function CustomFunctions() {
   const functions = useCustomFunctions();
   const [fileError, setFileError] = useState(''), [importing, setImporting] = useState(false);
   const revision = useRef(0);
+  const completer = useMemo(() => new CustomCompleter('scripting'), []);
+  useEffect(() => () => completer.dispose(), [completer]);
   // Invalidate at the unmount commit, not in a deferred passive effect after the
   // replacement screen is visible. File reads can finish in that interval.
   useLayoutEffect(() => () => { revision.current++; }, []);
@@ -47,7 +51,10 @@ export function CustomFunctions() {
     <p>Run only code you trust. This is not a sandbox.</p>
     <AceEditor name="customFunctionsTextArea" mode="csharp" theme="ambiance" width="100%" minLines={12} maxLines={30}
       value={functions.code} onChange={edit} setOptions={{ useWorker: false }}
-      onLoad={editor => { editor.container.querySelector('textarea')?.setAttribute('aria-label', 'Custom function definitions'); }} />
+      onLoad={editor => {
+        editor.completers = [completer];
+        editor.container.querySelector('textarea')?.setAttribute('aria-label', 'Custom function definitions');
+      }} enableBasicAutocompletion enableLiveAutocompletion />
     <div className="d-flex flex-wrap gap-2 my-3">
       <button className="btn btn-primary" type="button" onClick={functions.save}>Save in this tab</button>
       <button className="btn btn-outline-secondary" type="button" onClick={exportFile}>Export .tslf</button>
