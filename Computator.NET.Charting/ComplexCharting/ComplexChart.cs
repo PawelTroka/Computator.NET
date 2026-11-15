@@ -687,42 +687,11 @@ namespace Computator.NET.Charting.ComplexCharting
             while (t >= 2*Math.PI) t -= 2*Math.PI;
 
             double h = t/(2*Math.PI), s = 0, v = 0;
-            double r0 = 0, r1 = 1;
-
-            switch (CountourMode)
+            // Compute the contour band in constant time. Iterating one band at a
+            // time can hang on Mono/Windows (for example exponential contours
+            // at |f(z)| = 1, or a zero/negative linear contour step).
+            if (ComplexContourMath.TryGetPosition(m, CountourLinesStep, CountourMode, out var r))
             {
-                case CountourLinesMode.Logarithmic:
-                    //Based on Claudio Rocchini C++ algorithm for complex functions domain coloring http://en.wikipedia.org/wiki/File:Color_complex_plot.jpg
-                    while (m > r1)
-                    {
-                        r0 = r1;
-                        r1 = r1*CountourLinesStep;
-                    }
-                    break;
-
-                case CountourLinesMode.Linear:
-                    r1 = CountourLinesStep;
-                    while (m > r1)
-                    {
-                        r0 = r1;
-                        r1 = r1 + CountourLinesStep;
-                    }
-                    break;
-
-                case CountourLinesMode.Exponential:
-                    r1 = Math.Log(Math.Pow(m, 1/m), CountourLinesStep);
-                    while (m > r1)
-                    {
-                        r0 = r1;
-                        r1 = r1 + Math.Log(Math.Pow(m, 1/m), CountourLinesStep);
-                    }
-                    break;
-            }
-
-            if (CountourMode != CountourLinesMode.NoCountourLines)
-            {
-                //Based on Claudio Rocchini C++ algorithm for complex functions domain coloring http://en.wikipedia.org/wiki/File:Color_complex_plot.jpg
-                var r = (m - r0)/(r1 - r0);
                 var p = r < 0.5 ? 2.0*r : 2.0*(1.0 - r);
                 var q = 1.0 - p;
                 var p1 = 1 - q*q*q;
