@@ -92,6 +92,15 @@ try {
     $value = Invoke-Cli -Arguments @('script','--file',$scriptFile) -ExpectedExit 1
     if ($value.error -ne 'InvalidOperationException' -or $value.message -ne 'expected shutdown failure') { throw 'Shutdown logging corrupted the structured error.' }
     [IO.File]::WriteAllText($functions, 'static real Probe(real x) { return x/2; }', [Text.UTF8Encoding]::new($true))
+    # Desktop distribution names must also bind in the published portable host.
+    $distributionFunctions = Join-Path $temp 'distribution functions.tslf'
+    $distributionFile = Join-Path $temp 'distribution script.tsl'
+    Assert-Number -Arguments @('calculate','--expression','Normal.CDF(0,1,0)') -Expected 0.5 -Tolerance 1e-14
+    [IO.File]::WriteAllText($distributionFunctions, 'static real Probability(real x) { return Normal.CDF(0,1,x); }', [Text.UTF8Encoding]::new($false))
+    Assert-Number -Arguments @('calculate','--expression','Probability(0)','--functions',$distributionFunctions) -Expected 0.5 -Tolerance 1e-14
+    [IO.File]::WriteAllText($distributionFile, 'IDiscreteDistribution coins = new Binomial(0.5,4); write(coins.Probability(2));', [Text.UTF8Encoding]::new($false))
+    $value = Invoke-Cli -Arguments @('script','--file',$distributionFile)
+    if ($value.result -ne '0.375') { throw 'Published portable distribution script failed.' }
     Assert-Number -Arguments @('integrate','--expression','x*x','--a','0','--b','3','--steps','100') -Expected 9 -Tolerance 1e-10
     Assert-Number -Arguments @('integrate','--expression','Probe(x)','--a','0','--b','6','--functions',$functions) -Expected 9 -Tolerance 1e-10
     Assert-Number -Arguments @('differentiate','--expression','x*x','--x','3') -Expected 6 -Tolerance 1e-6
