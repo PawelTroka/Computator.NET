@@ -94,11 +94,17 @@ try {
     [IO.File]::WriteAllText($functions, 'static real Probe(real x) { return x/2; }', [Text.UTF8Encoding]::new($true))
     Assert-Number -Arguments @('integrate','--expression','x*x','--a','0','--b','3','--steps','100') -Expected 9 -Tolerance 1e-10
     Assert-Number -Arguments @('integrate','--expression','Probe(x)','--a','0','--b','6','--functions',$functions) -Expected 9 -Tolerance 1e-10
+    Assert-Number -Arguments @('integrate','--expression','x','--a','1','--b','0','--steps','2') -Expected -0.5 -Tolerance 1e-12
+    Assert-Number -Arguments @('integrate','--expression','x*x*x','--a','3','--b','-1','--steps','4') -Expected -20 -Tolerance 1e-12
+    Assert-Number -Arguments @('integrate','--expression','Probe(x)','--a','6','--b','0','--functions',$functions) -Expected -9 -Tolerance 1e-10
+    Assert-Number -Arguments @('integrate','--expression','x','--a','1','--b','1','--steps','2') -Expected 0 -Tolerance 0
     Assert-Number -Arguments @('differentiate','--expression','x*x','--x','3') -Expected 6 -Tolerance 1e-6
     Assert-Number -Arguments @('differentiate','--expression','x*x','--x','3','--order','2') -Expected 2 -Tolerance 1e-5
     Assert-Number -Arguments @('root','--expression','x*x-2','--a','0','--b','2','--tolerance','1e-10','--iterations','100') -Expected ([Math]::Sqrt(2)) -Tolerance 1e-8
     $null = Invoke-Cli -Arguments @('calculate','--expression','missing(2)') -ExpectedExit 2
     $null = Invoke-Cli -Arguments @('integrate','--expression','missing(x)','--a','0','--b','1') -ExpectedExit 2
+    $null = Invoke-Cli -Arguments @('integrate','--expression','missing(x)','--a','1','--b','0') -ExpectedExit 2
+    $null = Invoke-Cli -Arguments @('integrate','--expression','missing(x)','--a','1','--b','1') -ExpectedExit 2
     foreach ($arguments in @(
         @('unknown'),
         @('calculate','--expression','1','--order','2'),
@@ -109,10 +115,15 @@ try {
         @('calculate','--expression','x','--x','1e999'),
         @('calculate','--expression','x','--x','3,5'),
         @('integrate','--expression','x','--a','0'),
-        @('integrate','--expression','x','--a','1','--b','1'),
+        @('integrate','--expression','x','--a','Infinity','--b','0'),
+        @('integrate','--expression','x','--a','0','--b','NaN'),
         @('integrate','--expression','x','--a','0','--b','1','--steps','3'),
         @('integrate','--expression','x','--a','0','--b','1','--steps','2.5'),
+        @('integrate','--expression','x','--a','1','--b','0','--steps','3'),
+        @('integrate','--expression','x','--a','1','--b','1','--steps','1000002'),
         @('differentiate','--expression','x','--x','0','--order','0'),
+        @('root','--expression','x','--a','1','--b','-1'),
+        @('root','--expression','x','--a','1','--b','1'),
         @('root','--expression','x','--a','-1','--b','1','--tolerance','0'),
         @('root','--expression','x','--a','-1','--b','1','--iterations','1000001')
     )) { $null = Invoke-Cli -Arguments $arguments -ExpectedExit 1 }
@@ -127,6 +138,6 @@ try {
     }
     # Failure must not poison the next independent invocation.
     Assert-Number -Arguments @('integrate','--expression','x','--a','0','--b','2','--steps','2') -Expected 2 -Tolerance 1e-12
-    if ($script:cases -lt 39) { throw "Expected at least 39 published CLI process checks, but ran $script:cases." }
+    if ($script:cases -lt 50) { throw "Expected at least 50 published CLI process checks, but ran $script:cases." }
     Write-Host "Published portable CLI passed $script:cases process checks: numerical commands, documents, strict options, Console isolation, errors and recovery."
 } finally { Remove-Item -LiteralPath $temp -Recurse -Force }

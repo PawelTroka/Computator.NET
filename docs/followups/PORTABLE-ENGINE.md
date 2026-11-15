@@ -42,7 +42,9 @@ Expected results are `17`, approximately `9`, approximately `6` and approximatel
 | `differentiate` | `--expression <TSL> --x <number>` | `--order 1`; supported orders 1 through 10 |
 | `root` | `--expression <TSL> --a <number> --b <number>` | `--tolerance 1e-8`, `--iterations 10000`; Brent's method requires a root bracket |
 
-Every command accepts `--functions <file.tslf>`. Numeric options use an invariant decimal point and must be finite. Integration and root bounds must satisfy `a < b`; root tolerance must be greater than 0 and at most 1, with 1 through 1,000,000 iterations. Invalid, duplicated, incomplete or command-inapplicable options are rejected. Use `--help` for the CLI's authoritative option summary; [Program.cs](../../Computator.NET.Cli/Program.cs) and [PortableEngine.Science.cs](../../Computator.NET.Engine/PortableEngine.Science.cs) define these contracts.
+Every command accepts `--functions <file.tslf>`. Numeric options use an invariant decimal point and must be finite. Integration preserves the direction of its limits: `integrate --expression 'x' --a 1 --b 0 --steps 2` returns `-0.5`, and equal limits are accepted (for example, integrating `x` from 1 to 1 returns `0`). Expressions and step budgets are still validated, and integrands are evaluated by the shared Simpson method even when the limits are equal. The portable local browser's Integral operation has the same behavior.
+
+Root bounds must satisfy `a < b`; root tolerance must be greater than 0 and at most 1, with 1 through 1,000,000 iterations. Invalid, duplicated, incomplete or command-inapplicable options are rejected. Use `--help` for the CLI's authoritative option summary; [Program.cs](../../Computator.NET.Cli/Program.cs) and [PortableEngine.Science.cs](../../Computator.NET.Engine/PortableEngine.Science.cs) define these contracts.
 
 ### Custom functions and scripts
 

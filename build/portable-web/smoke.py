@@ -215,6 +215,20 @@ def main() -> int:
             require(code == 200 and methods == [method_name], f'Unexpected {operation} methods: {methods}')
         number({'operation': 'integral', 'expression': '2', 'a': 0, 'b': 3, 'n': 100,
                 'method': expected['integral']}, 6)
+        number({'operation': 'integral', 'expression': 'x', 'a': 1, 'b': 0, 'n': 2,
+                'method': expected['integral']}, -0.5)
+        number({'operation': 'integral', 'expression': 'Probe(x)', 'a': 3, 'b': -1, 'n': 4,
+                'customFunctions': 'static real Probe(real x) { return x*x*x; }',
+                'method': expected['integral']}, -20)
+        number({'operation': 'integral', 'expression': 'x', 'a': 1, 'b': 1, 'n': 2,
+                'method': expected['integral']}, 0)
+        for a, b in ((1, 0), (1, 1)):
+            execute({'operation': 'integral', 'expression': 'missing(x)', 'a': a, 'b': b, 'n': 2,
+                     'method': expected['integral']}, 400)
+            execute({'operation': 'integral', 'expression': 'x', 'a': a, 'b': b, 'n': 3,
+                     'method': expected['integral']}, 400)
+            execute({'operation': 'function-root', 'expression': 'x', 'a': a, 'b': b,
+                     'method': expected['function-root']}, 400)
         number({'operation': 'derivative', 'expression': 'x*x', 'x': 3, 'order': 1,
                 'method': expected['derivative']}, 6, 1e-6)
         number({'operation': 'function-root', 'expression': 'x*x-2', 'a': 0, 'b': 2,

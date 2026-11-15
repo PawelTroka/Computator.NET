@@ -14,7 +14,8 @@ differentiate --expression <TSL> --x <number> [--order <integer>] [--functions <
 root --expression <TSL> --a <number> --b <number> [--tolerance <number>] [--iterations <integer>] [--functions <file.tslf>]
 
 Numbers use an invariant decimal point and must be finite. Integration uses the shared Simpson method
-(default 10,000 steps, even 2..1,000,000). Derivatives use the shared derivative method (order 1..10).
+(default 10,000 steps, even 2..1,000,000), preserving reversed and equal integration limits.
+Derivatives use the shared derivative method (order 1..10).
 Roots use the shared Brent method (default tolerance 1e-8, 10,000 iterations; bracket a root with a < b).
 Success writes one JSON object with a string result to stdout. Errors go to stderr: exit 2 for
 compilation diagnostics, exit 1 for invalid input or execution failure. --help exits successfully.
