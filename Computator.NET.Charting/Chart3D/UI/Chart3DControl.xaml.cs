@@ -360,6 +360,7 @@ namespace Computator.NET.Charting.Chart3D.UI
 
         private BitmapEncoder CreateImageEncoder(int width, int height,ImageFormat imageFormat)
         {
+            imageFormat = ChartImageExport.RequireSupportedFormat(this, imageFormat);
             BitmapEncoder encoder;
 
             if (Equals(imageFormat, ImageFormat.Png))
@@ -372,10 +373,8 @@ namespace Computator.NET.Charting.Chart3D.UI
                 encoder = new JpegBitmapEncoder();
             else if (Equals(imageFormat, ImageFormat.Tiff))
                 encoder = new TiffBitmapEncoder();
-            else if (Equals(imageFormat, ImageFormat.Wmf))
-                encoder = new WmpBitmapEncoder();
             else
-                encoder = new PngBitmapEncoder();
+                throw new NotSupportedException("The selected image format is not supported by this chart.");
 
 
             var bitmap = RenderImage(width, height);

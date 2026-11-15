@@ -11,4 +11,11 @@ if (report.tag != 'testsuite' or len(cases) < 55 or int(report.get('tests', '0')
         or len({case.get('name') for case in cases}) != len(cases)
         or 'mono-numeric-input-font-layout' not in {case.get('name') for case in cases}):
     raise SystemExit('Packaged Mono acceptance must execute at least 55 unique cases, including native numeric font layout, with zero failures/skips.')
+required_exports = {'native-chart-export-localized-choices-and-mode-switches'} | {
+    f'native-chart-export-{kind}-{format}'
+    for kind in ('real', 'complex', 'surface')
+    for format in ('png', 'gif', 'jpeg', 'bmp', 'tiff', 'unsupported-preserves-files')
+}
+if not required_exports.issubset({case.get('name') for case in cases}):
+    raise SystemExit('Packaged Mono acceptance must execute all native chart export format cases.')
 print(f'Packaged Mono acceptance: {len(cases)} passed; zero skipped.')

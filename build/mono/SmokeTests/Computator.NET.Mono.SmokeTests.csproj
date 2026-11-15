@@ -7,6 +7,7 @@
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="../../../Computator.NET.Desktop.Tests/ChartExportContract.cs" Link="ChartExportContract.cs" />
     <Compile Include="../NativeDesktopCapture.cs" Link="NativeDesktopCapture.cs" />
     <Compile Include="../NativeX11Input.cs" Link="NativeX11Input.cs" />
     <Compile Include="../NativeToolProcess.cs" Link="NativeToolProcess.cs" />

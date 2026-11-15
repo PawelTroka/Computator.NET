@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing.Imaging;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -412,12 +411,14 @@ namespace Computator.NET.Charting.Controls
 
         private void ExportChartExportToolStripMenuItemClick(object sender, EventArgs e)
         {
+            var chart = currentChart;
+            ChartImageExport.ConfigureDialog(saveChartImageFileDialog, chart);
             saveChartImageFileDialog.FileName =
                 $"{Strings.Chart} {DateTime.Now.ToString("u", CultureInfo.InvariantCulture).Replace(':', '-').Replace("Z", "")}";
             if (saveChartImageFileDialog.ShowDialog() != DialogResult.OK) return;
             Thread.Sleep(20);
-            currentChart.SaveImage(saveChartImageFileDialog.FileName,
-                FilterIndexToImageFormat(saveChartImageFileDialog.FilterIndex));
+            chart.SaveImage(saveChartImageFileDialog.FileName,
+                ChartImageExport.FormatFromFilterIndex(chart, saveChartImageFileDialog.FilterIndex));
         }
 
 
@@ -481,36 +482,6 @@ namespace Computator.NET.Charting.Controls
         }
 
 
-        private static ImageFormat FilterIndexToImageFormat(int filterIndex)
-        {
-            ImageFormat format;
-
-            switch (filterIndex)
-            {
-                case 1:
-                    format = ImageFormat.Png;
-                    break;
-                case 2:
-                    format = ImageFormat.Gif;
-                    break;
-                case 3:
-                    format = ImageFormat.Jpeg;
-                    break;
-                case 4:
-                    format = ImageFormat.Bmp;
-                    break;
-                case 5:
-                    format = ImageFormat.Tiff;
-                    break;
-                case 6:
-                    format = ImageFormat.Wmf;
-                    break;
-                default:
-                    format = ImageFormat.Png;
-                    break;
-            }
-            return format;
-        }
 
         #endregion
     }
