@@ -71,7 +71,7 @@ app.MapGet("/api/portable/status", (WorkerProcess workers) => new
 {
     implementation = "portable-local-poc", os = RuntimeInformation.OSDescription,
     architecture = RuntimeInformation.ProcessArchitecture.ToString(), activeWorkerCount = workers.ActiveCount,
-    operations = Execution.Operations, chart = true, chartKinds = new[] { "curve" }, nativeGsl = false
+    operations = Execution.Operations, chart = true, chartKinds = new[] { "curve", "surface" }, nativeGsl = false
 });
 app.MapGet("/api/numerical-calculations/integral/list-methods", () => new[] { Execution.IntegralMethod });
 app.MapGet("/api/numerical-calculations/derivative/list-methods", () => new[] { Execution.DerivativeMethod });
@@ -107,7 +107,9 @@ static async Task<IResult> HandleRequest(HttpContext context, WorkerProcess work
         if (chart) request.Operation = "chart";
         Execution.Validate(request, chart);
         var reply = await workers.RunAsync(request, context.RequestAborted);
-        if (reply.Status == 200) return chart ? Results.Ok(reply.Curve) : Results.Ok(new { result = reply.Result });
+        if (reply.Status == 200)
+            return chart ? Results.Ok(reply.Surface is { } surface ? (object)surface : reply.Curve)
+                : Results.Ok(new { result = reply.Result });
         return Results.Problem(statusCode: reply.Status, title: chart ? "Chart generation failed." : "Execution failed.", detail: reply.Detail,
             extensions: reply.Diagnostics == null ? null : new Dictionary<string, object?> { ["diagnostics"] = reply.Diagnostics });
     }

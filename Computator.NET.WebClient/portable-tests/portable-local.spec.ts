@@ -28,7 +28,7 @@ test('the local application states its scope and calculates with changing inputs
   const status = await request.get('/api/portable/status');
   expect(status.ok()).toBeTruthy();
   const runtime = await status.json();
-  expect(runtime).toMatchObject({ implementation: 'portable-local-poc', chart: true, chartKinds: ['curve'], nativeGsl: false });
+  expect(runtime).toMatchObject({ implementation: 'portable-local-poc', chart: true, chartKinds: ['curve', 'surface'], nativeGsl: false });
   if (process.env.COMPUTATOR_EXPECTED_ARCHITECTURE)
     expect(runtime.architecture).toBe(process.env.COMPUTATOR_EXPECTED_ARCHITECTURE);
   await replaceCode(page, 'expressionTextArea', '2x+3');
@@ -135,7 +135,7 @@ test('real curves use unsaved functions, overlay, pan and export through the act
   });
   await page.getByRole('link', { name: 'Chart', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Chart', exact: true })).toBeVisible();
-  await expect(page.getByLabel('3D surface quality')).toHaveCount(0);
+  await expect(page.getByLabel('3D surface quality')).toBeVisible();
   await replaceCode(page, 'expressionTextArea', 'Probe(x)');
   const first = await drawCurve(page, 'Probe(x)');
   expect(first.response.request().postDataJSON().customFunctions).toBe(definitions);
@@ -185,6 +185,41 @@ test('curve navigation preserves undefined views and can reset to a defined doma
   await expect(page.getByText('No finite samples in this view.', { exact: true })).toBeVisible();
   const reset = await drawCurve(page, 'sqrt(x)', 'Reset view');
   expect(reset.data.finiteSamples).toBeGreaterThan(0);
+});
+
+test('portable f(x,y) surface uses the real worker and existing 3D renderer', async ({ page }) => {
+  const definitions = 'static real SurfaceProbe(real x, real y) { return x*x+y*y+3; }';
+  await page.goto('/custom-functions');
+  await page.getByLabel('Import .tslf', { exact: true }).setInputFiles({
+    name: 'surface-functions.tslf', mimeType: 'text/plain', buffer: Buffer.from(definitions)
+  });
+  await page.getByRole('link', { name: 'Chart', exact: true }).click();
+  await expect(page.getByLabel('3D surface quality')).toBeVisible();
+  await page.getByLabel('3D surface quality').selectOption('33');
+  await replaceCode(page, 'expressionTextArea', 'SurfaceProbe(x,y)');
+  const responsePromise = page.waitForResponse(response =>
+    new URL(response.url()).pathname === '/api/v2/chart' &&
+    response.request().method() === 'POST' && response.request().postDataJSON().expression === 'SurfaceProbe(x,y)');
+  await page.getByRole('button', { name: 'Draw chart!', exact: true }).click();
+  const response = await responsePromise;
+  expect(response.status(), await response.text()).toBe(200);
+  const sent = response.request().postDataJSON();
+  expect(sent.customFunctions).toBe(definitions);
+  expect(sent.gridSize).toBe(33);
+  const body = await response.json();
+  expect(body.kind).toBe('surface');
+  expect(body.x).toHaveLength(33);
+  expect(body.y).toHaveLength(33);
+  expect(body.z).toHaveLength(33);
+  expect(body.finiteSamples).toBe(1089);
+  expect(body.missingSamples).toBe(0);
+  expect(body.z[16][16]).toBeCloseTo(3, 12);
+  expect(body.z[0][0]).toBeCloseTo(53, 12);
+  await expect(page.getByTestId('surface-chart')).toBeVisible();
+  await expect(page.getByText('Rendered expression:', { exact: false })).toContainText('SurfaceProbe(x,y)');
+  // Software-only browser runners may not provide a WebGL context.
+  // The production renderer must either initialize or report an explicit error.
+  await expect(page.locator('[role="status"]').filter({ hasText: /Interactive surface ready|3D rendering failed/ })).toBeVisible();
 });
 
 test('unsupported curves preserve the last chart and compilation failures recover', async ({ page }) => {

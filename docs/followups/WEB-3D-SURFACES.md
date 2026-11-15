@@ -6,7 +6,8 @@ through the Windows-backed mathematical API. The separate native Mono software
 renderer is described in [MONO-DESKTOP.md](../MONO-DESKTOP.md); its Linux/X11
 acceptance does not establish macOS GUI support. The independent
 [portable local preview](../MACOS-APPLICATION.md) has its own reduced backend
-and currently returns an explicit unsupported response for charts.
+and now supports real f(x) curves (in #363) and bounded real f(x,y) height
+surfaces through the existing browser Plotly viewer (in its stacked follow-up).
 
 ## Rendering and evaluation contract
 
@@ -87,8 +88,9 @@ permits the skipped 3D test.
 - **Standalone non-Windows web hosting:** the full Web API still depends on
   Windows UI/chart assemblies and native catalogs. The portable local preview
   runs independently on Linux/macOS for its documented calculation/script
-  subset and [real f(x) curves](../MACOS-APPLICATION.md#real-function-charts).
-  It does not yet supply complex/3D charts or the full native catalog.
+  subset, [real f(x) curves](../MACOS-APPLICATION.md#real-function-charts)
+  and [explicit f(x,y) height surfaces](../MACOS-APPLICATION.md#real-fxy-height-surfaces).
+  It still lacks complex/implicit charting and the full native catalog.
 - **Other browser chart workflows:** implicit 3D equations, scripted point
   series, desktop autoscale variants and full property/print dialogs remain
   separate work. Accumulated real overlays, zoom/pan, complex contour/color

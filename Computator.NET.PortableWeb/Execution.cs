@@ -25,11 +25,13 @@ internal sealed class ExecutionRequest
     public double YMin { get; set; } = -5;
     public double YMax { get; set; } = 5;
     public int CurveSamples { get; set; } = 1025;
+    public int GridSize { get; set; } = 65;
     public bool AllowEmpty2D { get; set; }
 }
 
 internal sealed record WorkerReply(int Status, string? Result = null, string? Detail = null,
-    IReadOnlyList<EngineDiagnostic>? Diagnostics = null, CurveSamples? Curve = null);
+    IReadOnlyList<EngineDiagnostic>? Diagnostics = null, CurveSamples? Curve = null,
+    SurfaceGrid? Surface = null);
 
 internal static class Execution
 {
@@ -57,6 +59,7 @@ internal static class Execution
         {
             case "chart":
                 CurveSampler.Validate(request.XMin, request.XMax, request.YMin, request.YMax, request.CurveSamples);
+                SurfaceSampler.Validate(request.XMin, request.XMax, request.YMin, request.YMax, request.GridSize);
                 break;
             case "integral":
                 RequireMethod(request, IntegralMethod);
@@ -95,11 +98,32 @@ internal static class Execution
             var engine = new PortableEngine();
             if (request.Operation == "chart")
             {
-                var curve = engine.SampleCurve(request.Expression, request.XMin, request.XMax,
-                    request.YMin, request.YMax, request.CurveSamples, request.CustomFunctions);
-                return curve.FiniteSamples == 0 && !request.AllowEmpty2D
-                    ? new WorkerReply(422, Detail: "No finite curve samples in this chart area.")
-                    : new WorkerReply(200, Curve: curve);
+                try
+                {
+                    var curve = engine.SampleCurve(request.Expression, request.XMin, request.XMax,
+                        request.YMin, request.YMax, request.CurveSamples, request.CustomFunctions);
+                    return curve.FiniteSamples == 0 && !request.AllowEmpty2D
+                        ? new WorkerReply(422, Detail: "No finite curve samples in this chart area.")
+                        : new WorkerReply(200, Curve: curve);
+                }
+                catch (EngineCompilationException curveError)
+                {
+                    // Only a failed real f(x) compilation can select f(x,y).
+                    // Never re-evaluate user code after a runtime failure.
+                    try
+                    {
+                        var surface = engine.SampleSurface(request.Expression, request.XMin, request.XMax,
+                            request.YMin, request.YMax, request.GridSize, request.CustomFunctions);
+                        return surface.FiniteSamples < 3
+                            ? new WorkerReply(422, Detail: "The selected domain contains too few finite surface samples.")
+                            : new WorkerReply(200, Surface: surface);
+                    }
+                    catch (EngineCompilationException surfaceError)
+                    {
+                        throw new EngineCompilationException(curveError.Diagnostics.Concat(surfaceError.Diagnostics)
+                            .Distinct().ToArray());
+                    }
+                }
             }
             var result = request.Operation switch
             {
@@ -115,7 +139,7 @@ internal static class Execution
         catch (EngineCompilationException exception)
         {
             var scope = request.Operation == "chart"
-                ? "Portable charts support explicit real f(x) expressions. Complex functions, f(x,y) surfaces and implicit equations are unavailable.\n"
+                ? "Portable charts support explicit real f(x) curves or f(x,y) surfaces. Complex functions and implicit equations are unavailable.\n"
                 : "";
             return new WorkerReply(400, Detail: scope + exception.Message, Diagnostics: exception.Diagnostics);
         }

@@ -160,6 +160,23 @@ def main() -> int:
         if code != 200:
             require(body.get('detail'), f'Missing chart problem details: {body}')
             return body
+        if body.get('kind') == 'surface':
+            x, y, z = body.get('x'), body.get('y'), body.get('z')
+            require(isinstance(x, list) and isinstance(y, list) and isinstance(z, list) and
+                    9 <= len(x) <= 129 and len(x) == len(y) == len(z),
+                    'Unexpected surface shape.')
+            for axis in (x, y):
+                require(all(isinstance(v, (int, float)) and math.isfinite(v) for v in axis) and
+                        all(a < b for a, b in zip(axis, axis[1:])), 'Surface axes must be finite and increasing.')
+            require(all(isinstance(row, list) and len(row) == len(x) for row in z),
+                    'Surface must have row-major square samples.')
+            values = [v for row in z for v in row if v is not None]
+            require(all(isinstance(v, (int, float)) and math.isfinite(v) for v in values),
+                    'Surface heights must be finite or null.')
+            require(len(values) >= 3 and body.get('finiteSamples') == len(values) and
+                    body.get('missingSamples') == len(x) * len(y) - len(values),
+                    'Surface count metadata does not match actual samples.')
+            return body
         require(body.get('kind') == 'curve', f'Expected numerical curve data: {body}')
         x, y = body.get('x'), body.get('y')
         require(isinstance(x, list) and isinstance(y, list) and len(x) == len(y) and 33 <= len(x) <= 8193,
@@ -193,8 +210,8 @@ def main() -> int:
         nonlocal runtime
         runtime = status()
         require(runtime.get('implementation') == 'portable-local-poc', f'Unexpected implementation: {runtime}')
-        require(runtime.get('chart') is True and runtime.get('chartKinds') == ['curve'] and runtime.get('nativeGsl') is False,
-                'The portable host must advertise only real curves and keep the native GSL boundary explicit.')
+        require(runtime.get('chart') is True and runtime.get('chartKinds') == ['curve', 'surface'] and runtime.get('nativeGsl') is False,
+                'Portable charts must advertise curves and explicit 3D height surfaces without native GSL.')
         require(set(runtime.get('operations', [])) == {'calculate', 'script', 'integral', 'derivative', 'function-root'},
                 f'Unexpected advertised operation set: {runtime}')
         if args.expected_architecture:
@@ -273,6 +290,34 @@ def main() -> int:
                         {'xMin': 1e16, 'xMax': 1e16 + 32}, {'yMin': -1e308, 'yMax': 1e308}):
             chart({'expression': 'x', **area, **changes}, 400)
 
+    def height_surfaces() -> None:
+        area = {'xMin': -5, 'xMax': 5, 'yMin': -5, 'yMax': 5, 'gridSize': 33}
+        surface = chart({'expression': 'x²+y²', **area})
+        require(len(surface['x']) == 33 and len(surface['y']) == 33 and len(surface['z']) == 33,
+                'Portable f(x,y) grid has the wrong shape.')
+        require(surface['z'][0][0] == 50 and surface['z'][16][16] == 0 and
+                surface['z'][32][32] == 50 and surface['finiteSamples'] == 1089,
+                'Portable paraboloid has incorrect numerical samples.')
+        require(surface['x'][0] == -5 and surface['x'][-1] == 5 and
+                surface['y'][0] == -5 and surface['y'][-1] == 5,
+                'Surface axes must use the requested bounds.')
+        definitions = 'static real SurfaceProbe(real x, real y) { return x-y+7; }'
+        custom = chart({'expression': 'SurfaceProbe(x,y)', 'customFunctions': definitions, **area})
+        require(custom['z'][0][0] == 7 and custom['z'][0][-1] == 17,
+                'Unsaved custom f(x,y) definitions did not reach the portable chart worker.')
+        chart({'expression': 'SurfaceProbe(x,y)', **area}, 400)
+        holes = chart({'expression': 'sqrt(x)+y', **area})
+        require(holes['missingSamples'] > 0 and holes['finiteSamples'] > 3 and
+                holes['z'][0][0] is None and holes['z'][16][16] == 0,
+                'Non-finite height fields must retain explicit null gaps.')
+        chart({'expression': 'sqrt(-1)+y', **area}, 422)
+        maximum = chart({'expression': 'x+y', **area, 'gridSize': 129})
+        require(maximum['finiteSamples'] == 129 * 129 and maximum['z'][0][0] == -10 and
+                maximum['z'][-1][-1] == 10, 'Maximum bounded surface grid was truncated.')
+        for overrides in ({'gridSize': 8}, {'gridSize': 130},
+                          {'xMin': 1e16, 'xMax': 1e16 + 32}):
+            chart({'expression': 'x+y', **area, **overrides}, 400)
+
     def local_boundary() -> None:
         payload = {'operation': 'calculate', 'expression': '2+2'}
         for endpoint in ('/api/v2/execute', '/api/v2/chart'):
@@ -303,7 +348,7 @@ def main() -> int:
         number(payload, 4)
 
     def unsupported_and_recovery() -> None:
-        for expression in ('z*z', 'x+y'):
+        for expression in ('z*z',):
             failure = chart({'expression': expression}, 400)
             require('real f(x)' in failure['detail'] and failure.get('diagnostics'),
                     'Unsupported chart input must retain the scope and compilation diagnostics.')
@@ -491,6 +536,7 @@ def main() -> int:
             run('scripts, UTF-8 and request-local unsaved functions', custom_functions)
             run('portable numerical methods with known answers', numerical_methods)
             run('real curve samples, custom functions, gaps and viewport validation', real_curves)
+            run('cross-platform f(x,y) surfaces, custom functions, holes and limits', height_surfaces)
             run('local HTTP origin, host and source boundaries', local_boundary)
             run('explicit unsupported operations and error recovery', unsupported_and_recovery)
             run('execution deadline reaps worker and recovers', timeout_and_recovery)
