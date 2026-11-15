@@ -155,6 +155,7 @@
     <File Path="build/mono/SmokeTests/EditorSearchTests.cs" />
     <File Path="build/mono/SmokeTests/Computator.NET.Mono.SmokeTests.csproj" />
     <File Path="build/mono/SmokeTests/ComplexChartUiAcceptance.cs" />
+    <File Path="build/mono/SmokeTests/ChartExportTests.cs" />
     <File Path="build/mono/SmokeTests/MonoAutocompleteTests.cs" />
     <File Path="build/mono/SmokeTests/MonoNumericLayoutTests.cs" />
     <File Path="build/mono/SmokeTests/MonoNumericParsingTests.cs" />

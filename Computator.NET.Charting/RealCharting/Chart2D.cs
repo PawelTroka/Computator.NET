@@ -371,6 +371,12 @@ namespace Computator.NET.Charting.RealCharting
             Printing.PrintPreview();
         }
 
+        public new void SaveImage(string path, ImageFormat imageFormat)
+        {
+            imageFormat = ChartImageExport.RequireSupportedFormat(this, imageFormat);
+            base.SaveImage(path, imageFormat);
+        }
+
         //exp(x/20)*(sin(1/2*x)+cos(3*x)+0.2*sin(4*x)*cos(40*x))
 
         public Image GetImage(int width, int height)

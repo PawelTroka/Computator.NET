@@ -239,7 +239,9 @@ of real work.
 - Draw/export 2D and complex charts. Run
   `plot(new System.Func<double,double,double>[] { (x,y) => x*x+y*y });`
   and `plot(new double[] {0,1,2}, new double[] {0,1,0}, new double[] {0,1,4});`.
-  Rotate/pan/zoom the 3D plot, resize it and compare its export.
+  Rotate/pan/zoom the 3D plot, resize it and compare its export. Check PNG,
+  GIF, JPEG, BMP and TIFF output from each chart type; each file must open in
+  an image viewer as the selected format.
 - Test native file dialogs, Unicode filenames/text, clipboard, the installed
   input method, keyboard shortcuts, accessibility, Retina/other monitors and a
   real printer. Keep prolonged-use/memory observations with the exact candidate.
@@ -271,6 +273,13 @@ plot commands, exact decimal-input rounding and numeric-control font layout.
 The layout regression shows the real chart-bounds view and checks all four
 numeric controls against their actual font heights at 9.75, 12 and 16 points,
 including repeated layout and scaling, to catch clipped digits.
+
+Nineteen export cases decode PNG, GIF, JPEG, BMP and TIFF files from the real,
+complex and 3D charts, check that unsupported formats leave destination files
+unchanged, and verify localized format choices after changing chart type.
+Mono does not offer WMF/EMF export: libgdiplus cannot encode these chart
+metafiles. Windows real charts retain vector export as correctly named EMF
+files; complex and 3D charts offer the five raster formats on both platforms.
 
 Mono's BCL and UTF8 parser can
 round `8.88024331` one ULP high. The application's fast literal path and

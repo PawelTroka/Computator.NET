@@ -510,7 +510,16 @@ namespace Computator.NET.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Png Image (.png)|*.png|Gif Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|Bitmap Image (.bmp)|*.bmp|Tiff Image (.tiff)|*.tiff|Wmf Image (.wmf)|*.wmf.
+        ///   Looks up a localized string similar to EMF Image (.emf)|*.emf.
+        /// </summary>
+        public static string Emf_Image_Filter {
+            get {
+                return ResourceManager.GetString("Emf_Image_Filter", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Png Image (.png)|*.png|Gif Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|Bitmap Image (.bmp)|*.bmp|Tiff Image (.tiff)|*.tiff.
         /// </summary>
         public static string Image_Filter {
             get {

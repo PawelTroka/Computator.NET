@@ -308,7 +308,7 @@ namespace Computator.NET.Charting.Chart3D.UI
         public void SaveImage(string path, ImageFormat imageFormat)
         {
             if (string.IsNullOrWhiteSpace(path)) throw new ArgumentException("An image path is required.", nameof(path));
-            if (imageFormat == null) throw new ArgumentNullException(nameof(imageFormat));
+            imageFormat = ChartImageExport.RequireSupportedFormat(this, imageFormat);
             var width = Math.Max(1, ClientSize.Width);
             var height = Math.Max(1, ClientSize.Height);
             using (var image = GetImage(width, height))

@@ -294,8 +294,11 @@
   <data name="Close_tabs_to_the_left" xml:space="preserve">
     <value>Close tabs to the left</value>
   </data>
+  <data name="Emf_Image_Filter" xml:space="preserve">
+    <value>EMF Image (.emf)|*.emf</value>
+  </data>
   <data name="Image_Filter" xml:space="preserve">
-    <value>Png Image (.png)|*.png|Gif Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|Bitmap Image (.bmp)|*.bmp|Tiff Image (.tiff)|*.tiff|Wmf Image (.wmf)|*.wmf</value>
+    <value>Png Image (.png)|*.png|Gif Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|Bitmap Image (.bmp)|*.bmp|Tiff Image (.tiff)|*.tiff</value>
   </data>
   <data name="AddTab_NewFile" xml:space="preserve">
     <value>NewFile</value>

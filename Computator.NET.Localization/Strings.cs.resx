@@ -293,8 +293,11 @@
   <data name="Close_tabs_to_the_left" xml:space="preserve">
     <value>Zavřít karty vlevo</value>
   </data>
+  <data name="Emf_Image_Filter" xml:space="preserve">
+    <value>Obrázek EMF (.emf)|*.emf</value>
+  </data>
   <data name="Image_Filter" xml:space="preserve">
-    <value>Obrázek PNG (.png)|*.png|Obrázek GIF (.gif)|*.gif|Obrázek JPEG (.jpeg)|*.jpeg|Bitmapový obrázek (.bmp)|*.bmp|Obrázek TIFF (.tiff)|*.tiff|Obrázek WMF (.wmf)|*.wmf</value>
+    <value>Obrázek PNG (.png)|*.png|Obrázek GIF (.gif)|*.gif|Obrázek JPEG (.jpeg)|*.jpeg|Bitmapový obrázek (.bmp)|*.bmp|Obrázek TIFF (.tiff)|*.tiff</value>
   </data>
   <data name="AddTab_NewFile" xml:space="preserve">
     <value>NovýSoubor</value>

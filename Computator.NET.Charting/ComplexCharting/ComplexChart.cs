@@ -421,6 +421,7 @@ namespace Computator.NET.Charting.ComplexCharting
 
         public void SaveImage(string path, ImageFormat imageFormat)
         {
+            imageFormat = ChartImageExport.RequireSupportedFormat(this, imageFormat);
             if (image == null)
                 return;
 
