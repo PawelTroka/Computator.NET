@@ -20,13 +20,14 @@ public class AccessPowerTests
             Is.EqualTo(expected).Within(1e-12));
 
     [TestCase("z.Real²+z.Imaginary²", 25, 0)]
-    [TestCase("z.Realʸ", 27, 0)]
+    [TestCase("z.Realᵃ", 27, 0)]
     [TestCase("z.Real²+z.Imaginary²+z", 28, 4)]
     [TestCase("2z.Real²", 18, 0)]
     public void ComplexInputComponentsKeepTheirReceivers(string expression, double real, double imaginary)
     {
+        // Use a non-coordinate field: complex x/y are the components of z.
         var result = new PortableEngine().EvaluateComplex(expression, new Complex(3, 4),
-            "public static real y = 3;");
+            "public static real a = 3;");
         NUnit.Framework.Assert.That((result - new Complex(real, imaginary)).Magnitude, Is.LessThan(1e-12));
     }
 

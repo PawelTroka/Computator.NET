@@ -49,14 +49,29 @@ function Assert-Number {
     $actual = [double]::Parse($value.result, [Globalization.CultureInfo]::InvariantCulture)
     if (![double]::IsFinite($actual) -or [Math]::Abs($actual - $Expected) -gt $Tolerance) { throw "Incorrect numerical CLI result: $actual, expected $Expected." }
 }
+function Assert-Complex {
+    param([string[]]$Arguments, [double]$Real, [double]$Imaginary)
+    $value = Invoke-Cli -Arguments $Arguments
+    $parts = $value.result.Trim('<>() ').Replace(';', ',').Split(',')
+    if ($parts.Count -ne 2 -or
+        [double]::Parse($parts[0], [Globalization.CultureInfo]::InvariantCulture) -ne $Real -or
+        [double]::Parse($parts[1], [Globalization.CultureInfo]::InvariantCulture) -ne $Imaginary) {
+        throw "Incorrect complex CLI result: $($value.result), expected $Real + $Imaginary i."
+    }
+}
 $temp = Join-Path ([IO.Path]::GetTempPath()) ('Computator-Portable-' + [Guid]::NewGuid().ToString('N'))
 New-Item -ItemType Directory -Path $temp | Out-Null
 try {
     Assert-Number -Arguments @('calculate','--expression','2x+3','--x','7') -Expected 17
     Assert-Number -Arguments @('calculate','--expression','x/y','--x','-7.5','--y','2') -Expected -3.75
+    # Match desktop complex coordinates: x = Re(z), y = Im(z).
+    Assert-Complex -Arguments @('complex','--expression','x+y*i','--real','3','--imaginary','4') -Real 3 -Imaginary 4
+    Assert-Complex -Arguments @('complex','--expression','z+x-y','--real','-2','--imaginary','5') -Real -9 -Imaginary 5
+    Assert-Complex -Arguments @('complex','--expression','x/y+i','--real','3','--imaginary','4') -Real 0.75 -Imaginary 1
     $functions = Join-Path $temp 'Żółć functions.tslf'
     $scriptFile = Join-Path $temp 'script λ.tsl'
     [IO.File]::WriteAllText($functions, 'static real Probe(real x) { return x/2; }', [Text.UTF8Encoding]::new($true))
+    Assert-Complex -Arguments @('complex','--expression','Probe(x)+Probe(y)*i','--real','-2','--imaginary','5','--functions',$functions) -Real -1 -Imaginary 2.5
     [IO.File]::WriteAllText($scriptFile, 'write(Probe(6)); write("zażółć λ");', [Text.UTF8Encoding]::new($true))
     $value = Invoke-Cli -Arguments @('script','--file',$scriptFile,'--functions',$functions)
     if ($value.result -ne '3zażółć λ') { throw 'Published portable UTF-8 document execution failed.' }

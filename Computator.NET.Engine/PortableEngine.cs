@@ -26,7 +26,7 @@ public sealed partial class PortableEngine
     public Complex EvaluateComplex(string expression, Complex z, string customFunctions = "")
     {
         using var program = Compile<Func<Complex, Complex>>(expression, customFunctions,
-            "public static complex Run(complex z) { return\n#line 1 \"expression.tsl\"\n", ";\n#line default\n}");
+            "public static complex Run(complex z) { double x = z.Real; double y = z.Imaginary; return\n#line 1 \"expression.tsl\"\n", ";\n#line default\n}");
         return program.Invoke(z);
     }
     public string ExecuteScript(string script, string customFunctions = "")

@@ -36,13 +36,24 @@ Expected results are `17`, approximately `9`, approximately `6` and approximatel
 | Command | Required input | Optional input / defaults |
 | --- | --- | --- |
 | `calculate` | `--expression <TSL>` | `--x 0`, `--y 0` |
-| `complex` | `--expression <TSL>` using `z` | `--real 0`, `--imaginary 0` |
+| `complex` | `--expression <TSL>` using `z`, or its real coordinates `x` and `y` | `--real 0`, `--imaginary 0` |
 | `script` | `--file <file.tsl>` | Use `write(...)` to produce result text |
 | `integrate` | `--expression <TSL> --a <number> --b <number>` | `--steps 10000`; Simpson's method requires an even count from 2 to 1,000,000 |
 | `differentiate` | `--expression <TSL> --x <number>` | `--order 1`; supported orders 1 through 10 |
 | `root` | `--expression <TSL> --a <number> --b <number>` | `--tolerance 1e-8`, `--iterations 10000`; Brent's method requires a root bracket |
 
 Every command accepts `--functions <file.tslf>`. Numeric options use an invariant decimal point and must be finite. Integration and root bounds must satisfy `a < b`; root tolerance must be greater than 0 and at most 1, with 1 through 1,000,000 iterations. Invalid, duplicated, incomplete or command-inapplicable options are rejected. Use `--help` for the CLI's authoritative option summary; [Program.cs](../../Computator.NET.Cli/Program.cs) and [PortableEngine.Science.cs](../../Computator.NET.Engine/PortableEngine.Science.cs) define these contracts.
+
+### Complex coordinates
+
+Complex expressions expose `z`, `x = z.Real` and `y = z.Imaginary`, matching the desktop evaluator. For example:
+
+```sh
+dotnet artifacts/portable/computator.dll complex --expression 'x+y*i' --real 3 --imaginary 4
+dotnet artifacts/portable/computator.dll complex --expression 'z+x-y' --real 3 --imaginary 4
+```
+
+These return the complex values 3 + 4i and 2 + 4i. The portable browser calculator uses the same coordinates from its x/y inputs. In the expression, these coordinates take precedence over custom fields named `x` or `y`, as on desktop. Custom functions keep their own parameter, local-variable and field scopes.
 
 ### Custom functions and scripts
 
