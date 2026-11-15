@@ -268,6 +268,9 @@ Use the final candidate's fresh workflow reports and archive hashes for release.
 
 The current suite requires at least 55 cases, including restored compiled 3D
 plot commands, exact decimal-input rounding and numeric-control font layout.
+Scripts also verify configured Unix working directories containing quotes,
+backslashes, line breaks and Unicode in both precompiled and generated built-in
+modes, including relative file reads/writes and custom functions.
 The layout regression shows the real chart-bounds view and checks all four
 numeric controls against their actual font heights at 9.75, 12 and 16 points,
 including repeated layout and scaling, to catch clipped digits.
