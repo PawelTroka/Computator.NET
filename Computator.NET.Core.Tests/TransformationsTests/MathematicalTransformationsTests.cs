@@ -65,6 +65,30 @@ namespace Computator.NET.Core.Tests.TransformationsTests
             AssertClose(restored, samples);
         }
 
+        [TestCase("FFT", 1)]
+        [TestCase("IFFT", 1)]
+        [TestCase("FFT", 2)]
+        [TestCase("IFFT", 2)]
+        [TestCase("FFT", 5)]
+        [TestCase("IFFT", 5)]
+        public void ComplexFourierTransformsKeepTheInputBufferUnmodified(string transform, int length)
+        {
+            var samples = Samples(length);
+            var original = (Complex[])samples.Clone();
+            var expected = (Complex[])samples.Clone();
+            if (transform == "FFT")
+                MathNet.Numerics.IntegralTransforms.Fourier.Forward(expected);
+            else
+                MathNet.Numerics.IntegralTransforms.Fourier.Inverse(expected);
+
+            var actual = MathematicalTransformations.Transform(samples, transform);
+
+            AssertClose(actual, expected);
+            NUnit.Framework.Assert.That(samples, Is.EqualTo(original),
+                "The original data must be reusable for subsequent transformations.");
+            NUnit.Framework.Assert.That(actual, Is.Not.SameAs(samples));
+        }
+
         [Test]
         public void ComplexCosineTransformPreservesTheTwoColumnConvention()
         {
