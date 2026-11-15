@@ -216,6 +216,18 @@ starting the desktop. The `.app` can be moved as a whole. Rewritten dylibs carry
 local ad-hoc integrity signatures; these do not identify an owner or establish
 Gatekeeper/notarization acceptance.
 
+From a terminal, pass a `.tsl` script or `.tslf` custom-functions document as the
+first argument to open it in its workspace. Relative paths refer to the terminal's
+current directory, including when the application bundle is elsewhere:
+
+```sh
+/Applications/Computator.NET.app/Contents/MacOS/Computator.NET "examples/my script.tsl"
+```
+
+Quote paths containing spaces. For a document name starting with `--`, use an
+explicit relative path such as `./--example.tsl`. This terminal entry point does
+not register Finder document associations.
+
 ### Hands-on acceptance on an Apple Silicon Mac
 
 Use the accepted `osx-arm64` candidate on an M1/M2 or newer Mac. Record the

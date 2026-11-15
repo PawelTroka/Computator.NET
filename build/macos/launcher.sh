@@ -49,6 +49,13 @@ if [[ -z ${DISPLAY:-} ]]; then
     done
 fi
 [[ -n ${DISPLAY:-} ]] && /opt/X11/bin/xdpyinfo >/dev/null 2>&1 || fail 'No authenticated XQuartz display is available. Log out and log back in after installing XQuartz, then retry.'
+# The managed document handler resolves its first argument against the child
+# process cwd. Keep a caller-relative document bound to the caller's directory
+# before selecting the application directory for Mono's runtime dependencies.
+case "${1:-}" in
+    /*|--*) ;;
+    *.[tT][sS][lL]|*.[tT][sS][lL][fF]) set -- "$PWD/$1" "${@:2}" ;;
+esac
 cd "$resources/app"
 # The protected system bash may discard inherited DYLD_* variables. Enable only
 # this explicit diagnostic after shell startup, for the actual GUI child alone.
