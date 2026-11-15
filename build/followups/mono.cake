@@ -26,8 +26,16 @@ Task("Mono-Validate")
         Arguments = new ProcessArgumentBuilder().AppendQuoted("build/mono/validate.sh").Append(configuration).Append("--no-build")
     }));
 
+Task("Mono-Mac-Process-Contracts")
+    .Description("POSIX: verify bounded native process-group cleanup without a display.")
+    .Does(() => CheckedProcess("python3", new ProcessSettings
+    {
+        Arguments = new ProcessArgumentBuilder().AppendQuoted("build/macos/test_run_bounded.py")
+    }));
+
 Task("Mono-Mac-Prepare")
     .Description("macOS: prepare the pinned private X11 drawing stack without editing global Mono configuration.")
+    .IsDependentOn("Mono-Mac-Process-Contracts")
     .Does(() =>
 {
     if (!System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.OSX))

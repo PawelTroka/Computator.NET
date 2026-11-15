@@ -217,6 +217,7 @@
     <File Path="build/macos/native-dependencies.json" />
     <File Path="build/macos/prepare.sh" />
     <File Path="build/macos/run-bounded.py" />
+    <File Path="build/macos/test_run_bounded.py" />
     <File Path="build/macos/start-display.sh" />
     <File Path="build/macos/stop-display.sh" />
     <File Path="build/macos/validate.sh" />

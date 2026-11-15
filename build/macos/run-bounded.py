@@ -1,9 +1,10 @@
-"""Bound native GUI processes and reap only the process group we launch."""
+"""Bound native GUI commands and terminate only the process group we launch."""
 import argparse
 import os
 import signal
 import subprocess
 import sys
+import time
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--seconds", type=int, required=True)
@@ -30,9 +31,24 @@ finally:
         os.killpg(process.pid, signal.SIGTERM)
     except ProcessLookupError:
         pass
-    try:
-        process.wait(timeout=5)
-    except subprocess.TimeoutExpired:
-        os.killpg(process.pid, signal.SIGKILL)
-        process.wait()
+    else:
+        # The leader can exit before a descendant which ignores SIGTERM. Waiting
+        # only for that leader then leaves the descendant (and its output pipes)
+        # alive. Apply the grace period to the owned group instead.
+        deadline = time.monotonic() + 5
+        while True:
+            process.poll()  # Reap an exited leader before probing the group.
+            try:
+                os.killpg(process.pid, 0)
+            except ProcessLookupError:
+                break  # Never signal this numeric group again after it vanishes.
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                try:
+                    os.killpg(process.pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass  # The last member can exit between the probe and kill.
+                break
+            time.sleep(min(.05, remaining))
+    process.wait(timeout=5)
 sys.exit(result)
