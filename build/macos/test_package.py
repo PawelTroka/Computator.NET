@@ -14,6 +14,10 @@ import tempfile
 import unittest
 from unittest import mock
 import zipfile
+import shlex
+import shutil
+import signal
+import time
 
 
 def module(name,path):
@@ -25,6 +29,203 @@ def module(name,path):
 
 mac=module('mac_package',Path(__file__).with_name('package.py'))
 common=module('common_package',Path(__file__).parents[1]/'mono/package.py')
+
+
+@unittest.skipUnless(os.name == 'posix' and shutil.which('bash'), 'Runs the Bash launcher and sends process signals.')
+class MacLauncherLifetimeContracts(unittest.TestCase):
+    """Run the complete launcher with Mono and macOS prerequisites at process boundaries."""
+
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory(prefix='computator-mac-lifetime-')
+        self.addCleanup(temporary.cleanup)
+        self.base = Path(temporary.name).resolve()
+        self.resources = self.base / 'application with spaces.app/Contents/Resources'
+        (self.resources / 'app').mkdir(parents=True)
+        self.launcher = self.resources.parent / 'MacOS/Computator.NET'
+        self.launcher.parent.mkdir()
+        self.tools = self.base / 'tools'
+        self.tools.mkdir()
+        self.runtime = self.base / 'runtime'
+        self.runtime.mkdir()
+        self.trace = self.base / 'trace.jsonl'
+        self.stopping = self.base / 'stopping'
+        self.release = self.base / 'release'
+        self.stopped = self.base / 'stopped.json'
+        self.stdout = self.base / 'stdout'
+        self.stderr = self.base / 'stderr'
+
+        def executable(name, body):
+            path = self.tools / name
+            path.write_text('#!/bin/sh\n' + body, encoding='utf-8')
+            path.chmod(0o755)
+            return path
+
+        executable('uname', 'case "$1" in -s) echo Darwin;; -m) echo arm64;; *) exit 2;; esac\n')
+        replacements = {
+            '/opt/X11/bin/Xquartz': executable('Xquartz', 'exit 0\n'),
+            '/usr/sbin/pkgutil': executable('pkgutil', 'echo "version: 2.8.6"\n'),
+            '/opt/X11/bin/xdpyinfo': executable('xdpyinfo', 'exit 0\n'),
+            '/usr/bin/open': executable('open', 'exit 0\n'),
+            '/bin/launchctl': executable('launchctl', 'echo fixture:1\n'),
+        }
+        source = Path(__file__).with_name('launcher.sh').read_text(encoding='utf-8')
+        # Substitute only host prerequisites. Quoting, preflight, owned-process
+        # waits, signal traps, cwd selection and cleanup remain production code.
+        for original, replacement in replacements.items():
+            self.assertIn(original, source)
+            source = source.replace(original, shlex.quote(str(replacement)))
+        self.launcher.write_text(source, encoding='utf-8')
+        probe = self.tools / 'mono_probe.py'
+        probe.write_text('''import json, os, signal, sys, time
+from pathlib import Path
+arguments = sys.argv[1:]
+stage = 'display' if '--fixture-display' in arguments else 'prepare' if 'prepare' in arguments else 'verify' if 'verify' in arguments else 'application'
+configuration = (next(Path(os.environ['TMPDIR']).glob('computator-mac-launch.*/mono.config')) if stage == 'display'
+                 else Path(arguments[arguments.index('--config') + 1]))
+if stage == 'prepare':
+    configuration.write_text('<configuration/>')
+def stop(signum, frame):
+    signal.signal(signal.SIGTERM, signal.SIG_IGN)
+    Path(os.environ['COMPUTATOR_LIFETIME_STOPPING']).touch()
+    deadline = time.monotonic() + 8
+    while not Path(os.environ['COMPUTATOR_LIFETIME_RELEASE']).exists() and time.monotonic() < deadline:
+        time.sleep(0.01)
+    Path(os.environ['COMPUTATOR_LIFETIME_STOPPED']).write_text(json.dumps({'configurationExists': configuration.exists()}))
+    sys.exit(0)
+signal.signal(signal.SIGTERM, stop)
+with open(os.environ['COMPUTATOR_LIFETIME_TRACE'], 'a') as trace:
+    trace.write(json.dumps({'stage': stage, 'pid': os.getpid(), 'configuration': str(configuration), 'arguments': arguments}) + '\\n')
+if stage == 'application' and os.environ.get('COMPUTATOR_LIFETIME_READ_INPUT') == '1':
+    Path(os.environ['COMPUTATOR_LIFETIME_INPUT_RESULT']).write_text(sys.stdin.read())
+if stage == os.environ.get('COMPUTATOR_LIFETIME_BLOCK_STAGE'):
+    while True: time.sleep(1)
+if stage == os.environ.get('COMPUTATOR_LIFETIME_FAIL_STAGE'):
+    sys.exit(int(os.environ['COMPUTATOR_LIFETIME_EXIT_CODE']))
+if stage == 'verify':
+    Path(arguments[arguments.index('--report') + 1]).write_text('{"fixture":true}\\n')
+''', encoding='utf-8')
+        mono = executable('mono', 'exec ' + shlex.quote(sys.executable) + ' ' + shlex.quote(str(probe)) + ' "$@"\n')
+        executable('xdpyinfo', 'if [ "${COMPUTATOR_LIFETIME_BLOCK_STAGE:-}" = display ]; then\nexec ' +
+                   shlex.quote(sys.executable) + ' ' + shlex.quote(str(probe)) + ' --fixture-display\nfi\nexit 0\n')
+        self.environment = dict(os.environ, PATH=str(self.tools) + os.pathsep + os.environ.get('PATH', ''),
+                                TMPDIR=str(self.runtime), DISPLAY='fixture:1', COMPUTATOR_MONO=str(mono),
+                                COMPUTATOR_NONINTERACTIVE='1', COMPUTATOR_LIFETIME_TRACE=str(self.trace),
+                                COMPUTATOR_LIFETIME_STOPPING=str(self.stopping),
+                                COMPUTATOR_LIFETIME_RELEASE=str(self.release),
+                                COMPUTATOR_LIFETIME_STOPPED=str(self.stopped))
+        self.environment.pop('BASH_ENV', None)
+        self.environment.pop('ENV', None)
+
+    def launch(self, *arguments, input_text=None, **environment):
+        output = self.stdout.open('w')
+        errors = self.stderr.open('w')
+        self.addCleanup(output.close)
+        self.addCleanup(errors.close)
+        standard_input = None
+        if input_text is not None:
+            source = self.base / 'stdin'
+            source.write_text(input_text, encoding='utf-8')
+            standard_input = source.open('r', encoding='utf-8')
+            self.addCleanup(standard_input.close)
+        process = subprocess.Popen([shutil.which('bash'), str(self.launcher), *arguments],
+                                   env=dict(self.environment, **environment), stdout=output, stderr=errors,
+                                   stdin=standard_input, start_new_session=True)
+        def cleanup():
+            # This isolated session contains only the fixture launcher/stubs.
+            # Also clean up on a regression where the launcher orphaned its child.
+            try: os.killpg(process.pid, signal.SIGKILL)
+            except ProcessLookupError: pass
+            process.wait(timeout=5)
+        self.addCleanup(cleanup)
+        return process
+
+    def invocations(self):
+        return [json.loads(line) for line in self.trace.read_text().splitlines()] if self.trace.exists() else []
+
+    def wait_for(self, condition, message):
+        deadline = time.monotonic() + 3
+        while time.monotonic() < deadline:
+            if condition(): return
+            time.sleep(0.01)
+        self.fail(message + '\n' + self.stderr.read_text())
+
+    def assert_cleaned(self):
+        self.assertEqual([], list(self.runtime.iterdir()), 'Temporary configuration must be cleaned after child exit.')
+
+    def cancel(self, stage, signum=signal.SIGTERM, *, preflight=False, repeated=False):
+        process = self.launch(*(['--preflight'] if preflight else []), COMPUTATOR_LIFETIME_BLOCK_STAGE=stage,
+                              DISPLAY='' if stage == 'display' else 'fixture:1')
+        self.wait_for(lambda: any(entry['stage'] == stage for entry in self.invocations()), 'Requested stage did not start.')
+        child = self.invocations()[-1]
+        process.send_signal(signum)
+        self.wait_for(self.stopping.exists, 'Cancellation did not reach the owned Mono child.')
+        self.assertIsNone(process.poll(), 'Launcher must reap the child before exiting.')
+        self.assertTrue(Path(child['configuration']).is_file(), 'Configuration was removed while Mono was still running.')
+        if repeated:
+            process.send_signal(signum)
+            process.send_signal(signum)
+            self.assertIsNone(process.poll(), 'A repeated signal must not bypass child cleanup.')
+        self.release.touch()
+        self.assertEqual(128 + signum, process.wait(timeout=5), self.stderr.read_text())
+        self.assertEqual({'configurationExists': True}, json.loads(self.stopped.read_text()))
+        with self.assertRaises(ProcessLookupError): os.kill(child['pid'], 0)
+        stages = ['prepare', 'verify', 'display' if stage == 'display' else 'application']
+        expected = stages[:stages.index(stage) + 1]
+        self.assertEqual(expected, [entry['stage'] for entry in self.invocations()], 'Cancellation must not start later stages.')
+        self.assertNotIn('preflight failed', self.stderr.read_text(), 'Cancellation is not a failed prerequisite.')
+        self.assert_cleaned()
+
+    def test_terminate_prepare(self): self.cancel('prepare')
+    def test_terminate_verify(self): self.cancel('verify')
+    def test_terminate_application(self): self.cancel('application')
+    def test_terminate_preflight_only(self): self.cancel('verify', preflight=True)
+    def test_interrupt_prepare(self): self.cancel('prepare', signal.SIGINT)
+    def test_hangup_application(self): self.cancel('application', signal.SIGHUP)
+    def test_terminate_display_readiness_probe(self): self.cancel('display')
+    def test_repeated_signals_reap_before_configuration_cleanup(self): self.cancel('application', repeated=True)
+
+    def test_normal_exit_preserves_arguments_and_cleans_configuration(self):
+        arguments = ['a document Żółć.tsl', '', 'tail " $HOME `command`']
+        process = self.launch(*arguments)
+        self.assertEqual(0, process.wait(timeout=5), self.stderr.read_text())
+        self.assertEqual(['prepare', 'verify', 'application'], [entry['stage'] for entry in self.invocations()])
+        self.assertEqual(arguments, self.invocations()[-1]['arguments'][3:])
+        self.assert_cleaned()
+
+    def test_preflight_only_keeps_json_and_skips_application(self):
+        process = self.launch('--preflight')
+        self.assertEqual(0, process.wait(timeout=5), self.stderr.read_text())
+        self.assertEqual(['prepare', 'verify'], [entry['stage'] for entry in self.invocations()])
+        self.assertEqual({'fixture': True}, json.loads(self.stdout.read_text()))
+        self.assert_cleaned()
+
+    def test_application_keeps_inherited_standard_input(self):
+        result = self.base / 'stdin-result'
+        text = 'input Żółć\nsecond line\n'
+        process = self.launch(input_text=text, COMPUTATOR_LIFETIME_READ_INPUT='1',
+                              COMPUTATOR_LIFETIME_INPUT_RESULT=str(result))
+        self.assertEqual(0, process.wait(timeout=5), self.stderr.read_text())
+        self.assertEqual(text, result.read_text())
+        self.assert_cleaned()
+
+    def test_application_failure_keeps_exit_status(self):
+        process = self.launch(COMPUTATOR_LIFETIME_FAIL_STAGE='application', COMPUTATOR_LIFETIME_EXIT_CODE='23')
+        self.assertEqual(23, process.wait(timeout=5), self.stderr.read_text())
+        self.assert_cleaned()
+
+    def test_prepare_failure_keeps_diagnostic_and_stops(self):
+        process = self.launch(COMPUTATOR_LIFETIME_FAIL_STAGE='prepare', COMPUTATOR_LIFETIME_EXIT_CODE='23')
+        self.assertEqual(1, process.wait(timeout=5), self.stderr.read_text())
+        self.assertIn('package integrity or native dependency preflight failed', self.stderr.read_text())
+        self.assertEqual(['prepare'], [entry['stage'] for entry in self.invocations()])
+        self.assert_cleaned()
+
+    def test_verify_failure_keeps_diagnostic_and_stops(self):
+        process = self.launch(COMPUTATOR_LIFETIME_FAIL_STAGE='verify', COMPUTATOR_LIFETIME_EXIT_CODE='23')
+        self.assertEqual(1, process.wait(timeout=5), self.stderr.read_text())
+        self.assertIn('runtime architecture or native ABI preflight failed', self.stderr.read_text())
+        self.assertEqual(['prepare', 'verify'], [entry['stage'] for entry in self.invocations()])
+        self.assert_cleaned()
 
 
 class MacPackageContracts(unittest.TestCase):
