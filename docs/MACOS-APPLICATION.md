@@ -147,7 +147,7 @@ removing its platform check would not make its tests Mac acceptance.
 | Numerical screen | Simpson integration, the existing automatically stepped derivative, and Brent root finding; unsupported method names fail explicitly |
 | Documents | Existing browser `.tsl`/`.tslf` import/export, tab-local drafts and custom-function save workflows; no arbitrary server filesystem endpoint |
 | Autocomplete | Metadata derived from the actual exported portable functions/constants; limited signature help, not the complete rich function reference |
-| Charts | Explicit real f(x) numerical curves, custom functions, up to eight overlays, pan/zoom/reset and PNG export through the existing browser renderer. Complex, surface and implicit expressions return errors with the supported scope |
+| Charts | Explicit real f(x) curves with overlays/navigation, and f(x,y) height surfaces with bounded grid sampling and the existing interactive WebGL viewer. Complex and implicit expressions remain unsupported |
 | Native functions | Full GSL/special-function catalog is unavailable here; pre-existing native build probes do not expose it through Engine |
 
 The initial URL is `/calculate`, because the original browser application's `/`
@@ -159,7 +159,7 @@ Supported API contracts are `/api/v2/execute`, `/api/v2/chart`, the three
 `/api/numerical-calculations/{operation}/list-methods` routes and the two
 `/api/autocomplete/{expression|scripting}` routes. `/api/portable/status` reports
 the actual OS/process architecture, operations, worker count and explicit
-`chart: true`, `chartKinds: ["curve"]` and `nativeGsl: false` boundaries. Unknown API paths return 404, not
+`chart: true`, `chartKinds: ["curve", "surface"]` and `nativeGsl: false` boundaries. Unknown API paths return 404, not
 the SPA HTML.
 
 ### Real function charts
@@ -168,7 +168,7 @@ Open **Chart**, enter `sin(x)` or `x²`, and choose **Draw chart!**. Unsaved cus
 definitions travel with the expression. **Add function** retains each layer's
 submitted definitions; **Pan**, **Zoom** and **Reset view** resample those saved
 layers. **Download PNG** exports the browser-rendered chart with its labels.
-The 3D quality control is hidden in this preview.
+The 3D quality control is available for explicit height surfaces.
 
 `POST /api/v2/chart` accepts `expression`, `customFunctions`, `xMin`, `xMax`,
 `yMin`, `yMax`, `curveSamples` (default 1,025; range 33–4,097) and `allowEmpty2D`
@@ -184,10 +184,27 @@ must be finite, increasing and sufficiently separated to represent every sample.
 A new chart with no finite samples returns 422. Viewport navigation sets
 `allowEmpty2D` so an existing curve can remain visible as an empty layer and be
 recovered by panning or resetting. Invalid expressions, unsupported functions,
-complex variables and surfaces return 400 with compilation diagnostics. Top-level
+complex variables return 400 with compilation diagnostics. Top-level
 implicit equations (such as `x=1`) are rejected before compilation using the
 desktop's syntax analysis; they cannot silently become assignment-based curves.
-This addition does not expose the full special-function catalog or close #292.
+This addition does not expose the full special-function catalog or close the native desktop parity scope of #292.
+
+### Real f(x,y) height surfaces
+
+The local host compiles explicit `f(x,y)` once per chart and returns
+`kind: "surface"` with x/y axes and row-major nullable `z[y][x]` samples,
+using the same JSON schema and Plotly WebGL viewer as the Windows browser.
+Default grid size is 65; valid sizes are 9–129 (at most 16,641 evaluations).
+A 3D quality control selects 33/65/97. Non-finite values and arithmetic
+singularities produce null holes, and fewer than three finite samples return
+422. A worker-output shape check verifies bounded arrays, finite/ordered
+coordinates and exact sample counts before the response reaches the browser.
+
+The same loopback origin checks, two-worker limit, per-operation deadline,
+worker cancellation, output cap and trusted-code warning apply to both chart
+kinds. Without WebGL the browser reports its existing explicit rendering
+error. Complex-domain coloring, implicit equations, full native mathematical
+catalogs and native macOS/XQuartz desktop support remain separate work.
 
 ### Execution and local-access boundaries
 

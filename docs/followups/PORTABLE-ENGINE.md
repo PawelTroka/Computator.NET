@@ -98,7 +98,12 @@ is a finite-resolution heuristic, not a proof of continuity. The
 [portable local browser](../MACOS-APPLICATION.md#real-function-charts) renders
 these samples with overlays, navigation and PNG export; the CLI has no chart command.
 
-The full native GSL/special-function catalog, interactive input dialogs, desktop settings/fonts and complex/3D chart sampling remain outside this portable surface. An unavailable function produces a compiler diagnostic. The frontend running on macOS/Linux with a Windows API is a separate deployment path. The [reduced Mono desktop](../MONO-DESKTOP.md) is also a separate explicit compatibility target, built from the current shared sources.
+`PortableEngine.SampleSurface` compiles explicit real `f(x,y)` once and returns
+row-major `z[y][x]` samples with null gaps for undefined values, using a 9–129
+grid (default 65). The portable browser reuses the existing 3D viewer and
+validates the worker's bounded numerical surface response before rendering.
+
+The full native GSL/special-function catalog, interactive input dialogs, desktop settings/fonts and complex-domain chart sampling remain outside this portable surface. An unavailable function produces a compiler diagnostic. The frontend running on macOS/Linux with a Windows API is a separate deployment path. The [reduced Mono desktop](../MONO-DESKTOP.md) is also a separate explicit compatibility target, built from the current shared sources.
 
 All executed code remains trusted, in-process code with the user's permissions. Work budgets and collectible load contexts are **not a sandbox, wall-clock timeout or filesystem/network isolation**. Generated assemblies use unique identities and request unloading when released; dynamic-binder caches can still retain programs until process exit. See [program lifetime](../PROGRAM-LIFETIME.md) for that boundary.
 

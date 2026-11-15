@@ -82,9 +82,40 @@ internal sealed class WorkerProcess(TimeSpan maximumTime, CancellationToken appl
     {
         if (reply == null || (reply.Status != 200 && reply.Status != 400 &&
             !(request.Operation == "chart" && reply.Status == 422))) return false;
-        if (reply.Status != 200) return reply.Result == null && reply.Curve == null;
-        if (request.Operation != "chart") return reply.Curve == null && reply.Result is { Length: <= 65536 };
-        if (reply.Result != null || reply.Curve is not { } curve || curve.X == null || curve.Y == null ||
+        if (reply.Status != 200) return reply.Result == null && reply.Curve == null && reply.Surface == null;
+        if (request.Operation != "chart")
+            return reply.Curve == null && reply.Surface == null && reply.Result is { Length: <= 65536 };
+        if (reply.Result != null) return false;
+        if (reply.Surface is { } surface)
+        {
+            if (reply.Curve != null || surface.X == null || surface.Y == null || surface.Z == null ||
+                surface.X.Length != request.GridSize || surface.Y.Length != request.GridSize ||
+                surface.Z.Length != request.GridSize ||
+                surface.X[0] != request.XMin || surface.X[^1] != request.XMax ||
+                surface.Y[0] != request.YMin || surface.Y[^1] != request.YMax)
+                return false;
+            for (var index = 0; index < request.GridSize; index++)
+            {
+                if (!double.IsFinite(surface.X[index]) || !double.IsFinite(surface.Y[index]) ||
+                    (index > 0 && (surface.X[index] <= surface.X[index - 1] ||
+                                   surface.Y[index] <= surface.Y[index - 1])))
+                    return false;
+            }
+            var finiteSurface = 0;
+            foreach (var row in surface.Z)
+            {
+                if (row == null || row.Length != request.GridSize) return false;
+                foreach (var value in row)
+                {
+                    if (value is not { } height) continue;
+                    if (!double.IsFinite(height)) return false;
+                    finiteSurface++;
+                }
+            }
+            return finiteSurface >= 3 && finiteSurface == surface.FiniteSamples &&
+                surface.MissingSamples == request.GridSize * request.GridSize - finiteSurface;
+        }
+        if (reply.Curve is not { } curve || curve.X == null || curve.Y == null ||
             curve.X.Length < request.CurveSamples || curve.X.Length > 2 * request.CurveSamples - 1 ||
             curve.Y.Length != curve.X.Length || curve.X[0] != request.XMin || curve.X[^1] != request.XMax)
             return false;
@@ -96,7 +127,8 @@ internal sealed class WorkerProcess(TimeSpan maximumTime, CancellationToken appl
             if (!double.IsFinite(value)) return false;
             finite++;
         }
-        return finite == curve.FiniteSamples && (finite > 0 || request.AllowEmpty2D);
+        return finite == curve.FiniteSamples && curve.MissingSamples == curve.X.Length - finite &&
+            (finite > 0 || request.AllowEmpty2D);
     }
 
     private static ProcessStartInfo CreateStartInfo()
