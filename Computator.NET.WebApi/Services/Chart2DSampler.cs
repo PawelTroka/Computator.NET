@@ -4,6 +4,7 @@ using System.Numerics;
 using System.Threading;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Functions;
+using Computator.NET.Engine.Charting;
 using Computator.NET.WebApi.Controllers;
 
 namespace Computator.NET.WebApi.Services
@@ -15,11 +16,10 @@ namespace Computator.NET.WebApi.Services
     /// </summary>
     public static class Chart2DSampler
     {
-        public const int MinimumCurveSamples = 33;
-        public const int MaximumCurveSamples = 4097;
+        public const int MinimumCurveSamples = CurveSampler.MinimumSamples;
+        public const int MaximumCurveSamples = CurveSampler.MaximumSamples;
         public const int MinimumComplexGridSize = 9;
         public const int MaximumComplexGridSize = 257;
-        private const int MaximumDiscontinuityProbes = 8;
 
         public static void ValidateRequest(ExecutionRequest request, IDictionary<string, string[]> errors)
         {
@@ -36,35 +36,16 @@ namespace Computator.NET.WebApi.Services
         {
             if (function == null || function.FunctionType != FunctionType.Real2D)
                 throw new ArgumentException("Only explicit real f(x) functions can be sampled.", nameof(function));
-            if (sampleCount < MinimumCurveSamples || sampleCount > MaximumCurveSamples)
-                throw new ArgumentOutOfRangeException(nameof(sampleCount));
-            Bounds(xMin, xMax, yMin, yMax);
-            cancellation.ThrowIfCancellationRequested();
-            var axis = Axis(xMin, xMax, sampleCount);
-            var values = new double?[sampleCount];
-            for (var index = 0; index < sampleCount; index++)
-                values[index] = RealValue(function, axis[index], cancellation);
-
-            var x = new List<double>(2 * sampleCount - 1);
-            var y = new List<double?>(2 * sampleCount - 1);
-            var finite = 0;
-            for (var index = 0; index < sampleCount; index++)
+            // Preserve the desktop evaluator's arithmetic-hole convention while
+            // sharing the same numerical sampling with the portable host.
+            double Evaluate(double x)
             {
-                cancellation.ThrowIfCancellationRequested();
-                x.Add(axis[index]); y.Add(values[index]);
-                if (values[index].HasValue) finite++;
-                if (index + 1 == sampleCount || !values[index].HasValue || !values[index + 1].HasValue) continue;
-                if (HasUnresolvedJump(function, axis[index], values[index].Value,
-                    axis[index + 1], values[index + 1].Value, yMax - yMin, cancellation))
-                {
-                    // A strictly ordered null point prevents connecting across a
-                    // pole/jump without deleting either valid endpoint sample.
-                    var midpoint = Midpoint(axis[index], axis[index + 1]);
-                    if (midpoint > axis[index] && midpoint < axis[index + 1])
-                    { x.Add(midpoint); y.Add(null); }
-                }
+                try { return function.Evaluate(x); }
+                catch (CalculationException error) when (error.InnerException is ArithmeticException)
+                { return double.NaN; }
             }
-            return new CurveSamples(x.ToArray(), y.ToArray(), finite);
+            var samples = CurveSampler.Sample(Evaluate, xMin, xMax, yMin, yMax, sampleCount, cancellation);
+            return new CurveSamples(samples.X, samples.Y, samples.FiniteSamples);
         }
 
         public static ComplexSamples SampleComplex(Function function, double xMin, double xMax,
@@ -99,56 +80,6 @@ namespace Computator.NET.WebApi.Services
             return new ComplexSamples(x, y, real, imaginary, finite);
         }
 
-        private static double? RealValue(Function function, double x, CancellationToken cancellation)
-        {
-            cancellation.ThrowIfCancellationRequested();
-            try
-            {
-                var value = function.Evaluate(x);
-                return double.IsFinite(value) ? value : (double?)null;
-            }
-            catch (CalculationException error) when (error.InnerException is ArithmeticException) { return null; }
-            catch (ArithmeticException) { return null; }
-        }
-
-        private static bool HasUnresolvedJump(Function function, double left, double leftValue,
-            double right, double rightValue, double visibleSpan, CancellationToken cancellation)
-        {
-            // Bound extra evaluation to eight midpoint probes per base interval.
-            // A smooth steep line has zero chord error and stays connected. For
-            // nonlinear intervals, follow the half with the largest value jump;
-            // a jump that does not contract as x shrinks indicates an unresolved
-            // pole/discontinuity. This is a finite-resolution heuristic, not a
-            // proof of continuity (arbitrarily narrow/high-frequency features can
-            // still alias). A new viewport always obtains fresh samples.
-            var originalJump = Distance(leftValue, rightValue);
-            for (var depth = 0; depth < MaximumDiscontinuityProbes; depth++)
-            {
-                var midpoint = Midpoint(left, right);
-                if (midpoint <= left || midpoint >= right) return false;
-                var sampled = RealValue(function, midpoint, cancellation);
-                if (!sampled.HasValue) return true;
-                var value = sampled.Value;
-                var chord = Midpoint(leftValue, rightValue);
-                var error = Distance(value, chord);
-                var tolerance = Math.Max(visibleSpan / 2000,
-                    Math.Max(Math.Abs(leftValue), Math.Abs(rightValue)) * 1e-12);
-                if (error <= tolerance) return false;
-                var leftJump = Distance(leftValue, value);
-                var rightJump = Distance(value, rightValue);
-                if (leftJump >= rightJump) { right = midpoint; rightValue = value; }
-                else { left = midpoint; leftValue = value; }
-                var jump = Math.Max(leftJump, rightJump);
-                if (jump < originalJump / 2 || jump < visibleSpan / 20) return false;
-            }
-            return true;
-        }
-
-        // Saturating distance avoids overflow while retaining ordering for finite
-        // samples near the representable limits. Weighted means avoid overflowing
-        // addition of two same-sign endpoints.
-        private static double Distance(double a, double b) => Math.Min(double.MaxValue, Math.Abs(a - b));
-        private static double Midpoint(double a, double b) => a * 0.5 + b * 0.5;
         private static bool FiniteSpan(double minimum, double maximum) =>
             double.IsFinite(minimum) && double.IsFinite(maximum) && minimum < maximum &&
             double.IsFinite(maximum - minimum) && maximum - minimum > 0;

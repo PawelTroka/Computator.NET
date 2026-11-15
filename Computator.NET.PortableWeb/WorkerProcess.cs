@@ -38,10 +38,9 @@ internal sealed class WorkerProcess(TimeSpan maximumTime, CancellationToken appl
             await Task.WhenAll(output, errors);
             if (process.ExitCode != 0) return new WorkerReply(502, Detail: "Execution worker exited unexpectedly; the local application remains available.");
             var reply = JsonSerializer.Deserialize<WorkerReply>(await output, Execution.JsonOptions);
-            if (reply == null || (reply.Status != 200 && reply.Status != 400) ||
-                (reply.Status == 200 && reply.Result == null) || reply.Result?.Length > 65536)
+            if (!ValidReply(reply, request))
                 throw new IOException("Execution worker returned an invalid response.");
-            return reply;
+            return reply!;
         }
         catch (OperationCanceledException) when (!cancellation.IsCancellationRequested && !applicationStopping.IsCancellationRequested)
         { return new WorkerReply(504, Detail: "Execution exceeded its time or output limit and was terminated."); }
@@ -77,6 +76,27 @@ internal sealed class WorkerProcess(TimeSpan maximumTime, CancellationToken appl
                 if (entered) _slots.Release();
             }
         }
+    }
+
+    private static bool ValidReply(WorkerReply? reply, ExecutionRequest request)
+    {
+        if (reply == null || (reply.Status != 200 && reply.Status != 400 &&
+            !(request.Operation == "chart" && reply.Status == 422))) return false;
+        if (reply.Status != 200) return reply.Result == null && reply.Curve == null;
+        if (request.Operation != "chart") return reply.Curve == null && reply.Result is { Length: <= 65536 };
+        if (reply.Result != null || reply.Curve is not { } curve || curve.X == null || curve.Y == null ||
+            curve.X.Length < request.CurveSamples || curve.X.Length > 2 * request.CurveSamples - 1 ||
+            curve.Y.Length != curve.X.Length || curve.X[0] != request.XMin || curve.X[^1] != request.XMax)
+            return false;
+        var finite = 0;
+        for (var index = 0; index < curve.X.Length; index++)
+        {
+            if (!double.IsFinite(curve.X[index]) || (index > 0 && curve.X[index] <= curve.X[index - 1])) return false;
+            if (curve.Y[index] is not { } value) continue;
+            if (!double.IsFinite(value)) return false;
+            finite++;
+        }
+        return finite == curve.FiniteSamples && (finite > 0 || request.AllowEmpty2D);
     }
 
     private static ProcessStartInfo CreateStartInfo()

@@ -6,6 +6,7 @@ using System.Runtime.Loader;
 using System.Text;
 using Computator.NET.Core.Compilation;
 using Computator.NET.Core.Compilation.TslHandlers;
+using Computator.NET.Core.Evaluation;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
@@ -45,19 +46,23 @@ public sealed partial class PortableEngine
         });
         lock (result) return result.ToString();
     }
-    private static Compiled<T> Compile<T>(string input, string customFunctions, string prefix, string suffix) where T : Delegate
+    private static Compiled<T> Compile<T>(string input, string customFunctions, string prefix, string suffix,
+        bool requireExplicitExpression = false) where T : Delegate
     {
         if (input == null) throw new ArgumentNullException(nameof(input));
         if (customFunctions == null) throw new ArgumentNullException(nameof(customFunctions));
         if (input.Length > MaximumSourceCharacters || customFunctions.Length > MaximumSourceCharacters)
             throw new ArgumentException("Expression/script and custom definitions are each limited to 65,536 characters.");
         var compiler = new TslCompiler();
+        var definitions = compiler.TransformToCSharp(customFunctions, string.Empty, deferSymbolicFunctionPowers: true);
+        var body = compiler.TransformToCSharp(input, customFunctions, deferSymbolicFunctionPowers: true);
+        if (requireExplicitExpression && ExpressionAnalysis.Parse(body).IsImplicit)
+            throw new ArgumentException("Portable charts support explicit real f(x) expressions; implicit equations are unavailable.", nameof(input));
         var source = "using System; using System.Numerics; using Computator.NET.Engine; using Computator.NET.Core.NumericalCalculations; " +
             "using static Computator.NET.Engine.ScalarFunctions; using static Computator.NET.Core.Constants.MathematicalConstants; " +
             "using static Computator.NET.Core.Functions.MatrixFunctions;\n" +
             TslCompiler.TypesAliases + "\npublic static class Program {\n#line 1 \"custom-functions.tslf\"\n" +
-            compiler.TransformToCSharp(customFunctions, string.Empty, deferSymbolicFunctionPowers: true) + "\n#line default\n" + prefix +
-            compiler.TransformToCSharp(input, customFunctions, deferSymbolicFunctionPowers: true) + suffix + "\n}";
+            definitions + "\n#line default\n" + prefix + body + suffix + "\n}";
         var tree = CSharpSyntaxTree.ParseText(source, new CSharpParseOptions(LanguageVersion.CSharp14), encoding: Encoding.UTF8);
         var compilation = CSharpCompilation.Create("Computator.Portable." + Guid.NewGuid().ToString("N"), new[] { tree }, References.Value,
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: OptimizationLevel.Release));

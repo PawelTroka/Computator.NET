@@ -17,6 +17,7 @@ type RenderedPlot = { kind: 'image'; url: string; expression: string }
 type RenderRequest = { definitions: Definition[]; bounds: Bounds; home: Bounds; operation: 'draw' | 'add' | 'navigate' | 'resize' };
 const colors = ['#1769c2', '#c0392b', '#16814a', '#8e44ad', '#b36b00', '#087f8c', '#c23679', '#555e68'];
 const maximumLayers = 8;
+const portableLocal = import.meta.env.VITE_PORTABLE_LOCAL === 'true';
 
 export function Chart() {
   const { expression, setExpression, xMin, setXMin, xMax, setXMax, yMin, setYMin, yMax, setYMax } = useChartDraft();
@@ -201,7 +202,9 @@ export function Chart() {
   }, [invalidate, releaseImage]);
 
   const canOverlay = rendered?.kind === 'data' && rendered.layers.every(layer => layer.data.kind === 'curve');
-  return <><h1>Chart</h1><p>Draw a real or complex function. Add real functions to compare them on the same axes.</p>
+  return <><h1>Chart</h1><p>{portableLocal
+    ? 'Draw a real f(x) function. Add functions to compare them on the same axes. Complex charts, f(x,y) surfaces and implicit equations are unavailable in this preview.'
+    : 'Draw a real or complex function. Add real functions to compare them on the same axes.'}</p>
     <Expression expression={expression} onExpressionChange={setExpression} />
     {error && <p role="alert" className="text-danger">{error}</p>}
     <p role="status" aria-live="polite">{status}</p>
@@ -235,13 +238,13 @@ export function Chart() {
         </li>)}</ul>
         {canOverlay && <p className="small text-muted mt-2">Up to eight real functions. Each keeps the custom definitions submitted with it.</p>}
       </section>}
-      <label className="form-label" htmlFor="surface-grid-size">3D surface quality</label>
+      {!portableLocal && <><label className="form-label" htmlFor="surface-grid-size">3D surface quality</label>
       <select className="form-select mb-3" id="surface-grid-size" value={gridSize}
         onChange={event => setGridSize(Number(event.target.value))}>
         <option value={33}>Fast (33 × 33)</option>
         <option value={65}>Balanced (65 × 65)</option>
         <option value={97}>Detailed (97 × 97)</option>
-      </select>
+      </select></>}
       <h2 className="h6">Chart area values:</h2><ul className="list-group">
         <li className="list-group-item"><NumericInput label="X" subscriptLabel="MIN" value={xMin} onValueChanged={setXMin} /></li>
         <li className="list-group-item"><NumericInput label="X" subscriptLabel="MAX" value={xMax} onValueChanged={setXMax} /></li>

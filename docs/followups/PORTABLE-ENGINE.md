@@ -88,7 +88,17 @@ contracts. See [integer utilities and edge cases](../FUNCTION-REFERENCE.md#quali
 for script examples, exact-integer output and the distinction between `int` and
 64-bit `integer` overloads.
 
-The full native GSL/special-function catalog, interactive input dialogs, desktop settings/fonts and chart rendering remain outside this portable surface. An unavailable function produces a compiler diagnostic. The frontend running on macOS/Linux with a Windows API is a separate deployment path. The [reduced Mono desktop](../MONO-DESKTOP.md) is also a separate explicit compatibility target, built from the current shared sources.
+`PortableEngine.SampleCurve` compiles an explicit real `f(x)` once and returns
+ordered numerical samples, including null gaps for undefined values and detected
+discontinuities. It shares the Windows browser API's bounded curve sampler:
+33–4,097 base samples, at most eight midpoint probes per interval, and at most
+8,193 returned positions. Bounds and their spans must be finite and increasing;
+unrepresentable sampling coordinates fail explicitly. Discontinuity detection
+is a finite-resolution heuristic, not a proof of continuity. The
+[portable local browser](../MACOS-APPLICATION.md#real-function-charts) renders
+these samples with overlays, navigation and PNG export; the CLI has no chart command.
+
+The full native GSL/special-function catalog, interactive input dialogs, desktop settings/fonts and complex/3D chart sampling remain outside this portable surface. An unavailable function produces a compiler diagnostic. The frontend running on macOS/Linux with a Windows API is a separate deployment path. The [reduced Mono desktop](../MONO-DESKTOP.md) is also a separate explicit compatibility target, built from the current shared sources.
 
 All executed code remains trusted, in-process code with the user's permissions. Work budgets and collectible load contexts are **not a sandbox, wall-clock timeout or filesystem/network isolation**. Generated assemblies use unique identities and request unloading when released; dynamic-binder caches can still retain programs until process exit. See [program lifetime](../PROGRAM-LIFETIME.md) for that boundary.
 

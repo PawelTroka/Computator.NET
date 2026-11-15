@@ -41,15 +41,16 @@ establish full application parity or a certified Mac desktop release.
 on the same loopback origin as its API. It adds no numerical implementation or
 native dependency. The Windows API, desktop, Mono target and release packaging
 retain their existing roles. A deployment flag shows the preview's capability
-boundary and hides the unused derivative tolerance input.
+boundary and hides the unused derivative tolerance and 3D quality inputs.
 
 The original proof-of-concept branch was developed independently from
 [web 3D #294](https://github.com/PawelTroka/Computator.NET/pull/294),
 [native Mono 3D #296](https://github.com/PawelTroka/Computator.NET/pull/296), and their
 [integration #300](https://github.com/PawelTroka/Computator.NET/pull/300).
-The integrated repository now contains these workstreams together. Their Linux
-and Windows renderers do not add charts to this portable backend or certify
-either macOS desktop application route.
+The integrated repository now contains these workstreams together. Real `f(x)`
+sampling is now shared with the Windows browser API, and the portable host
+returns that numerical data to the existing browser renderer. The separate
+Linux/Windows desktop renderers do not establish macOS desktop acceptance.
 
 ## Architecture comparison
 
@@ -59,7 +60,7 @@ either macOS desktop application route.
 | Current blocking boundary | Framework Mono's macOS driver defaults to Carbon; its source documents a 64-bit limitation. X11 is an alternative, with additional loader/drawing/display requirements | Full WebApi references Core, Charting, WinForms and WPF. Existing local-service lifetime code uses Windows job objects. Those dependencies cannot be removed by changing the target-framework string |
 | Proof of concept | A separate diagnostic inspects the actual Mono-selected libraries, required X11 entry point, display and numerical calls; optional small visible-window probe | A separately published `net10.0` host actually serves the UI, executes portable mathematics in workers and returns explicit unsupported responses |
 | Native dependencies | Matching Mono, X11-enabled libgdiplus, Cairo with Xlib support, GSL/CBLAS, XQuartz client libraries, fonts and a usable X11 display | Matching .NET 10 ASP.NET Core runtime and browser. No XQuartz, Mono, libgdiplus or native GSL for this subset |
-| Graphical coverage | In principle retains more desktop behavior, but needs real Mac validation. Linux acceptance is not Mac evidence | Existing editor and browser workflows are usable within the stated subset. The POC deliberately supplies no chart renderer |
+| Graphical coverage | In principle retains more desktop behavior, but needs real Mac validation. Linux acceptance is not Mac evidence | Existing editor workflows and explicit real f(x) charts with overlays, pan/zoom and PNG export. Complex, surface and implicit charts remain outside the subset |
 | Intel | Use x64 runtime and compatible native libraries; Carbon's limitation remains relevant | Publish `osx-x64`; execute on an Intel runner/Mac |
 | Apple Silicon | XQuartz supports arm64, but every library loaded into Mono must match its process. An x64/Rosetta experiment is a separate stack, not arm64 certification | Publish `osx-arm64`; native .NET process avoids a Rosetta dependency for this POC |
 | Maintenance | Requires ongoing ownership of the legacy WinForms/X11/native-library combination, potentially custom libgdiplus packaging, display/clipboard/fonts and Mac GUI regressions | Adds a small HTTP/lifetime adapter around maintained shared code. Full catalog and rendering extraction remain real work; keep contract tests as the Windows API evolves |
@@ -146,21 +147,47 @@ removing its platform check would not make its tests Mac acceptance.
 | Numerical screen | Simpson integration, the existing automatically stepped derivative, and Brent root finding; unsupported method names fail explicitly |
 | Documents | Existing browser `.tsl`/`.tslf` import/export, tab-local drafts and custom-function save workflows; no arbitrary server filesystem endpoint |
 | Autocomplete | Metadata derived from the actual exported portable functions/constants; limited signature help, not the complete rich function reference |
-| Charts | Explicit HTTP 422 with a visible explanation. No 2D, complex or 3D chart support is claimed in this POC |
+| Charts | Explicit real f(x) numerical curves, custom functions, up to eight overlays, pan/zoom/reset and PNG export through the existing browser renderer. Complex, surface and implicit expressions return errors with the supported scope |
 | Native functions | Full GSL/special-function catalog is unavailable here; pre-existing native build probes do not expose it through Engine |
 
 The initial URL is `/calculate`, because the original browser application's `/`
-screen is Chart. The preview notice remains visible on every screen. Chart
-navigation retains an explicit unsupported response rather than returning a
-blank picture or silently contacting the Windows API. Symbolic calculation is
-still an existing unfinished product feature.
+screen is Chart. The preview notice remains visible on every screen. Charts
+use this local managed backend; no Windows API is contacted. Symbolic
+calculation is still an existing unfinished product feature.
 
-Supported API contracts are `/api/v2/execute`, the three
+Supported API contracts are `/api/v2/execute`, `/api/v2/chart`, the three
 `/api/numerical-calculations/{operation}/list-methods` routes and the two
 `/api/autocomplete/{expression|scripting}` routes. `/api/portable/status` reports
 the actual OS/process architecture, operations, worker count and explicit
-`chart: false`/`nativeGsl: false` boundaries. Unknown API paths return 404, not
+`chart: true`, `chartKinds: ["curve"]` and `nativeGsl: false` boundaries. Unknown API paths return 404, not
 the SPA HTML.
+
+### Real function charts
+
+Open **Chart**, enter `sin(x)` or `x²`, and choose **Draw chart!**. Unsaved custom
+definitions travel with the expression. **Add function** retains each layer's
+submitted definitions; **Pan**, **Zoom** and **Reset view** resample those saved
+layers. **Download PNG** exports the browser-rendered chart with its labels.
+The 3D quality control is hidden in this preview.
+
+`POST /api/v2/chart` accepts `expression`, `customFunctions`, `xMin`, `xMax`,
+`yMin`, `yMax`, `curveSamples` (default 1,025; range 33–4,097) and `allowEmpty2D`
+(default false). Its JSON response has `kind: "curve"`, ordered `x` coordinates,
+nullable `y` values and finite/missing sample counts. Each expression compiles
+once in the same isolated worker used for other operations. The host verifies
+the bounded response shape before sending it to the browser.
+
+Undefined samples and arithmetic singularities leave gaps. The shared sampler
+uses at most eight midpoint probes per interval to avoid drawing across detected
+discontinuities; narrow/high-frequency features can still alias. Bounds and spans
+must be finite, increasing and sufficiently separated to represent every sample.
+A new chart with no finite samples returns 422. Viewport navigation sets
+`allowEmpty2D` so an existing curve can remain visible as an empty layer and be
+recovered by panning or resetting. Invalid expressions, unsupported functions,
+complex variables and surfaces return 400 with compilation diagnostics. Top-level
+implicit equations (such as `x=1`) are rejected before compilation using the
+desktop's syntax analysis; they cannot silently become assignment-based curves.
+This addition does not expose the full special-function catalog or close #292.
 
 ### Execution and local-access boundaries
 
@@ -169,8 +196,10 @@ worker entry point. At most two workers run; further simultaneous requests get
 429. The default wall-time limit is ten seconds, configurable from one to sixty.
 Client cancellation, deadline expiry and graceful server shutdown terminate and
 reap owned workers. A successful follow-up operation is part of the smoke tests.
-Request bodies are bounded to 256 KiB and expression/script/custom-function text
-to 65,536 characters each. Numerical work and worker pipe output are bounded too.
+Charts and other operations share those two slots and the same deadline,
+cancellation and shutdown cleanup. Request bodies are bounded to 256 KiB and
+expression/script/custom-function text to 65,536 characters each. Numerical
+work and worker pipe output are bounded too.
 
 The listener is explicitly `127.0.0.1`; configurable Kestrel endpoints and URL
 settings cannot extend it. Requests validate the actual numeric Host/port,
@@ -259,8 +288,9 @@ COMPUTATOR_PORTABLE_PUBLISH_DIRECTORY="$PWD/../artifacts/portable-web/osx-arm64"
 Linux CI uses `playwright install --with-deps chromium webkit` to install browser
 system dependencies. Tests use real published API responses, with no mocked
 mathematics or Windows service. They exercise visible calculations, numerical
-results, UTF-8 files, navigation/reload, unsaved definitions, exports and worker
-cancellation. Successful screenshots and failure traces accompany JUnit output.
+results, UTF-8 files, navigation/reload, unsaved definitions, real-curve values,
+overlays, pan/reset, empty viewports, PNG export and script/chart cancellation.
+Successful screenshots and failure traces accompany JUnit output.
 These browser tests additionally exercise `dotnet <published DLL>` startup;
 the selected dotnet determines process architecture for that form of launch.
 CI supplies `COMPUTATOR_EXPECTED_ARCHITECTURE` and checks the status response;
@@ -299,20 +329,20 @@ checks on **both** an Intel Mac and an Apple Silicon Mac:
 4. Inspect Retina/non-Retina rendering, zoom, resize, full screen, multiple
    monitors, keyboard navigation and VoiceOver. Preserve visible screenshots
    and observed input behavior rather than relying on a process exit code.
-5. For any advertised charts, complete separate actual renderer tests covering
-   real/complex/3D input, numerical sample correctness, interactions, export and
-   hardware/browser failures. This POC supplies none of that chart acceptance.
+5. Verify real-curve sample correctness, interactions and export in the actual
+   advertised browsers, including hardware/browser failures. Complex and 3D
+   charts need their own implementation and acceptance before being advertised.
 6. For a Mono claim, first pass the native/display probe, then run the actual
    Computator GUI and its editor, documents, native GSL and supported chart
    workflows. Capture visible XQuartz pixels and real input. Verify clipboard,
    fonts, menus/dialogs and shutdown. Test x64/Rosetta separately if advertised.
 
 Future parity work should extract the full numerical/catalog surface and
-matching native GSL loading, then decouple chart sampling and rendering from
-Windows controls. PR #294's browser renderer could consume a future portable
-sampling contract after its own review; it cannot make today's Windows API
-portable by itself. Rendering/document behavior and distribution remain release
-gates. This proof of concept must not close #292 or authorize any merge.
+matching native GSL loading, and extend portable sampling to complex and
+surface data. Sharing the bounded real-curve sampler and existing browser
+renderer does not make the full Windows API portable. Rendering/document
+behavior and distribution remain release gates. This proof of concept must
+not close #292 or authorize any merge.
 
 ## Primary source references
 

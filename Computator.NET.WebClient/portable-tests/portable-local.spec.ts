@@ -28,7 +28,7 @@ test('the local application states its scope and calculates with changing inputs
   const status = await request.get('/api/portable/status');
   expect(status.ok()).toBeTruthy();
   const runtime = await status.json();
-  expect(runtime).toMatchObject({ implementation: 'portable-local-poc', chart: false, nativeGsl: false });
+  expect(runtime).toMatchObject({ implementation: 'portable-local-poc', chart: true, chartKinds: ['curve'], nativeGsl: false });
   if (process.env.COMPUTATOR_EXPECTED_ARCHITECTURE)
     expect(runtime.architecture).toBe(process.env.COMPUTATOR_EXPECTED_ARCHITECTURE);
   await replaceCode(page, 'expressionTextArea', '2x+3');
@@ -114,18 +114,95 @@ test('the existing numerical screen uses the actual portable methods', async ({ 
   await page.screenshot({ path: test.info().outputPath('portable-numerical.png'), fullPage: true });
 });
 
-test('unsupported charts and compilation failures are visible and corrected input recovers', async ({ page }) => {
+async function drawCurve(page: Page, expression: string, button = 'Draw chart!') {
+  const pending = page.waitForResponse(response =>
+    new URL(response.url()).pathname === '/api/v2/chart' && response.request().method() === 'POST' &&
+    response.request().postDataJSON().expression === expression);
+  await page.getByRole('button', { name: button, exact: true }).click();
+  const response = await pending;
+  expect(response.ok(), await response.text()).toBeTruthy();
+  const data = await response.json();
+  expect(data.kind).toBe('curve');
+  await expect(page.getByRole('status').first()).toHaveText('Chart ready.');
+  return { response, data };
+}
+
+test('real curves use unsaved functions, overlay, pan and export through the actual portable backend', async ({ page }) => {
+  const definitions = 'static real Probe(real x) { return x+2; }';
+  await page.goto('/custom-functions');
+  await page.getByLabel('Import .tslf', { exact: true }).setInputFiles({
+    name: 'curve-functions.tslf', mimeType: 'text/plain', buffer: Buffer.from(definitions)
+  });
+  await page.getByRole('link', { name: 'Chart', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Chart', exact: true })).toBeVisible();
+  await expect(page.getByLabel('3D surface quality')).toHaveCount(0);
+  await replaceCode(page, 'expressionTextArea', 'Probe(x)');
+  const first = await drawCurve(page, 'Probe(x)');
+  expect(first.response.request().postDataJSON().customFunctions).toBe(definitions);
+  expect(first.data.x).toHaveLength(1025);
+  first.data.x.forEach((x: number, index: number) => expect(first.data.y[index]).toBeCloseTo(x + 2, 10));
+  const canvas = page.getByRole('img', { name: 'Interactive real chart' });
+  await expect(canvas).toBeVisible();
+  expect(await canvas.evaluate(element => {
+    const context = (element as HTMLCanvasElement).getContext('2d')!;
+    const pixels = context.getImageData(0, 0, context.canvas.width, context.canvas.height).data;
+    let blue = 0;
+    for (let index = 0; index < pixels.length; index += 4)
+      if (pixels[index] < 70 && pixels[index + 1] > 70 && pixels[index + 1] < 145 && pixels[index + 2] > 150) blue++;
+    return blue;
+  })).toBeGreaterThan(100);
+  await replaceCode(page, 'expressionTextArea', 'x*x');
+  // The expression editor displays and submits multiplication as a middle dot.
+  await drawCurve(page, 'x·x', 'Add function');
+  await expect(page.getByRole('region', { name: 'Chart functions' }).getByRole('checkbox')).toHaveCount(2);
+  const moved = await drawCurve(page, 'x·x', 'Pan right');
+  expect(moved.data.x[0]).toBe(-3);
+  expect(moved.data.x.at(-1)).toBe(7);
+  moved.data.x.forEach((x: number, index: number) => expect(moved.data.y[index]).toBeCloseTo(x * x, 10));
+  await expect(canvas).toHaveAttribute('data-bounds', JSON.stringify({ xMin: -3, xMax: 7, yMin: -5, yMax: 5 }));
+  await page.screenshot({ path: test.info().outputPath('portable-real-curves.png'), fullPage: true });
+  const pending = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Download PNG', exact: true }).click();
+  const download = await pending;
+  const image = await readFile((await download.path())!);
+  expect([...image.subarray(0, 8)]).toEqual([137, 80, 78, 71, 13, 10, 26, 10]);
+  expect(image.length).toBeGreaterThan(1000);
+});
+
+test('curve navigation preserves undefined views and can reset to a defined domain', async ({ page }) => {
+  await page.goto('/calculate');
+  await page.getByRole('link', { name: 'Chart', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Chart', exact: true })).toBeVisible();
+  await replaceCode(page, 'expressionTextArea', 'sqrt(x)');
+  await drawCurve(page, 'sqrt(x)');
+  await drawCurve(page, 'sqrt(x)', 'Pan left');
+  await drawCurve(page, 'sqrt(x)', 'Pan left');
+  const empty = await drawCurve(page, 'sqrt(x)', 'Pan left');
+  expect(empty.response.request().postDataJSON().allowEmpty2D).toBe(true);
+  expect(empty.data.finiteSamples).toBe(0);
+  expect(empty.data.y.every((value: unknown) => value === null)).toBe(true);
+  await expect(page.getByRole('alert')).toHaveCount(0);
+  await expect(page.getByText('No finite samples in this view.', { exact: true })).toBeVisible();
+  const reset = await drawCurve(page, 'sqrt(x)', 'Reset view');
+  expect(reset.data.finiteSamples).toBeGreaterThan(0);
+});
+
+test('unsupported curves preserve the last chart and compilation failures recover', async ({ page }) => {
   await page.goto('/calculate');
   await page.getByRole('link', { name: 'Chart', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Chart', exact: true })).toBeVisible();
   await replaceCode(page, 'expressionTextArea', 'x*x');
+  await drawCurve(page, 'x·x');
+  await replaceCode(page, 'expressionTextArea', 'z*z');
   const chartResponse = page.waitForResponse(response =>
     response.url().endsWith('/api/v2/chart') && response.request().method() === 'POST');
   await page.getByRole('button', { name: 'Draw chart!', exact: true }).click();
   const chart = await chartResponse;
-  expect(chart.status()).toBe(422);
+  expect(chart.status()).toBe(400);
   await expect(page.getByRole('alert')).toHaveText((await chart.json()).detail);
-  await page.screenshot({ path: test.info().outputPath('portable-chart-unavailable.png'), fullPage: true });
+  await expect(page.getByRole('alert')).toContainText('real f(x)');
+  await expect(page.getByRole('img', { name: 'Interactive real chart' })).toBeVisible();
+  await expect(page.getByRole('checkbox', { name: 'Show x·x', exact: true })).toBeChecked();
   await page.getByRole('link', { name: 'Calculate', exact: true }).click();
   // Both routes use the same Ace DOM ID. The URL can change before React
   // replaces the Chart editor, so wait for the destination screen before typing.
@@ -140,6 +217,24 @@ test('unsupported charts and compilation failures are visible and corrected inpu
   await replaceCode(page, 'expressionTextArea', '6*7');
   await execute(page, 'Calculate!', 'calculate');
   await expect(page.getByRole('status')).toHaveText('42');
+});
+
+test('cancelling a running curve reaps its worker and permits a new chart', async ({ page, request }) => {
+  await page.goto('/custom-functions');
+  await page.getByLabel('Import .tslf', { exact: true }).setInputFiles({
+    name: 'slow-curve.tslf', mimeType: 'text/plain',
+    buffer: Buffer.from('static real Probe(real x) { while(true) { } }')
+  });
+  await page.getByRole('link', { name: 'Chart', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Chart', exact: true })).toBeVisible();
+  await replaceCode(page, 'expressionTextArea', 'Probe(x)');
+  await page.getByRole('button', { name: 'Draw chart!', exact: true }).click();
+  await expect.poll(async () => (await (await request.get('/api/portable/status')).json()).activeWorkerCount).toBe(1);
+  await page.getByRole('button', { name: 'Cancel chart', exact: true }).click();
+  await expect(page.getByRole('status')).toHaveText('Chart rendering cancelled.');
+  await expect.poll(async () => (await (await request.get('/api/portable/status')).json()).activeWorkerCount).toBe(0);
+  await replaceCode(page, 'expressionTextArea', 'x+1');
+  await drawCurve(page, 'x+1');
 });
 
 test('cancelling actual running TSL returns to idle and permits another calculation', async ({ page, request }) => {
