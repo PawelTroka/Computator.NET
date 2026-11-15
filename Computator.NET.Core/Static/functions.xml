@@ -1773,8 +1773,8 @@
 <p class="reference-signature"><code>real BinomialCoeff(integer n, integer k)</code></p>
 <p class="reference-summary">Counts <img class="reference-math-inline" src="reference-equations/6dd0afcac6d66595e6b4fedb92f71e89d5a0526b24225a2b3475680eda5609a1.png" alt="k" width="12" height="16" data-depth="59" />-element subsets of <img class="reference-math-inline" src="reference-equations/5864f80948e3fda96e3b627eba006ac209715c2f63817827cd4bdcfa4807cd1e.png" alt="n" width="13" height="11" data-depth="60" /> distinct objects when order is irrelevant.</p>
 <p class="reference-equation"><strong>Definition</strong><br /><img class="reference-math" src="reference-equations/afd0470614132efb31646109980e90c7c49109a69bc960bb564e592f3c20d9ca.png" alt="C(n,k)=n!/[k!(n−k)!]." width="166" height="55" /></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> Integers 0≤k≤n, representable by the underlying unsigned integer interface; invalid signed bounds return NaN.</p>
-<p class="reference-note"><strong>Important:</strong> The result is floating point rather than an arbitrary-precision integer.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Integers 0≤k≤n≤4294967295 (UInt32.MaxValue). Inputs outside these bounds return NaN before the native call.</p>
+<p class="reference-note"><strong>Important:</strong> The public signed 64-bit arguments do not extend GSL’s unsigned 32-bit input domain. The result is floating point rather than an arbitrary-precision integer.</p>
 <p class="reference-explanation">Start with the ordered selections of k objects from n, then divide by the k! ways of ordering each selected group. The result counts groups, not sequences.</p>
 <p class="reference-explanation">The equality C(n,k)=C(n,n−k) follows by exchanging the chosen and unchosen objects. These values grow rapidly, so a floating-point result is not an arbitrary-precision integer count.</p>
 <p class="reference-example"><strong>Example:</strong> BinomialCoeff(5,2) = 10</p>

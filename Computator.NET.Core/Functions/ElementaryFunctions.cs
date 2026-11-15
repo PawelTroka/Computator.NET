@@ -1198,7 +1198,9 @@ namespace Computator.NET.Core.Functions
 
         public static double BinomialCoeff(long n, long k)
         {
-            if (n < 0 || k < 0 || k > n)
+            // GSL accepts unsigned 32-bit arguments. Reject larger orders before
+            // narrowing so they cannot wrap to a different valid coefficient.
+            if (n < 0 || n > uint.MaxValue || k < 0 || k > n)
             {
                 return double.NaN;
             }
@@ -2424,7 +2426,9 @@ namespace Computator.NET.Core.Functions
 
         public static double BinomialCoeff(long n, long k)
         {
-            if (n < 0 || k < 0 || k > n)
+            // GSL accepts unsigned 32-bit arguments. Reject larger orders before
+            // narrowing so they cannot wrap to a different valid coefficient.
+            if (n < 0 || n > uint.MaxValue || k < 0 || k > n)
             {
                 return double.NaN;
             }
