@@ -222,6 +222,28 @@ def main() -> int:
         execute({'operation': 'integral', 'expression': '2', 'a': 0, 'b': 3,
                  'method': 'Unavailable native method'}, 400)
 
+    def physical_constants() -> None:
+        number({'operation': 'calculate', 'expression': 'c'}, 299792458, 0)
+        require(float(execute({'operation': 'calculate', 'expression': 'ElementaryCharge'})) == 1.602176565e-19,
+                'The historical desktop elementary-charge value changed.')
+        require(execute({'operation': 'script', 'expression': 'write(TravelTime(2c));',
+                         'customFunctions': 'static real TravelTime(real distance) { return distance/c; }'}) == '2',
+                'Physical constants must work in scripts and custom functions.')
+        number({'operation': 'integral', 'expression': 'c*x', 'a': 0, 'b': 1, 'n': 2,
+                'method': "Simpson's method"}, 149896229, 1e-6)
+        for mode in ('expression', 'scripting'):
+            code, catalog, _ = request('/api/autocomplete/' + mode)
+            require(code == 200 and isinstance(catalog, list), f'{mode} completion catalog unavailable.')
+            physical = [item for item in catalog if item.get('details', {}).get('category') == 'Physical constants']
+            names = {item['text'] for item in physical}
+            require(len(physical) == len(names) == 342 and {'c', 'ElementaryCharge', 'StandardAtmosphere'} <= names,
+                    f'{mode} physical constant catalog is incomplete or has duplicates.')
+            require(all('Stored desktop value:' in item['details']['description'] and
+                        'historical' in item['details']['description'] for item in physical),
+                    'Constant help must identify stored historical values.')
+            require(not {'ToCode', 'parseConstantsFromNIST'}.intersection(names),
+                    'Constant completion must not offer source-generation helpers.')
+
     def local_boundary() -> None:
         payload = {'operation': 'calculate', 'expression': '2+2'}
         for headers in ({'Host': 'example.com'}, {'Origin': 'https://example.com'},
@@ -420,6 +442,7 @@ def main() -> int:
             run('real complex calculation', complex_calculation)
             run('scripts, UTF-8 and request-local unsaved functions', custom_functions)
             run('portable numerical methods with known answers', numerical_methods)
+            run('physical constants in execution and both completion catalogs', physical_constants)
             run('local HTTP origin, host and source boundaries', local_boundary)
             run('explicit unsupported operations and error recovery', unsupported_and_recovery)
             run('execution deadline reaps worker and recovers', timeout_and_recovery)

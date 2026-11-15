@@ -142,7 +142,7 @@ removing its platform check would not make its tests Mac acceptance.
 | Complex calculation | Real compilation is attempted first; on compilation failure, existing `EvaluateComplex` uses `z = x + iy`. Results use the Engine's invariant complex representation |
 | Scripts | Existing `ExecuteScript` and bounded `write(...)` output; trusted code with the local user's permissions |
 | Custom functions | Existing unsaved definitions travel with each request; separate workers prevent definitions leaking into the next request |
-| Mathematical tools | Existing managed scalar spellings, mathematical constants and matrix functions available through Engine |
+| Mathematical tools | Existing managed scalar spellings, mathematical constants, all 342 stored desktop physical constants and matrix functions available through Engine |
 | Numerical screen | Simpson integration, the existing automatically stepped derivative, and Brent root finding; unsupported method names fail explicitly |
 | Documents | Existing browser `.tsl`/`.tslf` import/export, tab-local drafts and custom-function save workflows; no arbitrary server filesystem endpoint |
 | Autocomplete | Metadata derived from the actual exported portable functions/constants; limited signature help, not the complete rich function reference |

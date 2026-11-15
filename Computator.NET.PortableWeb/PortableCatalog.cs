@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Reflection;
 using Computator.NET.Core.Constants;
 using Computator.NET.Core.Functions;
@@ -7,6 +8,17 @@ namespace Computator.NET.PortableWeb;
 
 internal static class PortableCatalog
 {
+    private static object PhysicalConstantItem(FieldInfo field) => new
+    {
+        text = field.Name, menuText = field.Name,
+        details = new
+        {
+            title = field.Name, category = "Physical constants",
+            description = "Stored desktop value: " + ((double)field.GetValue(null)!).ToString("R", CultureInfo.InvariantCulture) +
+                ". These constants include historical values and are not a current SI reference."
+        }
+    };
+
     public static object[] Items(bool scripting)
     {
         var entries = new List<object>();
@@ -19,6 +31,9 @@ internal static class PortableCatalog
                 var signature = method.Name + generic + "(" + parameters + ")";
                 entries.Add(Item(method.Name, signature, type == typeof(ScalarFunctions) ? "Portable scalar functions" : "Managed matrix functions"));
             }
+        foreach (var field in typeof(PhysicalConstants).GetFields(BindingFlags.Public | BindingFlags.Static)
+                     .Where(field => field.FieldType == typeof(double)).OrderBy(field => field.Name))
+            entries.Add(PhysicalConstantItem(field));
         foreach (var field in typeof(MathematicalConstants).GetFields(BindingFlags.Public | BindingFlags.Static)
                      .Where(field => field.FieldType == typeof(double) || field.FieldType == typeof(System.Numerics.Complex)))
             entries.Add(Item(field.Name, field.Name, "Mathematical constants"));

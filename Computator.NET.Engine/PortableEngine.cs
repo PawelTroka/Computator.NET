@@ -54,6 +54,7 @@ public sealed partial class PortableEngine
         var compiler = new TslCompiler();
         var source = "using System; using System.Numerics; using Computator.NET.Engine; using Computator.NET.Core.NumericalCalculations; " +
             "using static Computator.NET.Engine.ScalarFunctions; using static Computator.NET.Core.Constants.MathematicalConstants; " +
+            "using static Computator.NET.Core.Constants.PhysicalConstants; " +
             "using static Computator.NET.Core.Functions.MatrixFunctions;\n" +
             TslCompiler.TypesAliases + "\npublic static class Program {\n#line 1 \"custom-functions.tslf\"\n" +
             compiler.TransformToCSharp(customFunctions, string.Empty, deferSymbolicFunctionPowers: true) + "\n#line default\n" + prefix +
