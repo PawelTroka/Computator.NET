@@ -96,8 +96,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             var area = legacy.ActiveTextAreaControl;
             area.SelectionManager.ClearSelection();
             area.Caret.Position = legacy.Document.OffsetToPosition(start + length);
-            // The legacy manager retains its construction-time document. Its
-            // two-position overload would bind the selection to that old buffer.
+            // Keep the explicit search range tied to the document used for its offsets.
             area.SelectionManager.SetSelection(new ICSharpCode.TextEditor.Document.DefaultSelection(
                 legacy.Document, legacy.Document.OffsetToPosition(start), legacy.Document.OffsetToPosition(start + length)));
             area.ScrollToCaret();

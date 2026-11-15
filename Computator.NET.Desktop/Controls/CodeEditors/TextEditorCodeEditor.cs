@@ -21,6 +21,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         private readonly Dictionary<string, IDocument>
             _documents;
         private readonly HashSet<IDocument> _highlightedDocuments = new HashSet<IDocument>();
+        private readonly TextEditorDocumentBinding _documentBinding;
 
         private sealed class CompilationErrorMarker : TextMarker
         {
@@ -46,6 +47,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
             _documents =
                 new Dictionary<string, IDocument>();
+            _documentBinding = new TextEditorDocumentBinding(this);
 
 
             string dir = PathUtility.GetFullPath("Static"); // Insert the path to your xshd-files.
@@ -99,7 +101,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             var document = new DocumentFactory().CreateDocument();
             document.TextContent = text;
             document.HighlightingStrategy = HighlightingStrategyFactory.CreateHighlightingStrategy("VS-C#");
-            Document = document;
+            _documentBinding.SwitchDocument(document);
 
             _documents.Add(filename, Document);
 
@@ -117,9 +119,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             if (!_documents.ContainsKey(filename))
                 return;
 
-            var prevDocument = Document;
-
-            Document = _documents[filename];
+            _documentBinding.SwitchDocument(_documents[filename]);
             UltraSuperRefreshMethod();
         }
 
@@ -230,8 +230,12 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         protected override void Dispose(bool disposing)
         {
             if (disposing)
+            {
                 foreach (var document in _highlightedDocuments.ToArray())
                     ClearHighlightedErrors(document, false);
+                _documentBinding?.Dispose();
+                Document.DocumentChanged -= OnDocumentChanged;
+            }
 
             base.Dispose(disposing);
         }
