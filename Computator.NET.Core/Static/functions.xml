@@ -6873,6 +6873,40 @@
 </div>]]></Description>
     <Url>https://dlmf.nist.gov/7.2</Url>
   </FunctionInfo>
+  <FunctionInfo Signature="FunctionExtremum.maximize(fx,a,b,tolerance,iterations)">
+    <Title>Bounded function maximum</Title>
+    <Type>FunctionExtremum</Type>
+    <Category>Function extrema</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>real FunctionExtremum.maximize(function fx, real a, real b, real tolerance, integer iterations)</code></p>
+<p class="reference-summary">Uses a derivative-free Brent search on a closed real interval and returns the x coordinate of the maximum. Evaluate fx at that coordinate to obtain the function value.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>x* approximately maximizes fx(x) for a &lt;= x &lt;= b.</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Use a continuous unimodal real function on [a,b]. Bounds must be finite with a&lt;=b and finite width. Both endpoints are compared with the interior candidate; a monotone function can return an endpoint exactly. Equal bounds evaluate the single point once. tolerance is a finite positive coordinate tolerance (default 1e-8); iterations is an integer from 1 through 1,000,000 (default 1,000).</p>
+<p class="reference-note"><strong>Important:</strong> The same managed implementation is used by all TSL evaluators. Search coordinates are normalized to [0,1] before calling the pinned Accord Brent optimizer; callbacks never leave the supplied interval. Accuracy is limited by floating-point resolution and the optimizer&#x27;s relative stopping term, roughly sqrt(machine epsilon) times the interval width, as well as tolerance. It is not an error bound for the function value. Nonfinite sampled values, including endpoints, throw ArithmeticException; invalid arguments throw; callback exceptions propagate. Exhausting the iteration budget throws instead of returning an unconverged candidate. A multimodal function can lead to a local extremum; this is not a certified global search. A constant function selects a.</p>
+<p class="reference-explanation">An extremum search finds where a function is smallest or largest. The returned coordinate and the function value are different quantities: a parabola centered at t=2 with height 7 has location 2 and extremum value 7.</p>
+<p class="reference-explanation">Choose an interval containing one trough for minimization or one peak for maximization. If a plotted function has several peaks or troughs, split the domain into suitable intervals and compare values at the returned coordinates and boundaries.</p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>FunctionExtremum.maximize(t =&gt; 7-(t-2)*(t-2),0,5)</code></pre><p><strong>Result:</strong> approximately 2</p><p>The solver returns the coordinate t=2. Substituting that coordinate into the supplied quadratic gives the extremum value 7.</p></div>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/accord-net/framework/blob/v3.8.0/Sources/Accord.Math/Optimization/BrentSearch.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/accord-net/framework/blob/v3.8.0/Sources/Accord.Math/Optimization/BrentSearch.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="FunctionExtremum.minimize(fx,a,b,tolerance,iterations)">
+    <Title>Bounded function minimum</Title>
+    <Type>FunctionExtremum</Type>
+    <Category>Function extrema</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>real FunctionExtremum.minimize(function fx, real a, real b, real tolerance, integer iterations)</code></p>
+<p class="reference-summary">Uses a derivative-free Brent search on a closed real interval and returns the x coordinate of the minimum. Evaluate fx at that coordinate to obtain the function value.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>x* approximately minimizes fx(x) for a &lt;= x &lt;= b.</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Use a continuous unimodal real function on [a,b]. Bounds must be finite with a&lt;=b and finite width. Both endpoints are compared with the interior candidate; a monotone function can return an endpoint exactly. Equal bounds evaluate the single point once. tolerance is a finite positive coordinate tolerance (default 1e-8); iterations is an integer from 1 through 1,000,000 (default 1,000).</p>
+<p class="reference-note"><strong>Important:</strong> The same managed implementation is used by all TSL evaluators. Search coordinates are normalized to [0,1] before calling the pinned Accord Brent optimizer; callbacks never leave the supplied interval. Accuracy is limited by floating-point resolution and the optimizer&#x27;s relative stopping term, roughly sqrt(machine epsilon) times the interval width, as well as tolerance. It is not an error bound for the function value. Nonfinite sampled values, including endpoints, throw ArithmeticException; invalid arguments throw; callback exceptions propagate. Exhausting the iteration budget throws instead of returning an unconverged candidate. A multimodal function can lead to a local extremum; this is not a certified global search. A constant function selects a.</p>
+<p class="reference-explanation">An extremum search finds where a function is smallest or largest. The returned coordinate and the function value are different quantities: a parabola centered at t=2 with height 7 has location 2 and extremum value 7.</p>
+<p class="reference-explanation">Choose an interval containing one trough for minimization or one peak for maximization. If a plotted function has several peaks or troughs, split the domain into suitable intervals and compare values at the returned coordinates and boundaries.</p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>FunctionExtremum.minimize(t =&gt; (t-2)*(t-2)+7,0,5)</code></pre><p><strong>Result:</strong> approximately 2</p><p>The solver returns the coordinate t=2. Substituting that coordinate into the supplied quadratic gives the extremum value 7.</p></div>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/accord-net/framework/blob/v3.8.0/Sources/Accord.Math/Optimization/BrentSearch.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/accord-net/framework/blob/v3.8.0/Sources/Accord.Math/Optimization/BrentSearch.cs</Url>
+  </FunctionInfo>
   <FunctionInfo Signature="FunctionRoot.BrentMethod(fx,a,b,errorMax,N)">
     <Title>Brent bracketed root finder</Title>
     <Type>FunctionRoot</Type>

@@ -13,6 +13,7 @@ def describe(item,values):
     if kind=='Derivative':return derivative(name,args)
     if kind=='FunctionRoot':return root(name,args)
     if kind=='DifferentialEquation':return differential_equation(name,args)
+    if kind=='FunctionExtremum':return extremum(name,args)
     if kind=='MatrixFunctions':return matrix(name,args,sig)
     if kind=='ScriptingFunctions':return scripting(name,args,sig)
     if kind=='MathematicalTransformations':
@@ -41,6 +42,21 @@ def describe(item,values):
         t,d,f,n=table[name if name=='rnd' else args]
         return A(t,d,f,'The generator changes state on each sample; repeated calls need not agree.',n,url=SOURCE+'Computator.NET.Core/Functions/StatisticsFunctions.cs',category='Random sampling')
     raise KeyError(kind+':'+sig)
+
+def extremum(name,args):
+    if name not in ('minimize','maximize') or args!='fx,a,b,tolerance,iterations':
+        raise KeyError('FunctionExtremum '+name+'('+args+')')
+    minimum=name=='minimize'
+    kind='minimum' if minimum else 'maximum'
+    expression='(t-2)*(t-2)+7' if minimum else '7-(t-2)*(t-2)'
+    return A('Bounded function '+kind,
+             'Uses a derivative-free Brent search on a closed real interval and returns the x coordinate of the '+kind+'. Evaluate fx at that coordinate to obtain the function value.',
+             'x* approximately minimizes fx(x) for a <= x <= b.' if minimum else 'x* approximately maximizes fx(x) for a <= x <= b.',
+             'Use a continuous unimodal real function on [a,b]. Bounds must be finite with a<=b and finite width. Both endpoints are compared with the interior candidate; a monotone function can return an endpoint exactly. Equal bounds evaluate the single point once. tolerance is a finite positive coordinate tolerance (default 1e-8); iterations is an integer from 1 through 1,000,000 (default 1,000).',
+             'The same managed implementation is used by all TSL evaluators. Search coordinates are normalized to [0,1] before calling the pinned Accord Brent optimizer; callbacks never leave the supplied interval. Accuracy is limited by floating-point resolution and the optimizer\'s relative stopping term, roughly sqrt(machine epsilon) times the interval width, as well as tolerance. It is not an error bound for the function value. Nonfinite sampled values, including endpoints, throw ArithmeticException; invalid arguments throw; callback exceptions propagate. Exhausting the iteration budget throws instead of returning an unconverged candidate. A multimodal function can lead to a local extremum; this is not a certified global search. A constant function selects a.',
+             'FunctionExtremum.'+name+'(t => '+expression+',0,5) returns approximately 2; the function value there is 7.',
+             url='https://github.com/accord-net/framework/blob/v3.8.0/Sources/Accord.Math/Optimization/BrentSearch.cs',
+             category='Function extrema')
 
 def differential_equation(name,args):
     if name!='rungeKutta4' or args!='derivative,y0,start,end,samples':

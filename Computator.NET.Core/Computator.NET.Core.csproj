@@ -14,6 +14,7 @@
     <Compile Remove="Compilation\TSLCompiler.cs;Compilation\TslHandlers\*.cs;Constants\MathematicalConstants.cs" />
     <Compile Remove="Functions\MatrixFunctions.cs;Evaluation\NumericalExtensions.cs;NumericalCalculations\Integral.cs;NumericalCalculations\Derivative.cs;NumericalCalculations\FunctionRoot.cs" />
     <Compile Remove="NumericalCalculations\DifferentialEquation.cs" />
+    <Compile Remove="NumericalCalculations\FunctionExtremum.cs" />
   </ItemGroup>
   <ItemGroup Condition="'$(ComputatorMono)' == 'true'">
     <Reference Include="DataVisualizationX"><HintPath>..\libraries\net46\DataVisualizationX.dll</HintPath><Private>true</Private></Reference>
