@@ -82,8 +82,7 @@ namespace Computator.NET.Core.Transformations
             {
                 jaggedArray[i][0] = functionPoints[i].Real;
                 jaggedArray[i][1] = functionPoints[i].Imaginary;
-                copyofFunctionsPoints2[i] = new Complex(functionPoints[i].Real,
-                    copyofFunctionsPoints2[i].Imaginary);
+                copyofFunctionsPoints2[i] = functionPoints[i];
             }
 
 
