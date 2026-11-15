@@ -5,7 +5,7 @@ const headers = { 'access-control-allow-origin': '*',
 const original = 'write("original");';
 const replacement = 'write("replacement");';
 type Replacement = 'New script' | 'Import .tsl';
-type DeferredRun = { waiting: boolean; aborts: number; release?: () => void };
+type DeferredRun = { waiting: boolean; aborts: number; release?: () => void; settled?: Promise<void> };
 
 async function replaceDocument(page: Page, action: Replacement, accept = true) {
   page.once('dialog', dialog => accept ? dialog.accept() : dialog.dismiss());
@@ -27,12 +27,16 @@ async function deferFirstResult(page: Page) {
         first = false;
         init?.signal?.addEventListener('abort', () => { run.aborts++; });
         const json = response.json.bind(response);
-        response.json = async () => {
-          const body: unknown = await json();
-          // Keep a real response's decoded body pending even after transport
-          // cancellation. A stale continuation must not publish into a new run.
-          await new Promise<void>(resolve => { run.release = resolve; run.waiting = true; });
-          return body;
+        response.json = () => {
+          const decoded = (async () => {
+            const body: unknown = await json();
+            // Keep a real response's decoded body pending even after transport
+            // cancellation. A stale continuation must not publish into a new run.
+            await new Promise<void>(resolve => { run.release = resolve; run.waiting = true; });
+            return body;
+          })();
+          run.settled = decoded.then(() => {}, () => {});
+          return decoded;
         };
       }
       return response;
@@ -40,7 +44,16 @@ async function deferFirstResult(page: Page) {
   });
 }
 async function releaseResult(page: Page) {
-  await page.evaluate(() => (window as unknown as { deferredScriptRun: DeferredRun }).deferredScriptRun.release?.());
+  await page.evaluate(async () => {
+    const run = (window as unknown as { deferredScriptRun: DeferredRun }).deferredScriptRun;
+    if (!run.release || !run.settled) throw new Error('No script result is waiting for release.');
+    run.release();
+    // Observe settlement of the promise returned to the execution hook, then
+    // cross a full rendering opportunity before checking unchanged output.
+    // Otherwise a negative assertion could pass before stale state is committed.
+    await run.settled;
+    await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+  });
 }
 async function aborts(page: Page) {
   return page.evaluate(() => (window as unknown as { deferredScriptRun: DeferredRun }).deferredScriptRun.aborts);
