@@ -414,12 +414,6 @@ namespace Computator.NET.Charting.RealCharting
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private static IEnumerable<double> Iterate(
-            double fromInclusive, double toExclusive, double step)
-        {
-            for (var d = fromInclusive; d <= toExclusive; d += step) yield return d;
-        }
-
         private void NotifyPropertyChanged(string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -806,10 +800,12 @@ namespace Computator.NET.Charting.RealCharting
 
             double dx = (XMax - XMin) / N;
             double dy = (YMax - YMin) / N;
+            var xValues = ChartSamplingRange.Create(XMin, XMax, N);
+            var yValues = ChartSamplingRange.Create(YMin, YMax, N);
 
-            if (dx <= 0 || dy <= 0)
+            if (xValues.Length == 0 || yValues.Length == 0)
             {
-                Logger.Warn($"dx '{dx}' or dy '{dy}' less than 0. Chart will not be drawn.");
+                Logger.Warn("Invalid chart bounds or sampling resolution. Chart will not be drawn.");
                 return;
             }
 
@@ -825,11 +821,11 @@ namespace Computator.NET.Charting.RealCharting
                     Name = fx.Name
                 };
 
-                for (var x = XMin; x <= XMax; x += dx) //Parallel.ForEach(Iterate(XMin, XMax, dx).ToArray(), x =>
+                foreach (var x in xValues)
                 {
                     if (fx.IsImplicit)
                     {
-                        for (var y = YMin; y <= YMax; y += dy)
+                        foreach (var y in yValues)
                         {
                             if (IsNearZero(fx.Evaluate(x, y)))
                                 series.Points.AddXY(x, y);
@@ -841,7 +837,7 @@ namespace Computator.NET.Charting.RealCharting
                         if (IsPointValid(x, y))
                             series.Points.AddXY(x, y);
                     }
-                } //);
+                }
                 Series.Add(series);
             }
 
@@ -871,10 +867,12 @@ namespace Computator.NET.Charting.RealCharting
         private void _addNewFunction()
         {
             double dx =  (XMax- XMin )/ N, dy = (YMax - YMin) /N;
+            var xValues = ChartSamplingRange.Create(XMin, XMax, N);
+            var yValues = ChartSamplingRange.Create(YMin, YMax, N);
 
-            if (dx <= 0 || dy <= 0)
+            if (xValues.Length == 0 || yValues.Length == 0)
             {
-                Logger.Warn($"dx '{dx}' or dy '{dy}' less than 0. Chart will not be drawn.");
+                Logger.Warn("Invalid chart bounds or sampling resolution. Chart will not be drawn.");
                 return;
             }
 
@@ -889,12 +887,11 @@ namespace Computator.NET.Charting.RealCharting
                 Name = functions.Last().Name
             };
 
-            double y;
-            for (var x = XMin; x <= XMax; x += dx)
+            foreach (var x in xValues)
             {
                 if (functions.Last().IsImplicit)
                 {
-                    for (y = YMin; y <= YMax; y += dy)
+                    foreach (var y in yValues)
                     {
                         if (IsNearZero(functions.Last().Evaluate(x, y)))
                             series.Points.AddXY(x, y);
@@ -902,7 +899,7 @@ namespace Computator.NET.Charting.RealCharting
                 }
                 else
                 {
-                    y = functions.Last().Evaluate(x);
+                    var y = functions.Last().Evaluate(x);
                     if (IsPointValid(x, y))
                         series.Points.AddXY(x, y);
                 }
