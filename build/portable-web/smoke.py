@@ -193,11 +193,18 @@ def main() -> int:
         require(request('/api/does-not-exist')[0] == 404, 'Unknown API requests must not return the SPA HTML.')
 
     def complex_calculation() -> None:
-        # A real complex operation whose independently known answer is 3 + 4i.
-        value = execute({'operation': 'calculate', 'expression': 'z*z', 'x': 2, 'y': 1})
-        parts = value.strip('<>() ').replace(';', ',').split(',')
-        require(len(parts) == 2 and float(parts[0]) == 3 and float(parts[1]) == 4,
-                f'Complex z*z at 2+i did not produce 3+4i: {value}')
+        # These use the actual real-to-complex compiler fallback and worker pipe.
+        cases = [('z*z', 2, 1, '', (3, 4)),
+                 ('x+y*i', 3, 4, '', (3, 4)),
+                 ('z+x-y', -2, 5, '', (-9, 5)),
+                 ('Probe(x)+Probe(y)*i', -2, 5,
+                  'static real Probe(real x) { return x/2; }', (-1, 2.5))]
+        for expression, x, y, definitions, expected in cases:
+            value = execute({'operation': 'calculate', 'expression': expression, 'x': x, 'y': y,
+                             'customFunctions': definitions})
+            parts = value.strip('<>() ').replace(';', ',').split(',')
+            require(len(parts) == 2 and tuple(map(float, parts)) == expected,
+                    f'Complex {expression} at {x}+{y}i did not produce {expected}: {value}')
 
     def custom_functions() -> None:
         definitions = 'static real Probe(real x) { return x+7; }'
