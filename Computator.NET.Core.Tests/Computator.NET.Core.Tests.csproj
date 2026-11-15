@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\build\ModernTests.props" />
   <ItemGroup>
+    <Compile Include="..\build\validation\CompilerReferencePathContract.cs" Link="CompilationTests\CompilerReferencePathContract.cs" />
     <PackageReference Include="MathNet.Numerics" />
     <ProjectReference Include="..\Computator.NET.Core\Computator.NET.Core.csproj" />
   </ItemGroup>

@@ -186,6 +186,12 @@ internal static partial class Program
             }");
             Near(Convert.ToDouble(assembly.GetType("Probe").GetMethod("Run").Invoke(null, null)), 42, 1e-12);
         }
+        foreach (var layout in new[] { "file", "directory" })
+        {
+            CompilerReferencePathContract.DistinctReferences(layout);
+            CompilerReferencePathContract.IsolatedMetadataCache(layout);
+            CompilerReferencePathContract.EquivalentReferences(layout);
+        }
     }
 
     private static void PortableExpressions()

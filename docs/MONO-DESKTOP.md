@@ -130,6 +130,12 @@ supports the repository's C# syntax, but Mono scripts/plugins bind to Framework
 4.8, not .NET 10-only runtime APIs. WPF and the advanced Windows editors are
 excluded from this graph.
 
+Additional compiler DLL references preserve case in normalized filesystem paths.
+On case-sensitive volumes, `model.dll` and `MODEL.dll` can supply different
+metadata without one being omitted or reusing the other's cached constants.
+Repeated references and equivalent assembly images remain valid, including
+case aliases on a case-insensitive volume; assembly-name lookup is unchanged.
+
 The rich reference uses the same descriptions and verified offline assets as
 Windows/web: styled prose, inline and display equations, diagrams,
 examples and notes. Image paths are confined to the shipped manifests and their
@@ -271,6 +277,10 @@ plot commands, exact decimal-input rounding and numeric-control font layout.
 The layout regression shows the real chart-bounds view and checks all four
 numeric controls against their actual font heights at 9.75, 12 and 16 points,
 including repeated layout and scaling, to catch clipped digits.
+The existing Roslyn case also emits real DLL fixtures to check distinct case-only
+filenames/directories, metadata-cache isolation between compiler instances, and
+equivalent references. It probes the fixture volume's case behavior, so the same
+contract checks actual aliases on case-insensitive macOS/Windows volumes.
 
 Mono's BCL and UTF8 parser can
 round `8.88024331` one ULP high. The application's fast literal path and

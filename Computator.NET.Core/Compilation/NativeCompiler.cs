@@ -23,15 +23,20 @@ namespace Computator.NET.Core.Compilation
     public class NativeCompiler : Component
     {
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
+        // Filesystem paths can differ only by case, even on a host whose usual
+        // volume is case-insensitive. Keep their metadata separate; Roslyn can
+        // recognize identical images referenced through more than one spelling.
+        // Assembly-name lookup below remains case-insensitive.
+        private static readonly StringComparer ReferencePathComparer = StringComparer.Ordinal;
         private static readonly ConcurrentDictionary<string, PortableExecutableReference> ReferenceCache =
-            new ConcurrentDictionary<string, PortableExecutableReference>(StringComparer.OrdinalIgnoreCase);
+            new ConcurrentDictionary<string, PortableExecutableReference>(ReferencePathComparer);
         private static readonly Lazy<string[]> RuntimeReferences = new Lazy<string[]>(FindRuntimeReferences);
         private static readonly Lazy<string[]> DefaultResolvedReferences = new Lazy<string[]>(() =>
             new[] { "Meta.Numerics.dll", "MathNet.Numerics.dll", "Accord.Math.dll", "Accord.dll" }
                 .Select(ResolveReference).ToArray());
         private static readonly Lazy<HashSet<string>> SharedDefaultReferencePaths = new Lazy<HashSet<string>>(() =>
             new HashSet<string>(RuntimeReferences.Value.Concat(DefaultResolvedReferences.Value),
-                StringComparer.OrdinalIgnoreCase));
+                ReferencePathComparer));
         private static readonly Lazy<PortableExecutableReference[]> SharedRuntimeMetadata =
             new Lazy<PortableExecutableReference[]>(() =>
                 SharedDefaultReferencePaths.Value
@@ -90,7 +95,7 @@ namespace Computator.NET.Core.Compilation
                 ? SharedRuntimeMetadata.Value
                 : SharedRuntimeMetadata.Value.Concat(references.Select(ResolveReference)
                     .Where(path => !defaultPaths.Contains(path))
-                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .Distinct(ReferencePathComparer)
                     .Select(path => ReferenceCache.GetOrAdd(path, file => MetadataReference.CreateFromFile(file))));
             var tree = CSharpSyntaxTree.ParseText(input,
                 SharedParseOptions, encoding: Encoding.UTF8);
@@ -127,7 +132,7 @@ namespace Computator.NET.Core.Compilation
             var packagedFacades = Path.Combine(AppContext.BaseDirectory, "Facades");
             if (Directory.Exists(packagedFacades)) facades = packagedFacades;
             if (Directory.Exists(facades)) paths.AddRange(Directory.EnumerateFiles(facades, "*.dll"));
-            return paths.Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
+            return paths.Distinct(ReferencePathComparer).ToArray();
         }
 
         private static string ResolveReference(string reference)
