@@ -141,6 +141,7 @@
     <File Path="build/mono/package.py" />
     <File Path="build/mono/runtime.Dockerfile" />
     <File Path="build/mono/test_package.py" />
+    <File Path="build/mono/test_font_assets.py" />
     <File Path="build/mono/test_preflight.py" />
     <File Path="build/mono/DesktopMenuProbe.cs" />
     <File Path="build/mono/validate-desktop-menu.sh" />
@@ -157,6 +158,7 @@
     <File Path="build/mono/SmokeTests/ComplexChartUiAcceptance.cs" />
     <File Path="build/mono/SmokeTests/MonoAutocompleteTests.cs" />
     <File Path="build/mono/SmokeTests/MonoNumericLayoutTests.cs" />
+    <File Path="build/mono/SmokeTests/MonoMathFontTests.cs" />
     <File Path="build/mono/SmokeTests/MonoNumericParsingTests.cs" />
     <File Path="build/mono/SmokeTests/MonoScriptPlotTests.cs" />
     <File Path="build/mono/SmokeTests/LocalizationTests.cs" />
@@ -345,6 +347,7 @@
   </Folder>
   <Folder Name="/Documentation/Evidence/">
     <File Path="docs/evidence/mono-drawing-2026-11-02.json" />
+    <File Path="docs/evidence/mono-fonts-2026-11-15/README.md" />
     <File Path="docs/followups/images/issue-255/evidence.json" />
     <File Path="docs/evidence/historical-upgrade-2026-10-16.json" />
     <File Path="docs/evidence/historical-upgrade-2026-10-16/README.md" />

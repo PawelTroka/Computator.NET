@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "upstream": "https://github.com/notofonts/noto-fonts",
+  "commit": "ffebf8c1ee449e544955a7e813c54f9b73848eac",
+  "license": {
+    "file": "OFL.txt",
+    "source": "https://raw.githubusercontent.com/notofonts/noto-fonts/ffebf8c1ee449e544955a7e813c54f9b73848eac/LICENSE",
+    "sha256": "0dab92d0544f7b233403f14b84a663bdbfa746982eda629e7f4f9ffe1b036feb"
+  },
+  "fonts": [
+    {
+      "file": "NotoSansMono-Regular.ttf",
+      "family": "Noto Sans Mono",
+      "version": "Version 2.007; ttfautohint (v1.8) -l 8 -r 50 -G 200 -x 14 -D latn -f none -a qsq -X \"\"",
+      "copyright": "Copyright 2015-2021 Google LLC. All Rights Reserved.",
+      "sha256": "d9e2b23d19f8230be7146f409a52b1d23117e635e28f2e2892cf91b7382f325b",
+      "source": "https://raw.githubusercontent.com/notofonts/noto-fonts/ffebf8c1ee449e544955a7e813c54f9b73848eac/hinted/ttf/NotoSansMono/NotoSansMono-Regular.ttf"
+    },
+    {
+      "file": "NotoSerif-Regular.ttf",
+      "family": "Noto Serif",
+      "version": "Version 2.007; ttfautohint (v1.8) -l 8 -r 50 -G 200 -x 14 -D latn -f none -a qsq -X \"\"",
+      "copyright": "Copyright 2015-2021 Google LLC. All Rights Reserved.",
+      "sha256": "c8f669ceb2c9c60ccf55198b305e08a997ffca79a38cc7eeb551e643cbe66505",
+      "source": "https://raw.githubusercontent.com/notofonts/noto-fonts/ffebf8c1ee449e544955a7e813c54f9b73848eac/hinted/ttf/NotoSerif/NotoSerif-Regular.ttf"
+    },
+    {
+      "file": "NotoSansOlChiki-Regular.ttf",
+      "family": "Noto Sans Ol Chiki",
+      "version": "Version 2.002; ttfautohint (v1.8) -l 8 -r 50 -G 200 -x 14 -D olck -f none -a qsq -X \"\"",
+      "copyright": "Copyright 2019 Google LLC. All Rights Reserved.",
+      "sha256": "8aa3fe0d4cafc878023061ff4db4de90a4334153716d7b69d60e9a2c8e06e18d",
+      "source": "https://raw.githubusercontent.com/notofonts/noto-fonts/ffebf8c1ee449e544955a7e813c54f9b73848eac/hinted/ttf/NotoSansOlChiki/NotoSansOlChiki-Regular.ttf"
+    }
+  ]
+}

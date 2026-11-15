@@ -11,6 +11,12 @@
     <ProjectReference Include="..\Computator.NET.Engine\Computator.NET.Engine.csproj" />
     <Compile Remove="Text\SpecialSymbols.cs" />
   </ItemGroup>
+  <ItemGroup Condition="'$(ComputatorMono)' == 'true'">
+    <Content Include="Fonts\*" Link="Static/fonts/%(Filename)%(Extension)">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\GraphicsResources.Designer.cs"><DesignTime>True</DesignTime><AutoGen>True</AutoGen><DependentUpon>GraphicsResources.resx</DependentUpon></Compile>
     <EmbeddedResource Update="Properties\GraphicsResources.resx"><Generator>PublicResXFileCodeGenerator</Generator><LastGenOutput>GraphicsResources.Designer.cs</LastGenOutput></EmbeddedResource>
