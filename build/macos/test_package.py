@@ -276,10 +276,114 @@ diff --git a/input.c b/input.c
         del frozen['formulae'][0]['local_patch_checksums']
         pins=mac.local_patch_pins(recipe,'glib','2.90.1',digest,frozen,receipt=receipt,patch_proofs=proof)
         self.assertEqual('e'*40,pins[0]['tapCommit'])
+        self.assertEqual('installed-receipt',pins[0]['tapCommitBasis'])
+        self.assertEqual('e'*40,pins[0]['receiptTapCommit'])
         self.assertIn('older API has no declared SHA256',pins[0]['sha256Basis'])
         proof[patch_path]['commit']='b'*40
         with self.assertRaisesRegex(ValueError,'exact pinned local patch'):
             mac.local_patch_pins(recipe,'glib','2.90.1',digest,frozen,receipt=receipt,patch_proofs=proof)
+
+    def glib_source_fixture(self):
+        return json.loads((Path(__file__).with_name('fixtures')/'glib-2.90.1-provenance.json').read_text())
+
+    def glib_patch_pins(self,fixture):
+        metadata=fixture['frozen']['formulae'][0]
+        path='Patches/glib/hardcoded-paths.diff'
+        patch=fixture['gitFiles'][path]
+        proof={path:{'commit':metadata['tap_git_head'],'path':path,
+                     'gitBlobSha1':patch['gitBlobSha1'],'sha256':hashlib.sha256(patch['text'].encode()).hexdigest()}}
+        return mac.local_patch_pins(fixture['installedRecipe'],'glib',fixture['installedVersion'],
+            fixture['installedRecipeSha256'],fixture['frozen'],fixture['gitFiles']['Formula/g/glib.rb']['text'],
+            fixture['receipt'],proof)
+
+    def test_null_receipt_retains_actual_frozen_glib_sources(self):
+        # Real ARM CI inputs: Homebrew's API-loaded receipt has no tap commit,
+        # but its frozen formula metadata pins the exact recipe and patch bytes.
+        fixture=self.glib_source_fixture()
+        metadata=fixture['frozen']['formulae'][0]
+        keg=self.base/'Cellar/glib/2.90.1'
+        (keg/'.brew').mkdir(parents=True)
+        (keg/'.brew/glib.rb').write_bytes(fixture['installedRecipe'].encode())
+        (keg/'INSTALL_RECEIPT.json').write_text(json.dumps(fixture['receipt']))
+        prepared=self.base/'prepared'
+        (prepared/'logs').mkdir(parents=True)
+        (prepared/'logs/homebrew-installed.json').write_text(json.dumps(fixture['frozen']))
+        (prepared/'downloads').mkdir()
+        for name in ('libgdiplus-6.2.tar.gz','libgdiplus-6.2-complete-git.tar.gz'):
+            (prepared/'downloads'/name).write_bytes(b'independent libgdiplus source fixture')
+        root=self.base/'repository'
+        for name in ('build/macos/native-dependencies.json','build/mono/gdiplus-source.json',
+                     'build/mono/libgdiplus-pango-fontmap.patch'):
+            target=root/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_text('fixture')
+        (self.resources/'share').mkdir(exist_ok=True)
+        requested=[]
+        def git_response(request,timeout):
+            url=mac.urllib.parse.urlsplit(request.full_url)
+            self.assertEqual({'ref':[metadata['tap_git_head']]},mac.urllib.parse.parse_qs(url.query))
+            path=url.path.removeprefix('/repos/Homebrew/homebrew-core/contents/')
+            item=fixture['gitFiles'][path];data=item['text'].encode();requested.append(path)
+            return io.BytesIO(json.dumps({'type':'file','path':path,'encoding':'base64','size':len(data),
+                'content':base64.b64encode(data).decode(),'sha':item['gitBlobSha1']}).encode())
+        opener=mock.Mock();opener.open.side_effect=git_response
+        with mock.patch.object(mac,'ROOT',root),\
+                mock.patch.object(mac.urllib.request,'build_opener',return_value=opener),\
+                mock.patch.object(mac,'download_verified',side_effect=lambda url,digest,target: target.write_bytes(b'archive fixture')):
+            packages=mac.retain_sources([{'originalPath':str(keg/'lib/libglib-2.0.0.dylib')}],prepared,self.resources)
+        self.assertEqual(['Formula/g/glib.rb','Patches/glib/hardcoded-paths.diff'],requested)
+        package=packages['glib'];proof=package['frozenFormulaProof'];patch=package['externalPatches'][0]
+        self.assertEqual(fixture['installedRecipeSha256'],package['recipeSha256'])
+        self.assertEqual(metadata['tap_git_head'],proof['commit'])
+        self.assertEqual('frozen-formula-metadata',proof['tapCommitBasis'])
+        self.assertIsNone(proof['receiptTapCommit'])
+        self.assertEqual(metadata,json.loads((self.resources/proof['metadataFile']).read_text()))
+        self.assertEqual('frozen-formula-metadata',patch['tapCommitBasis'])
+        self.assertIsNone(patch['receiptTapCommit'])
+        self.assertEqual(metadata['local_patch_checksums'][patch['path']],mac.sha(self.resources/patch['file']))
+        self.assertEqual(fixture['gitFiles'][patch['path']]['gitBlobSha1'],patch['gitBlobSha1'])
+        retained=self.resources/'share/native-sources/glib/INSTALL_RECEIPT.json'
+        self.assertEqual(fixture['receipt'],json.loads(retained.read_text()))
+
+    def test_missing_receipt_head_uses_the_same_verified_frozen_fallback(self):
+        fixture=self.glib_source_fixture()
+        del fixture['receipt']['source']['tap_git_head']
+        pins=self.glib_patch_pins(fixture)
+        self.assertEqual('frozen-formula-metadata',pins[0]['tapCommitBasis'])
+        self.assertIsNone(pins[0]['receiptTapCommit'])
+        self.assertEqual(fixture['frozen']['formulae'][0]['tap_git_head'],pins[0]['tapCommit'])
+
+    def test_malformed_receipt_head_cannot_select_a_different_commit(self):
+        for head in ('',False,123,{},'bad-commit','A'*40):
+            with self.subTest(head=head):
+                fixture=self.glib_source_fixture();fixture['receipt']['source']['tap_git_head']=head
+                with self.assertRaisesRegex(ValueError,'Invalid installed receipt tap commit'):
+                    self.glib_patch_pins(fixture)
+
+    def test_frozen_fallback_requires_valid_commit_and_declared_patch_checksums(self):
+        path='Patches/glib/hardcoded-paths.diff'
+        for field,value in (('tap_git_head',None),('tap_git_head',''),('tap_git_head',17),
+                            ('local_patch_checksums',None),('local_patch_checksums',{}),
+                            ('local_patch_checksums',{path:None}),('local_patch_checksums',{path:'bad'}),
+                            ('local_patch_checksums',{path:'0'*64})):
+            with self.subTest(field=field,value=value):
+                fixture=self.glib_source_fixture();fixture['frozen']['formulae'][0][field]=value
+                with self.assertRaisesRegex(ValueError,'frozen tap commit|declared local patch SHA256|exact pinned local patch'):
+                    self.glib_patch_pins(fixture)
+
+    def test_frozen_fallback_retains_recipe_tap_and_version_checks(self):
+        for change in ('metadata-tap','receipt-tap','receipt-version','revision','recipe','rehash-recipe','no-receipt'):
+            with self.subTest(change=change):
+                fixture=self.glib_source_fixture();metadata=fixture['frozen']['formulae'][0]
+                if change=='metadata-tap': metadata['tap']='other/tap'
+                elif change=='receipt-tap': fixture['receipt']['source']['tap']='other/tap'
+                elif change=='receipt-version': fixture['receipt']['source']['versions']['stable']='2.90.0'
+                elif change=='revision': metadata['revision']=1
+                elif change=='no-receipt': fixture['receipt']=None
+                else:
+                    fixture['installedRecipe']+='\nsystem "changed-build"\n'
+                    if change=='rehash-recipe':
+                        fixture['installedRecipeSha256']=hashlib.sha256(fixture['installedRecipe'].encode()).hexdigest()
+                with self.assertRaisesRegex(ValueError,'installed recipe/version|recorded SHA256|reviewed staging|receipt source metadata'):
+                    self.glib_patch_pins(fixture)
 
     def test_pinned_git_file_checks_immutable_tree_blob_and_optional_declared_checksum(self):
         data=b'actual source bytes\n'
