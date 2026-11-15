@@ -15,6 +15,7 @@
     <Compile Include="../Computator.NET.Core/Compilation/TslHandlers/*.cs" Link="Language/Handlers/%(Filename)%(Extension)" />
     <Compile Include="../Computator.NET.DataTypes/Text/SpecialSymbols.cs" Link="Language/SpecialSymbols.cs" />
     <Compile Include="../Computator.NET.Core/Constants/MathematicalConstants.cs" Link="Mathematics/MathematicalConstants.cs" />
+    <Compile Include="../Computator.NET.Core/Constants/PhysicalConstants.cs" Link="Mathematics/PhysicalConstants.cs" />
     <!-- Compile existing scientific implementations exactly once. Windows Core
          consumes this assembly and forwards the original public type identities. -->
     <Compile Include="../Computator.NET.Core/Functions/MatrixFunctions.cs" Link="Mathematics/MatrixFunctions.cs" />

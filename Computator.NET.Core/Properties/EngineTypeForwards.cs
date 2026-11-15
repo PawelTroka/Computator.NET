@@ -12,3 +12,4 @@ using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(Computator.NET.Core.Compilation.TslHandlers.RefOutHandler))]
 [assembly: TypeForwardedTo(typeof(Computator.NET.Core.Compilation.TslHandlers.SpecialSymbolsHandler))]
 [assembly: TypeForwardedTo(typeof(Computator.NET.Core.Constants.MathematicalConstants))]
+[assembly: TypeForwardedTo(typeof(Computator.NET.Core.Constants.PhysicalConstants))]

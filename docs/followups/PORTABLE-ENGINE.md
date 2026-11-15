@@ -79,7 +79,29 @@ Use TSL `write(...)` for script result text. Ordinary managed Console writes are
 
 ## Supported capabilities and boundaries
 
-The portable surface includes real/two-variable and complex arithmetic, TSL notation, mathematical constants, custom definitions, managed scripts, the imported matrix functions, qualified `Euclid.*` integer utilities, and the shared integration/differentiation/root services. The scalar adapters (`sin`, `cos`, `tan`, `sqrt`, `exp`, `ln`, `log`, `abs`, `pow`, `floor`, `ceil`, `round`) delegate to .NET's functions. [ScalarFunctions.cs](../../Computator.NET.Engine/ScalarFunctions.cs) defines available scalar spellings; [portable science](PORTABLE-SCIENCE.md) explains shared numerical implementations.
+The portable surface includes real/two-variable and complex arithmetic, TSL notation, mathematical and physical constants, custom definitions, managed scripts, the imported matrix functions, qualified `Euclid.*` integer utilities, and the shared integration/differentiation/root services. The scalar adapters (`sin`, `cos`, `tan`, `sqrt`, `exp`, `ln`, `log`, `abs`, `pow`, `floor`, `ceil`, `round`) delegate to .NET's functions. [ScalarFunctions.cs](../../Computator.NET.Engine/ScalarFunctions.cs) defines available scalar spellings; [portable science](PORTABLE-SCIENCE.md) explains shared numerical implementations.
+
+All **342 physical constants and conversion factors** use the existing desktop
+values from [PhysicalConstants.cs](../../Computator.NET.Core/Constants/PhysicalConstants.cs).
+They work in expressions, scripts, custom functions and numerical commands, and
+appear in both portable browser completion catalogs with their stored values.
+For example:
+
+```sh
+dotnet artifacts/portable/computator.dll calculate --expression 'c'
+# {"result":"299792458"}
+dotnet artifacts/portable/computator.dll calculate --expression 'StandardAtmosphere'
+# {"result":"101325"}
+```
+
+This preserves desktop compatibility, including historical values; it does not
+update the constants to current SI definitions. For example, `g` remains
+`9.80625`, while `StandardAccelerationOfGravity` remains `9.80665`, and
+`ElementaryCharge` remains `1.602176565e-19`. Use the existing desktop reference
+for each name's units and conventions, and supply explicitly chosen constants
+when a calculation requires a particular standards revision. User-defined local
+variables, parameters and custom members keep their usual precedence over
+imported constant names.
 
 `Euclid.GreatestCommonDivisor(-84,30)` returns `6`, and
 `Euclid.Modulus(-7,3)` returns `2`. These qualified calls use the existing pinned

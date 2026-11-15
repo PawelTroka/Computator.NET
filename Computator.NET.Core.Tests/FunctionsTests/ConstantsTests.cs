@@ -16,6 +16,14 @@ namespace Computator.NET.Core.Tests
         }
 
         [Test]
+        public void PhysicsConstants_RetainTheirCoreTypeIdentity()
+        {
+            var core = typeof(Computator.NET.Core.Evaluation.ExpressionsEvaluator).Assembly;
+            Assert.AreEqual(typeof(PhysicalConstants), core.GetType(typeof(PhysicalConstants).FullName, true));
+            Assert.AreEqual(typeof(Computator.NET.Engine.PortableEngine).Assembly, typeof(PhysicalConstants).Assembly);
+        }
+
+        [Test]
         public void MathematicalConstants_AreAccessible()
         {
             AreAccessible(typeof(MathematicalConstants));

@@ -52,6 +52,15 @@ function Assert-Number {
 $temp = Join-Path ([IO.Path]::GetTempPath()) ('Computator-Portable-' + [Guid]::NewGuid().ToString('N'))
 New-Item -ItemType Directory -Path $temp | Out-Null
 try {
+    Assert-Number -Arguments @('calculate','--expression','c') -Expected 299792458 -Tolerance 0
+    Assert-Number -Arguments @('calculate','--expression','ElementaryCharge') -Expected 1.602176565e-19 -Tolerance 0
+    $physicalComplex = Invoke-Cli -Arguments @('complex','--expression','c+z','--real','3','--imaginary','4')
+    if ($physicalComplex.result -ne ([Numerics.Complex]::new(299792461, 4).ToString('R', [Globalization.CultureInfo]::InvariantCulture))) {
+        throw 'Physical constants are unavailable in complex CLI expressions.'
+    }
+    Assert-Number -Arguments @('integrate','--expression','c*x','--a','0','--b','1','--steps','2') -Expected 149896229 -Tolerance 1e-6
+    Assert-Number -Arguments @('differentiate','--expression','c*x','--x','0') -Expected 299792458 -Tolerance 1e-6
+    Assert-Number -Arguments @('root','--expression','c*(x-1)','--a','0','--b','2') -Expected 1
     Assert-Number -Arguments @('calculate','--expression','2x+3','--x','7') -Expected 17
     Assert-Number -Arguments @('calculate','--expression','x/y','--x','-7.5','--y','2') -Expected -3.75
     $functions = Join-Path $temp 'Żółć functions.tslf'
