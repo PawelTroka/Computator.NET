@@ -19492,10 +19492,11 @@ var roots = p.Roots();</code></pre><p><strong>Result:</strong> Three roots appro
     <Category>Script plotting</Category>
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><code>void plot(function fx, IEnumerable`1 xys1, IEnumerable`1 xys2,  ...)</code></p>
-<p class="reference-summary">Displays a real function with additional data series assembled from successive adjacent sequence pairs.</p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> Explicit bounds use XMin&lt;XMax and YMin&lt;YMax; quality is multiplied by 100 before being sent to the chart. Default bounds are −5…5 and default quality 0.5 where supplied.</p>
-<p class="reference-note"><strong>Important:</strong> This opens a modal Windows plot dialog; it does not return an image or implement server-side rendering. Browser users should use the Chart screen. Data-series orientation follows the historical AddDataPoints adapters, and mismatched sequence lengths can fail.</p>
+<p class="reference-summary">Displays a real function together with independent x/y point series.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> After fx, supply x1,y1,x2,y2 and so on: each x sequence is followed by its matching y sequence. Use equally sized finite sequences within each pair; different pairs may contain different numbers of points. An empty sequence array keeps only the function series.</p>
+<p class="reference-note"><strong>Important:</strong> A null sequence array or an incomplete x/y pair raises an argument error before a plot opens. Automatic data bounds are preserved; set finite chart bounds to sample the function if its curve is absent. This opens a desktop plot window; browser users should use the Chart screen.</p>
 <p class="reference-explanation">A plotted curve or surface is a sampled representation. Insufficient resolution can hide oscillations and discontinuities, and joining samples across a pole can suggest a false continuous curve. Adjust bounds and sampling quality to the feature being investigated.</p>
+<p class="reference-example"><strong>Example:</strong> plot((real t) =&gt; t*t, new double[] {1,2}, new double[] {3,4}, new double[] {-2,-1}, new double[] {1,2}); adds two point series, (1,3),(2,4) and (−2,1),(−1,2), alongside the function.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/ScriptingFunctions.cs">github.com</a></p>
 </div>]]></Description>
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/ScriptingFunctions.cs</Url>
