@@ -79,19 +79,32 @@ public sealed partial class PortableEngine
         // Framework/Mono cannot unload individual generated assemblies. Keep the
         // same compiler and numerical types; assemblies live until process exit.
         var assembly = Assembly.Load(stream.ToArray());
-        var method = assembly.GetType("Program", throwOnError: true)!.GetMethod("Run", BindingFlags.Static | BindingFlags.Public)!;
-        return new Compiled<T>((T)Delegate.CreateDelegate(typeof(T), method));
+        return new Compiled<T>(BindEntryPoint<T>(assembly));
 #else
         var context = new AssemblyLoadContext("Computator.Program." + Guid.NewGuid().ToString("N"), isCollectible: true);
         try
         {
             var assembly = context.LoadFromStream(stream);
-            var method = assembly.GetType("Program", throwOnError: true)!.GetMethod("Run", BindingFlags.Static | BindingFlags.Public)!;
-            return new Compiled<T>(context, method.CreateDelegate<T>());
+            return new Compiled<T>(context, BindEntryPoint<T>(assembly));
         }
         catch { context.Unload(); throw; }
 #endif
     }
+    private static T BindEntryPoint<T>(Assembly assembly) where T : Delegate
+    {
+        // Custom definitions may contain other public overloads named Run.
+        // Match the generated signature explicitly: Mono's name-based delegate
+        // binder can still treat a generic overload as an ambiguous candidate.
+        var signature = typeof(T).GetMethod("Invoke")!;
+        var parameters = signature.GetParameters().Select(parameter => parameter.ParameterType).ToArray();
+        var method = assembly.GetType("Program", throwOnError: true)!
+            .GetMethods(BindingFlags.Static | BindingFlags.Public)
+            .Single(candidate => candidate.Name == "Run" && !candidate.IsGenericMethod &&
+                candidate.ReturnType == signature.ReturnType &&
+                candidate.GetParameters().Select(parameter => parameter.ParameterType).SequenceEqual(parameters));
+        return (T)Delegate.CreateDelegate(typeof(T), method);
+    }
+
     private static MetadataReference[] CreateReferences()
     {
         var trusted = AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES") as string;
