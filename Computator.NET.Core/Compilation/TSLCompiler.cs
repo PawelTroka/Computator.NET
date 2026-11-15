@@ -7,6 +7,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
+using Computator.NET.DataTypes.Text;
 
 namespace Computator.NET.Core.Compilation
 {
@@ -127,10 +128,20 @@ namespace Computator.NET.Core.Compilation
             var prefix = "__ComputatorLiteral" + Guid.NewGuid().ToString("N") + "_";
             foreach (var token in root.DescendantTokens(descendIntoTrivia: true))
             {
-                if (token.Span.Length == 0 || (!IsLiteralText(token.Kind()) &&
+                var prefixedInteger = IsPrefixedInteger(token, source);
+                if (token.Span.Length == 0 || (!prefixedInteger && !IsLiteralText(token.Kind()) &&
                     !(token.IsKind(SyntaxKind.IdentifierToken) &&
                         (declaredPowerNames.Contains(token.ValueText) || constructedTypeSpans.Contains(token.Span))))) continue;
-                changes.Add(new TextChange(token.Span, prefix + literals.Count + "__"));
+                var replacement = prefix + literals.Count + "__";
+                if (prefixedInteger)
+                {
+                    // Keep native integer types and unary-minus literal rules.
+                    // Only direct divisors need floating promotion, just as
+                    // decimal divisors do in DivisionHandler.
+                    if (IsDirectDivisor(token)) replacement = "(1.0*" + replacement + ")";
+                    if (IsCoefficientBeforeParentheses(token, source)) replacement += "*";
+                }
+                changes.Add(new TextChange(token.Span, replacement));
                 literals.Add(token.Text);
             }
             foreach (var trivia in root.DescendantTrivia(descendIntoTrivia: true))
@@ -202,5 +213,44 @@ namespace Computator.NET.Core.Compilation
             or SyntaxKind.SingleLineRawStringLiteralToken or SyntaxKind.MultiLineRawStringLiteralToken
             or SyntaxKind.Utf8StringLiteralToken or SyntaxKind.Utf8SingleLineRawStringLiteralToken
             or SyntaxKind.Utf8MultiLineRawStringLiteralToken;
+
+        private static bool IsPrefixedInteger(SyntaxToken token, SourceText source)
+        {
+            if (!token.IsKind(SyntaxKind.NumericLiteralToken) || token.Text.Length < 3 ||
+                token.Text[0] != '0' || "xXbB".IndexOf(token.Text[1]) < 0) return false;
+            var digit = 2;
+            while (digit < token.Text.Length && token.Text[digit] == '_') digit++;
+            if (digit == token.Text.Length || (token.Text[1] is 'b' or 'B'
+                ? token.Text[digit] is not ('0' or '1') : !Uri.IsHexDigit(token.Text[digit]))) return false;
+            // Keep malformed digit-bearing literals too, so overflow and invalid
+            // separators remain compiler errors after the original text returns.
+            // Preserve identifier coefficients such as 0xname and 0x10value,
+            // and never turn a partial token in 0b102 into a valid product.
+            return token.Span.End == source.Length || !SyntaxFacts.IsIdentifierPartCharacter(source[token.Span.End]) ||
+                SpecialSymbols.SuperscriptsWithoutSpace.Contains(source[token.Span.End]);
+        }
+
+        private static bool IsCoefficientBeforeParentheses(SyntaxToken token, SourceText source)
+        {
+            var next = token.GetNextToken();
+            if (!next.IsKind(SyntaxKind.OpenParenToken)) return false;
+            // Recovery can attach a TSL superscript as skipped trivia. Only an
+            // actual whitespace/comment gap makes this a numeric coefficient.
+            var gap = source.ToString(TextSpan.FromBounds(token.Span.End, next.Span.Start));
+            var trivia = SyntaxFactory.ParseLeadingTrivia(gap);
+            return trivia.FullSpan.Length == gap.Length && trivia.All(item => item.Kind() is
+                SyntaxKind.WhitespaceTrivia or SyntaxKind.EndOfLineTrivia or
+                SyntaxKind.SingleLineCommentTrivia or SyntaxKind.MultiLineCommentTrivia);
+        }
+
+        private static bool IsDirectDivisor(SyntaxToken token)
+        {
+            var operand = token.Parent;
+            while (operand?.Parent is PrefixUnaryExpressionSyntax unary &&
+                (unary.IsKind(SyntaxKind.UnaryPlusExpression) || unary.IsKind(SyntaxKind.UnaryMinusExpression)))
+                operand = unary;
+            return operand?.Parent is BinaryExpressionSyntax binary &&
+                binary.IsKind(SyntaxKind.DivideExpression) && binary.Right == operand;
+        }
     }
 }
