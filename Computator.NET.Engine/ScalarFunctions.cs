@@ -5,6 +5,14 @@ namespace Computator.NET.Engine;
 /// <summary>TSL spelling adapters to the BCL for the initial portable execution surface.</summary>
 public static class ScalarFunctions
 {
+    // Match the shared desktop definitions, including the removable singularity
+    // at zero. These managed implementations work on Windows, macOS and Linux.
+    public static double sinc(double x) => x == 0 ? 1 : Math.Sin(x) / x;
+    public static Complex sinc(Complex z) => z == Complex.Zero ? Complex.One : Complex.Sin(z) / z;
+
+    // Math.Sign throws for NaN; the desktop sgn contract returns NaN instead.
+    public static double sgn(double x) => double.IsNaN(x) ? double.NaN : Math.Sign(x);
+
     public static double sin(double x) => Math.Sin(x);
     public static Complex sin(Complex z) => Complex.Sin(z);
     public static double cos(double x) => Math.Cos(x);
