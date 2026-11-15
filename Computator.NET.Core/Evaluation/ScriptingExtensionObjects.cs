@@ -66,7 +66,7 @@ namespace Computator.NET.Core.Evaluation
 
         public File(string path)
         {
-            this.path = path;
+            this.path = System.IO.Path.GetFullPath(path);
             reOpen();
         }
 
@@ -358,7 +358,7 @@ namespace Computator.NET.Core.Evaluation
 
         public File(string path)
         {
-            this.path = path;
+            this.path = System.IO.Path.GetFullPath(path);
             reOpen();
         }
 
