@@ -71,17 +71,22 @@ app.MapGet("/api/portable/status", (WorkerProcess workers) => new
 {
     implementation = "portable-local-poc", os = RuntimeInformation.OSDescription,
     architecture = RuntimeInformation.ProcessArchitecture.ToString(), activeWorkerCount = workers.ActiveCount,
-    operations = Execution.Operations, chart = false, nativeGsl = false
+    operations = Execution.Operations, chart = true, chartKinds = new[] { "curve" }, nativeGsl = false
 });
 app.MapGet("/api/numerical-calculations/integral/list-methods", () => new[] { Execution.IntegralMethod });
 app.MapGet("/api/numerical-calculations/derivative/list-methods", () => new[] { Execution.DerivativeMethod });
 app.MapGet("/api/numerical-calculations/function-root/list-methods", () => new[] { Execution.RootMethod });
 app.MapGet("/api/autocomplete/expression", () => PortableCatalog.Items(false));
 app.MapGet("/api/autocomplete/scripting", () => PortableCatalog.Items(true));
-app.MapPost("/api/v2/chart", () => Results.Problem(statusCode: 422,
-    title: "Charts are not implemented in this portable proof of concept.",
-    detail: "The portable local application currently supports calculations, scripts, custom functions and selected numerical methods. Desktop and 3D integration remain separate work."));
-app.MapPost("/api/v2/execute", async (HttpContext context, WorkerProcess workers) =>
+app.MapPost("/api/v2/chart", (HttpContext context, WorkerProcess workers) => HandleRequest(context, workers, chart: true));
+app.MapPost("/api/v2/execute", (HttpContext context, WorkerProcess workers) => HandleRequest(context, workers, chart: false));
+app.Map("/api/{**path}", () => Results.NotFound());
+app.MapGet("/", () => Results.Redirect("/calculate"));
+app.MapFallbackToFile("index.html");
+await app.RunAsync();
+return 0;
+
+static async Task<IResult> HandleRequest(HttpContext context, WorkerProcess workers, bool chart)
 {
     if (!MediaTypeHeaderValue.TryParse(context.Request.ContentType, out var contentType) ||
         !string.Equals(contentType.MediaType, "application/json", StringComparison.OrdinalIgnoreCase))
@@ -98,19 +103,16 @@ app.MapPost("/api/v2/execute", async (HttpContext context, WorkerProcess workers
         }
         var request = JsonSerializer.Deserialize<ExecutionRequest>(body.ToArray(), Execution.JsonOptions)
             ?? throw new ArgumentException("A JSON request is required.");
-        Execution.Validate(request);
+        // The route selects chart execution. /execute retains its existing operation set.
+        if (chart) request.Operation = "chart";
+        Execution.Validate(request, chart);
         var reply = await workers.RunAsync(request, context.RequestAborted);
-        return reply.Status == 200 ? Results.Ok(new { result = reply.Result })
-            : Results.Problem(statusCode: reply.Status, title: "Execution failed.", detail: reply.Detail,
-                extensions: reply.Diagnostics == null ? null : new Dictionary<string, object?> { ["diagnostics"] = reply.Diagnostics });
+        if (reply.Status == 200) return chart ? Results.Ok(reply.Curve) : Results.Ok(new { result = reply.Result });
+        return Results.Problem(statusCode: reply.Status, title: chart ? "Chart generation failed." : "Execution failed.", detail: reply.Detail,
+            extensions: reply.Diagnostics == null ? null : new Dictionary<string, object?> { ["diagnostics"] = reply.Diagnostics });
     }
     catch (Exception exception) when (exception is JsonException or ArgumentException)
     { return Results.Problem(statusCode: 400, title: "Invalid execution request.", detail: exception.Message); }
     catch (BadHttpRequestException exception)
     { return Results.Problem(statusCode: exception.StatusCode, title: "Invalid execution request."); }
-});
-app.Map("/api/{**path}", () => Results.NotFound());
-app.MapGet("/", () => Results.Redirect("/calculate"));
-app.MapFallbackToFile("index.html");
-await app.RunAsync();
-return 0;
+}

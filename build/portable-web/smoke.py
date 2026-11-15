@@ -153,6 +153,26 @@ def main() -> int:
         require(math.isfinite(actual) and math.isclose(actual, expected, rel_tol=0, abs_tol=tolerance),
                 f'Expected {expected}, got {actual}.')
 
+    def chart(payload, expected_status: int = 200):
+        code, body, _ = request('/api/v2/chart', payload)
+        require(code == expected_status, f'Chart returned {code}, expected {expected_status}: {body}')
+        require(isinstance(body, dict), f'Invalid chart response: {body}')
+        if code != 200:
+            require(body.get('detail'), f'Missing chart problem details: {body}')
+            return body
+        require(body.get('kind') == 'curve', f'Expected numerical curve data: {body}')
+        x, y = body.get('x'), body.get('y')
+        require(isinstance(x, list) and isinstance(y, list) and len(x) == len(y) and 33 <= len(x) <= 8193,
+                'Unexpected curve array size.')
+        require(all(isinstance(value, (int, float)) and math.isfinite(value) for value in x) and
+                all(left < right for left, right in zip(x, x[1:])), 'Curve coordinates must be finite and increasing.')
+        require(all(value is None or isinstance(value, (int, float)) and math.isfinite(value) for value in y),
+                'Undefined curve values must be null.')
+        finite = sum(value is not None for value in y)
+        require(body.get('finiteSamples') == finite and body.get('missingSamples') == len(x) - finite,
+                'Curve sample counts differ from the actual data.')
+        return body
+
     def dependencies() -> None:
         config = json.loads((published / 'Computator.NET.PortableWeb.runtimeconfig.json').read_text())
         options = config['runtimeOptions']
@@ -173,8 +193,8 @@ def main() -> int:
         nonlocal runtime
         runtime = status()
         require(runtime.get('implementation') == 'portable-local-poc', f'Unexpected implementation: {runtime}')
-        require(runtime.get('chart') is False and runtime.get('nativeGsl') is False,
-                'The proof of concept must not advertise charts or the native GSL catalog.')
+        require(runtime.get('chart') is True and runtime.get('chartKinds') == ['curve'] and runtime.get('nativeGsl') is False,
+                'The portable host must advertise only real curves and keep the native GSL boundary explicit.')
         require(set(runtime.get('operations', [])) == {'calculate', 'script', 'integral', 'derivative', 'function-root'},
                 f'Unexpected advertised operation set: {runtime}')
         if args.expected_architecture:
@@ -222,14 +242,46 @@ def main() -> int:
         execute({'operation': 'integral', 'expression': '2', 'a': 0, 'b': 3,
                  'method': 'Unavailable native method'}, 400)
 
+    def real_curves() -> None:
+        area = {'xMin': -2, 'xMax': 2, 'yMin': -1, 'yMax': 5, 'curveSamples': 65}
+        curve = chart({'expression': 'x²', **area})
+        require(curve['x'][0] == -2 and curve['x'][-1] == 2 and len(curve['x']) == 65,
+                'Curve endpoint/count contract differs.')
+        require(all(math.isclose(y, x * x, rel_tol=0, abs_tol=1e-12) for x, y in zip(curve['x'], curve['y'])),
+                'Real TSL square curve does not match known values.')
+        definitions = 'static real Probe(real x) { return x+7; }'
+        custom = chart({'expression': 'Probe(x)', 'customFunctions': definitions, **area})
+        require(all(math.isclose(y, x + 7, rel_tol=0, abs_tol=1e-12) for x, y in zip(custom['x'], custom['y'])),
+                'Unsaved custom functions did not reach the actual curve worker.')
+        chart({'expression': 'Probe(x)', **area}, 400)
+        pole = chart({'expression': '1/x', **area})
+        require(pole['y'][pole['x'].index(0)] is None, 'A singular sample must leave an explicit gap.')
+        maximum = chart({'expression': 'sin(100000*x)', **area, 'curveSamples': 4097})
+        require(maximum['finiteSamples'] >= 4097, 'Maximum-size curve was truncated in the worker pipe.')
+        for expression, x_min, x_max, expected in (
+                ('1.2345678901234567e308', 1e300, 1e308, 1.2345678901234567e308),
+                ('5e-324', 1e-300, 2e-300, 5e-324)):
+            extreme = chart({'expression': expression, 'xMin': x_min, 'xMax': x_max,
+                             'yMin': -1, 'yMax': 1, 'curveSamples': 4097})
+            require(len(extreme['x']) == 4097 and all(value == expected for value in extreme['y']),
+                    'Maximum-size extreme double values were changed or truncated in the worker pipe.')
+        chart({'expression': 'sqrt(-1)', **area}, 422)
+        empty = chart({'expression': 'sqrt(-1)', 'allowEmpty2D': True, **area})
+        require(empty['finiteSamples'] == 0 and empty['missingSamples'] == 65,
+                'Viewport navigation must preserve an empty existing curve.')
+        for changes in ({'curveSamples': 32}, {'curveSamples': 4098}, {'xMax': -2},
+                        {'xMin': 1e16, 'xMax': 1e16 + 32}, {'yMin': -1e308, 'yMax': 1e308}):
+            chart({'expression': 'x', **area, **changes}, 400)
+
     def local_boundary() -> None:
         payload = {'operation': 'calculate', 'expression': '2+2'}
-        for headers in ({'Host': 'example.com'}, {'Origin': 'https://example.com'},
-                        {'Sec-Fetch-Site': 'cross-site'}):
-            require(request('/api/v2/execute', payload, headers=headers)[0] == 403,
-                    f'Hostile browser request was accepted: {headers}')
-        require(request('/api/v2/execute', raw=b'2+2', headers={'Content-Type': 'text/plain'})[0] == 415,
-                'Execution must require application/json.')
+        for endpoint in ('/api/v2/execute', '/api/v2/chart'):
+            for headers in ({'Host': 'example.com'}, {'Origin': 'https://example.com'},
+                            {'Sec-Fetch-Site': 'cross-site'}):
+                require(request(endpoint, payload, headers=headers)[0] == 403,
+                        f'Hostile browser request was accepted on {endpoint}: {headers}')
+            require(request(endpoint, raw=b'2+2', headers={'Content-Type': 'text/plain'})[0] == 415,
+                    f'{endpoint} must require application/json.')
         # A server may terminate an oversized request while replying 413
         # (RFC9110 15.5.14). Sending the entire body first races that early
         # response with a macOS socket reset. Read the actual response to an
@@ -251,8 +303,15 @@ def main() -> int:
         number(payload, 4)
 
     def unsupported_and_recovery() -> None:
-        code, body, _ = request('/api/v2/chart', {'expression': 'x*x'})
-        require(code == 422 and isinstance(body, dict) and body.get('detail'), f'Chart limitation not explicit: {code} {body}')
+        for expression in ('z*z', 'x+y'):
+            failure = chart({'expression': expression}, 400)
+            require('real f(x)' in failure['detail'] and failure.get('diagnostics'),
+                    'Unsupported chart input must retain the scope and compilation diagnostics.')
+        for expression in ('x=1', '((x=1))', 'x²+y²=1'):
+            failure = chart({'expression': expression}, 400)
+            require('implicit equations are unavailable' in failure['detail'],
+                    'Implicit equations must not become assignment-based horizontal curves.')
+        execute({'operation': 'chart', 'expression': 'x*x'}, 400)
         execute({'operation': 'unknown', 'expression': '1'}, 400)
         execute({'operation': 'calculate', 'expression': 'missing(1)'}, 400)
         number({'operation': 'calculate', 'expression': '7*6'}, 42)
@@ -312,6 +371,13 @@ def main() -> int:
         require_reaped(read_worker_pid(pid_file))
         number({'operation': 'calculate', 'expression': '6*7'}, 42)
 
+    def curve_timeout_and_recovery() -> None:
+        pid_file, source = traced_worker('curve-timeout')
+        chart({'expression': 'Probe(x)', 'customFunctions': 'static real Probe(real x) { ' + source + ' }'}, 504)
+        wait_workers(0)
+        require_reaped(read_worker_pid(pid_file))
+        chart({'expression': 'x+1', 'curveSamples': 33})
+
     def cancellation_and_capacity() -> None:
         connections = []
         pid_files = []
@@ -325,8 +391,10 @@ def main() -> int:
                 pid_file, source = traced_worker(f'cancel-{index}')
                 pid_files.append(pid_file)
                 connection = http.client.HTTPConnection('127.0.0.1', port, timeout=5)
-                connection.request('POST', '/api/v2/execute',
-                                   json.dumps({'operation': 'script', 'expression': source}),
+                endpoint = '/api/v2/execute' if index == 0 else '/api/v2/chart'
+                payload = {'operation': 'script', 'expression': source} if index == 0 else {
+                    'expression': 'Probe(x)', 'customFunctions': 'static real Probe(real x) { ' + source + ' }'}
+                connection.request('POST', endpoint, json.dumps(payload),
                                    {'Content-Type': 'application/json'})
                 connections.append(connection)
             wait_workers(2)
@@ -334,6 +402,8 @@ def main() -> int:
             timing['executingWorkerSeconds'] = round(time.monotonic() - started_at, 3)
             code, _, _ = request('/api/v2/execute', {'operation': 'calculate', 'expression': '1'}, timeout=3)
             require(code == 429, f'Saturated worker capacity returned {code}, expected 429.')
+            require(request('/api/v2/chart', {'expression': 'x'}, timeout=3)[0] == 429,
+                    'Charts must share the existing two-worker capacity bound.')
             elapsed = time.monotonic() - started_at
             require(elapsed + cancellation_cleanup + deadline_margin < lifecycle_deadline,
                     'Insufficient deadline margin to independently prove client cancellation.')
@@ -420,9 +490,11 @@ def main() -> int:
             run('real complex calculation', complex_calculation)
             run('scripts, UTF-8 and request-local unsaved functions', custom_functions)
             run('portable numerical methods with known answers', numerical_methods)
+            run('real curve samples, custom functions, gaps and viewport validation', real_curves)
             run('local HTTP origin, host and source boundaries', local_boundary)
             run('explicit unsupported operations and error recovery', unsupported_and_recovery)
             run('execution deadline reaps worker and recovers', timeout_and_recovery)
+            run('curve deadline reaps worker and recovers', curve_timeout_and_recovery)
             # Keep the short default deadline proof above. A separate server
             # gives slower cold-worker startup room while keeping cancellation
             # and SIGTERM cleanup strictly earlier than the worker deadline.
@@ -430,7 +502,7 @@ def main() -> int:
             server.terminate()
             server.wait(timeout=shutdown_cleanup)
             start_server(log, lifecycle_deadline, 'independent-cancellation-and-shutdown')
-            run('capacity bound and client cancellation reap workers', cancellation_and_capacity)
+            run('shared chart/script capacity and client cancellation reap workers', cancellation_and_capacity)
             run('graceful server shutdown reaps an executing TSL worker', graceful_shutdown)
     except Exception as error:
         observations.append({'name': 'published host lifecycle', 'passed': False, 'error': str(error)})

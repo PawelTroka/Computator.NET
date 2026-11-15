@@ -3,6 +3,7 @@ using System.Numerics;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using Computator.NET.Engine;
+using Computator.NET.Engine.Charting;
 
 namespace Computator.NET.PortableWeb;
 
@@ -19,10 +20,16 @@ internal sealed class ExecutionRequest
     public uint N { get; set; } = 10000;
     public uint Order { get; set; } = 1;
     public double Epsilon { get; set; } = 1e-6;
+    public double XMin { get; set; } = -5;
+    public double XMax { get; set; } = 5;
+    public double YMin { get; set; } = -5;
+    public double YMax { get; set; } = 5;
+    public int CurveSamples { get; set; } = 1025;
+    public bool AllowEmpty2D { get; set; }
 }
 
 internal sealed record WorkerReply(int Status, string? Result = null, string? Detail = null,
-    IReadOnlyList<EngineDiagnostic>? Diagnostics = null);
+    IReadOnlyList<EngineDiagnostic>? Diagnostics = null, CurveSamples? Curve = null);
 
 internal static class Execution
 {
@@ -36,9 +43,10 @@ internal static class Execution
     public static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web)
         { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
 
-    public static void Validate(ExecutionRequest request)
+    public static void Validate(ExecutionRequest request, bool chart = false)
     {
-        if (!Operations.Contains(request.Operation)) throw new ArgumentException("Unknown operation.");
+        if (chart ? request.Operation != "chart" : !Operations.Contains(request.Operation))
+            throw new ArgumentException("Unknown operation.");
         if (string.IsNullOrWhiteSpace(request.Expression) || request.Expression.Length > PortableEngine.MaximumSourceCharacters ||
             request.CustomFunctions == null || request.CustomFunctions.Length > PortableEngine.MaximumSourceCharacters)
             throw new ArgumentException("Expression/script and custom definitions are each limited to 65,536 characters; an expression is required.");
@@ -47,6 +55,9 @@ internal static class Execution
         if (request.Method?.Length > 256) throw new ArgumentException("Unknown numerical method.");
         switch (request.Operation)
         {
+            case "chart":
+                CurveSampler.Validate(request.XMin, request.XMax, request.YMin, request.YMax, request.CurveSamples);
+                break;
             case "integral":
                 RequireMethod(request, IntegralMethod);
                 RequireInterval(request);
@@ -80,8 +91,16 @@ internal static class Execution
     {
         try
         {
-            Validate(request);
+            Validate(request, chart: request.Operation == "chart");
             var engine = new PortableEngine();
+            if (request.Operation == "chart")
+            {
+                var curve = engine.SampleCurve(request.Expression, request.XMin, request.XMax,
+                    request.YMin, request.YMax, request.CurveSamples, request.CustomFunctions);
+                return curve.FiniteSamples == 0 && !request.AllowEmpty2D
+                    ? new WorkerReply(422, Detail: "No finite curve samples in this chart area.")
+                    : new WorkerReply(200, Curve: curve);
+            }
             var result = request.Operation switch
             {
                 "calculate" => Calculate(engine, request),
@@ -94,7 +113,12 @@ internal static class Execution
             return new WorkerReply(200, Result: result);
         }
         catch (EngineCompilationException exception)
-        { return new WorkerReply(400, Detail: exception.Message, Diagnostics: exception.Diagnostics); }
+        {
+            var scope = request.Operation == "chart"
+                ? "Portable charts support explicit real f(x) expressions. Complex functions, f(x,y) surfaces and implicit equations are unavailable.\n"
+                : "";
+            return new WorkerReply(400, Detail: scope + exception.Message, Diagnostics: exception.Diagnostics);
+        }
         catch (Exception exception)
         { return new WorkerReply(400, Detail: exception.Message); }
     }

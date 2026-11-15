@@ -13,6 +13,8 @@
     <PackageReference Include="Accord.Math" />
     <Compile Include="../Computator.NET.Core/Compilation/TSLCompiler.cs" Link="Language/TSLCompiler.cs" />
     <Compile Include="../Computator.NET.Core/Compilation/TslHandlers/*.cs" Link="Language/Handlers/%(Filename)%(Extension)" />
+    <!-- Use the desktop's syntax-aware implicit-equation boundary for curves. -->
+    <Compile Include="../Computator.NET.Core/Evaluation/ExpressionAnalysis.cs" Link="Language/ExpressionAnalysis.cs" />
     <Compile Include="../Computator.NET.DataTypes/Text/SpecialSymbols.cs" Link="Language/SpecialSymbols.cs" />
     <Compile Include="../Computator.NET.Core/Constants/MathematicalConstants.cs" Link="Mathematics/MathematicalConstants.cs" />
     <!-- Compile existing scientific implementations exactly once. Windows Core

@@ -87,7 +87,8 @@ permits the skipped 3D test.
 - **Standalone non-Windows web hosting:** the full Web API still depends on
   Windows UI/chart assemblies and native catalogs. The portable local preview
   runs independently on Linux/macOS for its documented calculation/script
-  subset, but does not yet supply chart rendering or the full native catalog.
+  subset and [real f(x) curves](../MACOS-APPLICATION.md#real-function-charts).
+  It does not yet supply complex/3D charts or the full native catalog.
 - **Other browser chart workflows:** implicit 3D equations, scripted point
   series, desktop autoscale variants and full property/print dialogs remain
   separate work. Accumulated real overlays, zoom/pan, complex contour/color

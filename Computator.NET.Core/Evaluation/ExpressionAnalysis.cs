@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 using System.Linq;
 using Microsoft.CodeAnalysis;
@@ -13,7 +14,7 @@ namespace Computator.NET.Core.Evaluation
     {
         private static readonly CSharpParseOptions ParseOptions = new CSharpParseOptions(LanguageVersion.CSharp14);
         private readonly ExpressionSyntax _expression;
-        private readonly AssignmentExpressionSyntax _equation;
+        private readonly AssignmentExpressionSyntax? _equation;
 
         private ExpressionAnalysis(ExpressionSyntax expression)
         {

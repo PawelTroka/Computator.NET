@@ -3,9 +3,10 @@ namespace Computator.NET.Engine;
 public sealed partial class PortableEngine
 {
     // Compile once per numerical operation, never once per integrand evaluation.
-    private static Compiled<Func<double, double>> CompileScalar(string expression, string functions) =>
+    private static Compiled<Func<double, double>> CompileScalar(string expression, string functions,
+        bool requireExplicitExpression = false) =>
         Compile<Func<double, double>>(expression, functions,
-            "public static double Run(double x) { return\n#line 1 \"expression.tsl\"\n", ";\n#line default\n}");
+            "public static double Run(double x) { return\n#line 1 \"expression.tsl\"\n", ";\n#line default\n}", requireExplicitExpression);
 
     public double Integrate(string expression, double a, double b, int steps = 10000, string customFunctions = "")
     {

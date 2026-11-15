@@ -9,8 +9,8 @@ SDK minimum is now 10.0.403 and runtime packages are 10.0.14, including the
 [25 October out-of-band security servicing](https://github.com/dotnet/core/blob/main/release-notes/10.0/10.0.14/10.0.14.md).
 The old API 3D skip is no longer allowed: the supported web surface contract is
 numerical JSON with browser WebGL, rather than server-side WPF image rendering.
-The separate portable local browser host is still an experimental managed subset,
-with charts and the full native catalog unavailable. The Mono release-preparation
+At that checkpoint, the separate portable local browser host was an experimental
+managed subset with charts and the full native catalog unavailable. The Mono release-preparation
 candidate in [#321](https://github.com/PawelTroka/Computator.NET/pull/321) adds rich
 offline reference help and runtime-dependent Linux archives with private GSL 2.8/
 libgdiplus, verified against the actual extracted application. Native Mac desktop
@@ -18,6 +18,11 @@ and relocated-bundle acceptance is tracked in the same PR. Full Mac desktop pari
 and the remaining release acceptance gates below are not implied by this work.
 Earlier dated results and benchmark runtime identities below are historical;
 use the exact final candidate's CI and artifacts for its acceptance evidence.
+
+The current [portable local browser subset](MACOS-APPLICATION.md#real-function-charts)
+also provides explicit real f(x) curves with overlays, navigation and PNG export.
+Complex/3D charts, the full native catalog and complete Mac desktop parity remain
+outside that subset.
 
 The second review integrates #151–#164: one complete SLNX, source/IDE frontend preparation, the restrained dark interface, a self-contained protected local web package, shared execution policy, collectible generated programs, canonical candidate identity/evidence, clean-machine and signed-package acceptance harnesses, copied-profile trials, GSL error boundaries, portable scientific services and cancellable worker execution. SDK 10.0.402 and .NET/ASP.NET/JSON 10.0.13 aligned with October security servicing at that checkpoint, whose candidate identity was **3.0.0-preview.1**. Current frozen values come from `Version.props` and the projections below.
 
