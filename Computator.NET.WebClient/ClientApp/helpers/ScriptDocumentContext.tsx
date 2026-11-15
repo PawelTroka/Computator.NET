@@ -4,10 +4,10 @@ export const scriptStorageKey = 'computator.script-document.v1';
 export const maximumScriptCharacters = 65536;
 export const maximumScriptBytes = 262144;
 type Document = { code: string; name: string };
-type State = Document & { error: string; unstored: boolean; replace: (code: string, name?: string) => void; clear: () => void };
+type State = Document & { error: string; unstored: boolean; replace: (code: string, name?: string) => void; clear: () => boolean };
 const Context = createContext<State | null>(null);
 
-function validName(name: string) {
+export function validName(name: string) {
   return name.length <= 180 && /\.tsl$/i.test(name) && !/[\\/\x00-\x1f\x7f]/.test(name);
 }
 function read(): Document & { error: string; blocked: boolean } {
@@ -55,7 +55,8 @@ export function ScriptDocumentProvider({ children }: { children: ReactNode }) {
     try {
       sessionStorage.removeItem(scriptStorageKey);
       setDocument({ code: '', name: 'script.tsl' }); setBlocked(false); setUnstored(false); setError('');
-    } catch { setError('The browser could not clear the stored script. Your current draft has been kept.'); }
+      return true;
+    } catch { setError('The browser could not clear the stored script. Your current draft has been kept.'); return false; }
   }
   useEffect(() => {
     if (!unstored) return;
