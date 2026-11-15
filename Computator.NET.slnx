@@ -228,6 +228,7 @@
     <File Path="build/portable-web/build.sh" />
     <File Path="build/portable-web/run.sh" />
     <File Path="build/portable-web/smoke.py" />
+    <File Path="build/portable-web/test_run.py" />
   </Folder>
   <Folder Name="/Build/Packaging/">
     <File Path="build/installer/Test-InstalledProduct.ps1" />

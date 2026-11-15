@@ -55,7 +55,8 @@ def main() -> int:
     require(app.is_file(), f'Missing published native apphost: {app}')
     dotnet = shutil.which(args.dotnet)
     require(dotnet is not None, f'.NET executable not found: {args.dotnet}')
-    environment = dict(os.environ)
+    environment = {name: value for name, value in os.environ.items()
+                   if not name.startswith('DOTNET_ROOT_') and name != 'DOTNET_ROOT(X86)'}
     # Use the SDK/runtime explicitly selected by the developer or CI. The apphost
     # is still a native, RID-specific executable, not a cross-publish inspection.
     environment['DOTNET_ROOT'] = str(Path(dotnet).resolve().parent)
@@ -168,6 +169,24 @@ def main() -> int:
                      'Microsoft.WindowsDesktop.App', 'System.Windows.Forms', 'PresentationFramework'}
         require(not names.intersection(forbidden), f'Windows desktop dependencies found: {names.intersection(forbidden)}')
         require('Computator.NET.Engine' in names, 'Publication does not reference the actual shared Engine.')
+
+    def launcher_runtime_selection() -> None:
+        # An existing empty directory is a valid environment override to the
+        # native apphost, but cannot supply hostfxr. Before the launcher fix it
+        # wins over the explicitly selected runtime and startup exits with 131.
+        with tempfile.TemporaryDirectory(prefix='runtime-selection-', dir=output) as temporary:
+            stale_root = Path(temporary) / 'stale runtime'
+            stale_root.mkdir()
+            selected = Path(temporary) / 'selected dotnet'
+            selected.symlink_to(Path(dotnet).resolve())
+            inherited = dict(environment, COMPUTATOR_DOTNET=str(selected),
+                             DOTNET_ROOT=str(stale_root), DOTNET_ROOT_X64=str(stale_root),
+                             DOTNET_ROOT_ARM64=str(stale_root))
+            result = subprocess.run(['bash', str(repository / 'build/portable-web/run.sh'),
+                                     str(published), '--help'], env=inherited,
+                                    text=True, capture_output=True, timeout=20)
+            require(result.returncode == 0 and 'Usage: Computator.NET.PortableWeb' in result.stdout,
+                    f'The launcher ignored its selected runtime: {result.returncode}; {result.stderr}')
 
     def advertised_scope() -> None:
         nonlocal runtime
@@ -408,6 +427,8 @@ def main() -> int:
 
     try:
         run('portable publication dependency graph', dependencies)
+        if os.name != 'nt':
+            run('launcher selects runtime despite inherited architecture roots', launcher_runtime_selection)
         with (output / 'runtime-info.log').open('w') as info:
             subprocess.run([dotnet, '--info'], stdout=info, stderr=subprocess.STDOUT, timeout=30, check=True)
         with (output / 'server.log').open('w') as log:
