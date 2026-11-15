@@ -22,7 +22,7 @@ namespace Computator.NET.Desktop.Tests
         private static readonly string[] OriginalText = { "write(11);", "write(22);", "write(33);" };
         private CoreBootstrapper _bootstrapper;
         private Form _window;
-        private CodeEditorControlWrapper _editor;
+        private DiscardingEditor _editor;
         private DocumentsTabControl _tabs;
         private CodeEditorType _oldEditor;
         private string _directory;
@@ -41,6 +41,75 @@ namespace Computator.NET.Desktop.Tests
             _window.Controls.Add(_editor);
             NUnit.Framework.Assert.That(_window.Handle, Is.Not.EqualTo(IntPtr.Zero));
             _tabs = Descendants(_editor).OfType<DocumentsTabControl>().Single();
+        }
+
+        [TestCase(CodeEditorType.Scintilla)]
+        [TestCase(CodeEditorType.AvalonEdit)]
+        [TestCase(CodeEditorType.TextEditor)]
+        public void CloneTabCopiesTheVisibleDraftWithoutInheritingItsSaveDestination(CodeEditorType kind)
+        {
+            var paths = OpenDocuments(kind);
+            const string draft = "write(\"α * β\");\r\nwrite(2*3); // unsaved\n";
+            _editor.SwitchTab(paths[0]);
+            _editor.Text = draft;
+            var originalTab = _tabs.SelectedTab;
+            var count = _tabs.TabCount;
+
+            ((ToolStripMenuItem)_tabs.ContextMenuStrip.Items["cloneTabToolStripMenuItem"]).PerformClick();
+
+            NUnit.Framework.Assert.That(_tabs.TabCount, Is.EqualTo(count + 1));
+            NUnit.Framework.Assert.That(_tabs.SelectedTab, Is.Not.SameAs(originalTab));
+            NUnit.Framework.Assert.That(_tabs.SelectedTab.Tag, Is.Null, "The clone must use Save As, never the source file.");
+            NUnit.Framework.Assert.That(_tabs.SelectedTab.ImageIndex, Is.EqualTo(1));
+            NUnit.Framework.Assert.That(_editor.Text, Is.EqualTo(draft), "Clone the visible draft, not the saved file.");
+            _editor.Text = "independent clone";
+            _editor.SavePath = Path.Combine(_directory, Guid.NewGuid().ToString("N") + ".tsl");
+            var saveRequests = _editor.SaveRequests;
+            _editor.Save();
+            NUnit.Framework.Assert.That(_editor.SaveRequests, Is.EqualTo(saveRequests + 1));
+            NUnit.Framework.Assert.That(File.ReadAllText(_editor.SavePath), Is.EqualTo("independent clone"));
+            AssertFileContents(paths, 0, OriginalText[0]);
+
+            _editor.SwitchTab(paths[0]);
+            AssertSelectedDocument(paths[0], draft);
+            NUnit.Framework.Assert.That(_tabs.SelectedTab.ImageIndex, Is.EqualTo(1));
+            _editor.Save();
+            AssertFileContents(paths, 0, draft);
+            NUnit.Framework.Assert.That(File.ReadAllText(_editor.SavePath), Is.EqualTo("independent clone"));
+        }
+
+        [TestCase(CodeEditorType.Scintilla, "")]
+        [TestCase(CodeEditorType.AvalonEdit, "")]
+        [TestCase(CodeEditorType.TextEditor, "")]
+        [TestCase(CodeEditorType.Scintilla, "untitled α draft")]
+        [TestCase(CodeEditorType.AvalonEdit, "untitled α draft")]
+        [TestCase(CodeEditorType.TextEditor, "untitled α draft")]
+        public void RepeatedClonesOfUntitledDocumentsHaveIndependentBuffers(CodeEditorType kind, string draft)
+        {
+            OpenDocuments(kind);
+            _editor.NewDocument();
+            _editor.Text = draft;
+            var originalName = _editor.CurrentFileName;
+            var count = _tabs.TabCount;
+            var cloneCommand = (ToolStripMenuItem)_tabs.ContextMenuStrip.Items["cloneTabToolStripMenuItem"];
+
+            cloneCommand.PerformClick();
+            var firstClone = _editor.CurrentFileName;
+            NUnit.Framework.Assert.That(firstClone, Is.Not.EqualTo(originalName));
+            NUnit.Framework.Assert.That(_editor.Text, Is.EqualTo(draft));
+            NUnit.Framework.Assert.That(_tabs.SelectedTab.Tag, Is.Null);
+            NUnit.Framework.Assert.That(_tabs.SelectedTab.ImageIndex, Is.EqualTo(draft.Length == 0 ? 0 : 1));
+            _editor.Text = "first clone edited";
+            cloneCommand.PerformClick();
+            var secondClone = _editor.CurrentFileName;
+            NUnit.Framework.Assert.That(secondClone, Is.Not.AnyOf(originalName, firstClone));
+            NUnit.Framework.Assert.That(_editor.Text, Is.EqualTo("first clone edited"));
+            _editor.Text = "second clone edited";
+            NUnit.Framework.Assert.That(_tabs.TabCount, Is.EqualTo(count + 2));
+            _editor.SwitchTab(firstClone);
+            NUnit.Framework.Assert.That(_editor.Text, Is.EqualTo("first clone edited"));
+            _editor.SwitchTab(originalName);
+            NUnit.Framework.Assert.That(_editor.Text, Is.EqualTo(draft));
         }
 
         [TestCase(CodeEditorType.Scintilla)]
@@ -519,10 +588,19 @@ namespace Computator.NET.Desktop.Tests
         // explicitly now that the production workflow protects those buffers.
         private sealed class DiscardingEditor : CodeEditorControlWrapper
         {
+            internal string SavePath;
+            internal int SaveRequests;
+
             public DiscardingEditor(ScintillaCodeEditorControl scintilla, AvalonEditCodeEditor avalon,
                 TextEditorCodeEditor textEditor) : base(scintilla, avalon, textEditor) { }
 
             protected override DialogResult PromptToSaveChanges(string filename) => DialogResult.No;
+
+            protected override string SelectSaveFileName()
+            {
+                SaveRequests++;
+                return SavePath;
+            }
         }
 
         [OneTimeTearDown]

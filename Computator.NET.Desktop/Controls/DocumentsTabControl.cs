@@ -12,6 +12,7 @@ namespace Computator.NET.Desktop.Controls
     public class DocumentsTabControl : TabControl
     {
         public event EventHandler<DocumentTabsClosingEventArgs> DocumentsClosing;
+        public event EventHandler DocumentCloneRequested;
         private TabPage addTabPage;
         private ToolStripMenuItem cloneTabToolStripMenuItem;
         private ToolStripMenuItem closeOtherTabsToolStripMenuItem;
@@ -279,6 +280,7 @@ namespace Computator.NET.Desktop.Controls
 
         private void cloneTabToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            DocumentCloneRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void this_SelectedIndexChanged(object sender, EventArgs e)
