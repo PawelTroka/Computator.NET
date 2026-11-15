@@ -266,8 +266,11 @@ execute the actual managed preflight and reject tampering, wrong architecture,
 unrecorded files, unsafe mappings and writes back through redirected caches.
 Use the final candidate's fresh workflow reports and archive hashes for release.
 
-The current suite requires at least 55 cases, including restored compiled 3D
-plot commands, exact decimal-input rounding and numeric-control font layout.
+The current suite requires at least 57 cases, including restored compiled 3D
+plot commands, exact decimal-input rounding, numeric-control font layout and
+native document editing in both Scripting and Custom functions. The editor
+cases check selection, clipboard replacement, undo, read-only protection,
+caret/scroll updates, inactive-buffer isolation and disposal after tab switches.
 The layout regression shows the real chart-bounds view and checks all four
 numeric controls against their actual font heights at 9.75, 12 and 16 points,
 including repeated layout and scaling, to catch clipped digits.
