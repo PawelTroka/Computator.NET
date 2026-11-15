@@ -389,6 +389,9 @@
   <data name="infinity_adaptive_Gauss_Kronrod_method" xml:space="preserve">
     <value>nieskończenie-adaptacyjna metoda Gauss-Kronrod</value>
   </data>
+  <data name="Gauss_Kronrod_61_point_method" xml:space="preserve">
+    <value>61-punktowa metoda Gaussa–Kronroda</value>
+  </data>
   <data name="non_adaptive_Gauss_Kronrod_method" xml:space="preserve">
     <value>nie-adaptacyjna metoda Gauss-Kronrod</value>
   </data>

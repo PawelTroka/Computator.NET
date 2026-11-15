@@ -37,6 +37,11 @@ namespace Computator.NET.Core.NumericalCalculations
                                         Integral.doubleExponentialTransformation
                                 },
                                 {
+                                    Strings.Gauss_Kronrod_61_point_method,
+                                    (Func<Func<double, double>, double, double, double, double>)
+                                        Integral.gaussKronrod61Method
+                                },
+                                {
                                     Strings.non_adaptive_Gauss_Kronrod_method,
                                     (Func<Func<double, double>, double, double, double, double>)
                                         Integral.nonAdaptiveGaussKronrodMethod

@@ -410,6 +410,9 @@
   <data name="secant_Newton_Raphson_method" xml:space="preserve">
     <value>Sekantenverfahren nach Newton-Raphson</value>
   </data>
+  <data name="Gauss_Kronrod_61_point_method" xml:space="preserve">
+    <value>61-Punkte-Gauß-Kronrod-Verfahren</value>
+  </data>
   <data name="non_adaptive_Gauss_Kronrod_method" xml:space="preserve">
     <value>Nichtadaptives Gauß-Kronrod-Verfahren</value>
   </data>

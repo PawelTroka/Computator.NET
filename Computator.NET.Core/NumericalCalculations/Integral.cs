@@ -26,6 +26,9 @@ namespace Computator.NET.Core.NumericalCalculations
 
                     return doubleExponentialTransformation(fx, a, b, N);
 
+                case "61-point Gauss–Kronrod method":
+                    return gaussKronrod61Method(fx, a, b, N);
+
                 case "non-adaptive Gauss–Kronrod method":
 
                     return nonAdaptiveGaussKronrodMethod(fx, a, b, N);
@@ -61,6 +64,25 @@ namespace Computator.NET.Core.NumericalCalculations
         public static double nonAdaptiveGaussKronrodMethod(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
         {
             return Accord.Math.Integration.NonAdaptiveGaussKronrod.Integrate(fx, a, b, 1.0/N);
+        }
+
+        /// <summary>Adaptive 61-point Gauss-Kronrod quadrature.</summary>
+        /// <remarks>N is the inverse target relative error, not the number of sample points.</remarks>
+        public static double gaussKronrod61Method(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
+        {
+            if (fx == null) throw new System.ArgumentNullException(nameof(fx));
+            // Tolerance smaller than numerical precision cannot meaningfully be met.
+            if (double.IsNaN(N) || double.IsInfinity(N) || N < 1 || N > 1e12)
+                throw new System.ArgumentOutOfRangeException(nameof(N));
+            if (double.IsNaN(a) || double.IsInfinity(a))
+                throw new System.ArgumentOutOfRangeException(nameof(a));
+            if (double.IsNaN(b) || double.IsInfinity(b))
+                throw new System.ArgumentOutOfRangeException(nameof(b));
+            if (a == b) return 0;
+
+            // Math.NET ships precomputed 61-point Gauss-Kronrod nodes and weights.
+            // Keep subdivisions finite even when an integrand cannot meet tolerance.
+            return MathNet.Numerics.Integrate.GaussKronrod(fx, a, b, 1.0 / N, 16, 61);
         }
 
         public static double rombergMethod(System.Func<double, double> fx, double a, double b, double N = 6)
@@ -172,6 +194,25 @@ namespace Computator.NET.Core.NumericalCalculations
         public static double nonAdaptiveGaussKronrodMethod(System.Func<double, double> fx, double a, double b, int N = STEPS_MAX)
         {
             return Accord.Math.Integration.NonAdaptiveGaussKronrod.Integrate(fx, a, b, 1.0/N);
+        }
+
+        /// <summary>Adaptive 61-point Gauss-Kronrod quadrature.</summary>
+        /// <remarks>N is the inverse target relative error, not the number of sample points.</remarks>
+        public static double gaussKronrod61Method(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
+        {
+            if (fx == null) throw new System.ArgumentNullException(nameof(fx));
+            // Tolerance smaller than numerical precision cannot meaningfully be met.
+            if (double.IsNaN(N) || double.IsInfinity(N) || N < 1 || N > 1e12)
+                throw new System.ArgumentOutOfRangeException(nameof(N));
+            if (double.IsNaN(a) || double.IsInfinity(a))
+                throw new System.ArgumentOutOfRangeException(nameof(a));
+            if (double.IsNaN(b) || double.IsInfinity(b))
+                throw new System.ArgumentOutOfRangeException(nameof(b));
+            if (a == b) return 0;
+
+            // Math.NET ships precomputed 61-point Gauss-Kronrod nodes and weights.
+            // Keep subdivisions finite even when an integrand cannot meet tolerance.
+            return MathNet.Numerics.Integrate.GaussKronrod(fx, a, b, 1.0 / N, 16, 61);
         }
 
         public static double rombergMethod(System.Func<double, double> fx, double a, double b, int N = 6)
