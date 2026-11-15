@@ -9,7 +9,9 @@ public sealed partial class PortableEngine
 
     public double Integrate(string expression, double a, double b, int steps = 10000, string customFunctions = "")
     {
-        Bounds(a, b);
+        // Simpson's rule preserves interval orientation. Only root brackets
+        // require increasing bounds; equal integration limits are valid too.
+        if (!IsFinite(a) || !IsFinite(b)) throw new ArgumentException("Expected finite integration bounds.");
         if (steps < 2 || steps > 1000000 || steps % 2 != 0) throw new ArgumentOutOfRangeException(nameof(steps), "Simpson integration requires an even count from 2 to 1,000,000.");
         using var program = CompileScalar(expression, customFunctions);
         return Core.NumericalCalculations.Integral.simpsonMethod(program.Invoke, a, b, steps);

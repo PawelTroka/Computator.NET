@@ -49,7 +49,8 @@ internal static class Execution
         {
             case "integral":
                 RequireMethod(request, IntegralMethod);
-                RequireInterval(request);
+                // Finite endpoints were checked above. Integration accepts both
+                // orientations and equal limits; the root bracket stays strict.
                 if (request.N < 2 || request.N > 1000000 || request.N % 2 != 0)
                     throw new ArgumentException("Simpson integration requires an even count from 2 to 1,000,000.");
                 break;

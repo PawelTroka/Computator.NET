@@ -100,6 +100,16 @@ test('the existing numerical screen uses the actual portable methods', async ({ 
   await page.getByRole('spinbutton', { name: 'N', exact: true }).fill('100');
   await execute(page, 'Compute!', 'integral');
   await expect.poll(async () => Number(await page.getByRole('status').textContent())).toBeCloseTo(6, 8);
+  // The same Integral screen accepts oriented and zero-width intervals, as the
+  // shared desktop integrator does. Root brackets retain their separate rules.
+  await replaceCode(page, 'expressionTextArea', 'x');
+  await page.getByRole('spinbutton', { name: 'a', exact: true }).fill('1');
+  await page.getByRole('spinbutton', { name: 'b', exact: true }).fill('0');
+  await execute(page, 'Compute!', 'integral');
+  await expect.poll(async () => Number(await page.getByRole('status').textContent())).toBeCloseTo(-0.5, 8);
+  await page.getByRole('spinbutton', { name: 'b', exact: true }).fill('1');
+  await execute(page, 'Compute!', 'integral');
+  await expect(page.getByRole('status')).toHaveText('0');
   // Editing the root tolerance before switching tools must not add epsilon to
   // the portable derivative contract; its shared algorithm chooses the step.
   await page.getByLabel('Operation:', { exact: true }).selectOption('Function root');

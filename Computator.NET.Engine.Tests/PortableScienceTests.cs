@@ -40,7 +40,7 @@ public class PortableScienceTests
     public void InvalidWorkBudgetsAndIntervalsFailBeforeExecution()
     {
         var engine = new PortableEngine();
-        NUnit.Framework.Assert.Throws<ArgumentException>(() => engine.Integrate("missing()", 2, 1));
+        NUnit.Framework.Assert.Throws<ArgumentException>(() => engine.Integrate("missing()", double.PositiveInfinity, 1));
         NUnit.Framework.Assert.Throws<ArgumentOutOfRangeException>(() => engine.Integrate("missing()", 0, 1, 3));
         NUnit.Framework.Assert.Throws<ArgumentOutOfRangeException>(() => engine.FindRoot("missing()", 0, 1, 0));
     }
