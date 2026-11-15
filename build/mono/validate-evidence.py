@@ -7,7 +7,7 @@ report = ET.parse(sys.argv[1]).getroot()
 cases = report.findall('testcase')
 required_working_directory_cases = {'unix-script-working-directory-precompiled',
                                     'unix-script-working-directory-generated'}
-if not required_working_directory_cases.issubset({case.get('name') for case in cases}):
+if len(cases) < 55 + len(required_working_directory_cases) or not required_working_directory_cases.issubset({case.get('name') for case in cases}):
     raise SystemExit('Packaged Mono acceptance must execute both Unix script working-directory cases.')
 if (report.tag != 'testsuite' or len(cases) < 55 or int(report.get('tests', '0')) != len(cases)
         or report.get('failures') != '0' or report.get('skipped') != '0'
