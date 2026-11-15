@@ -12,6 +12,7 @@
     <Compile Include="../NativeToolProcess.cs" Link="NativeToolProcess.cs" />
     <Compile Include="../../macos/MacDesktopCapture.cs" Link="MacDesktopCapture.cs" />
     <Compile Include="..\..\validation\LocalizationResourceContract.cs" Link="LocalizationResourceContract.cs" />
+    <Compile Include="..\..\validation\EditorFocusContract.cs" Link="EditorFocusContract.cs" />
     <None Include="..\..\..\Computator.NET.Localization\**\*.resx"
           Exclude="..\..\..\Computator.NET.Localization\**\*.pl.resx"
           Link="Localization/%(RecursiveDir)%(Filename)%(Extension)"

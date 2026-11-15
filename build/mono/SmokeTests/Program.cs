@@ -121,6 +121,8 @@ internal static partial class Program
         Run("mono-autocomplete-real-x11-layout-and-selection", AutocompleteRealX11);
         Run("unicode-editor-documents-and-renaming", EditorDocuments);
         Run("unshown-editor-tabs-have-backed-documents", UnshownEditorDocuments);
+        Run("mono-scripting-editor-child-focus-commands", () => Computator.NET.Validation.EditorFocusContract.Run(ViewName.Scripting));
+        Run("mono-custom-functions-editor-child-focus-commands", () => Computator.NET.Validation.EditorFocusContract.Run(ViewName.CustomFunctions));
         Run("desktop-visible-custom-functions-file-and-script-workflow", DesktopWorkflow);
         Run("desktop-literal-find-and-replace", DesktopFindReplace);
         Run("unix-document-save-and-alias-protection", UnixDocumentSafety);
