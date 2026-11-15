@@ -37,7 +37,7 @@ Expected results are `17`, approximately `9`, approximately `6` and approximatel
 | --- | --- | --- |
 | `calculate` | `--expression <TSL>` | `--x 0`, `--y 0` |
 | `complex` | `--expression <TSL>` using `z` | `--real 0`, `--imaginary 0` |
-| `script` | `--file <file.tsl>` | Use `write(...)` to produce result text |
+| `script` | `--file <file.tsl>` or `--file -` for standard input | Use `write(...)` to produce result text |
 | `integrate` | `--expression <TSL> --a <number> --b <number>` | `--steps 10000`; Simpson's method requires an even count from 2 to 1,000,000 |
 | `differentiate` | `--expression <TSL> --x <number>` | `--order 1`; supported orders 1 through 10 |
 | `root` | `--expression <TSL> --a <number> --b <number>` | `--tolerance 1e-8`, `--iterations 10000`; Brent's method requires a root bracket |
@@ -66,6 +66,27 @@ dotnet artifacts/portable/computator.dll script --file example.tsl --functions f
 ```
 
 Both return `{"result":"3"}`. Files accept an optional UTF-8 BOM and are bounded during reading to 256 KiB and 65,536 characters. Convert older UTF-16 or non-UTF-8 files explicitly. Quote paths containing spaces.
+
+### Pipe a script through standard input
+
+Use `script --file -` to execute UTF-8 source from a pipe or redirected file:
+
+```sh
+# Bash/zsh: inline source, a generated script, or an existing file.
+printf '%s\n' 'write(2+2);' | dotnet artifacts/portable/computator.dll script --file -
+dotnet artifacts/portable/computator.dll script --file - < example.tsl
+printf '%s\n' 'write(Probe(6));' | dotnet artifacts/portable/computator.dll script --file - --functions functions.tslf
+```
+
+PowerShell 7 also pipes source text as UTF-8 by default:
+
+```powershell
+'write(2+2);' | dotnet artifacts/portable/computator.dll script --file -
+```
+
+The first example returns `{"result":"4"}`. The CLI reads the complete input through EOF before executing it; this is a script input mode, not an interactive prompt. It rejects an attached terminal instead of waiting for typed source. The same 256 KiB byte limit, 65,536-character limit, optional UTF-8 BOM, strict decoding and JSON output/error contracts apply to files and standard input. Compilation diagnostics still refer to the script's own lines.
+
+`--functions` continues to read a separate file. To execute a file whose name is literally `-`, use `--file ./-` or its absolute path. All other commands and file paths keep their existing meaning.
 
 ### Results and failures
 

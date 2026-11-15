@@ -5,11 +5,12 @@ $root = (Resolve-Path -LiteralPath $PublishDirectory).Path
 $exe = Join-Path $root 'computator.dll'
 $script:cases = 0
 function Invoke-Cli {
-    param([string[]]$Arguments, [int]$ExpectedExit = 0)
+    param([string[]]$Arguments, [int]$ExpectedExit = 0, [byte[]]$StandardInput)
     $info = [Diagnostics.ProcessStartInfo]::new('dotnet')
     $info.UseShellExecute = $false
     $info.RedirectStandardError = $true
     $info.RedirectStandardOutput = $true
+    $info.RedirectStandardInput = $PSBoundParameters.ContainsKey('StandardInput')
     $info.StandardOutputEncoding = [Text.Encoding]::UTF8
     $info.StandardErrorEncoding = [Text.Encoding]::UTF8
     $info.ArgumentList.Add($exe)
@@ -20,6 +21,13 @@ function Invoke-Cli {
         # previous timeout ineffective when a regression never closed stderr.
         $stdout = $child.StandardOutput.ReadToEndAsync()
         $stderr = $child.StandardError.ReadToEndAsync()
+        if ($info.RedirectStandardInput) {
+            # Use raw bytes to check the CLI's decoder independently of the
+            # calling shell's encoding. Bound writes as well as process exit.
+            $inputTask = $child.StandardInput.BaseStream.WriteAsync($StandardInput, 0, $StandardInput.Length)
+            if (!$inputTask.Wait(10000)) { throw 'Published CLI did not read standard input.' }
+            $child.StandardInput.Close()
+        }
         if (!$child.WaitForExit(30000)) { throw 'Published CLI check timed out.' }
         if (![Threading.Tasks.Task]::WaitAll([Threading.Tasks.Task[]]@($stdout, $stderr), 5000)) { throw 'CLI pipes did not close.' }
         if ($child.ExitCode -ne $ExpectedExit) { throw "CLI exit $($child.ExitCode), expected $ExpectedExit`: $($stderr.Result)" }
@@ -125,6 +133,44 @@ try {
         [IO.File]::WriteAllBytes($scriptFile, $bytes)
         $null = Invoke-Cli -Arguments @('script','--file',$scriptFile) -ExpectedExit 1
     }
+    # A script can arrive through a pipe without creating a temporary .tsl file.
+    # The same UTF-8, source-size, diagnostics and output contracts must apply.
+    $stdinScript = "write(Probe(6));`nwrite(`"zażółć λ😀`");"
+    $stdinBytes = [Text.Encoding]::UTF8.GetBytes($stdinScript)
+    foreach ($bytes in @($stdinBytes, [byte[]](@(0xef,0xbb,0xbf) + $stdinBytes))) {
+        $value = Invoke-Cli -Arguments @('script','--file','-','--functions',$functions) -StandardInput $bytes
+        if ($value.result -ne '3zażółć λ😀') { throw 'Piped UTF-8 source or custom functions were lost.' }
+    }
+    $value = Invoke-Cli -Arguments @('script','--file','-') -StandardInput ([byte[]]@())
+    if ($value.result -ne '') { throw 'An empty piped script should have an empty result.' }
+    $source = 'Console.WriteLine("discarded stdout"); Console.Error.WriteLine("discarded stderr"); write("piped result");'
+    $value = Invoke-Cli -Arguments @('script','--file','-') -StandardInput ([Text.Encoding]::UTF8.GetBytes($source))
+    if ($value.result -ne 'piped result') { throw 'Piped execution corrupted the JSON result.' }
+    $source = "write(1);`nmissing();"
+    $value = Invoke-Cli -Arguments @('script','--file','-') -StandardInput ([Text.Encoding]::UTF8.GetBytes($source)) -ExpectedExit 2
+    if (@($value.diagnostics | Where-Object { $_.line -eq 2 }).Count -eq 0) { throw 'Piped compilation diagnostics lost source line numbers.' }
+    $source = 'Console.WriteLine("discarded"); throw new InvalidOperationException("piped failure");'
+    $value = Invoke-Cli -Arguments @('script','--file','-') -StandardInput ([Text.Encoding]::UTF8.GetBytes($source)) -ExpectedExit 1
+    if ($value.error -ne 'InvalidOperationException' -or $value.message -ne 'piped failure') { throw 'Piped execution lost its structured error.' }
+    $source = 'write("limit");'
+    $source += ' ' * (65536 - $source.Length)
+    $value = Invoke-Cli -Arguments @('script','--file','-') -StandardInput ([Text.Encoding]::UTF8.GetBytes($source))
+    if ($value.result -ne 'limit') { throw 'The allowed piped source character boundary was rejected.' }
+    foreach ($invalid in @(
+        @{ Bytes = [byte[]]@(0xc3,0x28); Error = 'DecoderFallbackException'; Message = $null },
+        @{ Bytes = [byte[]]@(0xff,0xfe,0x31,0x00); Error = 'DecoderFallbackException'; Message = $null },
+        @{ Bytes = [Text.Encoding]::UTF8.GetBytes((' ' * 262145)); Error = 'ArgumentException'; Message = 'Document exceeds 256 KiB.' },
+        @{ Bytes = [Text.Encoding]::UTF8.GetBytes((' ' * 65537)); Error = 'ArgumentException'; Message = 'Document exceeds the source character limit.' }
+    )) {
+        $value = Invoke-Cli -Arguments @('script','--file','-') -StandardInput $invalid.Bytes -ExpectedExit 1
+        if ($value.error -ne $invalid.Error -or ($invalid.Message -and $value.message -ne $invalid.Message)) { throw 'Piped source validation returned the wrong error.' }
+    }
+    # '-' is special only as the complete script path. A literal file named '-'
+    # remains usable through its ordinary absolute (or ./-) path.
+    $dashFile = Join-Path $temp '-'
+    [IO.File]::WriteAllText($dashFile, 'write("literal dash");', [Text.UTF8Encoding]::new($false))
+    $value = Invoke-Cli -Arguments @('script','--file',$dashFile)
+    if ($value.result -ne 'literal dash') { throw 'The stdin shorthand changed literal file paths.' }
     # Failure must not poison the next independent invocation.
     Assert-Number -Arguments @('integrate','--expression','x','--a','0','--b','2','--steps','2') -Expected 2 -Tolerance 1e-12
     if ($script:cases -lt 39) { throw "Expected at least 39 published CLI process checks, but ran $script:cases." }
