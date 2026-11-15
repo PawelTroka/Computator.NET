@@ -54,12 +54,18 @@ New-Item -ItemType Directory -Path $temp | Out-Null
 try {
     Assert-Number -Arguments @('calculate','--expression','2x+3','--x','7') -Expected 17
     Assert-Number -Arguments @('calculate','--expression','x/y','--x','-7.5','--y','2') -Expected -3.75
+    Assert-Number -Arguments @('calculate','--expression','0x10+0B11') -Expected 19
+    Assert-Number -Arguments @('calculate','--expression','1/0x10') -Expected 0.0625
+    Assert-Number -Arguments @('calculate','--expression','0b10²') -Expected 4
     $functions = Join-Path $temp 'Żółć functions.tslf'
     $scriptFile = Join-Path $temp 'script λ.tsl'
     [IO.File]::WriteAllText($functions, 'static real Probe(real x) { return x/2; }', [Text.UTF8Encoding]::new($true))
     [IO.File]::WriteAllText($scriptFile, 'write(Probe(6)); write("zażółć λ");', [Text.UTF8Encoding]::new($true))
     $value = Invoke-Cli -Arguments @('script','--file',$scriptFile,'--functions',$functions)
     if ($value.result -ne '3zażółć λ') { throw 'Published portable UTF-8 document execution failed.' }
+    [IO.File]::WriteAllText($scriptFile, 'var x10=7; var b11=9; write(0x10); write(":"); write(0b11); write(":"); write(0xFFFF_FFFF_FFFF_FFFFUL == ulong.MaxValue);', [Text.UTF8Encoding]::new($false))
+    $value = Invoke-Cli -Arguments @('script','--file',$scriptFile)
+    if ($value.result -ne '16:3:True') { throw 'Prefixed integer literals were split or lost their integer type.' }
     # Ordinary trusted code and referenced libraries may write to Console. Those
     # messages must not become extra JSON documents or corrupt structured errors.
     [IO.File]::WriteAllText($scriptFile, 'Console.WriteLine("discarded stdout λ"); Console.Error.WriteLine("discarded stderr λ"); write("kept λ");', [Text.UTF8Encoding]::new($false))
@@ -127,6 +133,6 @@ try {
     }
     # Failure must not poison the next independent invocation.
     Assert-Number -Arguments @('integrate','--expression','x','--a','0','--b','2','--steps','2') -Expected 2 -Tolerance 1e-12
-    if ($script:cases -lt 39) { throw "Expected at least 39 published CLI process checks, but ran $script:cases." }
+    if ($script:cases -lt 43) { throw "Expected at least 43 published CLI process checks, but ran $script:cases." }
     Write-Host "Published portable CLI passed $script:cases process checks: numerical commands, documents, strict options, Console isolation, errors and recovery."
 } finally { Remove-Item -LiteralPath $temp -Recurse -Force }

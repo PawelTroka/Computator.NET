@@ -100,4 +100,12 @@ Double bars can be ambiguous when an absolute value sits between other expressio
 
 Whole arithmetic operands retain established nested-absolute-value forms, including `x||y||+z`, `x||y||*z` and `x||y||+z+1`. Grouping or a function argument keeps an inner mathematical expression separate from the surrounding Boolean chain, as in `(x||y||+z)>1 || a || b` or `abs(x||y||+z)>1 || a || b`. Prefer explicit multiplication and `abs(...)` when combining this notation with Boolean conditions. The parser classifies syntax before compiling types; it does not infer whether an arbitrary variable or function returns a Boolean or a number.
 
+## Hexadecimal and binary integers
+
+Expressions, scripts and custom functions accept complete hexadecimal (`0x10`, `0XFF`) and binary (`0b1010`, `0B11`) integer literals. Digit separators and integer suffixes retain their C# meaning: `0xFF_FF` is `65535`, `0xFFFFFFFF` has type `uint`, and `0xFFFF_FFFF_FFFF_FFFFUL` is the exact maximum `ulong`. Oversized literals and invalid digit separators produce compilation errors. Use script output when retaining all integer digits matters; real calculations return a `double`.
+
+TSL's mathematical notation applies to these literals too: `1/0x10` is `0.0625`, `0b10²` is `4`, and `0x10(x+1)` is sixteen times `(x+1)`. Numeric CLI options such as `--x` still use the documented decimal format.
+
+Incomplete prefixes and adjoining ordinary identifier text retain the existing multiplication convention: `0x` means `0*x`, and `0x10value` means `0*x10value`. Write `0x10 * value` to multiply a hexadecimal literal by a variable without ambiguity. Decimal suffix syntax is unchanged.
+
 The [portable CI workflow](../../.github/workflows/portable.yml) identifies the actual tested operating systems/runners. Complete desktop parity, native architecture packaging and signing remain separate work from this managed CLI.
