@@ -46,6 +46,8 @@ namespace Computator.NET.Core.Tests
         [TestCase("exp(x)+ln(abs(x)+1)")]
         [TestCase("sinh(x)-cosh(x)")]
         [TestCase("x/(2.0+3.0)")]
+        [TestCase("x/(1/(2))")]
+        [TestCase("x/(2/(-0))")]
         [TestCase("x + - 2")]
         public void RealSubsetHasBitExactRoslynResultsIncludingIeeeEdges(string source)
         {
@@ -93,8 +95,6 @@ namespace Computator.NET.Core.Tests
         [TestCase("Math.Sin(x)")]
         [TestCase("x+(1+2)")]
         [TestCase("x+(2*3)")]
-        [TestCase("x/(1/(2))")]
-        [TestCase("x/(2/(-0))")]
         [TestCase("x+2147483648")]
         [TestCase("x+1.0f")]
         [TestCase("sin(x) /* a comment */")]
@@ -113,6 +113,19 @@ namespace Computator.NET.Core.Tests
             NUnit.Framework.Assert.That(Direct(actual), Is.False, source);
             Func<double, double> f = actual, g = expected;
             EqualBits(f(.5), g(.5), source);
+        }
+
+        [TestCase("1/(1/(2))", 2)]
+        [TestCase("6/(3/(2))", 4)]
+        [TestCase("1/(1/(1/(2)))", 0.5)]
+        public void NestedFractionsHaveMathematicalValuesInBothCompilerPaths(string source, double expected)
+        {
+            var program = new ExpressionsEvaluator().Evaluate(source, "", CalculationsMode.Real);
+            NUnit.Framework.Assert.That(Direct(program), Is.True, source);
+            Func<double, double> direct = program;
+            Func<double, double> full = new RoslynEvaluator().Evaluate(source, "", CalculationsMode.Real);
+            EqualBits(direct(0), expected, source + " direct");
+            EqualBits(full(0), expected, source + " full compiler");
         }
 
         [Test]

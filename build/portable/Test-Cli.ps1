@@ -54,6 +54,8 @@ New-Item -ItemType Directory -Path $temp | Out-Null
 try {
     Assert-Number -Arguments @('calculate','--expression','2x+3','--x','7') -Expected 17
     Assert-Number -Arguments @('calculate','--expression','x/y','--x','-7.5','--y','2') -Expected -3.75
+    Assert-Number -Arguments @('calculate','--expression','6/(3/(2))') -Expected 4
+    Assert-Number -Arguments @('calculate','--expression','1/(1/(1/(1+1)))') -Expected 0.5
     $functions = Join-Path $temp 'Żółć functions.tslf'
     $scriptFile = Join-Path $temp 'script λ.tsl'
     [IO.File]::WriteAllText($functions, 'static real Probe(real x) { return x/2; }', [Text.UTF8Encoding]::new($true))
@@ -127,6 +129,6 @@ try {
     }
     # Failure must not poison the next independent invocation.
     Assert-Number -Arguments @('integrate','--expression','x','--a','0','--b','2','--steps','2') -Expected 2 -Tolerance 1e-12
-    if ($script:cases -lt 39) { throw "Expected at least 39 published CLI process checks, but ran $script:cases." }
+    if ($script:cases -lt 41) { throw "Expected at least 41 published CLI process checks, but ran $script:cases." }
     Write-Host "Published portable CLI passed $script:cases process checks: numerical commands, documents, strict options, Console isolation, errors and recovery."
 } finally { Remove-Item -LiteralPath $temp -Recurse -Force }
