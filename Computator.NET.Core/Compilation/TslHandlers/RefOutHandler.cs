@@ -4,7 +4,11 @@ namespace Computator.NET.Core.Compilation.TslHandlers
 {
     public class RefOutHandler : ITslHandler
     {
-        private static readonly Regex readOutRegex = new Regex(@"(read\s*\(\s*)&", RegexOptions.Compiled);
+        // Only the complete identifier read has the out convention. A suffix
+        // such as spread must retain the normal reference-argument shorthand.
+        // Include all C# identifier-part categories, not just ASCII word chars.
+        private static readonly Regex readOutRegex = new Regex(
+            @"(?<![\p{L}\p{Nl}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\p{Cf}])(read\s*\(\s*)&", RegexOptions.Compiled);
 
         // Reference shorthand starts an argument, possibly a named one. A
         // whitespace-only prefix also matches binary expressions such as a &b
