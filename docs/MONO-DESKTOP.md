@@ -266,11 +266,19 @@ execute the actual managed preflight and reject tampering, wrong architecture,
 unrecorded files, unsafe mappings and writes back through redirected caches.
 Use the final candidate's fresh workflow reports and archive hashes for release.
 
-The current suite requires at least 55 cases, including restored compiled 3D
-plot commands, exact decimal-input rounding and numeric-control font layout.
+The current suite requires at least 57 cases, including restored compiled 3D
+plot commands, exact decimal-input rounding, numeric-control font layout and
+both scripting/custom-functions editor focus cases.
 The layout regression shows the real chart-bounds view and checks all four
 numeric controls against their actual font heights at 9.75, 12 and 16 points,
 including repeated layout and scaling, to catch clipped digits.
+
+Edit commands recognize keyboard focus in TextEditor's nested text area.
+The shared native focus cases invoke the real desktop Undo/Redo menu items,
+verify one document operation without synthetic-key fallback, and preserve
+read-only buffers. They also check focus moving to the document tabs, scripting
+console and other editor workspace. The same contract runs in Windows desktop
+tests; native Windows execution remains a separate platform check.
 
 Mono's BCL and UTF8 parser can
 round `8.88024331` one ULP high. The application's fast literal path and

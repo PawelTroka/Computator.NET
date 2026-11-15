@@ -177,7 +177,9 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
                     ? avalonEditorWrapper.Focused
                     :
 #endif
-            ((Control) CurrentCodeEditor).Focused;
+            // TextEditor's keyboard focus belongs to its nested TextArea.
+            // Exclude the wrapper's tab strip and other workspace controls.
+            ((Control) CurrentCodeEditor).ContainsFocus;
 
         [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public string CurrentFileName
