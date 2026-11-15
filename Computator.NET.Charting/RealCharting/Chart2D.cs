@@ -395,6 +395,7 @@ namespace Computator.NET.Charting.RealCharting
         {
             Series.Clear();
             functions.Clear();
+            points.Clear();
         }
 
         public void ShowEditPropertiesDialog()
