@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-for (const [route, editor] of [['/calculate', '#expressionTextArea'], ['/scripting', '#scriptTextArea']]) {
+for (const [route, editor] of [['/calculate', '#expressionTextArea'], ['/scripting', '#scriptTextArea'], ['/custom-functions', '#customFunctionsTextArea']]) {
 test(`HTML reference retains safe formatting in the ${route} Ace tooltip`, async ({ page }, info) => {
   const unexpected: string[] = [];
   page.on('request', request => { if (request.url().includes('reference-must-not-load')) unexpected.push(request.url()); });
