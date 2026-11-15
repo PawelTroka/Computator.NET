@@ -367,11 +367,14 @@ double YMax = 5, double quality = 0.5)
 
         public static void plot(System.Func<double, double> fx, params System.Collections.Generic.IEnumerable<double>[] xys)
         {
+            if (xys == null) throw new System.ArgumentNullException("xys");
+            if (xys.Length % 2 != 0)
+                throw new System.ArgumentException("Supply an x sequence and a y sequence for each data series.", "xys");
             var chart2d = _chartFactory.CreateChart2D();
             chart2d.AddFunction(new Computator.NET.DataTypes.Functions.Function(fx, Computator.NET.DataTypes.Functions.FunctionType.Real2D));
-            for (int i = 0; i < xys.Length - 1; i++)
-                chart2d.AddDataPoints(System.Linq.Enumerable.ToList(xys[i]), System.Linq.Enumerable.ToList(xys[i + 1]));
-           chart2d.ShowPlotDialog();
+            for (int i = 0; i < xys.Length; i += 2)
+                chart2d.AddDataPoints(System.Linq.Enumerable.ToList(xys[i + 1]), System.Linq.Enumerable.ToList(xys[i]));
+            chart2d.ShowPlotDialog();
         }
 
         // These private helpers also travel in ToCode. Runtime detection is
@@ -804,11 +807,14 @@ double YMax = 5, double quality = 0.5)
 
         public static void plot(System.Func<double, double> fx, params System.Collections.Generic.IEnumerable<double>[] xys)
         {
+            if (xys == null) throw new System.ArgumentNullException(""xys"");
+            if (xys.Length % 2 != 0)
+                throw new System.ArgumentException(""Supply an x sequence and a y sequence for each data series."", ""xys"");
             var chart2d = _chartFactory.CreateChart2D();
             chart2d.AddFunction(new Computator.NET.DataTypes.Functions.Function(fx, Computator.NET.DataTypes.Functions.FunctionType.Real2D));
-            for (int i = 0; i < xys.Length - 1; i++)
-                chart2d.AddDataPoints(System.Linq.Enumerable.ToList(xys[i]), System.Linq.Enumerable.ToList(xys[i + 1]));
-           chart2d.ShowPlotDialog();
+            for (int i = 0; i < xys.Length; i += 2)
+                chart2d.AddDataPoints(System.Linq.Enumerable.ToList(xys[i + 1]), System.Linq.Enumerable.ToList(xys[i]));
+            chart2d.ShowPlotDialog();
         }
 
         // These private helpers also travel in ToCode. Runtime detection is

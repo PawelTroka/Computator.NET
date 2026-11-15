@@ -50,7 +50,13 @@ def scripting(name,args,sig):
     if name=='plot':
         if args=='x,y':d='Displays a 2D plot from paired x/y coordinate sequences; supply equally sized finite sequences.'
         elif args=='x,y,z':d='Displays 3D points from equally sized x/y/z coordinate sequences.'
-        elif args.startswith('fx,xys'):d='Displays a real function with additional data series assembled from successive adjacent sequence pairs.'
+        elif args.startswith('fx,xys'):
+            return A('Interactive desktop plot',
+                     'Displays a real function together with independent x/y point series.', '',
+                     'After fx, supply x1,y1,x2,y2 and so on: each x sequence is followed by its matching y sequence. Use equally sized finite sequences within each pair; different pairs may contain different numbers of points. An empty sequence array keeps only the function series.',
+                     'A null sequence array or an incomplete x/y pair raises an argument error before a plot opens. Automatic data bounds are preserved; set finite chart bounds to sample the function if its curve is absent. This opens a desktop plot window; browser users should use the Chart screen.',
+                     'plot((real t) => t*t, new double[] {1,2}, new double[] {3,4}, new double[] {-2,-1}, new double[] {1,2}); adds two point series, (1,3),(2,4) and (−2,1),(−1,2), alongside the function.',
+                     url=url,category='Script plotting')
         elif args.startswith('fxs'):d='Displays several real one-variable functions on a shared 2D chart.'
         elif args.startswith('fxys'):d='Displays one or more real two-variable functions in the desktop 3D chart.'
         elif args.startswith('fxy,'):d=P('Displays the surface ',M(r'z=\operatorname{fxy}(x,y)','z=fxy(x,y)'),' in the desktop 3D chart.')
