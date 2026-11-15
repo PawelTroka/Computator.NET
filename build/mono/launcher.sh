@@ -6,12 +6,29 @@ if [ "$(id -u)" = 0 ]; then
     echo 'Run Computator.NET as your normal desktop user, not root.' >&2
     exit 2
 fi
-case "${1-}" in
-    '') mode=launch ;;
-    --check) mode=check ;;
-    *) echo 'Usage: computator [--check]' >&2; exit 2 ;;
+usage() { echo 'Usage: computator [--check | DOCUMENT.tsl | DOCUMENT.tslf]' >&2; exit 2; }
+mode=launch
+case "$#" in
+    0) ;;
+    1)
+        case "$1" in
+            --check) mode=check ;;
+            --*) usage ;;
+            *.[tT][sS][lL]|*.[tT][sS][lL][fF])
+                if [ ! -f "$1" ]; then
+                    echo 'The document must be an existing .tsl or .tslf file.' >&2
+                    exit 2
+                fi
+                # The application starts in its own directory. Preserve the
+                # caller's relative path before changing directory, without
+                # resolving file symlinks past the editor's safety checks.
+                case "$1" in /*) ;; *) set -- "$(pwd -P)/$1" ;; esac
+                ;;
+            *) usage ;;
+        esac
+        ;;
+    *) usage ;;
 esac
-if [ "$#" -gt 1 ]; then echo 'Usage: computator [--check]' >&2; exit 2; fi
 log=
 keep_log=0
 startup_error() {
@@ -70,7 +87,7 @@ if [ "$mode" = check ]; then
     exit 0
 fi
 cd -- "$root/app"
-mono --config "$config" "$root/app/Computator.NET.exe" >>"$log" 2>&1 &
+mono --config "$config" "$root/app/Computator.NET.exe" "$@" >>"$log" 2>&1 &
 child=$!
 status=0
 wait "$child" || status=$?

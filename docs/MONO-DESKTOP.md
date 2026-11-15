@@ -33,9 +33,16 @@ After extraction into a permanent location:
 ```sh
 ./bin/computator --check
 ./bin/computator
+./bin/computator "/path/to/Example.tsl"
 # Optional per-user desktop-menu registration:
 ./bin/install-desktop-entry
 ```
+
+Pass one existing `.tsl` script or `.tslf` custom-function file to open it in
+the corresponding editor. Uppercase extensions and quoted paths with spaces
+are supported; relative paths refer to the invoking terminal's directory.
+Opening a document does not run it. The registered desktop entry also accepts
+one local document through Open With, without changing default associations.
 
 The launcher verifies the full inventory and actual native imports before
 starting the application. It generates a process-specific Mono configuration

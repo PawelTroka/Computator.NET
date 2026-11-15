@@ -29,6 +29,12 @@ TSL/custom functions execute trusted user code with your account's permissions.
 Extract to a permanent user-writable directory, then run:
   ./bin/computator --check
   ./bin/computator
+  ./bin/computator "/path/to/Example.tsl"
+
+The launcher accepts one existing .tsl script or .tslf custom-function document
+(including uppercase extensions). Relative document paths are resolved from
+your current directory. Opening a document selects its editor without running
+the script; use Run in the application when you want to execute it.
 
 The archive also includes the matching Mono runtime compatibility facade DLLs
 (including netstandard and ValueTuple), their exact package provenance and Mono
@@ -46,6 +52,8 @@ packages. This archive does not bundle Mono or the full operating-system stack.
 Optional desktop-menu registration for your account (no terminal emulator is
 required; x11-utils supplies the xmessage startup-error dialog):
   ./bin/install-desktop-entry
+The registered entry also accepts one local document through an Open With
+action. Registration does not change your default file associations.
 Startup errors appear in a small dialog and are retained in a private
 startup-errors.*.log file beside runtime-check.json. A dialog closes after
 60 seconds if unanswered. Successful launches remove their temporary log.

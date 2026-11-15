@@ -213,7 +213,10 @@ class PackageContracts(unittest.TestCase):
         (install / 'share/computator.png').write_bytes(b'icon fixture')
         shutil.copyfile(Path(__file__).with_name('install-user.sh'), install / 'bin/install-desktop-entry')
         launcher = install / 'bin/computator'
-        launcher.write_text('#!/bin/sh\nprintf "%s" "$0" > "$COMPUTATOR_INSTALL_TEST_MARKER"\n')
+        launcher.write_text('#!/bin/sh\n'
+            'temporary=$COMPUTATOR_INSTALL_TEST_MARKER.$$\n'
+            'printf "%s\\0" "$0" "$@" > "$temporary"\n'
+            'mv -- "$temporary" "$COMPUTATOR_INSTALL_TEST_MARKER"\n')
         launcher.chmod(0o755)
         marker = self.base / 'launched-path'
         data = self.base / 'desktop-data'
@@ -232,17 +235,115 @@ class PackageContracts(unittest.TestCase):
             gio.g_desktop_app_info_new_from_filename.restype = ctypes.c_void_p
             gio.g_app_info_launch.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p]
             gio.g_app_info_launch.restype = ctypes.c_int
+            gio.g_file_new_for_path.argtypes = [ctypes.c_char_p]
+            gio.g_file_new_for_path.restype = ctypes.c_void_p
+            gio.g_list_append.argtypes = [ctypes.c_void_p, ctypes.c_void_p]
+            gio.g_list_append.restype = ctypes.c_void_p
+            gio.g_list_free.argtypes = [ctypes.c_void_p]
+            gio.g_app_info_supports_files.argtypes = [ctypes.c_void_p]
+            gio.g_app_info_supports_files.restype = ctypes.c_int
             gio.g_object_unref.argtypes = [ctypes.c_void_p]
             info = gio.g_desktop_app_info_new_from_filename(os.fsencode(entry))
             self.assertTrue(info, 'The desktop parser rejected the generated entry: ' + entry.read_text())
             try:
-                self.assertEqual(1, gio.g_app_info_launch(info, None, None, None))
-                deadline = time.monotonic() + 5
-                while not marker.exists() and time.monotonic() < deadline:
-                    time.sleep(0.01)
-                self.assertEqual(str(launcher), marker.read_text())
+                self.assertEqual(1, gio.g_app_info_supports_files(info), 'The menu entry must accept one document.')
+                for filename in (None, 'Żółć $ % " ` \\ .TSL', 'Funkcje.TsLf'):
+                    with self.subTest(filename=filename):
+                        document = None if filename is None else self.base / filename
+                        file_object = None
+                        file_list = None
+                        if document is not None:
+                            document.write_text('Never execute this document during shell activation.')
+                            file_object = gio.g_file_new_for_path(os.fsencode(document))
+                            file_list = gio.g_list_append(None, file_object)
+                        try:
+                            marker.unlink(missing_ok=True)
+                            self.assertEqual(1, gio.g_app_info_launch(info, file_list, None, None))
+                            deadline = time.monotonic() + 5
+                            while not marker.exists() and time.monotonic() < deadline:
+                                time.sleep(0.01)
+                            expected = [os.fsencode(launcher)]
+                            if document is not None:
+                                expected.append(os.fsencode(document))
+                            self.assertEqual(b'\0'.join(expected) + b'\0', marker.read_bytes())
+                        finally:
+                            if file_list:
+                                gio.g_list_free(file_list)
+                            if file_object:
+                                gio.g_object_unref(file_object)
             finally:
                 gio.g_object_unref(info)
+
+
+@unittest.skipUnless(sys.platform.startswith('linux'), 'Uses the installed Linux shell launcher.')
+class LauncherDocumentContracts(unittest.TestCase):
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temporary.cleanup)
+        self.base = Path(self.temporary.name)
+        self.root = self.base / 'Computator path = $ % " ` \\'
+        (self.root / 'bin').mkdir(parents=True)
+        (self.root / 'app').mkdir()
+        self.launcher = self.root / 'bin/computator'
+        shutil.copyfile(Path(__file__).with_name('launcher.sh'), self.launcher)
+        tools = self.base / 'tools'
+        tools.mkdir()
+        self.calls = self.base / 'calls.jsonl'
+        # Record only the process boundary. The actual installed shell launcher,
+        # path resolution and argument quoting execute without substitutions.
+        mono = tools / 'mono'
+        mono.write_text('#!' + sys.executable + '\n'
+            'import json, os, sys\n'
+            'with open(os.environ["COMPUTATOR_LAUNCHER_TEST_CALLS"], "a") as output:\n'
+            '    output.write(json.dumps({"arguments": sys.argv[1:], "cwd": os.getcwd()}) + "\\n")\n')
+        mono.chmod(0o755)
+        self.environment = dict(os.environ, PATH=str(tools) + os.pathsep + os.environ['PATH'],
+                                HOME=str(self.base / 'profile'), XDG_CACHE_HOME=str(self.base / 'cache'),
+                                DISPLAY=':launcher-contract', COMPUTATOR_LAUNCHER_TEST_CALLS=str(self.calls))
+
+    def launch(self, arguments):
+        self.calls.unlink(missing_ok=True)
+        result = subprocess.run(['sh', str(self.launcher), *arguments], cwd=self.base,
+                                env=self.environment, capture_output=True, text=True, timeout=10)
+        calls = [] if not self.calls.exists() else [json.loads(line) for line in self.calls.read_text().splitlines()]
+        return result, calls
+
+    def test_documents_reach_application_as_one_absolute_argument(self):
+        for filename in ('Żółć $ % " ` \\ .TSL', 'Funkcje.TsLf', '-leading.tsl'):
+            document = self.base / filename
+            document.write_text('return 42;')
+            for argument in (filename, str(document)):
+                with self.subTest(argument=argument):
+                    result, calls = self.launch([argument])
+                    self.assertEqual(0, result.returncode, result.stderr)
+                    self.assertEqual(3, len(calls), 'Both existing preflights must run before application launch.')
+                    self.assertEqual(['prepare', '--package-root', str(self.root)], calls[0]['arguments'][1:4])
+                    self.assertEqual(['verify', '--package-root', str(self.root)], calls[1]['arguments'][3:6])
+                    self.assertEqual([str(self.root / 'app/Computator.NET.exe'), str(document)], calls[2]['arguments'][2:])
+                    self.assertEqual(str(self.root / 'app'), calls[2]['cwd'])
+                    self.assertEqual('return 42;', document.read_text())
+
+    def test_plain_launch_and_runtime_check_keep_their_existing_contract(self):
+        for arguments, expected_calls in (([], 3), (['--check'], 2)):
+            with self.subTest(arguments=arguments):
+                result, calls = self.launch(arguments)
+                self.assertEqual(0, result.returncode, result.stderr)
+                self.assertEqual(expected_calls, len(calls))
+                if not arguments:
+                    self.assertEqual([str(self.root / 'app/Computator.NET.exe')], calls[-1]['arguments'][2:])
+                else:
+                    self.assertIn('Runtime check passed.', result.stdout)
+
+    def test_invalid_documents_and_options_fail_before_starting_mono(self):
+        (self.base / 'directory.tsl').mkdir()
+        (self.base / 'other.txt').write_text('not a script')
+        (self.base / 'valid.tsl').write_text('return 42;')
+        for arguments in (['--unknown'], ['missing.tsl'], ['directory.tsl'], ['other.txt'],
+                          [''], ['valid.tsl', 'valid.tsl'], ['--check', 'valid.tsl']):
+            with self.subTest(arguments=arguments):
+                result, calls = self.launch(arguments)
+                self.assertEqual(2, result.returncode, result.stderr)
+                self.assertEqual([], calls)
 
 
 if __name__ == '__main__':
