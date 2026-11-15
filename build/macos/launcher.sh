@@ -2,6 +2,7 @@
 set -euo pipefail
 resources=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../Resources" && pwd)
 fail() {
+    if [[ ${canceled:-0} != 0 ]]; then exit "$canceled"; fi
     printf 'Computator.NET: %s\n' "$1" >&2
     if [[ ${COMPUTATOR_NONINTERACTIVE:-} != 1 ]]; then
         /usr/bin/osascript - "$1" <<'APPLESCRIPT' || true
@@ -27,6 +28,38 @@ mono=${COMPUTATOR_MONO:-$default_mono}
 /usr/sbin/pkgutil --pkg-info org.xquartz.X11 2>/dev/null | grep 'version: 2.8.6' > /dev/null || fail 'Use the tested XQuartz2.8.6 package for this release candidate.'
 temporary=$(mktemp -d "${TMPDIR:-/tmp}/computator-mac-launch.XXXXXXXX")
 trap 'rm -rf -- "$temporary"' EXIT
+child=
+canceled=0
+interrupted=0
+forward() {
+    if [[ $canceled == 0 ]]; then canceled=$1; fi
+    interrupted=1
+    if [[ -n $child ]]; then kill -TERM "$child" 2>/dev/null || :; fi
+}
+trap 'forward 129' HUP
+trap 'forward 130' INT
+trap 'forward 143' TERM
+run_child() {
+    if [[ $canceled != 0 ]]; then return "$canceled"; fi
+    # Bash defers traps for foreground commands. Wait explicitly so signals
+    # reach the owned child, retaining its configuration until it has exited.
+    "$@" <&0 &
+    child=$!
+    # A signal can arrive between starting the child and recording its PID.
+    if [[ $canceled != 0 ]]; then kill -TERM "$child" 2>/dev/null || :; fi
+    local status
+    while :; do
+        interrupted=0
+        status=0
+        wait "$child" || status=$?
+        # A trap interrupts wait before the child finishes. Reap after every
+        # interruption, including repeated signals during graceful shutdown.
+        if [[ $interrupted == 0 ]]; then break; fi
+    done
+    child=
+    if [[ $canceled != 0 ]]; then return "$canceled"; fi
+    return "$status"
+}
 unset MONO_ENV_OPTIONS MONO_CFG_DIR MONO_PATH COMPUTATOR_GSL_DIRECTORY MONO_WINFORMS_XIM_STYLE
 unset MONO_GAC_PREFIX DYLD_LIBRARY_PATH DYLD_FALLBACK_LIBRARY_PATH DYLD_FRAMEWORK_PATH DYLD_FALLBACK_FRAMEWORK_PATH DYLD_INSERT_LIBRARIES
 export MONO_MWF_MAC_FORCE_X11=1
@@ -37,20 +70,20 @@ export GIO_MODULE_DIR="$resources/native/gio-modules" GIO_EXTRA_MODULES=
 export LIBTHAI_DICTDIR="$resources/native/libthai"
 export XLOCALEDIR=/opt/X11/share/X11/locale
 preflight="$resources/app/Computator.NET.Mono.Preflight.exe"
-"$mono" "$preflight" prepare --package-root "$resources" --config "$temporary/mono.config" >&2 || fail 'The package integrity or native dependency preflight failed.'
-"$mono" --config "$temporary/mono.config" "$preflight" verify --package-root "$resources" --report "$temporary/preflight.json" >&2 || fail 'The runtime architecture or native ABI preflight failed.'
-if [[ ${1:-} == --preflight ]]; then cat "$temporary/preflight.json"; exit 0; fi
+run_child "$mono" "$preflight" prepare --package-root "$resources" --config "$temporary/mono.config" >&2 || fail 'The package integrity or native dependency preflight failed.'
+run_child "$mono" --config "$temporary/mono.config" "$preflight" verify --package-root "$resources" --report "$temporary/preflight.json" >&2 || fail 'The runtime architecture or native ABI preflight failed.'
+if [[ ${1:-} == --preflight ]]; then run_child cat "$temporary/preflight.json"; exit 0; fi
 if [[ -z ${DISPLAY:-} ]]; then
-    /usr/bin/open -a XQuartz || fail 'Could not open XQuartz.'
+    run_child /usr/bin/open -a XQuartz || fail 'Could not open XQuartz.'
     for ((attempt=0; attempt<30; attempt++)); do
         export DISPLAY=$(/bin/launchctl getenv DISPLAY)
-        if [[ -n $DISPLAY ]] && /opt/X11/bin/xdpyinfo >/dev/null 2>&1; then break; fi
-        sleep 1
+        if [[ -n $DISPLAY ]] && run_child /opt/X11/bin/xdpyinfo >/dev/null 2>&1; then break; fi
+        run_child sleep 1
     done
 fi
-[[ -n ${DISPLAY:-} ]] && /opt/X11/bin/xdpyinfo >/dev/null 2>&1 || fail 'No authenticated XQuartz display is available. Log out and log back in after installing XQuartz, then retry.'
+[[ -n ${DISPLAY:-} ]] && run_child /opt/X11/bin/xdpyinfo >/dev/null 2>&1 || fail 'No authenticated XQuartz display is available. Log out and log back in after installing XQuartz, then retry.'
 cd "$resources/app"
 # The protected system bash may discard inherited DYLD_* variables. Enable only
 # this explicit diagnostic after shell startup, for the actual GUI child alone.
 if [[ ${COMPUTATOR_MONO_TRACE_LIBRARIES:-} == 1 ]]; then export DYLD_PRINT_LIBRARIES=1; fi
-"$mono" --config "$temporary/mono.config" Computator.NET.exe "$@"
+run_child "$mono" --config "$temporary/mono.config" Computator.NET.exe "$@"
