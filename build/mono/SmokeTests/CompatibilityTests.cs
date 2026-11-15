@@ -365,6 +365,65 @@ internal static partial class Program
         finally { Directory.Delete(directory, true); }
     }
 
+    private static void ProfileTrialDocumentNames()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), "computator-profile-zażółć-" + Guid.NewGuid().ToString("N"));
+        var source = Path.Combine(directory, "source");
+        var trial = Path.Combine(directory, "trial");
+        Directory.CreateDirectory(Path.Combine(source, "scripts"));
+        Directory.CreateDirectory(Path.Combine(source, "functions"));
+        try
+        {
+            var lowerScript = Path.Combine("scripts", "model.tsl");
+            var upperScript = Path.Combine("scripts", "MODEL.tsl");
+            var lowerFunctions = Path.Combine("functions", "shared.tslf");
+            var upperFunctions = Path.Combine("Functions", "shared.tslf");
+            File.WriteAllText(Path.Combine(source, lowerScript), "write(\"zażółć λ\");");
+            File.WriteAllText(Path.Combine(source, lowerFunctions), "real first(real x) { return x+1; }");
+            var caseSensitive = !File.Exists(Path.Combine(source, upperScript));
+            if (caseSensitive)
+            {
+                File.WriteAllText(Path.Combine(source, upperScript), "write(\"other script π\");");
+                Directory.CreateDirectory(Path.Combine(source, "Functions"));
+                File.WriteAllText(Path.Combine(source, upperFunctions), "real second(real x) { return x+2; }");
+            }
+            Console.WriteLine("Profile fixture volume case-sensitive: " + caseSensitive);
+            SettingsPersistence.Save(Path.Combine(source, "settings.dat"), new SettingsDocument
+            {
+                WorkingDirectory = source,
+                ScriptingDirectory = Path.Combine(source, "scripts"),
+                CustomFunctionsDirectory = Path.Combine(source, "functions")
+            });
+            var originals = Directory.GetFiles(source, "*", SearchOption.AllDirectories)
+                .ToDictionary(path => path.Substring(source.Length + 1), File.ReadAllBytes, StringComparer.Ordinal);
+
+            var inventory = ProfileTrial.Prepare(source, trial);
+
+            Check(inventory.Count == originals.Count, "The profile inventory lost a distinct input name.");
+            foreach (var entry in originals)
+            {
+                Check(inventory.ContainsKey(entry.Key), "The profile inventory changed a filename: " + entry.Key);
+                var copiedName = entry.Key == "settings.json" ? "settings.json.original" : entry.Key;
+                Check(File.ReadAllBytes(Path.Combine(trial, copiedName)).SequenceEqual(entry.Value),
+                    "The trial changed document bytes: " + entry.Key);
+            }
+            if (caseSensitive)
+            {
+                Check(inventory[lowerScript] != inventory[upperScript], "Case-distinct scripts must retain their own hashes.");
+                Check(inventory[lowerFunctions] != inventory[upperFunctions], "Case-distinct directories must retain their own hashes.");
+            }
+            var rebased = SettingsPersistence.Load(Path.Combine(trial, "settings.dat"));
+            Equal(rebased.WorkingDirectory, trial);
+            Equal(rebased.ScriptingDirectory, Path.Combine(trial, "scripts"));
+            Equal(rebased.CustomFunctionsDirectory, Path.Combine(trial, "functions"));
+            File.WriteAllText(Path.Combine(trial, lowerScript), "trial edit only");
+            foreach (var entry in originals)
+                Check(File.ReadAllBytes(Path.Combine(source, entry.Key)).SequenceEqual(entry.Value),
+                    "Preparing or editing the trial changed its source: " + entry.Key);
+        }
+        finally { Directory.Delete(directory, true); }
+    }
+
     private static void VerifyNestedScriptTree(ScriptingView scripting, string directory)
     {
         var nestedDirectory = Path.Combine(directory, "nested scripts");

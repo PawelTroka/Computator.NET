@@ -62,7 +62,9 @@ namespace Computator.NET.Core.Configuration
             document.WorkingDirectory = Rebase(document.WorkingDirectory);
             document.ScriptingDirectory = Rebase(document.ScriptingDirectory);
             document.CustomFunctionsDirectory = Rebase(document.CustomFunctionsDirectory);
-            var originals = files.ToDictionary(file => RelativeTo(source, file), Hash, StringComparer.OrdinalIgnoreCase);
+            // Keys come from actual filesystem entries, not user-supplied aliases.
+            // Preserve distinct case-sensitive filenames and parent directories.
+            var originals = files.ToDictionary(file => RelativeTo(source, file), Hash, StringComparer.Ordinal);
             Directory.CreateDirectory(destination);
             try
             {

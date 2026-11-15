@@ -110,6 +110,7 @@ internal static partial class Program
         Run("framework-asinh-and-copy-sign", FrameworkElementaryValues);
         Run("framework-random-inclusive-bounds-and-concurrency", FrameworkRandomBounds);
         Run("settings-json-and-windows-editor-migration", SettingsMigration);
+        Run("profile-trial-preserves-case-distinct-documents", ProfileTrialDocumentNames);
         Run("legacy-nrbf-import-on-mono", LegacySettingsMigration);
         Run("desktop-real-and-complex-expression-evaluation", DesktopExpressions);
         Run("desktop-script-and-custom-functions", DesktopScripts);
