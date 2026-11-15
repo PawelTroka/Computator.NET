@@ -1968,7 +1968,8 @@ namespace Computator.NET.Core.Functions
 
         public static double CarlsonD(double x, double y, double z)
         {
-            if (x <= 0 || y <= 0 || z <= 0)
+            // One of x,y may be zero; z must remain positive for convergence.
+            if (x < 0 || y < 0 || z <= 0 || (x == 0 && y == 0))
                 return double.NaN;
             return Meta.Numerics.Functions.AdvancedMath.CarlsonD(x, y, z);
         }
@@ -1976,21 +1977,25 @@ namespace Computator.NET.Core.Functions
 
         public static double CarlsonF(double x, double y, double z)
         {
-            if (x <= 0 || y <= 0 || z <= 0)
+            // The complete integral has one zero argument. Two zeros diverge.
+            if (x < 0 || y < 0 || z < 0 ||
+                (x == 0 && y == 0) || (x == 0 && z == 0) || (y == 0 && z == 0))
                 return double.NaN;
             return Meta.Numerics.Functions.AdvancedMath.CarlsonF(x, y, z);
         }
 
         public static double CarlsonC(double x, double y)
         {
-            if (x <= 0 || y <= 0)
+            if (x < 0 || y <= 0)
                 return double.NaN;
             return gsl_sf_ellint_RC(x, y, 0);
         }
 
         public static double CarlsonJ(double x, double y, double z, double p)
         {
-            if (x <= 0 || y <= 0 || z <= 0 || p <= 0)
+            // Keep p positive: this wrapper does not expose principal values.
+            if (x < 0 || y < 0 || z < 0 || p <= 0 ||
+                (x == 0 && y == 0) || (x == 0 && z == 0) || (y == 0 && z == 0))
                 return double.NaN;
             return gsl_sf_ellint_RJ(x, y, z, p, 0);
         }
@@ -5238,7 +5243,8 @@ EntryPoint = "gsl_sf_mathieu_Ms", CallingConvention = System.Runtime.InteropServ
 
         public static double CarlsonD(double x, double y, double z)
         {
-            if (x <= 0 || y <= 0 || z <= 0)
+            // One of x,y may be zero; z must remain positive for convergence.
+            if (x < 0 || y < 0 || z <= 0 || (x == 0 && y == 0))
                 return double.NaN;
             return Meta.Numerics.Functions.AdvancedMath.CarlsonD(x, y, z);
         }
@@ -5246,21 +5252,25 @@ EntryPoint = "gsl_sf_mathieu_Ms", CallingConvention = System.Runtime.InteropServ
 
         public static double CarlsonF(double x, double y, double z)
         {
-            if (x <= 0 || y <= 0 || z <= 0)
+            // The complete integral has one zero argument. Two zeros diverge.
+            if (x < 0 || y < 0 || z < 0 ||
+                (x == 0 && y == 0) || (x == 0 && z == 0) || (y == 0 && z == 0))
                 return double.NaN;
             return Meta.Numerics.Functions.AdvancedMath.CarlsonF(x, y, z);
         }
 
         public static double CarlsonC(double x, double y)
         {
-            if (x <= 0 || y <= 0)
+            if (x < 0 || y <= 0)
                 return double.NaN;
             return gsl_sf_ellint_RC(x, y, 0);
         }
 
         public static double CarlsonJ(double x, double y, double z, double p)
         {
-            if (x <= 0 || y <= 0 || z <= 0 || p <= 0)
+            // Keep p positive: this wrapper does not expose principal values.
+            if (x < 0 || y < 0 || z < 0 || p <= 0 ||
+                (x == 0 && y == 0) || (x == 0 && z == 0) || (y == 0 && z == 0))
                 return double.NaN;
             return gsl_sf_ellint_RJ(x, y, z, p, 0);
         }

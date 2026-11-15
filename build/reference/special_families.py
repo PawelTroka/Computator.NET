@@ -101,9 +101,18 @@ def elliptic(name,args):
                  'D':'R_D(x,y,z)=3/2 ∫₀^∞ dt/[(t+z)sqrt((t+x)(t+y)(t+z))]',
                  'F':'R_F(x,y,z)=1/2 ∫₀^∞ dt/sqrt((t+x)(t+y)(t+z))',
                  'J':'R_J(x,y,z,p)=3/2 ∫₀^∞ dt/[(t+p)sqrt((t+x)(t+y)(t+z))]'}[kind]
+        domain={'C':'Real x≥0 and y>0, including x=0.',
+                'D':'Real x,y≥0 with at most one zero, and z>0.',
+                'F':'Real x,y,z≥0 with at most one zero.',
+                'J':'Real x,y,z≥0 with at most one zero, and p>0.'}[kind]
+        example={'C':'CarlsonC(0,1) = PI/2',
+                 'D':'CarlsonD(0,1,1) = 3*PI/4',
+                 'F':'CarlsonF(0,1,1) = PI/2',
+                 'J':'CarlsonJ(0,1,1,1) = 3*PI/4'}[kind]
         return A('Carlson symmetric elliptic integral R_'+kind,'A symmetric-form elliptic integral useful for expressing many Legendre-form elliptic integrals.',formula,
-                 'This wrapper requires every supplied argument to be strictly positive, even where broader limiting definitions exist.',
-                 'R_D is symmetric in x,y; R_F and R_J are symmetric in x,y,z; R_D(x,y,z)=R_J(x,y,z,z).',url=DLMF+'19.16')
+                 domain+' Negative arguments and singular zero combinations return NaN. The underlying numerical backend still limits the supported magnitude range.',
+                 'R_D is symmetric in x,y; R_F and R_J are symmetric in x,y,z; R_D(x,y,z)=R_J(x,y,z,z). Negative-argument Cauchy principal values are not exposed.',
+                 example,url=DLMF+'19.16')
     if name.startswith('JacobiElliptic'):
         kind=name[-2:].lower()
         return A('Jacobi elliptic '+kind,P('An elliptic analogue of a trigonometric function, parameterized by ', M('m', 'm'), '.'),
