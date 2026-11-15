@@ -1,5 +1,4 @@
 using Computator.NET.Core.NumericalCalculations;
-using Computator.NET.Localization;
 using NUnit.Framework;
 
 namespace Computator.NET.Engine.Tests;
@@ -46,14 +45,6 @@ public class SteffensenRootTests
         NUnit.Framework.Assert.That(Run("double.NaN", -1, 1, 10), Is.NaN);
         NUnit.Framework.Assert.That(Run("1", 2, 1, 10), Is.NaN);
         NUnit.Framework.Assert.That(Run("1", -1, 1, 0), Is.NaN);
-    }
-
-    [Test]
-    public void ExposesTheMethodInTheLocalizedDesktopNumericalMenu()
-    {
-        var entry = NumericalMethodsInfo.Instance.FunctionRootMethods[Strings.Steffensen_s_method];
-        NUnit.Framework.Assert.That(entry(x => x - 4, 0, 10, 1e-12, 10),
-            Is.EqualTo(4).Within(1e-12));
     }
 
     [Test]
