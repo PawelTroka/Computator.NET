@@ -9,7 +9,7 @@ import 'ace-builds/src-noconflict/ext-keybinding_menu';
 import 'ace-builds/src-noconflict/ext-settings_menu';
 import { CustomCompleter } from '../helpers/CustomCompleter';
 import { useTextResult } from '../helpers/useTextResult';
-import { maximumScriptBytes, maximumScriptCharacters, useScriptDocument } from '../helpers/ScriptDocumentContext';
+import { maximumScriptBytes, maximumScriptCharacters, useScriptDocument, validName } from '../helpers/ScriptDocumentContext';
 import { ResultPanel } from './ResultPanel';
 
 export function Scripting() {
@@ -27,11 +27,15 @@ export function Scripting() {
     const importing = ++revision.current;
     try {
       if (!/\.tsl$/i.test(file.name) || file.size > maximumScriptBytes) throw new Error('Choose a UTF-8 .tsl file of at most 256 KiB.');
+      if (!validName(file.name)) throw new Error('Choose a .tsl file with a valid file name of at most 180 characters, without path separators or control characters.');
       const code = new TextDecoder('utf-8', { fatal: true }).decode(await file.arrayBuffer()).replace(/^\uFEFF/, '');
       if (code.length > maximumScriptCharacters) throw new Error('Scripts may contain at most 65,536 characters.');
       if (revision.current !== importing) return;
       if (script.code && script.code !== code && !confirm('Replace the current script? Export it first to keep a separate copy.')) return;
-      script.replace(code, file.name); setFileError('');
+      // Output belongs to the submitted document. Only a successful replacement
+      // retires its execution; declined or invalid imports keep the current run.
+      script.replace(code, file.name); request.reset();
+      setFileError('');
     } catch (reason) {
       if (revision.current === importing) setFileError(reason instanceof Error ? reason.message : 'The file could not be read.');
     }
@@ -48,7 +52,9 @@ export function Scripting() {
       <button type="button" className="btn btn-outline-secondary" onClick={exportFile}>Export .tsl</button>
       <button type="button" className="btn btn-outline-danger" onClick={() => {
         if ((script.code || script.error) && !confirm('Discard the current script and its saved draft in this tab?')) return;
-        revision.current++; script.clear(); setFileError('');
+        revision.current++;
+        if (script.clear()) request.reset();
+        setFileError('');
       }}>New script</button>
     </div>
     <p data-testid="script-draft-state" aria-live="polite">{script.name} — {script.unstored ? 'Draft kept in memory only' : 'Draft saved in this tab'}. Export a .tsl file to keep a permanent copy.</p>
