@@ -28,7 +28,7 @@ EOF
 # Keep the executable name fixed: some desktop parsers validate it before
 # expanding literal %% codes. The installation path is one separately quoted
 # argument; it never becomes shell source, even when it contains reserved chars.
-printf '%s%s%s\n' 'Exec=/bin/sh -c "exec \\"\\$1\\"" computator "' "$escaped" '"' >> "$temporary"
+printf '%s%s%s\n' 'Exec=/bin/sh -c "exec \\"\\$@\\"" computator "' "$escaped" '" %f' >> "$temporary"
 cat >> "$temporary" <<EOF
 Icon=computator
 Terminal=false
