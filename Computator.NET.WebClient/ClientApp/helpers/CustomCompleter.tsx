@@ -2,6 +2,10 @@ import { WEB_API_BASE_URL } from '../config';
 import { referenceHtml } from './referenceHtml';
 interface Completion { caption: string; value: string; score: number; meta: string; docHTML: string; }
 export class CustomCompleter {
+  // Ace uses the same prefix for matching and replacement. Include qualifiers
+  // so completing `Integral.sim` replaces it rather than leaving `Integral.`
+  // in front of the inserted `Integral.simpsonMethod`.
+  public readonly identifierRegexps = [/[\p{L}\p{N}\p{M}\p{Pc}.]/u];
   private items: Completion[] = [];
   private readonly controller = new AbortController();
   private readonly ready: Promise<void>;

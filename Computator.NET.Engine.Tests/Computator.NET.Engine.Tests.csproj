@@ -45,5 +45,7 @@
     <!-- Exercise the desktop transform adapter and its regressions on every OS. -->
     <Compile Include="../Computator.NET.Core/Transformations/TrigonometricTransformations.cs" Link="Parity/TrigonometricTransformations.cs" />
     <Compile Include="../Computator.NET.Core.Tests/TransformationsTests/MathematicalTransformationsTests.cs" Link="Parity/MathematicalTransformationsTests.cs" />
+    <!-- Validate qualified portable completion names through the real evaluator. -->
+    <Compile Include="../Computator.NET.PortableWeb/PortableCatalog.cs" Link="Web/PortableCatalog.cs" />
   </ItemGroup>
 </Project>
