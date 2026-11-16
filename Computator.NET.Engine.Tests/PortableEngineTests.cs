@@ -77,6 +77,20 @@ public class PortableEngineTests
     }
 
     [Test]
+    public void ReferencePathsPreserveCaseDistinctUnixAssemblies()
+    {
+        // The reference list is built from TRUSTED_PLATFORM_ASSEMBLIES. Unix paths
+        // distinguished by case must not be collapsed before Roslyn sees them.
+        var field = typeof(PortableEngine).GetField("ReferencePathComparer",
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+        NUnit.Framework.Assert.That(field, Is.Not.Null);
+        var comparer = (StringComparer)field!.GetValue(null)!;
+        var names = new[] { "Library/Science.dll", "Library/science.dll" };
+        NUnit.Framework.Assert.That(names.Distinct(comparer).Count(),
+            Is.EqualTo(Path.DirectorySeparatorChar == '/' ? 2 : 1));
+    }
+
+    [Test]
     public void SourceAndOutputLimitsAreEnforced()
     {
         var engine = new PortableEngine();
