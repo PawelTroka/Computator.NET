@@ -60,7 +60,7 @@ namespace Computator.NET.Core.NumericalCalculations
 
         public static double nonAdaptiveGaussKronrodMethod(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
         {
-            return Accord.Math.Integration.NonAdaptiveGaussKronrod.Integrate(fx, a, b, 1.0/N);
+            return Accord.Math.Integration.NonAdaptiveGaussKronrod.Integrate(fx, a, b, ReciprocalTolerance(N));
         }
 
         public static double rombergMethod(System.Func<double, double> fx, double a, double b, double N = 6)
@@ -72,7 +72,20 @@ namespace Computator.NET.Core.NumericalCalculations
 
         public static double doubleExponentialTransformation(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
         {
-            return MathNet.Numerics.Integration.DoubleExponentialTransformation.Integrate(fx, a, b, 1.0/N);
+            return MathNet.Numerics.Integration.DoubleExponentialTransformation.Integrate(fx, a, b, ReciprocalTolerance(N));
+        }
+
+        private static double ReciprocalTolerance(double N)
+        {
+            // Both methods interpret N as the inverse integration tolerance, not
+            // a sample count. Avoid passing infinity/NaN or a negative tolerance
+            // to third-party integrators, including when 1/N overflows.
+            if (double.IsNaN(N) || double.IsInfinity(N) || N <= 0)
+                throw new System.ArgumentOutOfRangeException(nameof(N), "The inverse tolerance must be positive and finite.");
+            var tolerance = 1.0 / N;
+            if (double.IsInfinity(tolerance))
+                throw new System.ArgumentOutOfRangeException(nameof(N), "The inverse tolerance is too small to represent.");
+            return tolerance;
         }
 
         private static int CompositePanelCount(double N, bool requireEven)
@@ -171,7 +184,7 @@ namespace Computator.NET.Core.NumericalCalculations
 
         public static double nonAdaptiveGaussKronrodMethod(System.Func<double, double> fx, double a, double b, int N = STEPS_MAX)
         {
-            return Accord.Math.Integration.NonAdaptiveGaussKronrod.Integrate(fx, a, b, 1.0/N);
+            return Accord.Math.Integration.NonAdaptiveGaussKronrod.Integrate(fx, a, b, ReciprocalTolerance(N));
         }
 
         public static double rombergMethod(System.Func<double, double> fx, double a, double b, int N = 6)
@@ -183,7 +196,18 @@ namespace Computator.NET.Core.NumericalCalculations
 
         public static double doubleExponentialTransformation(System.Func<double, double> fx, double a, double b, int N = STEPS_MAX)
         {
-            return MathNet.Numerics.Integration.DoubleExponentialTransformation.Integrate(fx, a, b, 1.0/N);
+            return MathNet.Numerics.Integration.DoubleExponentialTransformation.Integrate(fx, a, b, ReciprocalTolerance(N));
+        }
+
+        private static double ReciprocalTolerance(double N)
+        {
+            // Keep the emitted TSL behavior aligned with the direct host methods.
+            if (double.IsNaN(N) || double.IsInfinity(N) || N <= 0)
+                throw new System.ArgumentOutOfRangeException(nameof(N), ""The inverse tolerance must be positive and finite."");
+            var tolerance = 1.0 / N;
+            if (double.IsInfinity(tolerance))
+                throw new System.ArgumentOutOfRangeException(nameof(N), ""The inverse tolerance is too small to represent."");
+            return tolerance;
         }
 
         private static int CompositePanelCount(double N, bool requireEven)
