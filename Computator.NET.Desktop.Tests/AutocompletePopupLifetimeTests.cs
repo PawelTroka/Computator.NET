@@ -30,6 +30,41 @@ namespace Computator.NET.Desktop.Tests
         }
 
         [Test]
+        public void RapidSelectionChangesRenderOneReferenceAfterTheSelectionSettles()
+        {
+            using var fixture = new PopupFixture();
+            fixture.Menu.Show(fixture.Input, false);
+            NUnit.Framework.Assert.That(fixture.Menu.Visible, Is.True);
+            var list = fixture.Menu.Host.ListView;
+
+            list.SelectedItemIndex = 1;
+            list.SelectedItemIndex = 0;
+            list.SelectedItemIndex = 1;
+
+            NUnit.Framework.Assert.That(fixture.PendingReference, Is.SameAs(list.VisibleItems[1]));
+            NUnit.Framework.Assert.That(fixture.PendingReferenceTimer.Enabled, Is.True);
+            NUnit.Framework.Assert.That(fixture.Help.Visible, Is.False,
+                "Expensive browser reference content should not render while navigating matches.");
+
+            Pump(65);
+            NUnit.Framework.Assert.That(fixture.PendingReferenceTimer.Enabled, Is.True);
+            NUnit.Framework.Assert.That(fixture.Help.Visible, Is.False);
+
+            Pump(300);
+            NUnit.Framework.Assert.That(fixture.PendingReferenceTimer.Enabled, Is.False);
+            NUnit.Framework.Assert.That(fixture.Help.Visible, Is.True,
+                "The final selected item's help should appear once the delay expires.");
+
+            list.SelectedItemIndex = 0;
+            NUnit.Framework.Assert.That(fixture.PendingReferenceTimer.Enabled, Is.True);
+            fixture.Menu.Close();
+            Pump(250);
+            NUnit.Framework.Assert.That(fixture.PendingReferenceTimer.Enabled, Is.False);
+            NUnit.Framework.Assert.That(fixture.Help.Visible, Is.False,
+                "Closing the completion popup must cancel any queued reference.");
+        }
+
+        [Test]
         public void MovingFocusAfterTypingCannotReopenAutocompleteOverAnotherControl()
         {
             using var fixture = new PopupFixture();
@@ -119,6 +154,10 @@ namespace Computator.NET.Desktop.Tests
             internal Button Other { get; } = new Button { Location = new Point(10, 80), Text = "Other control" };
             internal Menu Menu { get; } = new Menu(new SharedViewState()) { AppearInterval = 40 };
             internal System.Windows.Forms.Timer PendingDisplay => Field<System.Windows.Forms.Timer>(Menu, "_timer");
+            internal System.Windows.Forms.Timer PendingReferenceTimer =>
+                Field<System.Windows.Forms.Timer>(Menu.Host.ListView, "_referenceDelayTimer");
+            internal AutocompleteItem PendingReference =>
+                Field<AutocompleteItem>(Menu.Host.ListView, "_pendingReferenceItem");
             internal ToolStripDropDown Help => Field<ToolStripDropDown>(Menu.Host.ListView, "toolTip");
 
             internal PopupFixture(bool bindBeforeParenting = false)
