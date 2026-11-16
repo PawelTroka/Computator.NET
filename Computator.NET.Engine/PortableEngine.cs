@@ -16,6 +16,10 @@ public sealed partial class PortableEngine
 {
     public const int MaximumSourceCharacters = 65536;
     private static readonly Lazy<MetadataReference[]> References = new(CreateReferences);
+    // Linux/Unix can load different assemblies from paths distinguished only by case.
+    // Windows keeps its case-insensitive path identity when removing duplicates.
+    private static readonly StringComparer ReferencePathComparer =
+        Path.DirectorySeparatorChar == '/' ? StringComparer.Ordinal : StringComparer.OrdinalIgnoreCase;
 
     public double EvaluateReal(string expression, double x = 0, double y = 0, string customFunctions = "")
     {
@@ -120,7 +124,7 @@ public sealed partial class PortableEngine
         return runtime.Concat(new[] { typeof(PortableEngine).Assembly.Location,
                 typeof(MathNet.Numerics.LinearAlgebra.Double.DenseMatrix).Assembly.Location,
                 typeof(Accord.Math.Integration.RombergMethod).Assembly.Location })
-            .Where(File.Exists).Distinct(StringComparer.OrdinalIgnoreCase)
+            .Where(File.Exists).Distinct(ReferencePathComparer)
             .Select(path => (MetadataReference)MetadataReference.CreateFromFile(path)).ToArray();
     }
 #if NETFRAMEWORK
