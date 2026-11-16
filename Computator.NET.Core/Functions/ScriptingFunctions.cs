@@ -147,16 +147,18 @@ namespace Computator.NET.Core.Functions
 
         public static void write(string path, object o)
         {
-            var writer = new System.IO.StreamWriter(path);
-            writer.Write(objectToString(o));
-            writer.Close();
+            // Do not truncate an existing document if formatting throws.
+            var text = objectToString(o);
+            using (var writer = new System.IO.StreamWriter(path))
+                writer.Write(text);
         }
 
         public static void writeln(string path, object o)
         {
-            var writer = new System.IO.StreamWriter(path);
-            writer.WriteLine(objectToString(o));
-            writer.Close();
+            // Do not truncate an existing document if formatting throws.
+            var text = objectToString(o);
+            using (var writer = new System.IO.StreamWriter(path))
+                writer.WriteLine(text);
         }
         private const int maxWidth = 80;
         private const int maxPerColumnOrRow = 999999;
@@ -584,16 +586,18 @@ double YMax = 5, double quality = 0.5)
 
         public static void write(string path, object o)
         {
-            var writer = new System.IO.StreamWriter(path);
-            writer.Write(objectToString(o));
-            writer.Close();
+            // Do not truncate an existing document if formatting throws.
+            var text = objectToString(o);
+            using (var writer = new System.IO.StreamWriter(path))
+                writer.Write(text);
         }
 
         public static void writeln(string path, object o)
         {
-            var writer = new System.IO.StreamWriter(path);
-            writer.WriteLine(objectToString(o));
-            writer.Close();
+            // Do not truncate an existing document if formatting throws.
+            var text = objectToString(o);
+            using (var writer = new System.IO.StreamWriter(path))
+                writer.WriteLine(text);
         }
         private const int maxWidth = 80;
         private const int maxPerColumnOrRow = 999999;
