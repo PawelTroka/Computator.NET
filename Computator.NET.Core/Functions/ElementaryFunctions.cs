@@ -990,58 +990,33 @@ namespace Computator.NET.Core.Functions
                 return Meta.Numerics.Functions.AdvancedIntegerMath.IsPrime(n);
         }
 
-        private static bool[] GetPrimeSieve(long upTo)
-        {
-            long sieveSize = upTo + 1;
-            bool[] sieve = new bool[sieveSize];
-            System.Array.Clear(sieve, 0, (int)sieveSize);
-            sieve[0] = true;
-            sieve[1] = true;
-            long p, max = (long)System.Math.Sqrt(sieveSize) + 1;
-            for (long i = 2; i <= max; i++)
-            {
-                if (sieve[i]) continue;
-                p = i + i;
-                while (p < sieveSize) { sieve[p] = true; p += i; }
-            }
-            return sieve;
-        }
+        
 
-        private static long[] GetPrimesUpTo(long upTo)
-        {
-            if (upTo < 2) return null;
-            bool[] sieve = GetPrimeSieve(upTo);
-            long[] primes = new long[upTo + 1];
-
-            long index = 0;
-            for (long i = 2; i <= upTo; i++) if (!sieve[i]) primes[index++] = i;
-
-            System.Array.Resize(ref primes, (int)index);
-            return primes;
-        }
+        
 
         [System.ComponentModel.Category("Integer functions")]
         public static double Eulerφ(long n)
         {
             if (n < 1)
                 return double.NaN;
-            var primes = GetPrimesUpTo(n + 1);    //this can be precalculated beforehand
-            int numPrimes = primes.Length;
 
+            // Factor only the remaining value: no O(n) sieve or large prime array.
+            // Dividing before testing prevents divisor * divisor from overflowing.
+            long remaining = n;
             long totient = n;
-            long currentNum = n, temp, p, prevP = 0;
-            for (int i = 0; i < numPrimes; i++)
+            if ((remaining & 1) == 0)
             {
-                p = (int)primes[i];
-                if (p > currentNum) break;
-                temp = currentNum / p;
-                if (temp * p == currentNum)
-                {
-                    currentNum = temp;
-                    i--;
-                    if (prevP != p) { prevP = p; totient -= totient / p; }
-                }
+                totient -= totient / 2;
+                do { remaining /= 2; } while ((remaining & 1) == 0);
             }
+            for (long divisor = 3; divisor <= remaining / divisor; divisor += 2)
+            {
+                if (remaining % divisor != 0) continue;
+                totient -= totient / divisor;
+                do { remaining /= divisor; } while (remaining % divisor == 0);
+            }
+            if (remaining > 1)
+                totient -= totient / remaining;
             return totient;
         }
 
@@ -2216,58 +2191,33 @@ namespace Computator.NET.Core.Functions
                 return Meta.Numerics.Functions.AdvancedIntegerMath.IsPrime(n);
         }
 
-        private static bool[] GetPrimeSieve(long upTo)
-        {
-            long sieveSize = upTo + 1;
-            bool[] sieve = new bool[sieveSize];
-            System.Array.Clear(sieve, 0, (int)sieveSize);
-            sieve[0] = true;
-            sieve[1] = true;
-            long p, max = (long)System.Math.Sqrt(sieveSize) + 1;
-            for (long i = 2; i <= max; i++)
-            {
-                if (sieve[i]) continue;
-                p = i + i;
-                while (p < sieveSize) { sieve[p] = true; p += i; }
-            }
-            return sieve;
-        }
+        
 
-        private static long[] GetPrimesUpTo(long upTo)
-        {
-            if (upTo < 2) return null;
-            bool[] sieve = GetPrimeSieve(upTo);
-            long[] primes = new long[upTo + 1];
-
-            long index = 0;
-            for (long i = 2; i <= upTo; i++) if (!sieve[i]) primes[index++] = i;
-
-            System.Array.Resize(ref primes, (int)index);
-            return primes;
-        }
+        
 
         [System.ComponentModel.Category(""Integer functions"")]
         public static double Eulerφ(long n)
         {
             if (n < 1)
                 return double.NaN;
-            var primes = GetPrimesUpTo(n + 1);    //this can be precalculated beforehand
-            int numPrimes = primes.Length;
 
+            // Factor only the remaining value: no O(n) sieve or large prime array.
+            // Dividing before testing prevents divisor * divisor from overflowing.
+            long remaining = n;
             long totient = n;
-            long currentNum = n, temp, p, prevP = 0;
-            for (int i = 0; i < numPrimes; i++)
+            if ((remaining & 1) == 0)
             {
-                p = (int)primes[i];
-                if (p > currentNum) break;
-                temp = currentNum / p;
-                if (temp * p == currentNum)
-                {
-                    currentNum = temp;
-                    i--;
-                    if (prevP != p) { prevP = p; totient -= totient / p; }
-                }
+                totient -= totient / 2;
+                do { remaining /= 2; } while ((remaining & 1) == 0);
             }
+            for (long divisor = 3; divisor <= remaining / divisor; divisor += 2)
+            {
+                if (remaining % divisor != 0) continue;
+                totient -= totient / divisor;
+                do { remaining /= divisor; } while (remaining % divisor == 0);
+            }
+            if (remaining > 1)
+                totient -= totient / remaining;
             return totient;
         }
 
