@@ -743,7 +743,9 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         }
         private void SizeCompletionList()
         {
-            var list = (AutocompleteListView)Host.ListView;
+            // Consumers may provide their own IAutocompleteListView; preserve its
+            // chosen dimensions instead of assuming the built-in WinForms list.
+            if (!(Host.ListView is AutocompleteListView list)) return;
             var area = Screen.FromControl(TargetControlWrapper.TargetControl).WorkingArea;
             var maximumWidth = Math.Max(1, Math.Min(MaximumSize.Width, area.Width - 8));
             var measuredWidth = new Size(240, 0).DpiScale().Width;
