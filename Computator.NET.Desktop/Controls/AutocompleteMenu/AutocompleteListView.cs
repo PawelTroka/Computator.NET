@@ -16,6 +16,11 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         private readonly WebBrowserForm formTip;
         //private readonly int hoveredItemIndex = -1;
         private readonly WebBrowserToolTip toolTip;
+        // Updating the embedded browser for every arrow-key press or typed character
+        // is expensive. Render only after the selected completion settles.
+        private readonly Timer _referenceDelayTimer = new Timer { Interval = 180 };
+        private AutocompleteItem _pendingReferenceItem;
+        private Control _pendingReferenceOwner;
         private Stopwatch _showToolTipStopwatch = new Stopwatch();
         //private Task _showToolTipTask = null;
         //private BackgroundWorker _showToolTipWorker = null;
@@ -49,6 +54,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             // toolTip.Click += ToolTip_Click;
             //  toolTip.LostFocus += ToolTip_LostFocus;
             formTip = new WebBrowserForm();
+            _referenceDelayTimer.Tick += ReferenceDelayTimer_Tick;
             Colors = new Colors();
             AutoScaleMode=AutoScaleMode.Font;
 #if __MonoCS__
@@ -167,6 +173,48 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         
         public void ShowToolTip(AutocompleteItem autocompleteItem, Control control = null)
         {
+            if (autocompleteItem == null)
+            {
+                CloseToolTip();
+                return;
+            }
+
+            // Real completion lists are hosted inside the dropdown. Direct,
+            // standalone reference requests retain their synchronous behavior.
+            if (Parent is AutocompleteMenuHost)
+            {
+                if (ReferenceEquals(_pendingReferenceItem, autocompleteItem) && _referenceDelayTimer.Enabled)
+                    return;
+
+                _referenceDelayTimer.Stop();
+                _pendingReferenceItem = autocompleteItem;
+                _pendingReferenceOwner = control;
+                _referenceDelayTimer.Start();
+                return;
+            }
+
+            ShowToolTipNow(autocompleteItem, control);
+        }
+
+        private void ReferenceDelayTimer_Tick(object sender, EventArgs e)
+        {
+            _referenceDelayTimer.Stop();
+            var item = _pendingReferenceItem;
+            var owner = _pendingReferenceOwner;
+            _pendingReferenceItem = null;
+            _pendingReferenceOwner = null;
+
+            if (IsDisposed || Disposing || !(Parent is AutocompleteMenuHost host) || !host.Visible ||
+                item == null || VisibleItems == null ||
+                selectedItemIndex < 0 || selectedItemIndex >= VisibleItems.Count ||
+                !ReferenceEquals(VisibleItems[selectedItemIndex], item))
+                return;
+
+            ShowToolTipNow(item, owner);
+        }
+
+        private void ShowToolTipNow(AutocompleteItem autocompleteItem, Control control)
+        {
 #if __MonoCS__
             var editor = (Parent as AutocompleteMenuHost)?.Menu.TargetControlWrapper?.TargetControl;
             var restoreEditorFocus = editor != null && editor.ContainsFocus;
@@ -214,6 +262,9 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
         public void CloseToolTip()
         {
+            _referenceDelayTimer.Stop();
+            _pendingReferenceItem = null;
+            _pendingReferenceOwner = null;
             toolTip.Close();
         }
 
@@ -254,6 +305,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             // toolTip.Close();
             if (disposing)
             {
+                _referenceDelayTimer.Dispose();
                 toolTip.Dispose();
                 formTip.Dispose();
             }
