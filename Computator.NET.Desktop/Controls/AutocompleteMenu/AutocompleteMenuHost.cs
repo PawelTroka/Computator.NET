@@ -14,13 +14,9 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         public AutocompleteMenuHost(AutocompleteMenu menu)
         {
             AutoClose = false;
-#if __MonoCS__
-            // WinForms/Mono's autosizing can override the list's measured
-            // dimensions and restore a screen-wide popup.
+            // The completion menu measures its list for every new match set.
+            // ToolStrip's implicit autosizing would override that width.
             AutoSize = false;
-#else
-            AutoSize = true;
-#endif
             
             Margin = Padding.Empty;
             Padding = Padding.Empty;
