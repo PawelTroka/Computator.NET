@@ -741,15 +741,17 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
                 (Host.ListView as Control).Invalidate();
             }
         }
-#if __MonoCS__
-        private void SizeMonoList()
+        private void SizeCompletionList()
         {
-            var list = (AutocompleteListView)Host.ListView;
+            // Consumers may provide their own IAutocompleteListView; preserve its
+            // chosen dimensions instead of assuming the built-in WinForms list.
+            if (!(Host.ListView is AutocompleteListView list)) return;
             var area = Screen.FromControl(TargetControlWrapper.TargetControl).WorkingArea;
             var maximumWidth = Math.Max(1, Math.Min(MaximumSize.Width, area.Width - 8));
             var measuredWidth = new Size(240, 0).DpiScale().Width;
-            // Measure a bounded sample; measuring thousands of suggestions
-            // for every character would make the editor feel unresponsive.
+            // Size each platform's popup to the current matches rather than the
+            // legacy 2,000-pixel Windows maximum. Bound measurement to avoid
+            // scanning thousands of suggestions after every keystroke.
             var count = Math.Min(VisibleItems.Count, 64);
             for (var i = 0; i < count; i++)
                 measuredWidth = Math.Max(measuredWidth,
@@ -767,6 +769,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             list.AutoScrollMinSize = new Size(0, VisibleItems.Count * list.ItemHeight + 1);
         }
 
+#if __MonoCS__
         private Point GetMonoMenuPosition(Point requestedClientPoint)
         {
             var control = TargetControlWrapper.TargetControl;
@@ -837,9 +840,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
                 SelectedItemIndex = 0;
 
             Host.ListView.HighlightedItemIndex = -1;
-#if __MonoCS__
-            SizeMonoList();
-#endif
+            SizeCompletionList();
             Host.CalcSize();
         }
 
