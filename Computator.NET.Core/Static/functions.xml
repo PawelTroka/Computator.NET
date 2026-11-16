@@ -6067,7 +6067,7 @@
 <p class="reference-summary">Counts integers from 1 through <img class="reference-math-inline" src="reference-equations/5864f80948e3fda96e3b627eba006ac209715c2f63817827cd4bdcfa4807cd1e.png" alt="n" width="13" height="11" data-depth="60" /> that are coprime to <img class="reference-math-inline" src="reference-equations/5864f80948e3fda96e3b627eba006ac209715c2f63817827cd4bdcfa4807cd1e.png" alt="n" width="13" height="11" data-depth="60" />.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>φ(n)=n·∏(1−1/p), over distinct primes p dividing n.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Positive integer n; φ(1)=1. Inputs below 1 return NaN.</p>
-<p class="reference-note"><strong>Important:</strong> The current implementation allocates a sieve of size proportional to n; this is not appropriate for very large integers.</p>
+<p class="reference-note"><strong>Important:</strong> Uses constant additional memory to factor n by trial division; very large prime factors can still take substantial time.</p>
 <p class="reference-explanation">Only distinct prime divisors appear in the product. The totient counts coprime residue classes, not the number of primes below n.</p>
 <p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/6639f7a04facc80076d81e56f59dd3e708eafb10da65db5a6b3cd73eafbaa06a.png" alt="φ(n)=n·∏(1−1/p), over distinct primes p dividing n." width="200" height="64" /></p>
 <div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>Eulerφ(9)</code></pre><p><strong>Result:</strong> 6</p><p>The allowed integers are 1, 2, 4, 5, 7 and 8.</p></div>
