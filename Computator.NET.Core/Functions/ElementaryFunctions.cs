@@ -1120,6 +1120,8 @@ namespace Computator.NET.Core.Functions
 
         public static double Heaviside(double x)
         {
+            if (double.IsNaN(x))
+                return double.NaN;
             if (x > 0.0)
                 return 1;
             if (x < 0.0)
@@ -1131,6 +1133,8 @@ namespace Computator.NET.Core.Functions
 
         public static double DiracDelta(double x)
         {
+            if (double.IsNaN(x))
+                return double.NaN;
             if (x != 0.0)
                 return 0;
             return double.PositiveInfinity;
@@ -1141,6 +1145,8 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double KroneckerDelta(double i, double j)
         {
+            if (double.IsNaN(i) || double.IsNaN(j))
+                return double.NaN;
             if (i != j)
                 return 0;
             return 1;
@@ -2346,6 +2352,8 @@ namespace Computator.NET.Core.Functions
 
         public static double Heaviside(double x)
         {
+            if (double.IsNaN(x))
+                return double.NaN;
             if (x > 0.0)
                 return 1;
             if (x < 0.0)
@@ -2357,6 +2365,8 @@ namespace Computator.NET.Core.Functions
 
         public static double DiracDelta(double x)
         {
+            if (double.IsNaN(x))
+                return double.NaN;
             if (x != 0.0)
                 return 0;
             return double.PositiveInfinity;
@@ -2367,6 +2377,8 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double KroneckerDelta(double i, double j)
         {
+            if (double.IsNaN(i) || double.IsNaN(j))
+                return double.NaN;
             if (i != j)
                 return 0;
             return 1;

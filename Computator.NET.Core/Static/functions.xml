@@ -4404,7 +4404,7 @@
 <p class="reference-summary">A pointwise infinity marker used by this application, not an implementation of a Dirac distribution.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>δ(x)=+∞ when x=0; δ(x)=0 otherwise.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> The mathematical Dirac delta is defined by its action on test functions, not as an ordinary sampled function.</p>
-<p class="reference-note"><strong>Important:</strong> Do not use this helper to expect unit-area plots or correct quadrature of an impulse. Finite-width approximations or analytic integration are needed.</p>
+<p class="reference-note"><strong>Important:</strong> Do not use this helper to expect unit-area plots or correct quadrature of an impulse. Finite-width approximations or analytic integration are needed. NaN input propagates instead of returning zero.</p>
 <p class="reference-explanation">This equation describes the mathematical distribution, NOT a quadrature guarantee for the application’s point helper. Sampling an infinite marker at a grid point does not reproduce its unit-area action. For numerical impulses choose and normalize a finite-width model.</p>
 <p class="reference-example"><strong>Example:</strong> DiracDelta(0) = Infinity</p>
 <p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/ec4e1e786a3cb08432439bc820ada4b5b352d2529bc85c0a709ecd50859b5857.png" alt="δ(x)=+∞ when x=0; δ(x)=0 otherwise." width="250" height="56" /></p>
@@ -7710,7 +7710,7 @@
 <p class="reference-summary">A unit step with the symmetric half-value convention at its discontinuity.</p>
 <p class="reference-equation"><strong>Definition</strong><br /><img class="reference-math" src="reference-equations/e1447889fe80cd7ad9c3514a6694163a2caa017c8dbf2fa6a0650904417c61e9.png" alt="H(x)=0 for x&lt;0; H(0)=½; H(x)=1 for x&gt;0." width="195" height="81" /></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Use for piecewise real functions.</p>
-<p class="reference-note"><strong>Important:</strong> Alias of Heaviside; it uses the same convention. The value at zero is a convention; it is not inferred by numerical integration.</p>
+<p class="reference-note"><strong>Important:</strong> Alias of Heaviside; it uses the same convention. The value at zero is a convention; it is not inferred by numerical integration. NaN input is returned as NaN.</p>
 <p class="reference-explanation">A step switches a contribution on at a threshold. H(x−a), for example, switches at a rather than at zero.</p>
 <p class="reference-explanation">The half-value at the jump is a convention. It does not smooth the discontinuity or turn a numerical derivative into a finite approximation to an ideal impulse.</p>
 <div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>Heaviside(0)</code></pre><p><strong>Result:</strong> 0.5</p><p>The value right at the switch is explicitly chosen; either side still approaches a different limit.</p></div>
@@ -7929,7 +7929,7 @@
 <p class="reference-summary">A unit step with the symmetric half-value convention at its discontinuity.</p>
 <p class="reference-equation"><strong>Definition</strong><br /><img class="reference-math" src="reference-equations/e1447889fe80cd7ad9c3514a6694163a2caa017c8dbf2fa6a0650904417c61e9.png" alt="H(x)=0 for x&lt;0; H(0)=½; H(x)=1 for x&gt;0." width="195" height="81" /></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Use for piecewise real functions.</p>
-<p class="reference-note"><strong>Important:</strong> The value at zero is a convention; it is not inferred by numerical integration.</p>
+<p class="reference-note"><strong>Important:</strong> The value at zero is a convention; it is not inferred by numerical integration. NaN input is returned as NaN.</p>
 <p class="reference-explanation">A step switches a contribution on at a threshold. H(x−a), for example, switches at a rather than at zero.</p>
 <p class="reference-explanation">The half-value at the jump is a convention. It does not smooth the discontinuity or turn a numerical derivative into a finite approximation to an ideal impulse.</p>
 <div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>Heaviside(0)</code></pre><p><strong>Result:</strong> 0.5</p><p>The value right at the switch is explicitly chosen; either side still approaches a different limit.</p></div>
@@ -9774,6 +9774,7 @@
 <p class="reference-summary">An equality indicator, distinct from the Dirac delta.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>δij=1 when i=j, and 0 otherwise.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Inputs are compared using exact floating-point equality, even though the usual notation uses integer indices.</p>
+<p class="reference-note"><strong>Important:</strong> NaN in either argument propagates rather than indicating unequal inputs.</p>
 <p class="reference-explanation">The Kronecker delta selects matching discrete indices, for example diagonal entries of an identity matrix. It is unrelated to an infinitely narrow continuous Dirac impulse.</p>
 <p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/97f5a9766e4cf54c21f5753acf9eb85b40a3af05e9767fa4af9a2b8cf0f68317.png" alt="δij=1 when i=j, and 0 otherwise." width="156" height="52" /></p>
 <div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>KroneckerDelta(2,2)</code></pre><p><strong>Result:</strong> 1</p><p>The indices match exactly.</p></div>
@@ -20676,7 +20677,7 @@ var roots = p.Roots();</code></pre><p><strong>Result:</strong> Three roots appro
 <p class="reference-summary">A pointwise infinity marker used by this application, not an implementation of a Dirac distribution.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>δ(x)=+∞ when x=0; δ(x)=0 otherwise.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> The mathematical Dirac delta is defined by its action on test functions, not as an ordinary sampled function.</p>
-<p class="reference-note"><strong>Important:</strong> Alias of DiracDelta; it uses the same convention. Do not use this helper to expect unit-area plots or correct quadrature of an impulse. Finite-width approximations or analytic integration are needed.</p>
+<p class="reference-note"><strong>Important:</strong> Alias of DiracDelta; it uses the same convention. Do not use this helper to expect unit-area plots or correct quadrature of an impulse. Finite-width approximations or analytic integration are needed. NaN input propagates instead of returning zero.</p>
 <p class="reference-explanation">This equation describes the mathematical distribution, NOT a quadrature guarantee for the application’s point helper. Sampling an infinite marker at a grid point does not reproduce its unit-area action. For numerical impulses choose and normalize a finite-width model.</p>
 <p class="reference-example"><strong>Example:</strong> DiracDelta(0) = Infinity</p>
 <p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/ec4e1e786a3cb08432439bc820ada4b5b352d2529bc85c0a709ecd50859b5857.png" alt="δ(x)=+∞ when x=0; δ(x)=0 otherwise." width="250" height="56" /></p>
@@ -20693,6 +20694,7 @@ var roots = p.Roots();</code></pre><p><strong>Result:</strong> Three roots appro
 <p class="reference-summary">An equality indicator, distinct from the Dirac delta.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>δij=1 when i=j, and 0 otherwise.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Inputs are compared using exact floating-point equality, even though the usual notation uses integer indices.</p>
+<p class="reference-note"><strong>Important:</strong> NaN in either argument propagates rather than indicating unequal inputs.</p>
 <p class="reference-note"><strong>Important:</strong> Alias of KroneckerDelta; it uses the same convention. </p>
 <p class="reference-explanation">The Kronecker delta selects matching discrete indices, for example diagonal entries of an identity matrix. It is unrelated to an infinitely narrow continuous Dirac impulse.</p>
 <p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/97f5a9766e4cf54c21f5753acf9eb85b40a3af05e9767fa4af9a2b8cf0f68317.png" alt="δij=1 when i=j, and 0 otherwise." width="156" height="52" /></p>
