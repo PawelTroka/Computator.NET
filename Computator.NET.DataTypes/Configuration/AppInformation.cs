@@ -12,9 +12,15 @@ namespace Computator.NET.DataTypes.Configuration
         public static readonly string Directory = AppContext.BaseDirectory;
         // An explicit override allows isolated CI and side-by-side migration trials.
         // The ordinary location remains unchanged so existing documents are found.
-        public static readonly string DataDirectory = Path.GetFullPath(
-            Environment.GetEnvironmentVariable("COMPUTATOR_DATA_DIRECTORY") ??
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), Name));
+        // An empty/whitespace environment variable should behave like an unset
+        // override, rather than crashing startup or using a folder named spaces.
+        public static readonly string DataDirectory = ResolveDataDirectory(
+            Environment.GetEnvironmentVariable("COMPUTATOR_DATA_DIRECTORY"),
+            Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+
+        private static string ResolveDataDirectory(string configured, string documentsDirectory) =>
+            Path.GetFullPath(string.IsNullOrWhiteSpace(configured)
+                ? Path.Combine(documentsDirectory, Name) : configured);
         public static readonly string LogsDirectory = Path.Combine(DataDirectory, "Logs");
         public static readonly string SettingsPath = Path.Combine(DataDirectory, "settings.dat");
         public static readonly string TempDirectory = Path.Combine(
