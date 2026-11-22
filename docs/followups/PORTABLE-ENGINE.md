@@ -41,8 +41,9 @@ Expected results are `17`, approximately `9`, approximately `6` and approximatel
 | `integrate` | `--expression <TSL> --a <number> --b <number>` | `--steps 10000`; Simpson's method requires an even count from 2 to 1,000,000 |
 | `differentiate` | `--expression <TSL> --x <number>` | `--order 1`; supported orders 1 through 10 |
 | `root` | `--expression <TSL> --a <number> --b <number>` | `--tolerance 1e-8`, `--iterations 10000`; Brent's method requires a root bracket |
+| `symbolic` | `--operation <operation>` and mathematical expression or equation system | [Sixteen symbolic operations and their parameters](../SYMBOLIC-CALCULATIONS.md) |
 
-Every command accepts `--functions <file.tslf>`. Numeric options use an invariant decimal point and must be finite. Integration and root bounds must satisfy `a < b`; root tolerance must be greater than 0 and at most 1, with 1 through 1,000,000 iterations. Invalid, duplicated, incomplete or command-inapplicable options are rejected. Use `--help` for the CLI's authoritative option summary; [Program.cs](../../Computator.NET.Cli/Program.cs) and [PortableEngine.Science.cs](../../Computator.NET.Engine/PortableEngine.Science.cs) define these contracts.
+The six TSL commands accept `--functions <file.tslf>`. The symbolic command uses mathematical expressions and its own parameter contract. Numeric options use an invariant decimal point and must be finite. Numerical integration and root bounds must satisfy `a < b`; root tolerance must be greater than 0 and at most 1, with 1 through 1,000,000 iterations. Invalid, duplicated, incomplete or command-inapplicable options are rejected. Use `--help` for the CLI's authoritative option summary; [Program.cs](../../Computator.NET.Cli/Program.cs) and [PortableEngine.Science.cs](../../Computator.NET.Engine/PortableEngine.Science.cs) define these contracts.
 
 ### Custom functions and scripts
 

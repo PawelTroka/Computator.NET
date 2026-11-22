@@ -39,6 +39,7 @@
     <File Path="README.md" />
     <File Path="CONTRIBUTING.md" />
     <File Path="docs/README.md" />
+    <File Path="docs/SYMBOLIC-CALCULATIONS.md" />
     <File Path="LICENSE" />
     <File Path="CHANGELOG" />
     <File Path="global.json" />
@@ -297,6 +298,7 @@
     <File Path="build/WindowsAssemblyInfo.cs" />
     <File Path="build/fixtures/LegacySettings.cs" />
     <File Path="build/portable/Test-Cli.ps1" />
+    <File Path="build/portable/Test-SymbolicCli.ps1" />
     <File Path="build/validation/LocalizationResourceContract.cs" />
   </Folder>
   <Folder Name="/Build/Workstreams/">

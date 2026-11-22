@@ -8,6 +8,7 @@
     <NuGetAudit>true</NuGetAudit><NuGetAuditMode>all</NuGetAuditMode><IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="AngouriMath" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
     <PackageReference Include="MathNet.Numerics" />
     <PackageReference Include="Accord.Math" />

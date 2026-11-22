@@ -1,5 +1,6 @@
 <Project>
   <ItemGroup>
+    <PackageVersion Include="AngouriMath" Version="2.6.0" />
     <PackageVersion Include="Accord.Math" Version="3.8.0" />
     <PackageVersion Include="AvalonEdit" Version="6.3.1.120" />
     <PackageVersion Include="Guards" Version="2.1.19292.12" />

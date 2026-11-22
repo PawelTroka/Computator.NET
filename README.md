@@ -18,7 +18,7 @@
 | --- | --- | --- |
 | **Windows desktop** | Real, complex and 3D charts; the full built-in function reference; numerical methods; custom functions and script documents | .NET 10, WinForms and WPF on Windows |
 | **Web workspace** | Calculate and script; interactive real/complex plots with overlays and pan/zoom; explicit f(x,y) WebGL surfaces; custom functions | The frontend host is cross-platform; the full mathematical API runs on Windows |
-| **Portable CLI and engine** | Evaluate TSL; managed matrices, polynomials, Euclid utilities and RK4 ODEs; integration, differentiation, roots and scripts with JSON results | .NET 10 on Windows, Linux and macOS |
+| **Portable CLI and engine** | Evaluate TSL; managed matrices, polynomials, Euclid utilities and RK4 ODEs; numerical methods, scripts and [symbolic algebra/calculus](docs/SYMBOLIC-CALCULATIONS.md) with JSON results | .NET 10 on Windows, Linux and macOS |
 | **Portable local browser preview** | The existing browser workspace with a reduced managed calculation backend; charts and the full native catalog remain unavailable | Experimental loopback application; see the [Mac/application investigation](docs/MACOS-APPLICATION.md) |
 | **Reduced Mono desktop** | The explicit compatibility build with TextEditor, real/complex charts and native software-rendered f(x,y) surfaces | Experimental; see the [Mono guide](docs/MONO-DESKTOP.md) for tested environments and limitations |
 
@@ -56,9 +56,10 @@ Try the managed engine directly with the pinned SDK:
 dotnet run --project Computator.NET.Cli -- calculate --expression '2x+3' --x 7
 dotnet run --project Computator.NET.Cli -- integrate --expression 'x*x' --a 0 --b 3 --steps 100
 dotnet run --project Computator.NET.Cli -- root --expression 'x*x-2' --a 0 --b 2
+dotnet run --project Computator.NET.Cli -- symbolic --operation differentiate --expression 'x^3' --order 3
 ```
 
-The first command returns `{"result":"17"}`; the integral is approximately `9`, and the root is approximately `1.41421356237`. See the [CLI guide](docs/followups/PORTABLE-ENGINE.md) for all six commands, custom-function files, JSON errors and the portable function boundary.
+The first command returns `{"result":"17"}`; the integral is approximately `9`, and the root is approximately `1.41421356237`. The symbolic third derivative is exactly `6`, with text, LaTeX and result status in its JSON response. See the [CLI guide](docs/followups/PORTABLE-ENGINE.md) for numerical/script commands and the [symbolic guide](docs/SYMBOLIC-CALCULATIONS.md) for algebra, calculus, solving and matrices.
 
 ### Web development
 
