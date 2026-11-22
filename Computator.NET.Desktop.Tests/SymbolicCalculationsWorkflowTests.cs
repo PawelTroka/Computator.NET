@@ -80,9 +80,10 @@ namespace Computator.NET.Desktop.Tests
             if (_directory != null && Directory.Exists(_directory)) Directory.Delete(_directory, true);
         }
 
-        [TestCase("simplify", "sin(x)^2 + cos(x)^2", "1")]
+        [TestCase("simplify", "sin²(x) + cos²(x)", "1")]
+        [TestCase("simplify", "log(8, 2)", "3")]
         [TestCase("limit", "sin(x)/x", "1")]
-        [TestCase("substitute", "x^2+y", "7")]
+        [TestCase("substitute", "x²+y", "7")]
         [TestCase("determinant", "[[1,2],[3,4]]", "-2")]
         [TestCase("trace", "[[1,2],[3,4]]", "5")]
         public void NativeCalculateButtonReturnsIndependentKnownMathematicalResults(string operation, string expression, string expected)
@@ -103,10 +104,10 @@ namespace Computator.NET.Desktop.Tests
             _expression.Text = "x³";
             _bootstrapper.Create<RunCommand>().Execute();
             WaitForCompletion();
-            NUnit.Framework.Assert.That(Normalize(Find<TextBox>("symbolicResult").Text), Is.EqualTo("3*x^2"));
+            NUnit.Framework.Assert.That(Normalize(Find<TextBox>("symbolicResult").Text), Is.EqualTo("3·x²"));
 
             _view.SelectOperation("definite-integrate");
-            _expression.Text = "x^2";
+            _expression.Text = "x²";
             Find<TextBox>("symbolicUpperBound").Text = "3";
             // Raise the native control's actual KeyPress path. ExpressionViewPresenter
             // must dispatch Enter to the currently selected tab, not numeric evaluation.
@@ -115,6 +116,88 @@ namespace Computator.NET.Desktop.Tests
                 .Invoke(expressionControl, new object[] { new KeyPressEventArgs('\r') });
             WaitForCompletion();
             NUnit.Framework.Assert.That(Find<TextBox>("symbolicResult").Text, Is.EqualTo("9"));
+        }
+
+        [Test]
+        public void ExpressionEditorKeyEventsProduceNativeTslForTheSymbolicPresenter()
+        {
+            _view.SelectOperation("substitute");
+            Find<TextBox>("symbolicSubstitutions").Text = "x = 3";
+            TypeThroughExpressionKeyPress("x^2^+2*x");
+            NUnit.Framework.Assert.That(_expression.Text, Is.EqualTo("x²+2·x"));
+            NUnit.Framework.Assert.That(_state.IsExponent, Is.False);
+            _bootstrapper.Create<RunCommand>().Execute();
+            WaitForCompletion();
+            NUnit.Framework.Assert.That(Find<TextBox>("symbolicResult").Text, Is.EqualTo("15"));
+        }
+
+        [Test]
+        public void NativeParameterFieldsAcceptTslPowersAndProducts()
+        {
+            _view.SelectOperation("definite-integrate");
+            _expression.Text = "2·x";
+            Find<TextBox>("symbolicLowerBound").Text = "1²";
+            Find<TextBox>("symbolicUpperBound").Text = "3²";
+            _bootstrapper.Create<RunCommand>().Execute();
+            WaitForCompletion();
+            NUnit.Framework.Assert.That(Find<TextBox>("symbolicResult").Text, Is.EqualTo("80"));
+        }
+
+        [TestCase("x²+2·x", "x = 3", "15")]
+        [TestCase("x⁽ʸ⁺¹⁾", "x = 2\ny = 3", "16")]
+        [TestCase("x²˙ʸ", "x = 2\ny = 3", "64")]
+        [TestCase("xᶜᵒˢ⁽ʸ⁾", "x = 2\ny = 0", "2")]
+        [TestCase("x⁰ᱸ⁵", "x = 9", "3")]
+        [TestCase("xꞋʸꞋ", "x = 2\ny = -3", "8")]
+        [TestCase("x⁽ʸ ⁺ ¹⁾", "x = 2\ny = 3", "16")]
+        [TestCase("sin⁽ʸ⁾(x)", "x = 0\ny = 2", "0")]
+        [TestCase("sin³(PI/6)²", "", "1/64")]
+        public void ClipboardPastedNativeTslReachesTheActualEngine(string expression, string replacements, string expected)
+        {
+            var previous = Clipboard.GetDataObject();
+            try
+            {
+                _view.SelectOperation("substitute");
+                Find<TextBox>("symbolicSubstitutions").Text = replacements;
+                Clipboard.SetText(expression);
+                var input = (TextBox)_expression;
+                input.SelectAll();
+                input.Paste();
+                NUnit.Framework.Assert.That(_expression.Text, Is.EqualTo(expression));
+                _bootstrapper.Create<RunCommand>().Execute();
+                WaitForCompletion();
+                NUnit.Framework.Assert.That(Find<TextBox>("symbolicResult").Text, Is.EqualTo(expected));
+            }
+            finally { RestoreClipboard(previous); }
+        }
+
+        [Test]
+        public void CopiedTslResultCanBePastedBackAndCalculatedWithoutReformatting()
+        {
+            var previous = Clipboard.GetDataObject();
+            try
+            {
+                _view.SelectOperation("differentiate");
+                _expression.Text = "x³";
+                _bootstrapper.Create<RunCommand>().Execute();
+                WaitForCompletion();
+                var result = Find<TextBox>("symbolicResult");
+                NUnit.Framework.Assert.That(Normalize(result.Text), Is.EqualTo("3·x²"));
+                result.SelectAll();
+                result.Copy();
+                var copied = Clipboard.GetText();
+                NUnit.Framework.Assert.That(copied, Is.EqualTo(result.Text));
+                var input = (TextBox)_expression;
+                input.SelectAll();
+                input.Paste();
+                NUnit.Framework.Assert.That(_expression.Text, Is.EqualTo(copied));
+                _view.SelectOperation("substitute");
+                Find<TextBox>("symbolicSubstitutions").Text = "x = 2";
+                _bootstrapper.Create<RunCommand>().Execute();
+                WaitForCompletion();
+                NUnit.Framework.Assert.That(Find<TextBox>("symbolicResult").Text, Is.EqualTo("12"));
+            }
+            finally { RestoreClipboard(previous); }
         }
 
         [Test]
@@ -127,6 +210,7 @@ namespace Computator.NET.Desktop.Tests
             {
                 _view.SelectOperation(operation);
                 Find<Button>("symbolicExample").PerformClick();
+                NUnit.Framework.Assert.That(_expression.Text, Does.Not.Contain("^").And.Not.Contain("*"), operation);
                 Find<Button>("symbolicCalculate").PerformClick();
                 WaitForCompletion();
                 NUnit.Framework.Assert.That(Find<TextBox>("symbolicResult").Text, Is.Not.Empty, operation);
@@ -149,7 +233,7 @@ namespace Computator.NET.Desktop.Tests
             WaitForCompletion();
             NUnit.Framework.Assert.That(Find<TextBox>("symbolicResult").Text, Is.Empty);
             NUnit.Framework.Assert.That(Find<Label>("symbolicStatus").Text, Does.Contain("Could not calculate"));
-            _expression.Text = "6 * 7";
+            _expression.Text = "6·7";
             Find<Button>("symbolicCalculate").PerformClick();
             WaitForCompletion();
             NUnit.Framework.Assert.That(Find<TextBox>("symbolicResult").Text, Is.EqualTo("42"));
@@ -160,7 +244,7 @@ namespace Computator.NET.Desktop.Tests
         {
             _view.SelectOperation("substitute");
             Find<TextBox>("symbolicSubstitutions").Text = "x = 2\nx = 3";
-            _expression.Text = "x^2";
+            _expression.Text = "x²";
             Find<Button>("symbolicCalculate").PerformClick();
             NUnit.Framework.Assert.That(Find<Label>("symbolicStatus").Text, Does.Contain("more than once"));
             _view.SelectOperation("solve-system");
@@ -225,5 +309,29 @@ namespace Computator.NET.Desktop.Tests
 
         private T Find<T>(string name) where T : Control => (T)_window.Controls.Find(name, true).Single();
         private static string Normalize(string expression) => expression.Replace(" ", "").Replace("\r", "").Replace("\n", "");
+
+        private void TypeThroughExpressionKeyPress(string keys)
+        {
+            var input = (TextBox)_expression;
+            input.Clear();
+            input.Focus();
+            _state.IsExponent = false;
+            var keyPress = typeof(Control).GetMethod("OnKeyPress", BindingFlags.NonPublic | BindingFlags.Instance);
+            foreach (var character in keys)
+            {
+                // Exercise the displayed control's actual event handlers, including
+                // exponent-mode conversion, then insert the surviving character.
+                // The Mono acceptance suite separately drives real XTEST keystrokes.
+                var args = new KeyPressEventArgs(character);
+                keyPress.Invoke(input, new object[] { args });
+                if (!args.Handled) input.SelectedText = args.KeyChar.ToString();
+            }
+        }
+
+        private static void RestoreClipboard(IDataObject previous)
+        {
+            if (previous == null) Clipboard.Clear();
+            else Clipboard.SetDataObject(previous, true);
+        }
     }
 }

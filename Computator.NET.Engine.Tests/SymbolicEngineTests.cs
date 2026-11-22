@@ -15,7 +15,7 @@ public sealed class SymbolicEngineTests
     private SymbolicResult Run(string operation, string expression, string variable = "x", string domain = "complex") =>
         engine.Execute(new SymbolicRequest { Operation = operation, Expression = expression, Variable = variable, Domain = domain });
 
-    private static Entity Read(SymbolicResult result) => MathS.FromString(result.Result, useCache: false);
+    private static Entity Read(SymbolicResult result) => MathS.FromString(SymbolicInput.Normalize(result.Result), useCache: false);
     private static double At(Entity expression, double x, double y = 2) =>
         (double)expression.Substitute("x", x).Substitute("y", y).Substitute("C", 0).EvalNumerical();
 
@@ -395,7 +395,7 @@ public sealed class SymbolicEngineTests
         var result = engine.Execute(new SymbolicRequest { Operation = "solve-system", Equations = new[] { "sin(x)=y", "x*y=3", "x=2" }, Variables = new[] { "x", "y" } });
         Check.That(result.Status, Is.EqualTo("unevaluated"));
         Check.That(result.Result, Does.Contain("sin(x)"));
-        Check.That(result.Result, Does.Contain("x * y"));
+        Check.That(result.Result, Does.Contain("x · y"));
         Check.That(result.Warnings, Is.Not.Empty);
     }
 

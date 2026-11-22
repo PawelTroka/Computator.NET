@@ -16,9 +16,11 @@ namespace Computator.NET.Core.Tests.PresentersTests
     [TestFixture]
     public class SymbolicExpressionRoutingTests
     {
-        [TestCase("theta^2 + alpha")]
+        [TestCase("theta² + alpha")]
+        [TestCase("2·x + x⁽ʸ⁺¹⁾")]
+        [TestCase("xᶜᵒˢ⁽ʸ⁾")]
         [TestCase("[[1,2],[3,4]]")]
-        [TestCase("x^2=2")]
+        [TestCase("x²=2")]
         [TestCase("sin(")]
         public void SymbolicTypingAndEnterBypassNumericTslClassification(string input)
         {

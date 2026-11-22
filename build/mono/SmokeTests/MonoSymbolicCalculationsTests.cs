@@ -49,7 +49,7 @@ internal static partial class Program
                     Equal(window.ModeText, "Mode[Symbolic]");
 
                     view.SelectOperation("simplify");
-                    expression.Text = "sin(x)^2 + cos(x)^2";
+                    expression.Text = "sin²(x) + cos²(x)";
                     // A real native pointer click proves the button's event wiring,
                     // rather than invoking the presenter's method directly.
                     var button = (Button)Find(view, "symbolicCalculate");
@@ -60,6 +60,64 @@ internal static partial class Program
                     finally { button.Click -= observe; }
                     WaitForSymbolicCompletion(view);
                     Equal(Find(view, "symbolicResult").Text, "1");
+
+                    view.SelectOperation("substitute");
+                    Find(view, "symbolicSubstitutions").Text = "x = 3";
+                    var input = (TextBox)expression;
+                    input.Clear();
+                    state.IsExponent = false;
+                    input.Focus();
+                    PumpX11();
+                    TypeX11("x^2^+2*x");
+                    Equal(expression.Text, "x²+2·x");
+                    Check(!state.IsExponent, "Typing ^ again must leave exponent-entry mode.");
+                    KeyX11("Return");
+                    WaitForSymbolicCompletion(view);
+                    Equal(Find(view, "symbolicResult").Text, "15");
+                    Console.WriteLine("Native X11 TSL typing and Enter: x²+2·x at x=3 returned 15.");
+
+                    var previousClipboard = Clipboard.GetDataObject();
+                    try
+                    {
+                        Find(view, "symbolicSubstitutions").Text = "x = 2" + Environment.NewLine + "y = 3";
+                        Clipboard.SetText("x⁽ʸ ⁺ ¹⁾ + 2·x");
+                        input.SelectAll();
+                        input.Paste();
+                        bootstrapper.Create<RunCommand>().Execute();
+                        WaitForSymbolicCompletion(view);
+                        Equal(Find(view, "symbolicResult").Text, "20");
+
+                        Clipboard.SetText("sin³(PI/6)²");
+                        input.SelectAll();
+                        input.Paste();
+                        bootstrapper.Create<RunCommand>().Execute();
+                        WaitForSymbolicCompletion(view);
+                        Equal(Find(view, "symbolicResult").Text, "1/64");
+                        Console.WriteLine("Native TSL chained powers: sin³(PI/6)² returned 1/64.");
+
+                        view.SelectOperation("differentiate");
+                        expression.Text = "x³";
+                        bootstrapper.Create<RunCommand>().Execute();
+                        WaitForSymbolicCompletion(view);
+                        var result = (TextBox)Find(view, "symbolicResult");
+                        Equal(result.Text.Replace(" ", ""), "3·x²");
+                        result.SelectAll();
+                        result.Copy();
+                        input.SelectAll();
+                        input.Paste();
+                        Equal(expression.Text.Replace(" ", ""), "3·x²");
+                        view.SelectOperation("substitute");
+                        Find(view, "symbolicSubstitutions").Text = "x = 2";
+                        bootstrapper.Create<RunCommand>().Execute();
+                        WaitForSymbolicCompletion(view);
+                        Equal(Find(view, "symbolicResult").Text, "12");
+                        Console.WriteLine("Native TSL clipboard round trip: copied 3·x² returned 12 at x=2.");
+                    }
+                    finally
+                    {
+                        if (previousClipboard == null) Clipboard.Clear();
+                        else Clipboard.SetDataObject(previousClipboard, true);
+                    }
 
                     view.SelectOperation("definite-integrate");
                     expression.Text = "x²";
@@ -87,7 +145,7 @@ internal static partial class Program
                     WaitForSymbolicCompletion(view);
                     Check(Find(view, "symbolicStatus").Text.Contains("Could not calculate"), "Malformed input must show a useful diagnostic.");
                     Equal(Find(view, "symbolicResult").Text, "");
-                    expression.Text = "6 * 7";
+                    expression.Text = "6·7";
                     bootstrapper.Create<RunCommand>().Execute();
                     WaitForSymbolicCompletion(view);
                     Equal(Find(view, "symbolicResult").Text, "42");

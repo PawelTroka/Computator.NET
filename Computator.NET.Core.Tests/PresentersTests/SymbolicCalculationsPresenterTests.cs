@@ -28,7 +28,7 @@ namespace Computator.NET.Core.Tests.PresentersTests
         public void CreatePresenter()
         {
             _view = new FakeView();
-            _expression = new FakeExpression { Text = "x^2" };
+            _expression = new FakeExpression { Text = "x²" };
             _service = new ControlledService();
             var state = new Mock<ISharedViewState>();
             state.SetupGet(value => value.DefaultActions).Returns(new Dictionary<ViewName, Action<object, EventArgs>>());
@@ -42,7 +42,7 @@ namespace Computator.NET.Core.Tests.PresentersTests
         [Test]
         public async Task ToolbarActionCapturesTheDisplayedInputAndPublishesTheResultOnTheViewDispatcher()
         {
-            _expression.Text = "sin(x)^2 + cos(x)^2";
+            _expression.Text = "sin²(x) + cos²(x)";
             _state.DefaultActions[ViewName.SymbolicCalculations](this, EventArgs.Empty);
             NUnit.Framework.Assert.That(_service.Request.Expression, Is.EqualTo(_expression.Text));
             NUnit.Framework.Assert.That(_view.Busy, Is.True);
@@ -61,7 +61,7 @@ namespace Computator.NET.Core.Tests.PresentersTests
         {
             _view.Compute();
             if (parameter) _view.ChangeInput();
-            else _expression.Text = "x^3";
+            else _expression.Text = "x³";
             NUnit.Framework.Assert.That(_service.Token.IsCancellationRequested, Is.True);
             NUnit.Framework.Assert.That(_view.Busy, Is.True, "Cancellation must unwind before another worker starts.");
             _service.Completion.SetResult(new SymbolicResult { Result = "stale result" });
@@ -183,8 +183,8 @@ namespace Computator.NET.Core.Tests.PresentersTests
         [Test]
         public void LoadingAnExampleUpdatesTheSharedExpressionEditor()
         {
-            _view.Example("sin(x)/x");
-            NUnit.Framework.Assert.That(_expression.Text, Is.EqualTo("sin(x)/x"));
+            _view.Example("sin²(x)+2·x");
+            NUnit.Framework.Assert.That(_expression.Text, Is.EqualTo("sin²(x)+2·x"));
         }
 
         private sealed class ControlledService : ISymbolicCalculationService

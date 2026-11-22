@@ -1,4 +1,7 @@
 Gtk not found (missing LD_LIBRARY_PATH to libgtk-x11-2.0.so.0?), using built-in colorscheme
 Native X11 owned form pair: client=0x200119 whole=0x200118
 Native X11 click acknowledged once: owner=0x200119 target=0x200171 root-center=445,175
+Native X11 TSL typing and Enter: x²+2·x at x=3 returned 15.
+Native TSL chained powers: sin³(PI/6)² returned 1/64.
+Native TSL clipboard round trip: copied 3·x² returned 12 at x=2.
 PASS actual compiled Mono smoke SymbolicDesktopWorkflow

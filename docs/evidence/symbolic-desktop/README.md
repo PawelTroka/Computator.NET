@@ -23,6 +23,8 @@ is the original application's control.
 case. It opens the actual composed MainView, loads the differentiation example,
 clicks Calculate, waits for the shared engine and native dispatcher, and reads the
 visible screen. The result shown is the derivative of `sin(x²)`.
+Both the loaded expression and the computed result use native TSL: actual
+superscripts and middle-dot multiplication. The original before image is unchanged.
 
 The source and binary hashes, exact engine dependency and image hashes are in
 [provenance.json](provenance.json). The view, presenter and service source files
@@ -31,7 +33,8 @@ are hashed individually so the capture remains identifiable after a rebase.
 ## Environment and executed checks
 
 - Debian 13 x64; .NET SDK 10.0.403 for compilation.
-- Unmodified Debian Mono 6.12.0.199, libgdiplus 6.1 and Xvfb 21.1.16, extracted
+- Unmodified Debian Mono 6.12.0.199, libgdiplus 6.1, Xvfb 21.1.16 and xdotool
+  3.20160805.1, extracted
   into a user-owned runtime prefix. System GSL 2.8 is used by the real desktop
   composition. The symbolic calculations themselves use the shared managed CAS.
 - Authenticated Xvfb TCP display, 1600×1100×24. A supported TCP transport is used
@@ -43,13 +46,18 @@ are hashed individually so the capture remains identifiable after a rebase.
 The three new committed fixture files were source-linked into a temporary
 NUnitLite 5.0 net48 runner referencing the actual production Desktop/Core/Engine
 projects. This executes their presenter, routing and real-window checks on Mono;
-all **27 cases and 232 assertions passed**, with no skipped cases. This is not
+all **42 cases and 359 assertions passed**, with no skipped cases. This is not
 the full historical Windows or Mono suite. The raw passing result is
 [native-tests.xml](native-tests.xml).
 
 The actual compiled `Computator.NET.Mono.SmokeTests` assembly's
 `SymbolicDesktopWorkflow` case was also invoked by a temporary focused runner.
-It verified one acknowledged real XTEST Calculate-button click, all 16 operation
+It verified one acknowledged real XTEST Calculate-button click and native
+keystrokes that turn `x^2^+2*x` into `x²+2·x`. Pressing Enter then computes `15`
+at `x=3`. Clipboard checks paste a compound superscript and copy the computed
+TSL result `3·x²` back into the expression editor, where it evaluates to `12`
+at `x=2`. The chained function power `sin³(PI/6)²` returns `1/64`, preserving
+the order of its prefix and postfix powers. It also verifies all 16 operation
 examples, toolbar Run, invalid-input recovery, visible capture and normal close.
 Its output is [native-smoke.log](native-smoke.log). The complete 56-case package
 acceptance pipeline was not executed in this environment.

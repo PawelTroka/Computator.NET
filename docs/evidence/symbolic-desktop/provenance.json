@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "recordedDateUtc": "2026-11-22",
   "baselineCommit": "d3416a509dcdf03e3fa0daf117241ea97baf7774",
-  "engineProductionSourceCommit": "1615c2c78a7013f1cffa851ec714c9201c84ed08",
-  "engineBaseWithDocumentationCommit": "720e71985df7439d51eb2266cee912db1bd55b67",
+  "engineProductionSourceCommit": "678b86097a7917b8b516446b8c674ffa0d4ce442",
+  "engineBaseWithDocumentationCommit": "678b86097a7917b8b516446b8c674ffa0d4ce442",
   "sourceIdentity": "The individual source hashes identify the native implementation at capture time independently of later branch rebasing or evidence commits.",
   "environment": {
     "os": "Debian 13 x64",
@@ -13,37 +13,38 @@
     "xvfb": "21.1.16",
     "gsl": "2.8",
     "display": "1600x1100x24, authenticated Xvfb TCP",
-    "runtimeInstallation": "Unmodified Debian packages extracted to a user-owned prefix; normal supported TCP display transport."
+    "runtimeInstallation": "Unmodified Debian packages extracted to a user-owned prefix; normal supported TCP display transport.",
+    "xdotool": "3.20160805.1"
   },
   "capture": {
     "before": "Actual composed MainView from the unmodified baseline checkout, SymbolicCalculations tab selected; Graphics.CopyFromScreen after native event processing.",
-    "after": "Actual composed MainView from the current implementation; committed ResultsAndControlsAreRenderedAndKeyboardAccessible fixture loads and computes the differentiation example sin(x^2), then calls Graphics.CopyFromScreen.",
+    "after": "Actual composed MainView from the current implementation; committed ResultsAndControlsAreRenderedAndKeyboardAccessible fixture loads the native TSL differentiation example sin(x²), computes the native TSL result 2·x·cos(x²), then calls Graphics.CopyFromScreen.",
     "method": "Visible native screen readback, no generated art, DrawToBitmap or image modification.",
     "images": {
       "before.png": "221d569ce25b86eb093474766ff699e4dc4b45f463fc9a1c21b48e28af9dfb00",
-      "after.png": "dd5c366650fc7e98485a1131e41b0b3b6445844d5a5705c4fe2d28d3f776d82d"
+      "after.png": "f28a486727a36378bf93f56f9143654ee56cde6d0915aab43dc461d82e006eb5"
     }
   },
   "nativeFixtureExecution": {
     "framework": "NUnitLite 5.0.0 on net48/Mono; source-linked committed fixture files; references the actual production Desktop/Core/Engine projects.",
     "filter": "class =~ Symbolic",
-    "testCases": 27,
-    "passed": 27,
+    "testCases": 42,
+    "passed": 42,
     "failed": 0,
     "skipped": 0,
-    "assertions": 232,
-    "startTime": "2026-11-22T13:26:11.3161530Z",
-    "endTime": "2026-11-22T13:26:19.4764050Z",
-    "durationSeconds": 8.160167,
+    "assertions": 359,
+    "startTime": "2026-11-22T15:36:25.6183850Z",
+    "endTime": "2026-11-22T15:36:41.7970100Z",
+    "durationSeconds": 16.178571,
     "report": "native-tests.xml",
-    "reportSha256": "5640a804cf76417a1941130996ba3de7d8929b93d723ee0a01db6f30abac73dd",
+    "reportSha256": "3b633536a76a76bb59b87ec160288a9e03b09ae605e3005b135d4a481d41cda2",
     "runnerProject": "<Project Sdk=\"Microsoft.NET.Sdk\">\n  <PropertyGroup><TargetFramework>net48</TargetFramework><OutputType>Exe</OutputType><LangVersion>14.0</LangVersion><Nullable>disable</Nullable><AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects><GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType></PropertyGroup>\n  <ItemGroup>\n    <Reference Include=\"System.Windows.Forms\"/><Reference Include=\"System.Drawing\"/>\n    <PackageReference Include=\"Microsoft.NETFramework.ReferenceAssemblies\" Version=\"1.0.3\" PrivateAssets=\"all\" />\n    <PackageReference Include=\"NUnit\" Version=\"5.0.0\"/><PackageReference Include=\"NUnitLite\" Version=\"5.0.0\"/><PackageReference Include=\"Moq\" Version=\"4.21.0\"/>\n    <ProjectReference Include=\"/workspace/scratch/8b418d0403e0/symbolic-desktop/Computator.NET.Desktop/Computator.NET.Desktop.csproj\" />\n    <Compile Include=\"/workspace/scratch/8b418d0403e0/symbolic-desktop/Computator.NET.Core.Tests/PresentersTests/SymbolicCalculationsPresenterTests.cs\" Link=\"SymbolicCalculationsPresenterTests.cs\" />\n    <Compile Include=\"/workspace/scratch/8b418d0403e0/symbolic-desktop/Computator.NET.Desktop.Tests/SymbolicCalculationsWorkflowTests.cs\" Link=\"SymbolicCalculationsWorkflowTests.cs\" />\n    <Compile Include=\"/workspace/scratch/8b418d0403e0/symbolic-desktop/Computator.NET.Core.Tests/PresentersTests/SymbolicExpressionRoutingTests.cs\" Link=\"SymbolicExpressionRoutingTests.cs\" />\n  </ItemGroup>\n</Project>\n",
     "runnerEntryPoint": "using System; using NUnitLite; public static class Program { [STAThread] public static int Main(string[] args) { return new AutoRun().Execute(args); } }\n",
     "binariesSha256": {
-      "NativeTests.exe": "69cb3414202eb1f2301bb4a2d03242dd75c91a1f74c5296f96705eca2e94dbbd",
-      "Computator.NET.Engine.dll": "e1252a7d808ac59ce238fc9745ead672fa9a86d9476e0181d01fd18ef0bda7b1",
-      "Computator.NET.Core.dll": "98394c1a77b7c099fd069a4b4e7f1eaea248d085038d1cb036380c30087b3b50",
-      "Computator.NET.Desktop.dll": "8466b39968958df92d99a61eb158f3548e35c7972851f3502a67d088d3d9d197",
+      "NativeTests.exe": "6d8ea10d71dfb7f6721602635076bac791fbc140effc57443940d8ef8e931674",
+      "Computator.NET.Engine.dll": "ee0ddf32aaba057327168658fab5bc3406d8ec281be0893c447434d066f9d43b",
+      "Computator.NET.Core.dll": "30c3ebcf0ec72c01d00969a8bb847ae56badc26abbb514d9cfb768895b04e733",
+      "Computator.NET.Desktop.dll": "4c3ffcedfdd52ea743ef6596d110bf3ff55aa982dfbab234b0c1adca7f0e24a4",
       "AngouriMath.dll": "8117ff083bbffbea446c91e058a2b6dd87124e3a687497387ae534ce2bc61af0"
     }
   },
@@ -53,6 +54,10 @@
     "result": "Passed",
     "checks": [
       "one acknowledged real XTEST Calculate-button click",
+      "real XTEST exponent-mode and multiplication keystrokes, followed by Enter",
+      "clipboard paste of compound TSL exponents",
+      "chained prefix/postfix function powers preserve mathematical binding",
+      "copy/paste round trip of the native TSL result 3·x²",
       "all 16 operations",
       "existing toolbar Run command",
       "invalid-input recovery",
@@ -60,14 +65,14 @@
       "normal window shutdown and action cleanup"
     ],
     "log": "native-smoke.log",
-    "logSha256": "b83eda82020bccc6ab43ff54c9f63fdd909d894e3d345962ac70623509b85372",
+    "logSha256": "dfccbe3d994316dbe1ad14fd22fb3473cecbf403b40708da82682d329ad9c228",
     "runnerEntryPoint": "using System;using System.IO;using System.Reflection;using System.Windows.Forms;\npublic static class Runner { [STAThread] public static int Main(string[]args){Application.SetCompatibleTextRenderingDefault(false);Application.EnableVisualStyles();var a=Assembly.LoadFrom(args[0]);var t=a.GetType(\"Program\",true);Directory.CreateDirectory(args[1]);t.GetField(\"outputDirectory\",BindingFlags.NonPublic|BindingFlags.Static).SetValue(null,args[1]);try {t.GetMethod(\"SymbolicDesktopWorkflow\",BindingFlags.NonPublic|BindingFlags.Static).Invoke(null,null);Console.WriteLine(\"PASS actual compiled Mono smoke SymbolicDesktopWorkflow\");return 0;}catch(TargetInvocationException e){Console.Error.WriteLine(e.InnerException);return 1;}}}\n",
     "binariesSha256": {
-      "Computator.NET.Mono.SmokeTests.exe": "8dbf7b49ab28a17526a9dec75024c50c4ff24992205caf1e93358e0be22acc89",
+      "Computator.NET.Mono.SmokeTests.exe": "86ff9197632d88a506c8bc8cc716856eab4c56239a04a31a0ef5499f36ca37f9",
       "SymbolicFocusedAcceptance.exe": "997c26828b23e67672018ef9a7f8710fc06bfbf5c56969144b42bc16c4ce110b",
-      "Computator.NET.Engine.dll": "e1252a7d808ac59ce238fc9745ead672fa9a86d9476e0181d01fd18ef0bda7b1",
-      "Computator.NET.Core.dll": "98394c1a77b7c099fd069a4b4e7f1eaea248d085038d1cb036380c30087b3b50",
-      "Computator.NET.Desktop.dll": "8466b39968958df92d99a61eb158f3548e35c7972851f3502a67d088d3d9d197",
+      "Computator.NET.Engine.dll": "ee0ddf32aaba057327168658fab5bc3406d8ec281be0893c447434d066f9d43b",
+      "Computator.NET.Core.dll": "30c3ebcf0ec72c01d00969a8bb847ae56badc26abbb514d9cfb768895b04e733",
+      "Computator.NET.Desktop.dll": "4c3ffcedfdd52ea743ef6596d110bf3ff55aa982dfbab234b0c1adca7f0e24a4",
       "AngouriMath.dll": "8117ff083bbffbea446c91e058a2b6dd87124e3a687497387ae534ce2bc61af0"
     }
   },
@@ -85,45 +90,50 @@
       "project": "Computator.NET.Desktop.Tests/Computator.NET.Desktop.Tests.csproj",
       "target": "Release, net10.0-windows",
       "errors": 0,
-      "logSha256": "7ffe2f1aac099c35bcdbd7865046709994d8d19f5ca2291b010977f831502882"
+      "logSha256": "132ed896d2b7bf84c90861986503823d30704c15a7e161078ee3ec0ce6b5ab0c"
     },
     {
       "project": "Computator.NET.Core.Tests/Computator.NET.Core.Tests.csproj",
       "target": "Release, net10.0-windows",
       "errors": 0,
-      "logSha256": "f04d17f5216a3a93e71e2c4513432e811f2efce58be7857c93dd3862892f5aac"
+      "logSha256": "bfb2cce6de96aeb4a8fd30be2f0f1df14542a026ff7ae50ce8cfffd101fd3109"
     },
     {
       "project": "build/mono/SmokeTests/Computator.NET.Mono.SmokeTests.csproj",
       "target": "Release, ComputatorMono=true, net48",
       "errors": 0,
-      "logSha256": "803b9bc1c1badaa87d1acb26f233a50f7d5121e79fe56bf26bd9d0040d48b1f1"
+      "logSha256": "79c2678e29ba65630ce11c745b6c094509eed0e336b39a1c06be34ab71420188"
     }
   ],
   "sourceSha256": {
-    "Directory.Packages.props": "e70eab8322eb779fa155880c20b32ac39e87e5b5a8f888c078cd2e0643cf8c00",
-    "Directory.Build.props": "9d2c573c899b76287950af153bb5ec7be6ecb764f20378bbbc28d0de856ce4dc",
-    "Directory.Build.targets": "5fbcda920dd51a370f7a44bccbd89801ecf5572d4a9827ece62a1e981b60934a",
-    "build/MonoDesktop.props": "c0b2f03fc6b83a0682393af2c46817b39c52a3b0376f3a3dc770cda8a9ee8480",
-    "build/ModernDesktop.props": "d3d78b4ed232349650c493f958429a8e7100804ea30864864b598506888aeaac",
+    "Computator.NET.Core.Tests/PresentersTests/SymbolicCalculationsPresenterTests.cs": "503aa440c055b6c507da1232d97eef4ea5d0a70ce9ff4c85216846f8e2e3a3fa",
+    "Computator.NET.Core.Tests/PresentersTests/SymbolicExpressionRoutingTests.cs": "0d11ccb1def5d6a8a0d7a868025c0110b2fee13e5daa5e17a0e55db113ae68a5",
     "Computator.NET.Core/Abstract/Views/ISymbolicCalculationsView.cs": "91486cb4716c017905925523e9f5fb99aef2752ae7320e6114fac51dc346cb1e",
-    "Computator.NET.Core/Presenters/SymbolicCalculationsPresenter.cs": "f073290712606fecbf5a82b5675dd36e8de5e65649e833c550c01ed2042cfc95",
     "Computator.NET.Core/Presenters/ExpressionViewPresenter.cs": "7dbda3bb09040fe38b2e9337f0d3011bcd852d1bf2417d518396b801c30a13ca",
     "Computator.NET.Core/Presenters/MainFormPresenter.cs": "766c0a770409482e7e66faa8f71a24ef3d24ba0c6b15425d49fe82d085e65c53",
+    "Computator.NET.Core/Presenters/SymbolicCalculationsPresenter.cs": "f073290712606fecbf5a82b5675dd36e8de5e65649e833c550c01ed2042cfc95",
     "Computator.NET.Core/SymbolicCalculations/SymbolicCalculationService.cs": "7dbb31559922024788fdaeee2008356dd4b3e48f47d95ffd1cc23a5cb500ce48",
-    "Computator.NET.Desktop/Views/SymbolicCalculationsView.cs": "8f60ef1cdf2401cf7719936d8dadeea815e122e53f68dd1341116a802e51dcba",
-    "Computator.NET.Desktop/Views/MainView.cs": "3f3da5f9f566184345b59b96daaf89a0af57673540fd7a74fff0c9b9a7acbe1a",
-    "Computator.NET.Desktop/Views/MainView.Designer.cs": "0c57cb40aeec3b9a7442403bddd64e54c5377f58563367446a77c4440bf35613",
+    "Computator.NET.DataTypes/Text/SpecialSymbols.cs": "f86a17d346eb58d3bfdcd61a988022b287915091e85cdabb46289c1339b2b442",
+    "Computator.NET.Desktop.Tests/SymbolicCalculationsWorkflowTests.cs": "6376c7b0f508249f863438809228f5d1dc3be7ce84c35a17c058119433e337be",
     "Computator.NET.Desktop/Bootstrapping/WinFormsBootstrapper.cs": "8b963b96aae52c3e99bc019c72dc70d9867d01ce11261ffaa9d31786516c6d29",
-    "Computator.NET.Core.Tests/PresentersTests/SymbolicCalculationsPresenterTests.cs": "af22e6d893f8a4eb766ad740c7742a18536f8927a0047e55b844da74434e32c0",
-    "Computator.NET.Core.Tests/PresentersTests/SymbolicExpressionRoutingTests.cs": "cdaa94053cfdf8e237deeb573074ce62daba49276d34707273e7540c606f3ec1",
-    "Computator.NET.Desktop.Tests/SymbolicCalculationsWorkflowTests.cs": "c2f4243ab3e3aa8ed5fe93078bd6ccc359732cf25b50626ec58704fa45bff95e",
-    "build/mono/SmokeTests/MonoSymbolicCalculationsTests.cs": "8c10cbd72c46d9d5bbf5c806bf781afec4f8e9d55bc470b6aecef1ae2dd47348",
-    "build/mono/SmokeTests/Program.cs": "38e6674d19aad7715b553ebf0741db992d45a77d49b87fce98b6d07f8d28ca1c",
-    "Computator.NET.Engine/Symbolic/SymbolicEngine.cs": "bb2fc4f27fdef1e20813827cefb1602db81f7cee7ff1fcc5f7d897c44bbc91c5",
-    "Computator.NET.Engine/Symbolic/SymbolicInput.cs": "42ea71a3cfa9764777fef3f796b19f002f6a0cb1c03818c1f8e25f9d5aa60084",
+    "Computator.NET.Desktop/Controls/ExpressionTextBox.cs": "2d85aeca70ea0d2c80ef32d532deb631f245e508bed25124c44ffc8e500066a6",
+    "Computator.NET.Desktop/Views/MainView.Designer.cs": "0c57cb40aeec3b9a7442403bddd64e54c5377f58563367446a77c4440bf35613",
+    "Computator.NET.Desktop/Views/MainView.cs": "3f3da5f9f566184345b59b96daaf89a0af57673540fd7a74fff0c9b9a7acbe1a",
+    "Computator.NET.Desktop/Views/SymbolicCalculationsView.cs": "0110a1fa890678fe51f605e029c8e2d600b144675292cc05da1b2ba0693dc9c7",
+    "Computator.NET.Engine/Properties/AssemblyInfo.cs": "55a6e24705f8a24ed7ef5b823ce7e2d32771c314730c3e3d4674489ff50decba",
+    "Computator.NET.Engine/ScalarFunctions.cs": "96ea71d1f3249133fcbc3fa1ce550e42635592190dd4a01d9252fe74007fc711",
+    "Computator.NET.Engine/Symbolic/SymbolicEngine.cs": "5393dc4da0d6ccd8114daa7e3957115f5e8cf13fd06796b1b4dde77f03dc2c43",
+    "Computator.NET.Engine/Symbolic/SymbolicInput.cs": "dc79e12c33bd6409b504c858e399c56e4d4549f6f7324106fa973301d22210dc",
+    "Computator.NET.Engine/Symbolic/SymbolicOutput.cs": "a87088f70ded4e78b9b53662a30ae2265776247b841dc0d4642f6c302ab995c8",
     "Computator.NET.Engine/Symbolic/SymbolicRequest.cs": "cf1a41c6ce1ad0c0dd4b78d3edd1134e82cefa9f42422e4c8ffbb54e0542e5fb",
-    "Computator.NET.Engine/Symbolic/SymbolicResult.cs": "2a49c600ea74d0a00bfc76d5c8ea74a76346da22a7e3668fd8f9a3518eaec44b"
+    "Computator.NET.Engine/Symbolic/SymbolicResult.cs": "2a49c600ea74d0a00bfc76d5c8ea74a76346da22a7e3668fd8f9a3518eaec44b",
+    "Directory.Build.props": "9d2c573c899b76287950af153bb5ec7be6ecb764f20378bbbc28d0de856ce4dc",
+    "Directory.Build.targets": "5fbcda920dd51a370f7a44bccbd89801ecf5572d4a9827ece62a1e981b60934a",
+    "Directory.Packages.props": "e70eab8322eb779fa155880c20b32ac39e87e5b5a8f888c078cd2e0643cf8c00",
+    "build/ModernDesktop.props": "d3d78b4ed232349650c493f958429a8e7100804ea30864864b598506888aeaac",
+    "build/MonoDesktop.props": "c0b2f03fc6b83a0682393af2c46817b39c52a3b0376f3a3dc770cda8a9ee8480",
+    "build/mono/SmokeTests/MonoSymbolicCalculationsTests.cs": "22d3d7eba2621dad326c1aee8c629d56032fc7e2b1b0d9482d9f7d3e14efe255",
+    "build/mono/SmokeTests/Program.cs": "38e6674d19aad7715b553ebf0741db992d45a77d49b87fce98b6d07f8d28ca1c"
   },
   "limitations": [
     "This is actual native Mono execution, not native Windows execution.",
@@ -138,6 +148,8 @@
     "linkedItems": 369,
     "solutionGuardRejectionScenarios": 7,
     "evaluatedIdeProjects": 6,
-    "logSha256": "e368dbf48c884df4b8ee59672579d65abc51b619d05dab3bef78a36c913a487e"
-  }
+    "logSha256": "262db8f4986b750f2864e5f394f8a96c403367a51e88c29e27248707e28321d5"
+  },
+  "publishedEngineCommit": "80daf379bf07f96fba3e543f0433d68fc264e14a",
+  "publishedEngineTree": "2aa5ce34f90487d83e4aa6cdbe5ea6dbd5e0787d"
 }

@@ -56,7 +56,7 @@ Try the managed engine directly with the pinned SDK:
 dotnet run --project Computator.NET.Cli -- calculate --expression '2x+3' --x 7
 dotnet run --project Computator.NET.Cli -- integrate --expression 'x*x' --a 0 --b 3 --steps 100
 dotnet run --project Computator.NET.Cli -- root --expression 'x*x-2' --a 0 --b 2
-dotnet run --project Computator.NET.Cli -- symbolic --operation differentiate --expression 'x^3' --order 3
+dotnet run --project Computator.NET.Cli -- symbolic --operation differentiate --expression 'x³' --order 3
 ```
 
 The first command returns `{"result":"17"}`; the integral is approximately `9`, and the root is approximately `1.41421356237`. The symbolic third derivative is exactly `6`, with text, LaTeX and result status in its JSON response. See the [CLI guide](docs/followups/PORTABLE-ENGINE.md) for numerical/script commands and the [symbolic guide](docs/SYMBOLIC-CALCULATIONS.md) for algebra, calculus, solving and matrices.

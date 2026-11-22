@@ -24,15 +24,15 @@ namespace Computator.NET.Desktop.Views
 
         private static readonly Operation[] Operations =
         {
-            new Operation("simplify", "Simplify", "sin(x)^2 + cos(x)^2", "Simplify an expression. The domain does not imply that variables are positive."),
-            new Operation("expand", "Expand", "(x + 1)^3", "Expand products and powers into sums."),
-            new Operation("factor", "Factor", "x^2 - 1", "Factor an algebraic expression."),
-            new Operation("differentiate", "Differentiate", "sin(x^2)", "Differentiate with respect to one variable. Other symbols remain parameters."),
-            new Operation("integrate", "Indefinite integral", "x^2", "Find an antiderivative. An unevaluated integral is shown explicitly when a closed form is unavailable."),
-            new Operation("definite-integrate", "Definite integral", "x^2", "Evaluate an integral between the lower and upper bounds."),
+            new Operation("simplify", "Simplify", "sin²(x) + cos²(x)", "Simplify an expression. The domain does not imply that variables are positive."),
+            new Operation("expand", "Expand", "(x + 1)³", "Expand products and powers into sums."),
+            new Operation("factor", "Factor", "x² - 1", "Factor an algebraic expression."),
+            new Operation("differentiate", "Differentiate", "sin(x²)", "Differentiate with respect to one variable. Other symbols remain parameters."),
+            new Operation("integrate", "Indefinite integral", "x²", "Find an antiderivative. An unevaluated integral is shown explicitly when a closed form is unavailable."),
+            new Operation("definite-integrate", "Definite integral", "x²", "Evaluate an integral between the lower and upper bounds."),
             new Operation("limit", "Limit", "sin(x)/x", "Take a limit at the selected point, from both sides, the left, or the right."),
-            new Operation("solve", "Solve equation", "x^2 = 2", "Solve one equation for the selected variable. An expression without = is equated to zero."),
-            new Operation("substitute", "Substitute", "x^2 + y", "Give one replacement per line, for example x = 2 and y = 3."),
+            new Operation("solve", "Solve equation", "x² = 2", "Solve one equation for the selected variable. An expression without = is equated to zero."),
+            new Operation("substitute", "Substitute", "x² + y", "Give one replacement per line, for example x = 2 and y = 3."),
             new Operation("evaluate", "Numerical value", "sqrt(2)", "Evaluate numerically at the requested decimal precision. Symbols without values remain symbolic."),
             new Operation("taylor", "Taylor polynomial", "exp(x)", "Expand around the point, up to and including the selected degree."),
             new Operation("solve-system", "Solve equation system", "", "Enter equations below, one per line, and a comma-separated list of unknowns. The expression above is not used."),
@@ -111,7 +111,7 @@ namespace Computator.NET.Desktop.Views
             _substitutionPanel = Block("Replacements — one name = expression per line (optional for numerical value)", _substitutions);
             _equations.Height = 70;
             _equations.ScrollBars = ScrollBars.Vertical;
-            _equations.Text = "x + y = 3" + Environment.NewLine + "x - y = 1";
+            _equations.Text = "2·x + y = 5" + Environment.NewLine + "x - y = 1";
             var system = new TableLayoutPanel { Dock = DockStyle.Top, AutoSize = true, ColumnCount = 1 };
             system.Controls.Add(Block("Equations — one per line", _equations));
             system.Controls.Add(Block("Unknowns — separated by commas", _variables));
@@ -147,7 +147,7 @@ namespace Computator.NET.Desktop.Views
             _operation.KeyDown += OnInputKeyDown;
             _toolTip.SetToolTip(_domain, "Real or principal complex values. Real does not mean positive.");
             _toolTip.SetToolTip(example, "Load an example into the shared expression editor and reset parameters for this operation.");
-            _toolTip.SetToolTip(_result, "Select text and press Ctrl+C to copy the result.");
+            _toolTip.SetToolTip(_result, "Select text and press Ctrl+C to copy the TSL result back into the expression editor.");
             _toolTip.SetToolTip(_latex, "Copyable LaTeX source for this result.");
             Resize += (sender, args) => ResizeParagraphs();
             _cancel.Enabled = false;
@@ -232,7 +232,7 @@ namespace Computator.NET.Desktop.Views
             _warnings.Text = string.Join(Environment.NewLine, result.Warnings ?? new string[0]);
             switch (result.Status)
             {
-                case "exact": ShowStatus("Exact symbolic result"); break;
+                case "exact": ShowStatus("Exact symbolic result in TSL notation"); break;
                 case "approximate": ShowStatus("Approximate numerical result"); break;
                 case "unevaluated": ShowStatus("Unevaluated — the engine did not find a closed form for this request."); break;
                 case "undefined": ShowStatus("Undefined for the requested expression or domain."); break;
@@ -267,8 +267,8 @@ namespace Computator.NET.Desktop.Views
         private void UpdateFields()
         {
             var operation = (Operation)_operation.SelectedItem;
-            _help.Text = "Use the expression above (x^2 or x²). " + operation.Help + Environment.NewLine +
-                "Logarithms: ln(x) is natural, log(x) is base 10, log(base, x) selects the base.";
+            _help.Text = "Use TSL above: x², 2·x or x⁽ʸ⁺¹⁾. " + operation.Help + Environment.NewLine +
+                "Type ^ to toggle superscripts; * becomes ·. Logarithms: ln(x), log10(x), log(x, base).";
             var variable = new[] { "differentiate", "integrate", "definite-integrate", "limit", "solve", "taylor" }.Contains(operation.Id);
             _fields["variable"].Visible = variable;
             _fields["order"].Visible = operation.Id == "differentiate" || operation.Id == "taylor";
@@ -294,7 +294,7 @@ namespace Computator.NET.Desktop.Views
             _domain.SelectedIndex = 0;
             _direction.SelectedIndex = 0;
             _substitutions.Text = "x = 2" + Environment.NewLine + "y = 3";
-            _equations.Text = "x + y = 3" + Environment.NewLine + "x - y = 1";
+            _equations.Text = "2·x + y = 5" + Environment.NewLine + "x - y = 1";
             _variables.Text = "x, y";
             ExampleRequested?.Invoke(this, new SymbolicExampleEventArgs(operation.Example));
         }
