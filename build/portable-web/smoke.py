@@ -153,6 +153,71 @@ def main() -> int:
         require(math.isfinite(actual) and math.isclose(actual, expected, rel_tol=0, abs_tol=tolerance),
                 f'Expected {expected}, got {actual}.')
 
+    def symbolic(payload, expected_status: int = 200):
+        code, body, content_type = request('/api/v2/symbolic', payload)
+        require(code == expected_status, f'Symbolic request returned {code}, expected {expected_status}: {body}')
+        require(isinstance(body, dict) and 'json' in content_type, f'Invalid symbolic response: {body}')
+        if code == 200:
+            require(isinstance(body.get('result'), str) and isinstance(body.get('latex'), str) and
+                    body.get('status') in {'exact', 'approximate', 'unevaluated', 'undefined'} and
+                    isinstance(body.get('warnings'), list), f'Invalid symbolic result contract: {body}')
+        return body
+
+    def symbolic_algebra() -> None:
+        require(symbolic({'expression': '1/3 + 1/6'})['result'].replace(' ', '') == '1/2', 'Exact rational sum differs.')
+        for operation, expression, expected in [('simplify', '(x+1)^2-x^2', '7'),
+                                                ('expand', '(x+1)^3', '64'), ('factor', 'x^2-1', '8')]:
+            transformed = symbolic({'operation': operation, 'expression': expression})
+            value = symbolic({'operation': 'substitute', 'expression': transformed['result'], 'substitutions': {'x': '3'}})
+            require(transformed['status'] == 'exact' and value['result'] == expected, f'{operation} identity differs: {value}')
+        unicode = symbolic({'operation': 'substitute', 'expression': 'α² + β', 'substitutions': {'α': '2', 'β': '3'}})
+        require(unicode['result'] == '7', f'Unicode expression was changed in transport: {unicode}')
+        complex_roots = symbolic({'operation': 'solve', 'expression': 'x^2+1=0', 'domain': 'complex'})
+        real_roots = symbolic({'operation': 'solve', 'expression': 'x^2+1=0', 'domain': 'real'})
+        require('i' in complex_roots['result'] and 'i' not in real_roots['result'], 'Real/complex solution domains were lost.')
+
+    def symbolic_calculus() -> None:
+        derivative = symbolic({'operation': 'differentiate', 'expression': 'x^4', 'order': 2})
+        value = symbolic({'operation': 'substitute', 'expression': derivative['result'], 'substitutions': {'x': '2'}})
+        require(value['result'] == '48', f'Second derivative value differs: {value}')
+        integral = symbolic({'operation': 'integrate', 'expression': 'x^2'})
+        require(integral['status'] == 'exact' and 'C' in integral['result'], 'Antiderivative lost its arbitrary constant.')
+        require(symbolic({'operation': 'definite-integrate', 'expression': 'x^2', 'lowerBound': '0', 'upperBound': '3'})['result'] == '9',
+                'Exact definite integral differs.')
+        require(symbolic({'operation': 'limit', 'expression': 'sin(x)/x'})['result'] == '1', 'Removable-singularity limit differs.')
+        taylor = symbolic({'operation': 'taylor', 'expression': 'sin(x)', 'order': 3})
+        value = symbolic({'operation': 'substitute', 'expression': taylor['result'], 'substitutions': {'x': '1'}})
+        require(value['result'].replace(' ', '') == '5/6', f'Taylor degree differs: {value}')
+        unresolved = symbolic({'operation': 'integrate', 'expression': 'sin(x^x)'})
+        require(unresolved['status'] == 'unevaluated' and unresolved['warnings'], 'Unresolved integral was reported as solved.')
+
+    def symbolic_matrices_and_precision() -> None:
+        matrix = '[[1,2],[3,4]]'
+        require(symbolic({'operation': 'determinant', 'expression': matrix})['result'] == '-2', 'Matrix determinant differs.')
+        require(symbolic({'operation': 'trace', 'expression': matrix})['result'] == '5', 'Matrix trace differs.')
+        for operation in ('inverse', 'transpose'):
+            result = symbolic({'operation': operation, 'expression': matrix})
+            require(result['status'] == 'exact' and result['latex'], f'Matrix {operation} did not produce an exact result.')
+        solution = symbolic({'operation': 'solve-system', 'equations': ['x+y=3', 'x-y=1'], 'variables': ['x', 'y']})
+        require(solution['status'] == 'exact' and '2' in solution['result'] and '1' in solution['result'], f'System solution differs: {solution}')
+        evaluated = symbolic({'operation': 'evaluate', 'expression': 'sqrt(x)', 'substitutions': {'x': '2'}, 'precision': 40})
+        require(evaluated['status'] == 'approximate' and evaluated['result'].startswith('1.414213562373095048801688724209698'),
+                f'Arbitrary precision or substitutions were lost: {evaluated}')
+
+    def symbolic_boundaries_and_recovery() -> None:
+        require(request('/api/v2/symbolic', {'expression': '1'}, headers={'Origin': 'https://example.invalid'})[0] == 403,
+                'Symbolic route bypassed origin protection.')
+        require(request('/api/v2/symbolic', raw=b'{}', headers={'Content-Type': 'text/plain'})[0] == 415,
+                'Symbolic route accepted a non-JSON body.')
+        for payload in ({'expression': 'x' * 8193}, {'expression': 'x', 'operation': 'unknown'}, {'expression': 'x+'},
+                        {'expression': 'x', 'operation': 'differentiate', 'order': 999}, {'expression': 'System.IO.File.Delete("x")'}):
+            symbolic(payload, 400)
+        require(request('/api/v2/symbolic', {'expression': 'x' * 262145})[0] == 413, 'Symbolic body limit was not enforced.')
+        require(request('/api/v2/execute', {'operation': 'symbolic', 'symbolic': {'expression': '1'}})[0] == 400,
+                'The ordinary execution route must retain its operation contract.')
+        require(symbolic({'expression': '6*7'})['result'] == '42', 'Symbolic errors prevented a later valid request.')
+        wait_workers(0)
+
     def dependencies() -> None:
         config = json.loads((published / 'Computator.NET.PortableWeb.runtimeconfig.json').read_text())
         options = config['runtimeOptions']
@@ -177,6 +242,10 @@ def main() -> int:
                 'The proof of concept must not advertise charts or the native GSL catalog.')
         require(set(runtime.get('operations', [])) == {'calculate', 'script', 'integral', 'derivative', 'function-root'},
                 f'Unexpected advertised operation set: {runtime}')
+        require(runtime.get('symbolic') is True and set(runtime.get('symbolicOperations', [])) ==
+                {'simplify', 'expand', 'factor', 'differentiate', 'integrate', 'definite-integrate', 'limit', 'solve',
+                 'solve-system', 'substitute', 'evaluate', 'taylor', 'determinant', 'inverse', 'transpose', 'trace'},
+                f'Symbolic capability discovery is incomplete: {runtime}')
         if args.expected_architecture:
             require(runtime.get('architecture') == args.expected_architecture,
                     f'Actual process architecture is {runtime.get("architecture")}, expected {args.expected_architecture}.')
@@ -420,6 +489,10 @@ def main() -> int:
             run('real complex calculation', complex_calculation)
             run('scripts, UTF-8 and request-local unsaved functions', custom_functions)
             run('portable numerical methods with known answers', numerical_methods)
+            run('symbolic exact algebra, substitution, Unicode and solution domains', symbolic_algebra)
+            run('symbolic calculus, Taylor degree and unresolved integrals', symbolic_calculus)
+            run('symbolic matrices, equation systems and arbitrary precision', symbolic_matrices_and_precision)
+            run('symbolic request boundaries, worker cleanup and recovery', symbolic_boundaries_and_recovery)
             run('local HTTP origin, host and source boundaries', local_boundary)
             run('explicit unsupported operations and error recovery', unsupported_and_recovery)
             run('execution deadline reaps worker and recovers', timeout_and_recovery)

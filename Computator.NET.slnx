@@ -359,6 +359,10 @@
     <File Path="docs/evidence/historical-upgrade-2026-10-16/verify.py" />
     <File Path="docs/evidence/historical-upgrade-2026-10-16/workflow-result-excerpts.json" />
     <File Path="docs/evidence/numerical-reference-integration-2026-10-17.json" />
+    <File Path="docs/evidence/symbolic-web/README.md" />
+    <File Path="docs/evidence/symbolic-web/before.png" />
+    <File Path="docs/evidence/symbolic-web/after.png" />
+    <File Path="docs/evidence/symbolic-web/mobile.png" />
   </Folder>
   <Folder Name="/Documentation/Historical/">
     <File Path="docs/LEGACY-TOOLING.md" />
@@ -388,6 +392,7 @@
     <File Path="docs/eula.rtf" />
   </Folder>
   <Folder Name="/Documentation/Workstreams/">
+    <File Path="docs/followups/SYMBOLIC-WEB.md" />
     <File Path="docs/followups/APPVEYOR.md" />
     <File Path="docs/followups/COMPLEX-CHART-PRESENTATION.md" />
     <File Path="docs/followups/EDITOR-DOCUMENT-SAFETY.md" />

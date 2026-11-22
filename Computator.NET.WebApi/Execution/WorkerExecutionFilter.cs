@@ -3,6 +3,7 @@ using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Computator.NET.WebApi.Controllers;
+using Computator.NET.Engine.Symbolic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -16,7 +17,8 @@ namespace Computator.NET.WebApi.Execution
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var legacyScript = context.Controller is ScriptController;
-            ExecutionRequest request;
+            ExecutionRequest request = null;
+            SymbolicRequest symbolic = null;
             var chart = false;
             if (legacyScript)
             {
@@ -25,6 +27,12 @@ namespace Computator.NET.WebApi.Execution
                 request = new ExecutionRequest { Operation = "script", Expression = source as string,
                     CustomFunctions = definitions as string ?? "" };
                 // Never URI-decode these values again: LegacyCodeRoute already did.
+                context.HttpContext.Response.Headers["Cache-Control"] = "no-store";
+            }
+            else if (context.Controller is SymbolicController &&
+                context.ActionArguments.TryGetValue("request", out var symbolicArgument) && symbolicArgument is SymbolicRequest symbolicRequest)
+            {
+                symbolic = symbolicRequest;
                 context.HttpContext.Response.Headers["Cache-Control"] = "no-store";
             }
             else if (context.Controller is ExecutionV2Controller &&
@@ -37,7 +45,9 @@ namespace Computator.NET.WebApi.Execution
 
             try
             {
-                var reply = await WorkerProcess.RunAsync(request, chart, context.HttpContext.RequestAborted);
+                var reply = symbolic != null
+                    ? await WorkerProcess.RunSymbolicAsync(symbolic, context.HttpContext.RequestAborted)
+                    : await WorkerProcess.RunAsync(request, chart, context.HttpContext.RequestAborted);
                 context.Result = legacyScript && reply.Status == 200 ? LegacyScriptResult(reply) : WorkerProcess.ToResult(reply);
             }
             catch (WorkerBusyException) { context.Result = Problem(429, "The execution queue is full. Try again after another calculation finishes."); }

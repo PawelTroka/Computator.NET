@@ -8,11 +8,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using Computator.NET.WebApi.Controllers;
 using Computator.NET.Hosting;
+using Computator.NET.Engine.Symbolic;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Computator.NET.WebApi.Execution
 {
-    public sealed class WorkerRequest { public ExecutionRequest Request { get; set; } public bool Chart { get; set; } }
+    public sealed class WorkerRequest
+    {
+        public ExecutionRequest Request { get; set; }
+        public bool Chart { get; set; }
+        public SymbolicRequest Symbolic { get; set; }
+    }
     public sealed class WorkerReply { public int Status { get; set; } public string Json { get; set; } public string Image { get; set; } }
 
     /// <summary>One owned child per execution; process lifetime is not a security sandbox.</summary>
@@ -23,8 +29,19 @@ namespace Computator.NET.WebApi.Execution
         public static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web) {
             Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping }; // private JSON transport, never HTML
 
-        public static async Task<WorkerReply> RunAsync(ExecutionRequest request, bool chart, CancellationToken cancellation,
+        public static Task<WorkerReply> RunAsync(ExecutionRequest request, bool chart, CancellationToken cancellation,
             TimeSpan? maximumTime = null, Action<int> started = null)
+            => RunMessageAsync(new WorkerRequest { Request = request, Chart = chart }, cancellation, maximumTime, started);
+
+        public static Task<WorkerReply> RunSymbolicAsync(SymbolicRequest request, CancellationToken cancellation,
+            TimeSpan? maximumTime = null, Action<int> started = null)
+        {
+            SymbolicEngine.Validate(request);
+            return RunMessageAsync(new WorkerRequest { Symbolic = request }, cancellation, maximumTime, started);
+        }
+
+        private static async Task<WorkerReply> RunMessageAsync(WorkerRequest message, CancellationToken cancellation,
+            TimeSpan? maximumTime, Action<int> started)
         {
             var duration = maximumTime ?? TimeSpan.FromSeconds(30);
             if (duration <= TimeSpan.Zero || duration > TimeSpan.FromMinutes(5)) throw new ArgumentOutOfRangeException(nameof(maximumTime));
@@ -77,7 +94,7 @@ namespace Computator.NET.WebApi.Execution
                 started?.Invoke(process.Id);
                 var output = ReadBounded(process.StandardOutput, 32 * 1024 * 1024, limit);
                 var errors = ReadBounded(process.StandardError, 65536, limit);
-                var input = JsonSerializer.Serialize(new WorkerRequest { Request = request, Chart = chart }, JsonOptions);
+                var input = JsonSerializer.Serialize(message, JsonOptions);
                 if (Encoding.UTF8.GetByteCount(input) > 262144) throw new ArgumentException("Execution request is too large.");
                 await process.StandardInput.WriteAsync(input.AsMemory(), limit.Token);
                 process.StandardInput.Close();

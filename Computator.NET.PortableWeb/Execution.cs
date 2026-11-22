@@ -3,6 +3,7 @@ using System.Numerics;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using Computator.NET.Engine;
+using Computator.NET.Engine.Symbolic;
 
 namespace Computator.NET.PortableWeb;
 
@@ -19,10 +20,12 @@ internal sealed class ExecutionRequest
     public uint N { get; set; } = 10000;
     public uint Order { get; set; } = 1;
     public double Epsilon { get; set; } = 1e-6;
+    // Used only by the dedicated symbolic route and its isolated worker.
+    public SymbolicRequest? Symbolic { get; set; }
 }
 
 internal sealed record WorkerReply(int Status, string? Result = null, string? Detail = null,
-    IReadOnlyList<EngineDiagnostic>? Diagnostics = null);
+    IReadOnlyList<EngineDiagnostic>? Diagnostics = null, SymbolicResult? Symbolic = null);
 
 internal static class Execution
 {
@@ -38,6 +41,11 @@ internal static class Execution
 
     public static void Validate(ExecutionRequest request)
     {
+        if (request.Operation == "symbolic")
+        {
+            SymbolicEngine.Validate(request.Symbolic ?? throw new ArgumentException("A symbolic request is required."));
+            return;
+        }
         if (!Operations.Contains(request.Operation)) throw new ArgumentException("Unknown operation.");
         if (string.IsNullOrWhiteSpace(request.Expression) || request.Expression.Length > PortableEngine.MaximumSourceCharacters ||
             request.CustomFunctions == null || request.CustomFunctions.Length > PortableEngine.MaximumSourceCharacters)
@@ -81,6 +89,11 @@ internal static class Execution
         try
         {
             Validate(request);
+            if (request.Operation == "symbolic")
+            {
+                var symbolic = new SymbolicEngine().Execute(request.Symbolic!);
+                return new WorkerReply(200, Result: symbolic.Result, Symbolic: symbolic);
+            }
             var engine = new PortableEngine();
             var result = request.Operation switch
             {
@@ -95,6 +108,8 @@ internal static class Execution
         }
         catch (EngineCompilationException exception)
         { return new WorkerReply(400, Detail: exception.Message, Diagnostics: exception.Diagnostics); }
+        catch (OperationCanceledException) when (request.Operation == "symbolic")
+        { return new WorkerReply(504, Detail: "Symbolic calculation exceeded its time limit. Try a smaller expression."); }
         catch (Exception exception)
         { return new WorkerReply(400, Detail: exception.Message); }
     }
