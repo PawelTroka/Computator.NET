@@ -2,34 +2,38 @@
 
 These PNGs capture the actual React application. The completed examples use the
 published portable host, its isolated child worker and the shared symbolic engine.
+The after/mobile captures include the native TSL notation follow-up; the original
+empty-page baseline is preserved unchanged.
 
 ## Source and capture identity
 
 | Item | Identity |
 | --- | --- |
 | Empty-page baseline | Master `d3416a509dcdf03e3fa0daf117241ea97baf7774` |
-| Published application source | Local merged snapshot `e341a17a1ac2d0a894bf2f6a4b9295f80dab59fb`, tree `b5bbad404f9bd14efa1e24666163252907430978` |
-| Final mathematical implementation | `1615c2c78a7013f1cffa851ec714c9201c84ed08` |
-| Review source after the documentation-only base update | `983f966a9de361db3be5d72e0dbe41f961a5d628` |
-| Engine PR | [#424](https://github.com/PawelTroka/Computator.NET/pull/424), remote base `217ce6fb05eea19346c81e31f7ae8898ed48f6e5` (same tree as local `720e719`) |
+| Published application source | Local merged snapshot `32bda66ef3f5f3e691fe8597078b857d04a7828c`, tree `3d2f136fcf50e3e80935cd6af5440fd792d57283` |
+| Final mathematical implementation | `678b86097a7917b8b516446b8c674ffa0d4ce442` |
+| Published engine base | [80daf379](https://github.com/PawelTroka/Computator.NET/commit/80daf379bf07f96fba3e543f0433d68fc264e14a), tree `2aa5ce34f90487d83e4aa6cdbe5ea6dbd5e0787d`, identical to the local mathematical implementation |
+| Focused UI test source | `7aac62d1b31ca4a2efeb678296d3ffae7787b0c3`; identical frontend source and focused tests to the final snapshot |
+| Related PRs | Shared engine [#424](https://github.com/PawelTroka/Computator.NET/pull/424), browser/API [#426](https://github.com/PawelTroka/Computator.NET/pull/426) |
 | Runtime | .NET SDK 10.0.403, Linux x64 |
 | Browser | Playwright 1.64.1 with official Debian Chromium headless shell 156.0.8078.79 |
 
-The two source snapshots differ only in `docs/SYMBOLIC-CALCULATIONS.md`. Published
-assembly SHA-256 values are:
+The final browser/API tests, HTTP tests and captures use the published application
+source above. The focused UI suite passed before the final shared-parser fix;
+there were no frontend changes after that run. Published assembly SHA-256 values:
 
 ```text
-2672724e1811756572c440e044b453cb604eaad1eacee38797cc9650e2293189  Computator.NET.PortableWeb.dll
-17d317f6e21e372b6d8476471403b17a170b6ba7b85f21e90402a234f1bb8675  Computator.NET.Engine.dll
+809c0447e29bc44b63def6cee51cfcb925d8e491594491b29ec6a2da7385cb5b  Computator.NET.PortableWeb.dll
+887e80d0cfc81b3ecef20c6fc69e099daa87c547df601a20b307a1e4b502127c  Computator.NET.Engine.dll
 ```
 
 Both desktop-size captures use a 1440×1080 viewport and the portable capability
 notice. The baseline was served from the unchanged master checkout through Vite.
 The after capture follows **Differentiate → Load example → Calculate → LaTeX**
 against `/api/v2/symbolic`. The mobile capture uses a 390×844 viewport and the
-matrix-inverse example. Each full-page capture scrolls normally to the top first,
-so fixed navigation retains its actual position. Pixels and page styles are
-unchanged.
+compound-power substitution `2·x⁽ⁿ⁺¹⁾` with `x = 2`, `n = 2`, returning `16`.
+Each full-page capture scrolls normally to the top first, so fixed navigation
+retains its actual position. Pixels and page styles were not modified for capture.
 
 ## Before
 
@@ -41,17 +45,24 @@ unchanged.
 
 ## Mobile
 
-![Matrix inverse on the narrow layout](mobile.png)
+![Compound TSL power and substitutions on the narrow layout](mobile.png)
 
 ## Executed verification
 
 | Check | Result |
 | --- | --- |
-| Canonical Cake `PortableWeb-Publish` | Passed |
-| New real browser/API tests, all sixteen operations | 21 passed |
-| New focused UI lifecycle and input tests | 6 passed |
-| Complete portable HTTP/process smoke suite | 16 groups passed, including worker deadline, capacity, cancellation and shutdown |
-| Windows API integration-test project cross-build | Passed, zero errors; twenty new native API cases compiled |
+| Canonical Cake `Web-Build` and `PortableWeb-Publish` | Passed |
+| Real browser/API tests, all sixteen operations and TSL reuse | 23 passed |
+| Focused UI lifecycle, input, caret and copying tests | 8 passed |
+| Complete portable HTTP/process smoke suite | 17 groups passed, including worker deadline, capacity, cancellation and shutdown |
+| Windows API integration-test project cross-build | Passed, zero errors; twenty-six native symbolic API cases compiled |
+
+The added live regressions were observed failing before their fixes. The original
+publication returned `6 * x ^ 2` for the derivative of `2·x³`, and `1/3` for
+`log(8,2)`. The first TSL-adapted publication still returned `1/512` for
+`sin³(PI/6)²`; the retained regression requires `1/64`. All these cases pass in the
+final publication. Derivative and logarithm results are reused unchanged through
+both the symbolic endpoint and the ordinary numerical `/api/v2/execute` endpoint.
 
 Browser results above are the local Chromium run. The normal CI configurations
 also select Firefox or WebKit where appropriate. Native Windows API execution and

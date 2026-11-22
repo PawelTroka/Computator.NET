@@ -191,6 +191,28 @@ def main() -> int:
         unresolved = symbolic({'operation': 'integrate', 'expression': 'sin(x^x)'})
         require(unresolved['status'] == 'unevaluated' and unresolved['warnings'], 'Unresolved integral was reported as solved.')
 
+    def symbolic_tsl_notation() -> None:
+        for expression, expected in [('2·x⁽ⁿ⁺¹⁾', '16'), ('2·x⁻²', '1/2'), ('sin²(x)+cos²(x)', '1'),
+                                     ('sin³(PI/6)²', '1/64'), ('log(8,2)', '3')]:
+            result = symbolic({'operation': 'substitute', 'expression': expression, 'substitutions': {'x': '2', 'n': '2'}})
+            require(result['status'] == 'exact' and result['result'].replace(' ', '') == expected,
+                    f'TSL expression changed meaning: {expression}: {result}')
+        derivative = symbolic({'operation': 'differentiate', 'expression': '2·x³'})
+        require('·' in derivative['result'] and '²' in derivative['result'] and
+                '*' not in derivative['result'] and '^' not in derivative['result'], f'Result is not native TSL: {derivative}')
+        value = symbolic({'operation': 'substitute', 'expression': derivative['result'], 'substitutions': {'x': '2'}})
+        require(value['result'] == '24', f'TSL result cannot be reused: {value}')
+        number({'operation': 'calculate', 'expression': derivative['result'], 'x': 2}, 24)
+        power = symbolic({'expression': '2*x^(n+1)'})
+        require('·' in power['result'] and 'ⁿ' in power['result'] and '^' not in power['result'],
+                f'Compound exponent was not rendered as TSL: {power}')
+        require(symbolic({'operation': 'substitute', 'expression': power['result'], 'substitutions': {'x': '2', 'n': '2'}})['result'] == '16',
+                'Formatted compound exponent changed meaning when reused.')
+        logarithm = symbolic({'expression': 'log(x,2)'})
+        require(symbolic({'operation': 'substitute', 'expression': logarithm['result'], 'substitutions': {'x': '8'}})['result'] == '3',
+                'Two-argument log must preserve TSL argument/base order in reused results.')
+        number({'operation': 'calculate', 'expression': logarithm['result'], 'x': 8}, 3)
+
     def symbolic_matrices_and_precision() -> None:
         matrix = '[[1,2],[3,4]]'
         require(symbolic({'operation': 'determinant', 'expression': matrix})['result'] == '-2', 'Matrix determinant differs.')
@@ -491,6 +513,7 @@ def main() -> int:
             run('portable numerical methods with known answers', numerical_methods)
             run('symbolic exact algebra, substitution, Unicode and solution domains', symbolic_algebra)
             run('symbolic calculus, Taylor degree and unresolved integrals', symbolic_calculus)
+            run('symbolic native TSL notation and reusable output', symbolic_tsl_notation)
             run('symbolic matrices, equation systems and arbitrary precision', symbolic_matrices_and_precision)
             run('symbolic request boundaries, worker cleanup and recovery', symbolic_boundaries_and_recovery)
             run('local HTTP origin, host and source boundaries', local_boundary)

@@ -1,20 +1,21 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { WEB_API_BASE_URL } from '../config';
 import { initialSymbolicDraft, symbolicOperations, useSymbolicDraft, type SymbolicDraft, type SymbolicOperation } from '../helpers/SymbolicDraftContext';
+import { SpecialSymbolsHandler } from '../helpers/SpecialSymbolsHandler';
 
 type SymbolicResult = { result: string; latex: string; status: string; warnings: string[] };
 const statuses: Record<string, string> = {
   exact: 'Exact result', approximate: 'Numerical approximation', unevaluated: 'Unresolved result', undefined: 'Undefined result'
 };
 const examples: Record<SymbolicOperation, Partial<SymbolicDraft>> = {
-  simplify: { expression: '(x + 1)^2 - x^2' }, expand: { expression: '(x + y)^3' }, factor: { expression: 'x^2 - 1' },
-  differentiate: { expression: 'sin(x^2)', variable: 'x', order: '1' },
-  integrate: { expression: 'x^2', variable: 'x' },
-  'definite-integrate': { expression: 'x^2', variable: 'x', lowerBound: '0', upperBound: '1' },
+  simplify: { expression: '(x + 1)² - x²' }, expand: { expression: '(x + y)³' }, factor: { expression: 'x² - 1' },
+  differentiate: { expression: 'sin(x²)', variable: 'x', order: '1' },
+  integrate: { expression: 'x²', variable: 'x' },
+  'definite-integrate': { expression: 'x²', variable: 'x', lowerBound: '0', upperBound: '1' },
   limit: { expression: 'sin(x)/x', variable: 'x', point: '0', direction: 'both' },
-  solve: { expression: 'x^2 = 2', variable: 'x', domain: 'real' },
+  solve: { expression: 'x² = 2', variable: 'x', domain: 'real' },
   'solve-system': { equations: 'x + y = 3\nx - y = 1', variables: 'x, y' },
-  substitute: { expression: 'x^2 + y', substitutions: 'x = 2\ny = 3' },
+  substitute: { expression: 'x² + y', substitutions: 'x = 2\ny = 3' },
   evaluate: { expression: 'sqrt(2)', precision: '30', substitutions: '' },
   taylor: { expression: 'sin(x)', variable: 'x', point: '0', order: '5' },
   determinant: { expression: '[[1, 2], [3, 4]]' }, inverse: { expression: '[[1, 2], [3, 4]]' },
@@ -86,12 +87,24 @@ export function SymbolicCalculations() {
   const [result, setResult] = useState<SymbolicResult | null>(null), [error, setError] = useState('');
   const [pending, setPending] = useState(false), [copied, setCopied] = useState('');
   const active = useRef<AbortController | null>(null);
+  const expressionInput = useRef<HTMLTextAreaElement | null>(null);
   useEffect(() => () => active.current?.abort(), []);
   function cancel(message = 'Calculation cancelled.') {
     active.current?.abort(); active.current = null; setPending(false); setError(message);
   }
   function edit(patch: Partial<SymbolicDraft>) {
     cancel(''); setResult(null); setCopied(''); setDraft({ ...draft, ...patch });
+  }
+  function insertSymbol(symbol: string) {
+    const input = expressionInput.current;
+    if (!input) return;
+    const start = input.selectionStart, end = input.selectionEnd;
+    const value = input.value.slice(0, start) + symbol + input.value.slice(end);
+    if (value.length > 8192) { setError('Expressions are limited to 8,192 characters.'); return; }
+    edit(draft.operation === 'solve-system' ? { equations: value } : { expression: value });
+    requestAnimationFrame(() => {
+      input.focus(); input.setSelectionRange(start + symbol.length, start + symbol.length);
+    });
   }
   async function compute(event: FormEvent) {
     event.preventDefault(); cancel(''); setResult(null); setCopied('');
@@ -134,19 +147,28 @@ export function SymbolicCalculations() {
           </select>
           {draft.operation === 'solve-system' ? <>
             <label className="form-label" htmlFor="symbolic-equations">Equations — one per line</label>
-            <textarea id="symbolic-equations" className="form-control symbolic-input" value={draft.equations} rows={4}
+            <textarea ref={expressionInput} id="symbolic-equations" className="form-control symbolic-input" value={draft.equations} rows={4}
               maxLength={8192} onChange={event => edit({ equations: event.target.value })} required />
             <label className="form-label mt-3" htmlFor="symbolic-variables">Variables — comma separated</label>
             <input id="symbolic-variables" className="form-control" value={draft.variables} maxLength={1024}
               onChange={event => edit({ variables: event.target.value })} required />
           </> : <>
             <label className="form-label" htmlFor="symbolic-expression">{draft.operation === 'solve' ? 'Equation or expression equal to zero' : 'Expression'}</label>
-            <textarea id="symbolic-expression" className="form-control symbolic-input" value={draft.expression} rows={4}
+            <textarea ref={expressionInput} id="symbolic-expression" className="form-control symbolic-input" value={draft.expression} rows={4}
               maxLength={8192} onChange={event => edit({ expression: event.target.value })} required />
           </>}
-          <p className="small text-muted mt-2 mb-0">Use <code>x^2</code>, <code>2x</code>, <code>sin(x)</code>, <code>pi</code> and exact fractions.
+          <div className="d-flex align-items-center flex-wrap gap-2 mt-2" role="group" aria-label="Insert TSL notation">
+            <span className="small text-muted">Insert:</span>
+            <button type="button" className="btn btn-sm btn-outline-secondary" aria-label="Insert multiplication dot"
+              onClick={() => insertSymbol(SpecialSymbolsHandler.DotSymbol)}>·</button>
+            <button type="button" className="btn btn-sm btn-outline-secondary" aria-label="Insert squared exponent"
+              onClick={() => insertSymbol('²')}>²</button>
+            <button type="button" className="btn btn-sm btn-outline-secondary" aria-label="Insert cubed exponent"
+              onClick={() => insertSymbol('³')}>³</button>
+          </div>
+          <p className="small text-muted mt-2 mb-0">Use TSL notation: <code>2·x²</code>, <code>x⁻²</code>, <code>x⁽ⁿ⁺¹⁾</code>, <code>sin²(x)</code>, <code>PI</code> and exact fractions.
             Matrices use <code>[[1, 2], [3, 4]]</code>. Ctrl+Enter calculates.</p>
-          <p className="small text-muted mt-2 mb-0">Logarithms use <code>log(base, argument)</code>: <code>log(2, 8) = 3</code>.
+          <p className="small text-muted mt-2 mb-0">Logarithms use <code>log(argument, base)</code>: <code>log(8, 2) = 3</code>.
             Use <code>log(x)</code> for base 10 and <code>ln(x)</code> for the natural logarithm.</p>
         </div></section></div>
         <div className="col-lg-4"><section className="card"><div className="card-header">Options</div><div className="card-body">
@@ -164,7 +186,7 @@ export function SymbolicCalculations() {
           {draft.operation === 'limit' && <><label className="form-label" htmlFor="symbolic-direction">Direction</label>
             <select id="symbolic-direction" className="form-select mb-3" value={draft.direction} onChange={event => edit({ direction: event.target.value })}>
               <option value="both">Both sides</option><option value="left">From the left</option><option value="right">From the right</option>
-            </select><p className="small text-muted">Use <code>+oo</code> or <code>-oo</code> for infinite limits.</p></>}
+            </select><p className="small text-muted">Use <code>∞</code> or <code>-∞</code> for infinite limits.</p></>}
           <label className="form-label" htmlFor="symbolic-domain">Domain</label>
             <select id="symbolic-domain" className="form-select mb-3" value={draft.domain} onChange={event => edit({ domain: event.target.value })}>
               <option value="complex">Complex numbers</option><option value="real">Real numbers</option>
@@ -203,11 +225,14 @@ export function SymbolicCalculations() {
       {copied && <p className="small mt-2 mb-0" aria-live="polite">{copied}</p>}
     </div></section>
     <details className="small text-muted"><summary>Syntax and result conventions</summary>
-      <p className="mt-2">Symbolic calculations use mathematical expressions. Custom C# / TSL function definitions are not applied here.
+      <p className="mt-2">Symbolic calculations use TSL mathematical notation. Paste superscripts and middle-dot multiplication directly,
+        or use the insertion buttons. The symbolic input also accepts ASCII <code>x^2</code> and <code>2*x</code>.
+        Custom C# / TSL function definitions and scripts are not applied here.
         Exact fractions stay exact; numerical evaluation uses the requested precision. Unresolved expressions remain visible with an explicit status.
         Indefinite integrals include an arbitrary additive constant <code>C</code>.</p>
-      <p>Two-argument logarithms put the base first: <code>log(2, 8)</code> is 3.
-        This differs from the argument order in the numerical TSL calculator. Result expressions use the same symbolic notation and can be pasted back into this tool.</p>
+      <p>Two-argument logarithms follow TSL argument order: <code>log(8, 2)</code> is 3.
+        Result expressions use the engine's TSL notation and can be copied back into this tool.
+        Exponents without a superscript spelling use <code>pow(base, exponent)</code>.</p>
       <p>Calculations have an expression limit and a time budget. If a request cannot finish, reduce its size or order and try again.
         Inputs stay in this tab when you navigate to another tool.</p>
       <button className="btn btn-sm btn-outline-secondary" type="button" onClick={() => edit(initialSymbolicDraft)}>Reset symbolic inputs</button>

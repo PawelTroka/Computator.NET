@@ -63,6 +63,44 @@ test('Unicode source, simultaneous substitutions and explicit domains reach the 
   expect(real.result).not.toBe(complex.result);
 });
 
+test('native TSL powers and middle dots survive real browser submission and result reuse', async ({ page }) => {
+  await page.goto('/symbolic-calculations');
+  await page.getByLabel('Operation', { exact: true }).selectOption('differentiate');
+  await page.getByLabel('Expression', { exact: true }).fill('2·x³');
+  const posted = page.waitForRequest(request => request.url().endsWith('/api/v2/symbolic') && request.method() === 'POST');
+  const derivative = await calculate(page, 'differentiate');
+  expect((await posted).postDataJSON().expression).toBe('2·x³');
+  expect(derivative.result).toContain('·');
+  expect(derivative.result).toContain('²');
+  expect(derivative.result).not.toMatch(/[\^*]/);
+  const numerical = await page.request.post('/api/v2/execute', { data: { operation: 'calculate', expression: derivative.result, x: 2 } });
+  expect(numerical.status(), await numerical.text()).toBe(200);
+  expect((await numerical.json()).result).toBe('24');
+  await page.getByLabel('Operation', { exact: true }).selectOption('substitute');
+  await page.getByLabel('Expression', { exact: true }).fill(derivative.result);
+  await page.getByLabel('Substitutions — one per line', { exact: true }).fill('x = 2');
+  expect((await calculate(page, 'substitute')).result).toBe('24');
+});
+
+test('compound, negative and function superscripts and TSL logarithms retain their meaning over HTTP', async ({ request }) => {
+  for (const [expression, expected] of [['2·x⁽ⁿ⁺¹⁾', '16'], ['2·x⁻²', '1/2'], ['sin²(x)+cos²(x)', '1'],
+    ['sin³(PI/6)²', '1/64'], ['log(8,2)', '3']]) {
+    const result = await symbolic(request, { operation: 'substitute', expression, substitutions: { x: '2', n: '2' } });
+    expect(result.result.replace(/\s/g, ''), expression).toBe(expected);
+    expect(result.status).toBe('exact');
+  }
+  const power = await symbolic(request, { expression: '2*x^(n+1)' });
+  expect(power.result).toContain('·');
+  expect(power.result).toContain('ⁿ');
+  expect(power.result).not.toMatch(/[\^*]/);
+  expect((await symbolic(request, { operation: 'substitute', expression: power.result, substitutions: { x: '2', n: '2' } })).result).toBe('16');
+  const logarithm = await symbolic(request, { expression: 'log(x,2)' });
+  expect((await symbolic(request, { operation: 'substitute', expression: logarithm.result, substitutions: { x: '8' } })).result).toBe('3');
+  const numerical = await request.post('/api/v2/execute', { data: { operation: 'calculate', expression: logarithm.result, x: 8 } });
+  expect(numerical.status(), await numerical.text()).toBe(200);
+  expect((await numerical.json()).result).toBe('3');
+});
+
 test('unresolved integrals retain their status and corrected input recovers after parser errors', async ({ page }) => {
   await page.goto('/symbolic-calculations');
   await page.getByLabel('Operation', { exact: true }).selectOption('integrate');

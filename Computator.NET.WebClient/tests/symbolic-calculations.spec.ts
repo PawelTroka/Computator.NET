@@ -1,6 +1,53 @@
 import { test, expect } from '@playwright/test';
 
-const answer = { result: '2*x + 1', latex: '2x + 1', status: 'exact', warnings: [] };
+const answer = { result: '2·x + 1', latex: '2x + 1', status: 'exact', warnings: [] };
+
+test('TSL insertion buttons preserve the selection, caret and equation editor focus', async ({ page }) => {
+  const bodies: Record<string, unknown>[] = [];
+  await page.route('**/api/v2/symbolic', async route => {
+    bodies.push(route.request().postDataJSON());
+    await route.fulfill({ json: answer });
+  });
+  await page.goto('/symbolic-calculations');
+  const expression = page.getByLabel('Expression', { exact: true });
+  await expression.fill('2*x+1');
+  await expression.evaluate((input: HTMLTextAreaElement) => input.setSelectionRange(1, 2));
+  await page.getByRole('button', { name: 'Insert multiplication dot', exact: true }).click();
+  await expect(expression).toHaveValue('2·x+1');
+  await expect(expression).toBeFocused();
+  expect(await expression.evaluate((input: HTMLTextAreaElement) => input.selectionStart)).toBe(2);
+  await expression.press('ArrowRight');
+  await page.getByRole('button', { name: 'Insert squared exponent', exact: true }).click();
+  await expect(expression).toHaveValue('2·x²+1');
+  await expect(expression).toBeFocused();
+  expect(await expression.evaluate((input: HTMLTextAreaElement) => input.selectionStart)).toBe(4);
+  await expression.press('ControlOrMeta+Enter');
+  await expect(page.getByRole('status')).toHaveText(answer.result);
+  expect(bodies[0].expression).toBe('2·x²+1');
+
+  await page.getByLabel('Operation', { exact: true }).selectOption('solve-system');
+  const equations = page.getByLabel('Equations — one per line');
+  await equations.fill('x = 8');
+  await equations.evaluate((input: HTMLTextAreaElement) => input.setSelectionRange(1, 1));
+  await page.getByRole('button', { name: 'Insert cubed exponent', exact: true }).click();
+  await expect(equations).toHaveValue('x³ = 8');
+  await expect(equations).toBeFocused();
+  expect(await equations.evaluate((input: HTMLTextAreaElement) => input.selectionStart)).toBe(2);
+});
+
+test('display and copy preserve the engine TSL result exactly', async ({ page }) => {
+  const result = '6 · x² + log(x, 2)';
+  await page.addInitScript(() => Object.defineProperty(navigator, 'clipboard', { value: {
+    writeText: async (text: string) => { (window as unknown as { symbolicClipboard: string }).symbolicClipboard = text; }
+  } }));
+  await page.route('**/api/v2/symbolic', route => route.fulfill({ json: { ...answer, result } }));
+  await page.goto('/symbolic-calculations');
+  await page.getByRole('button', { name: 'Calculate', exact: true }).click();
+  await expect(page.getByRole('status')).toHaveText(result);
+  await page.getByRole('button', { name: 'Copy result', exact: true }).click();
+  await expect(page.getByText('Result copied.', { exact: true })).toBeVisible();
+  expect(await page.evaluate(() => (window as unknown as { symbolicClipboard: string }).symbolicClipboard)).toBe(result);
+});
 
 test('Ctrl+Enter calculates equation systems through the shared form shortcut', async ({ page }) => {
   const bodies: Record<string, unknown>[] = [];
@@ -25,22 +72,22 @@ test('symbolic options send only relevant parameters and retain the draft across
   });
   await page.goto('/symbolic-calculations');
   await page.getByLabel('Operation', { exact: true }).selectOption('differentiate');
-  await page.getByLabel('Expression', { exact: true }).fill('sin(x^2)');
+  await page.getByLabel('Expression', { exact: true }).fill('sin(x²)');
   await page.getByLabel('Order', { exact: true }).fill('2');
   await page.getByLabel('Variable', { exact: true }).fill('x');
   await page.getByLabel('Domain', { exact: true }).selectOption('real');
   await page.getByRole('button', { name: 'Calculate', exact: true }).click();
   await expect(page.getByRole('status')).toHaveText(answer.result);
-  expect(bodies[0]).toEqual({ operation: 'differentiate', expression: 'sin(x^2)', variable: 'x', order: 2, domain: 'real' });
+  expect(bodies[0]).toEqual({ operation: 'differentiate', expression: 'sin(x²)', variable: 'x', order: 2, domain: 'real' });
   await page.getByRole('link', { name: 'Calculate', exact: true }).click();
   await page.getByRole('link', { name: 'Symbolic calculations', exact: true }).click();
   await expect(page.getByLabel('Operation', { exact: true })).toHaveValue('differentiate');
-  await expect(page.getByLabel('Expression', { exact: true })).toHaveValue('sin(x^2)');
+  await expect(page.getByLabel('Expression', { exact: true })).toHaveValue('sin(x²)');
   await expect(page.getByLabel('Order', { exact: true })).toHaveValue('2');
   await page.getByLabel('Operation', { exact: true }).selectOption('simplify');
   await page.getByRole('button', { name: 'Calculate', exact: true }).click();
   await expect(page.getByRole('status')).toHaveText(answer.result);
-  expect(bodies[1]).toEqual({ operation: 'simplify', expression: 'sin(x^2)', domain: 'real' });
+  expect(bodies[1]).toEqual({ operation: 'simplify', expression: 'sin(x²)', domain: 'real' });
 });
 
 test('optional evaluation substitutions are simultaneous request data and duplicates are rejected', async ({ page }) => {
@@ -51,12 +98,12 @@ test('optional evaluation substitutions are simultaneous request data and duplic
   });
   await page.goto('/symbolic-calculations');
   await page.getByLabel('Operation', { exact: true }).selectOption('evaluate');
-  await page.getByLabel('Expression', { exact: true }).fill('x^2+y');
+  await page.getByLabel('Expression', { exact: true }).fill('x²+y');
   await page.getByLabel('Optional substitutions — one per line').fill('x = 2\ny = 3');
   await page.getByLabel('Decimal precision').fill('40');
   await page.getByRole('button', { name: 'Calculate', exact: true }).click();
   await expect(page.getByRole('status')).toHaveText('7');
-  expect(bodies[0]).toEqual({ operation: 'evaluate', expression: 'x^2+y', domain: 'complex', precision: 40, substitutions: { x: '2', y: '3' } });
+  expect(bodies[0]).toEqual({ operation: 'evaluate', expression: 'x²+y', domain: 'complex', precision: 40, substitutions: { x: '2', y: '3' } });
   await expect(page.getByText('Numerical approximation', { exact: true })).toBeVisible();
   await page.getByLabel('Optional substitutions — one per line').fill('x = 2\nx = 3');
   await page.getByRole('button', { name: 'Calculate', exact: true }).click();

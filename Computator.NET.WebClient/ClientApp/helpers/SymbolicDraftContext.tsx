@@ -14,7 +14,7 @@ export type SymbolicDraft = {
   lowerBound: string; upperBound: string; substitutions: string; equations: string; variables: string;
 };
 export const initialSymbolicDraft: SymbolicDraft = {
-  operation: 'simplify', expression: '(x + 1)^2 - x^2', variable: 'x', order: '1',
+  operation: 'simplify', expression: '(x + 1)² - x²', variable: 'x', order: '1',
   point: '0', direction: 'both', domain: 'complex', precision: '30', lowerBound: '0', upperBound: '1',
   substitutions: 'x = 2', equations: 'x + y = 3\nx - y = 1', variables: 'x, y'
 };

@@ -98,6 +98,39 @@ namespace Computator.NET.WebApi.IntegrationTests
             NUnit.Framework.Assert.That(value.Result, Is.EqualTo("1"));
         }
 
+        [TestCase("2·x⁽ⁿ⁺¹⁾", "16")]
+        [TestCase("2·x⁻²", "1/2")]
+        [TestCase("sin²(x)+cos²(x)", "1")]
+        [TestCase("sin³(PI/6)²", "1/64")]
+        [TestCase("log(8,2)", "3")]
+        public async Task NativeTslNotationKeepsItsMeaningThroughProtectedApiAndWorker(string expression, string expected)
+        {
+            var result = await Execute(new SymbolicRequest { Operation = "substitute", Expression = expression,
+                Substitutions = new Dictionary<string, string> { ["x"] = "2", ["n"] = "2" } });
+            NUnit.Framework.Assert.That(result.Result.Replace(" ", ""), Is.EqualTo(expected));
+            NUnit.Framework.Assert.That(result.Status, Is.EqualTo("exact"));
+        }
+
+        [Test]
+        public async Task NativeTslResultsCanBeReusedWithoutAFrontendFormatter()
+        {
+            var derivative = await Execute(new SymbolicRequest { Operation = "differentiate", Expression = "2·x³" });
+            NUnit.Framework.Assert.That(derivative.Result, Does.Contain("·").And.Contain("²"));
+            NUnit.Framework.Assert.That(derivative.Result, Does.Not.Contain("*").And.Not.Contain("^"));
+            var value = await Execute(new SymbolicRequest { Operation = "substitute", Expression = derivative.Result,
+                Substitutions = new Dictionary<string, string> { ["x"] = "2" } });
+            NUnit.Framework.Assert.That(value.Result, Is.EqualTo("24"));
+            using var numerical = await _client.PostAsJsonAsync("/api/v2/execute",
+                new { operation = "calculate", expression = derivative.Result, x = 2 });
+            NUnit.Framework.Assert.That(numerical.StatusCode, Is.EqualTo(HttpStatusCode.OK), await numerical.Content.ReadAsStringAsync());
+            using var numericBody = JsonDocument.Parse(await numerical.Content.ReadAsStringAsync());
+            NUnit.Framework.Assert.That(numericBody.RootElement.GetProperty("result").GetString(), Is.EqualTo("24"));
+            var logarithm = await Execute(new SymbolicRequest { Expression = "log(x,2)" });
+            var logarithmValue = await Execute(new SymbolicRequest { Operation = "substitute", Expression = logarithm.Result,
+                Substitutions = new Dictionary<string, string> { ["x"] = "8" } });
+            NUnit.Framework.Assert.That(logarithmValue.Result, Is.EqualTo("3"));
+        }
+
         [Test]
         public async Task TaylorPolynomialAndArbitraryPrecisionEvaluationUseTheSharedEngine()
         {

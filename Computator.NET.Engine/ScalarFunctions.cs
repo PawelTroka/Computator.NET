@@ -19,6 +19,8 @@ public static class ScalarFunctions
     public static Complex ln(Complex z) => Complex.Log(z);
     public static double log(double x) => Math.Log10(x);
     public static Complex log(Complex z) => Complex.Log10(z);
+    public static double log(double x, double nbase) => Math.Log(x, nbase);
+    public static Complex log(Complex z, double nbase) => Complex.Log(z, nbase);
     public static double abs(double x) => Math.Abs(x);
     public static double abs(Complex z) => z.Magnitude;
     public static double pow(double x, double y) => Math.Pow(x, y);
