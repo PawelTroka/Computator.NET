@@ -21,6 +21,7 @@ Start with the task you want to complete. The entry-point guides describe the cu
 | --- | --- |
 | [Symbolic calculations](SYMBOLIC-CALCULATIONS.md) | Shared algebra/calculus engine, exact results, solving, matrices, notation and symbolic CLI |
 | [Coefficient polynomials](POLYNOMIALS.md) | Arithmetic, calculus, fitting, evaluation and general complex roots |
+| [Desktop symbolic calculations](SYMBOLIC-DESKTOP.md) | Symbolic operation controls, shared expression input, exact/LaTeX results, cancellation and native workflow tests |
 | [Function powers](FUNCTION-POWERS.md) | Mathematical power notation, disambiguation and compiler behavior |
 | [Shared portable scientific services](followups/PORTABLE-SCIENCE.md) | Shared matrix/numerical implementations and strict CLI input contracts |
 | [Ordinary differential equations](followups/ORDINARY-DIFFERENTIAL-EQUATIONS.md) | Scalar and coupled initial-value problems with fixed-step RK4 |

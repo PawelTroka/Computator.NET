@@ -295,7 +295,7 @@ namespace Computator.NET.Desktop.Tests
                 mainServices.Create<CalculationsView>(), mainServices.Create<NumericalCalculationsView>(),
                 new ScriptingView(_editor, new SolutionExplorerView()),
                 new CustomFunctionsView(customEditor, new SolutionExplorerView()),
-                mainServices.Create<ChartingView>(), mainServices.Create<ExpressionView>());
+                mainServices.Create<ChartingView>(), mainServices.Create<ExpressionView>(), mainServices.Create<SymbolicCalculationsView>());
             _window = main;
             _ = main.Handle;
             _editor.Decisions.Enqueue(DialogResult.No);
@@ -363,7 +363,7 @@ namespace Computator.NET.Desktop.Tests
                 mainServices.Create<CalculationsView>(), mainServices.Create<NumericalCalculationsView>(),
                 new ScriptingView(_editor, new SolutionExplorerView()),
                 new CustomFunctionsView(customEditor, new SolutionExplorerView()),
-                mainServices.Create<ChartingView>(), mainServices.Create<ExpressionView>());
+                mainServices.Create<ChartingView>(), mainServices.Create<ExpressionView>(), mainServices.Create<SymbolicCalculationsView>());
             _window = main;
             _ = main.Handle;
             _editor.Decisions.Enqueue(DialogResult.No);

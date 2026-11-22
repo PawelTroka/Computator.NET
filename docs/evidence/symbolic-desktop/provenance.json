@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "recordedDateUtc": "2026-11-22",
+  "baselineCommit": "d3416a509dcdf03e3fa0daf117241ea97baf7774",
+  "engineProductionSourceCommit": "1615c2c78a7013f1cffa851ec714c9201c84ed08",
+  "engineBaseWithDocumentationCommit": "720e71985df7439d51eb2266cee912db1bd55b67",
+  "sourceIdentity": "The individual source hashes identify the native implementation at capture time independently of later branch rebasing or evidence commits.",
+  "environment": {
+    "os": "Debian 13 x64",
+    "sdk": "10.0.403",
+    "mono": "6.12.0.199",
+    "libgdiplus": "6.1",
+    "xvfb": "21.1.16",
+    "gsl": "2.8",
+    "display": "1600x1100x24, authenticated Xvfb TCP",
+    "runtimeInstallation": "Unmodified Debian packages extracted to a user-owned prefix; normal supported TCP display transport."
+  },
+  "capture": {
+    "before": "Actual composed MainView from the unmodified baseline checkout, SymbolicCalculations tab selected; Graphics.CopyFromScreen after native event processing.",
+    "after": "Actual composed MainView from the current implementation; committed ResultsAndControlsAreRenderedAndKeyboardAccessible fixture loads and computes the differentiation example sin(x^2), then calls Graphics.CopyFromScreen.",
+    "method": "Visible native screen readback, no generated art, DrawToBitmap or image modification.",
+    "images": {
+      "before.png": "221d569ce25b86eb093474766ff699e4dc4b45f463fc9a1c21b48e28af9dfb00",
+      "after.png": "dd5c366650fc7e98485a1131e41b0b3b6445844d5a5705c4fe2d28d3f776d82d"
+    }
+  },
+  "nativeFixtureExecution": {
+    "framework": "NUnitLite 5.0.0 on net48/Mono; source-linked committed fixture files; references the actual production Desktop/Core/Engine projects.",
+    "filter": "class =~ Symbolic",
+    "testCases": 27,
+    "passed": 27,
+    "failed": 0,
+    "skipped": 0,
+    "assertions": 232,
+    "startTime": "2026-11-22T13:26:11.3161530Z",
+    "endTime": "2026-11-22T13:26:19.4764050Z",
+    "durationSeconds": 8.160167,
+    "report": "native-tests.xml",
+    "reportSha256": "5640a804cf76417a1941130996ba3de7d8929b93d723ee0a01db6f30abac73dd",
+    "runnerProject": "<Project Sdk=\"Microsoft.NET.Sdk\">\n  <PropertyGroup><TargetFramework>net48</TargetFramework><OutputType>Exe</OutputType><LangVersion>14.0</LangVersion><Nullable>disable</Nullable><AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects><GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType></PropertyGroup>\n  <ItemGroup>\n    <Reference Include=\"System.Windows.Forms\"/><Reference Include=\"System.Drawing\"/>\n    <PackageReference Include=\"Microsoft.NETFramework.ReferenceAssemblies\" Version=\"1.0.3\" PrivateAssets=\"all\" />\n    <PackageReference Include=\"NUnit\" Version=\"5.0.0\"/><PackageReference Include=\"NUnitLite\" Version=\"5.0.0\"/><PackageReference Include=\"Moq\" Version=\"4.21.0\"/>\n    <ProjectReference Include=\"/workspace/scratch/8b418d0403e0/symbolic-desktop/Computator.NET.Desktop/Computator.NET.Desktop.csproj\" />\n    <Compile Include=\"/workspace/scratch/8b418d0403e0/symbolic-desktop/Computator.NET.Core.Tests/PresentersTests/SymbolicCalculationsPresenterTests.cs\" Link=\"SymbolicCalculationsPresenterTests.cs\" />\n    <Compile Include=\"/workspace/scratch/8b418d0403e0/symbolic-desktop/Computator.NET.Desktop.Tests/SymbolicCalculationsWorkflowTests.cs\" Link=\"SymbolicCalculationsWorkflowTests.cs\" />\n    <Compile Include=\"/workspace/scratch/8b418d0403e0/symbolic-desktop/Computator.NET.Core.Tests/PresentersTests/SymbolicExpressionRoutingTests.cs\" Link=\"SymbolicExpressionRoutingTests.cs\" />\n  </ItemGroup>\n</Project>\n",
+    "runnerEntryPoint": "using System; using NUnitLite; public static class Program { [STAThread] public static int Main(string[] args) { return new AutoRun().Execute(args); } }\n",
+    "binariesSha256": {
+      "NativeTests.exe": "69cb3414202eb1f2301bb4a2d03242dd75c91a1f74c5296f96705eca2e94dbbd",
+      "Computator.NET.Engine.dll": "e1252a7d808ac59ce238fc9745ead672fa9a86d9476e0181d01fd18ef0bda7b1",
+      "Computator.NET.Core.dll": "98394c1a77b7c099fd069a4b4e7f1eaea248d085038d1cb036380c30087b3b50",
+      "Computator.NET.Desktop.dll": "8466b39968958df92d99a61eb158f3548e35c7972851f3502a67d088d3d9d197",
+      "AngouriMath.dll": "8117ff083bbffbea446c91e058a2b6dd87124e3a687497387ae534ce2bc61af0"
+    }
+  },
+  "focusedMonoAcceptance": {
+    "case": "mono-symbolic-calculations-and-native-input",
+    "method": "A focused reflection runner invokes SymbolicDesktopWorkflow in the actual compiled Computator.NET.Mono.SmokeTests assembly.",
+    "result": "Passed",
+    "checks": [
+      "one acknowledged real XTEST Calculate-button click",
+      "all 16 operations",
+      "existing toolbar Run command",
+      "invalid-input recovery",
+      "visible screenshot",
+      "normal window shutdown and action cleanup"
+    ],
+    "log": "native-smoke.log",
+    "logSha256": "b83eda82020bccc6ab43ff54c9f63fdd909d894e3d345962ac70623509b85372",
+    "runnerEntryPoint": "using System;using System.IO;using System.Reflection;using System.Windows.Forms;\npublic static class Runner { [STAThread] public static int Main(string[]args){Application.SetCompatibleTextRenderingDefault(false);Application.EnableVisualStyles();var a=Assembly.LoadFrom(args[0]);var t=a.GetType(\"Program\",true);Directory.CreateDirectory(args[1]);t.GetField(\"outputDirectory\",BindingFlags.NonPublic|BindingFlags.Static).SetValue(null,args[1]);try {t.GetMethod(\"SymbolicDesktopWorkflow\",BindingFlags.NonPublic|BindingFlags.Static).Invoke(null,null);Console.WriteLine(\"PASS actual compiled Mono smoke SymbolicDesktopWorkflow\");return 0;}catch(TargetInvocationException e){Console.Error.WriteLine(e.InnerException);return 1;}}}\n",
+    "binariesSha256": {
+      "Computator.NET.Mono.SmokeTests.exe": "8dbf7b49ab28a17526a9dec75024c50c4ff24992205caf1e93358e0be22acc89",
+      "SymbolicFocusedAcceptance.exe": "997c26828b23e67672018ef9a7f8710fc06bfbf5c56969144b42bc16c4ce110b",
+      "Computator.NET.Engine.dll": "e1252a7d808ac59ce238fc9745ead672fa9a86d9476e0181d01fd18ef0bda7b1",
+      "Computator.NET.Core.dll": "98394c1a77b7c099fd069a4b4e7f1eaea248d085038d1cb036380c30087b3b50",
+      "Computator.NET.Desktop.dll": "8466b39968958df92d99a61eb158f3548e35c7972851f3502a67d088d3d9d197",
+      "AngouriMath.dll": "8117ff083bbffbea446c91e058a2b6dd87124e3a687497387ae534ce2bc61af0"
+    }
+  },
+  "baselineCapture": {
+    "runnerEntryPoint": "using System;using System.Drawing;using System.Drawing.Imaging;using System.IO;using System.Windows.Forms;using Computator.NET.Core.Natives;using Computator.NET.Core.Model;using Computator.NET.DataTypes.Events;using Computator.NET.DataTypes.SettingsTypes;using Computator.NET.Desktop.Bootstrapping;using Computator.NET.Desktop.Views;using Settings=Computator.NET.Core.Properties.Settings;\npublic static class Program { [STAThread] public static void Main(string[]args) {Application.SetCompatibleTextRenderingDefault(false); Application.EnableVisualStyles(); GSLInitializer.Initialize(); Settings.Default.CodeEditor=CodeEditorType.TextEditor; string folder=Path.Combine(Path.GetTempPath(),\"Symbolic-Baseline-\"+Guid.NewGuid().ToString(\"N\"));Directory.CreateDirectory(folder);Settings.Default.ScriptingDirectory=folder;Settings.Default.CustomFunctionsDirectory=folder;var boot=new WinFormsBootstrapper();using(boot.Container)using(var window=boot.Create<MainView>()){window.Show();boot.Create<ISharedViewState>().CurrentView=ViewName.SymbolicCalculations;Application.DoEvents();window.Refresh();Application.DoEvents();using(var bitmap=new Bitmap(window.Width,window.Height)){using(var graphics=Graphics.FromImage(bitmap))graphics.CopyFromScreen(window.Location,Point.Empty,window.Size);bitmap.Save(args[0],ImageFormat.Png);}window.Close();}Directory.Delete(folder,true);}}\n",
+    "binariesSha256": {
+      "BeforeCapture.exe": "3772dc739b54c437bc29f08492670732e6e9c6313f0351302f032806e4f79697",
+      "Computator.NET.Engine.dll": "45f6d7bb0e35c0fcccbc61fb4145669602d0886a97615fcf47b5e45afa1c0802",
+      "Computator.NET.Core.dll": "3af66885d87f1b0758e828555f3d2bcdb0fd301a4ac4ddfc2ccbbced3cfc41e3",
+      "Computator.NET.Desktop.dll": "7bcaae59ef9a9bf7e2ca6d80def69de9a81e26bba797f075851c3d4bc04cb2c3"
+    }
+  },
+  "crossBuilds": [
+    {
+      "project": "Computator.NET.Desktop.Tests/Computator.NET.Desktop.Tests.csproj",
+      "target": "Release, net10.0-windows",
+      "errors": 0,
+      "logSha256": "7ffe2f1aac099c35bcdbd7865046709994d8d19f5ca2291b010977f831502882"
+    },
+    {
+      "project": "Computator.NET.Core.Tests/Computator.NET.Core.Tests.csproj",
+      "target": "Release, net10.0-windows",
+      "errors": 0,
+      "logSha256": "f04d17f5216a3a93e71e2c4513432e811f2efce58be7857c93dd3862892f5aac"
+    },
+    {
+      "project": "build/mono/SmokeTests/Computator.NET.Mono.SmokeTests.csproj",
+      "target": "Release, ComputatorMono=true, net48",
+      "errors": 0,
+      "logSha256": "803b9bc1c1badaa87d1acb26f233a50f7d5121e79fe56bf26bd9d0040d48b1f1"
+    }
+  ],
+  "sourceSha256": {
+    "Directory.Packages.props": "e70eab8322eb779fa155880c20b32ac39e87e5b5a8f888c078cd2e0643cf8c00",
+    "Directory.Build.props": "9d2c573c899b76287950af153bb5ec7be6ecb764f20378bbbc28d0de856ce4dc",
+    "Directory.Build.targets": "5fbcda920dd51a370f7a44bccbd89801ecf5572d4a9827ece62a1e981b60934a",
+    "build/MonoDesktop.props": "c0b2f03fc6b83a0682393af2c46817b39c52a3b0376f3a3dc770cda8a9ee8480",
+    "build/ModernDesktop.props": "d3d78b4ed232349650c493f958429a8e7100804ea30864864b598506888aeaac",
+    "Computator.NET.Core/Abstract/Views/ISymbolicCalculationsView.cs": "91486cb4716c017905925523e9f5fb99aef2752ae7320e6114fac51dc346cb1e",
+    "Computator.NET.Core/Presenters/SymbolicCalculationsPresenter.cs": "f073290712606fecbf5a82b5675dd36e8de5e65649e833c550c01ed2042cfc95",
+    "Computator.NET.Core/Presenters/ExpressionViewPresenter.cs": "7dbda3bb09040fe38b2e9337f0d3011bcd852d1bf2417d518396b801c30a13ca",
+    "Computator.NET.Core/Presenters/MainFormPresenter.cs": "766c0a770409482e7e66faa8f71a24ef3d24ba0c6b15425d49fe82d085e65c53",
+    "Computator.NET.Core/SymbolicCalculations/SymbolicCalculationService.cs": "7dbb31559922024788fdaeee2008356dd4b3e48f47d95ffd1cc23a5cb500ce48",
+    "Computator.NET.Desktop/Views/SymbolicCalculationsView.cs": "8f60ef1cdf2401cf7719936d8dadeea815e122e53f68dd1341116a802e51dcba",
+    "Computator.NET.Desktop/Views/MainView.cs": "3f3da5f9f566184345b59b96daaf89a0af57673540fd7a74fff0c9b9a7acbe1a",
+    "Computator.NET.Desktop/Views/MainView.Designer.cs": "0c57cb40aeec3b9a7442403bddd64e54c5377f58563367446a77c4440bf35613",
+    "Computator.NET.Desktop/Bootstrapping/WinFormsBootstrapper.cs": "8b963b96aae52c3e99bc019c72dc70d9867d01ce11261ffaa9d31786516c6d29",
+    "Computator.NET.Core.Tests/PresentersTests/SymbolicCalculationsPresenterTests.cs": "af22e6d893f8a4eb766ad740c7742a18536f8927a0047e55b844da74434e32c0",
+    "Computator.NET.Core.Tests/PresentersTests/SymbolicExpressionRoutingTests.cs": "cdaa94053cfdf8e237deeb573074ce62daba49276d34707273e7540c606f3ec1",
+    "Computator.NET.Desktop.Tests/SymbolicCalculationsWorkflowTests.cs": "c2f4243ab3e3aa8ed5fe93078bd6ccc359732cf25b50626ec58704fa45bff95e",
+    "build/mono/SmokeTests/MonoSymbolicCalculationsTests.cs": "8c10cbd72c46d9d5bbf5c806bf781afec4f8e9d55bc470b6aecef1ae2dd47348",
+    "build/mono/SmokeTests/Program.cs": "38e6674d19aad7715b553ebf0741db992d45a77d49b87fce98b6d07f8d28ca1c",
+    "Computator.NET.Engine/Symbolic/SymbolicEngine.cs": "bb2fc4f27fdef1e20813827cefb1602db81f7cee7ff1fcc5f7d897c44bbc91c5",
+    "Computator.NET.Engine/Symbolic/SymbolicInput.cs": "42ea71a3cfa9764777fef3f796b19f002f6a0cb1c03818c1f8e25f9d5aa60084",
+    "Computator.NET.Engine/Symbolic/SymbolicRequest.cs": "cf1a41c6ce1ad0c0dd4b78d3edd1134e82cefa9f42422e4c8ffbb54e0542e5fb",
+    "Computator.NET.Engine/Symbolic/SymbolicResult.cs": "2a49c600ea74d0a00bfc76d5c8ea74a76346da22a7e3668fd8f9a3518eaec44b"
+  },
+  "limitations": [
+    "This is actual native Mono execution, not native Windows execution.",
+    "The temporary fixture runner covers the three new fixture files, not the full historical desktop test suites.",
+    "Only the focused symbolic case of the compiled Mono acceptance suite was executed; the complete 56-case Mono/package acceptance pipeline was not executed.",
+    "No physical hardware, monitor/DPI transitions or accessibility certification is claimed."
+  ],
+  "workspaceValidation": {
+    "target": "dotnet cake build.cake --target=Solution-Check",
+    "result": "Passed",
+    "buildableProjects": 20,
+    "linkedItems": 369,
+    "solutionGuardRejectionScenarios": 7,
+    "evaluatedIdeProjects": 6,
+    "logSha256": "e368dbf48c884df4b8ee59672579d65abc51b619d05dab3bef78a36c913a487e"
+  }
+}
