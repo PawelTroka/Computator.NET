@@ -12,10 +12,10 @@ namespace Computator.NET.Engine.Symbolic;
 internal static class SymbolicInput
 {
     private static readonly HashSet<string> Functions = new HashSet<string>((
-        "log log10 log2 pow sqrt cbrt sqr ln exp sin cos tan cotan cot sec cosec csc " +
+        "log log10 log2 pow sqrt cbrt sqr root ln exp sin cos tan tg cotan cot ctg sec cosec csc " +
         "arcsin arccos arctan arccotan arcsec arccosec arccsc acsc asin acos atan acotan asec acosec acot arccot " +
-        "sinh sh cosh ch tanh th cotanh coth cth sech sch cosech csch asinh arsinh arsh arcsinh " +
-        "acosh arcosh arch arccosh atanh artanh arth arctanh acoth arcoth acotanh arcotanh arcth " +
+        "arctg arcctg sinh sh cosh ch tanh tgh th cotanh coth ctgh cth sech sch cosech csch asinh arsinh arsh arcsinh " +
+        "acosh arcosh arch arccosh atanh artanh artgh arth arctanh acoth arcoth arctgh acotanh arcotanh arcth " +
         "asech arsech arsch acosech arcosech arcsch acsch factorial gamma derivative integral limit limitleft limitright " +
         "sum product signum sgn sign abs phi prime valuation card powerset union intersection complement image preimage " +
         "floor ceil ceiling round min max argmax argmin gcd lcm binomial iverson aleph erf erfc erfi Ei li Si Ci Shi Chi " +
@@ -31,7 +31,7 @@ internal static class SymbolicInput
 
     internal static bool IsVariableName(string name) => name != null && name.Length <= 64 && Identifier.IsMatch(name) &&
         !Functions.Contains(name) && !Keywords.Contains(name) &&
-        !new[] { "pi", "PI", "π", "e", "i", "oo", "NaN", "true", "false", "RR", "CC", "QQ", "ZZ", "NN" }.Contains(name);
+        !new[] { "pi", "PI", "π", "e", "ℯ", "i", "oo", "Infinity", "NaN", "true", "false", "RR", "CC", "QQ", "ZZ", "NN", "BB", "PP", "Any" }.Contains(name);
 
     internal static void ValidateText(string text, string name, bool required = true)
     {
@@ -59,7 +59,7 @@ internal static class SymbolicInput
         }
     }
 
-    internal static string Normalize(string text) => NormalizeCore(text, 0);
+    internal static string Normalize(string text) => TranslateCalls(NormalizeCore(text, 0), 0);
 
     private static string NormalizeCore(string text, int recursion)
     {
@@ -69,19 +69,38 @@ internal static class SymbolicInput
         {
             if (!IsSuperscript(text[index])) continue;
             var end = index;
-            while (end < text.Length && IsSuperscript(text[end])) end++;
+            // The editor keeps spaces in exponent mode. Read one complete run,
+            // not separate powers for x² ˸ ʸ, and leave trailing normal space out.
+            while (end < text.Length && (IsSuperscript(text[end]) || char.IsWhiteSpace(text[end]))) end++;
+            while (end > index && char.IsWhiteSpace(text[end - 1])) end--;
             var exponent = SpecialSymbols.SuperscriptsToAscii(text.Substring(index, end - index));
             var nameStart = index;
+            while (nameStart > 0 && char.IsWhiteSpace(text[nameStart - 1])) nameStart--;
+            var nameEnd = nameStart;
             while (nameStart > 0 && (IsNameCharacter(text[nameStart - 1]) || char.IsDigit(text[nameStart - 1]) || text[nameStart - 1] == '_')) nameStart--;
-            var name = text.Substring(nameStart, index - nameStart);
+            var name = text.Substring(nameStart, nameEnd - nameStart);
+            // A coefficient is not part of the callable name: 2cosʸ(x),
+            // 1e3sin²(x), and 1_000log10²(x) use the same implicit product as TSL.
+            if (!Functions.Contains(name) && name.Length > 0 && char.IsDigit(name[0]))
+            {
+                var coefficient = Number.Match(text, nameStart);
+                if (coefficient.Success && nameStart + coefficient.Length < nameEnd)
+                {
+                    var callable = text.Substring(nameStart + coefficient.Length, nameEnd - nameStart - coefficient.Length);
+                    if (Functions.Contains(callable)) { nameStart += coefficient.Length; name = callable; }
+                }
+            }
             var argument = end;
             while (argument < text.Length && char.IsWhiteSpace(text[argument])) argument++;
             if (Functions.Contains(name) && argument < text.Length && text[argument] == '(')
             {
                 var close = MatchingParenthesis(text, argument);
-                text = text.Substring(0, nameStart) + "(" + name + "(" +
+                // Keep the completed prefix power grouped before scanning a
+                // following postfix power: cosʸ(x)² is (cos(x)^y)^2, not
+                // cos(x)^(y^2), because ordinary ^ is right-associative.
+                text = text.Substring(0, nameStart) + "((" + name + "(" +
                     NormalizeCore(text.Substring(argument + 1, close - argument - 1), recursion + 1) + "))^(" +
-                    NormalizeCore(exponent, recursion + 1) + ")" + text.Substring(close + 1);
+                    NormalizeCore(exponent, recursion + 1) + "))" + text.Substring(close + 1);
                 index = nameStart - 1;
             }
             else
@@ -114,8 +133,13 @@ internal static class SymbolicInput
                 var name = text.Substring(start, index - start);
                 if (name == "π" || name == "PI") name = "pi";
                 if (name == "ℯ") name = "e";
+                if (name == "Infinity") { tokens.Add(new Token("(+oo)", Kind.Atom)); continue; }
+                // These are indivisible CAS set names in returned conditions,
+                // not a multiplication or addition following the integer set.
+                if (name == "ZZ" && index < text.Length && (text[index] == '*' || text[index] == '+'))
+                { tokens.Add(new Token(name + text[index++], Kind.Atom)); continue; }
                 if (!Identifier.IsMatch(name) && !Functions.Contains(name))
-                    throw new ArgumentException("Write powers with ^ or superscripts, and indexed names with an underscore (x^2 or x_2, not x2).");
+                    throw new ArgumentException("Write powers with superscripts or pow(x,2), and indexed names with an underscore (x² or x_2, not x2). ASCII x^2 is also accepted.");
                 tokens.Add(new Token(name, Keywords.Contains(name) ? Kind.Operator : Kind.Name));
                 continue;
             }
@@ -159,19 +183,92 @@ internal static class SymbolicInput
             var token = tokens[index];
             if (token.Kind == Kind.Name && Functions.Contains(token.Text) &&
                 (index + 1 == tokens.Count || tokens[index + 1].Kind != Kind.Open))
-                throw new ArgumentException("The function '" + token.Text + "' needs parenthesized arguments. Write sin(x)^2 or sin²(x) for a function power.");
+                throw new ArgumentException("The function '" + token.Text + "' needs parenthesized arguments. Write sin²(x) or sin(x)² for a function power.");
             if (index > 0)
             {
                 var previous = tokens[index - 1];
                 var functionCall = previous.Kind == Kind.Name && token.Kind == Kind.Open && Functions.Contains(previous.Text);
                 if (previous.Kind == Kind.Name && token.Kind == Kind.Open && !functionCall)
-                    throw new ArgumentException("Unknown symbolic function '" + previous.Text + "'. Use an explicit * if multiplication was intended.");
+                    throw new ArgumentException("Unknown symbolic function '" + previous.Text + "'. Use an explicit · if multiplication was intended.");
                 if (!functionCall && EndsFactor(previous) && StartsFactor(token)) output.Append(" * ");
                 else if (!functionCall) output.Append(' ');
             }
             output.Append(token.Text);
         }
+        return BoundedNormalization(output);
+    }
+
+    // Work on balanced calls after all superscripts have been decoded. Doing this
+    // inside NormalizeCore would swap a nested logarithm twice when it occurs in
+    // a function power. Arguments are delimited structurally, including matrices
+    // and sets; commas in nested calls are never mistaken for an outer argument.
+    private static string TranslateCalls(string text, int recursion)
+    {
+        if (recursion > 64) throw new ArgumentException("The symbolic expression is nested too deeply.");
+        var output = new StringBuilder();
+        for (var index = 0; index < text.Length;)
+        {
+            if (!IsNameCharacter(text[index])) { output.Append(text[index++]); continue; }
+            var start = index++;
+            while (index < text.Length && (IsNameCharacter(text[index]) || char.IsDigit(text[index]) || text[index] == '_')) index++;
+            var name = text.Substring(start, index - start);
+            var opening = index;
+            while (opening < text.Length && char.IsWhiteSpace(text[opening])) opening++;
+            if (opening == text.Length || text[opening] != '(' || !Functions.Contains(name))
+            { output.Append(name); continue; }
+            var closing = MatchingParenthesis(text, opening);
+            var arguments = SplitArguments(text.Substring(opening + 1, closing - opening - 1))
+                .Select(argument => TranslateCalls(argument, recursion + 1)).ToArray();
+            if (name == "log" && arguments.Length == 2)
+                output.Append("log(").Append(arguments[1]).Append(", ").Append(arguments[0]).Append(')');
+            else if (name == "root")
+            {
+                if (arguments.Length != 2) throw new ArgumentException("root(value, index) requires two arguments.");
+                var value = "(" + arguments[0] + ")";
+                var degree = "(" + arguments[1] + ")";
+                // TSL's real root overload preserves the real odd root for a
+                // negative radicand; the complex principal power alone does not.
+                var oddReal = value + " in RR and " + degree + " in ZZ and (" + degree + " mod 2) != 0";
+                output.Append("piecewise(sgn(").Append(value).Append(") * abs(").Append(value)
+                    .Append(")^(1/").Append(degree).Append(") provided ").Append(oddReal)
+                    .Append(", ").Append(value).Append("^(1/").Append(degree)
+                    .Append(") provided not (").Append(oddReal).Append("))");
+            }
+            else
+            {
+                name = name switch
+                {
+                    "tg" => "tan", "ctg" => "cotan", "arctg" => "arctan", "arcctg" => "arccotan",
+                    "tgh" => "tanh", "ctgh" => "coth", "artgh" => "atanh", "arctgh" => "acoth", _ => name
+                };
+                output.Append(name).Append('(').Append(string.Join(", ", arguments)).Append(')');
+            }
+            index = closing + 1;
+            if (output.Length > SymbolicEngine.MaximumResultCharacters)
+                throw new ArgumentException("The normalized symbolic expression exceeds its size budget.");
+        }
+        return BoundedNormalization(output);
+    }
+
+    private static string BoundedNormalization(StringBuilder output)
+    {
+        if (output.Length > SymbolicEngine.MaximumResultCharacters)
+            throw new ArgumentException("The normalized symbolic expression exceeds its size budget.");
         return output.ToString();
+    }
+
+    private static IEnumerable<string> SplitArguments(string text)
+    {
+        var depth = 0;
+        var start = 0;
+        for (var index = 0; index < text.Length; index++)
+        {
+            if (text[index] == '(' || text[index] == '[' || text[index] == '{') depth++;
+            else if (text[index] == ')' || text[index] == ']' || text[index] == '}') depth--;
+            else if (text[index] == ',' && depth == 0)
+            { yield return text.Substring(start, index - start); start = index + 1; }
+        }
+        if (start != 0 || !string.IsNullOrWhiteSpace(text)) yield return text.Substring(start);
     }
 
     private static bool StartsFactor(Token token) => token.Kind == Kind.Name || token.Kind == Kind.Atom || token.Kind == Kind.Open;

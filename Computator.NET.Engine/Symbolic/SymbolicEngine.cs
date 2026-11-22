@@ -13,7 +13,8 @@ using PeterO.Numbers;
 namespace Computator.NET.Engine.Symbolic;
 
 /// <summary>
-/// Shared computer algebra. This parses mathematical data, never TSL/C# programs.
+/// Shared computer algebra. This parses TSL mathematical notation as data,
+/// without compiling or executing TSL/C# programs.
 /// Cancellation is cooperative; a host that requires a hard deadline must isolate a worker.
 /// </summary>
 public sealed class SymbolicEngine
@@ -335,7 +336,7 @@ public sealed class SymbolicEngine
         if (solution == null)
             return new SymbolicResult
             {
-                Result = system.ToString(), Latex = system.Latexize(), Status = "unevaluated",
+                Result = string.Join(Environment.NewLine, expressions.Select(SymbolicOutput.Format)), Latex = system.Latexize(), Status = "unevaluated",
                 Warnings = new[] { "The solver did not produce a complete explicit solution matrix. This does not prove that no solutions exist; dependent, inconsistent and parameter-dependent systems may require separate analysis." }
             };
         Entity result = solution;
@@ -347,7 +348,7 @@ public sealed class SymbolicEngine
                 var values = Enumerable.Range(0, solution.ColumnCount).Select(column => solution[row, column]).ToArray();
                 if (values.All(value => value.Evaled is Entity.Number.Real)) rows.Add(values);
                 else if (values.Any(value => value.Evaled is not Entity.Number.Complex))
-                    return new SymbolicResult { Result = solution.ToString(), Latex = solution.Latexize(), Status = "unevaluated",
+                    return new SymbolicResult { Result = SymbolicOutput.Format(solution), Latex = solution.Latexize(), Status = "unevaluated",
                         Warnings = new[] { "The reality of one or more system solutions could not be established." } };
             }
             result = rows.Count == 0 ? Entity.Set.Empty : new Entity.Matrix(indices => rows[indices[0]][indices[1]], rows.Count, variables.Length);
@@ -375,7 +376,7 @@ public sealed class SymbolicEngine
         }
         if (nodes.Any(node => node is Entity.Providedf))
             warnings.Add("The displayed conditions are part of the result and must be retained.");
-        var text = result.ToString();
+        var text = SymbolicOutput.Format(result);
         var latex = result.Latexize();
         if (text.Length > MaximumResultCharacters || latex.Length > MaximumResultCharacters)
             throw new ArgumentException("The symbolic result exceeds 65,536 characters; use a smaller expression.");

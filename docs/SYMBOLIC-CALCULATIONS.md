@@ -3,9 +3,10 @@
 [Overview](../README.md) · [Documentation](README.md) · [Portable CLI](followups/PORTABLE-ENGINE.md)
 
 The shared `Computator.NET.Engine.Symbolic` service performs algebra on mathematical
-expressions. It returns an exact expression where the selected algorithm can find
-one, an explicit numerical approximation when requested, or a visible unresolved
-expression. It does not compile the input as C# or execute TSL scripts.
+expressions written in **TSL notation**. It returns an exact TSL expression where
+the selected algorithm can find one, an explicit numerical approximation when
+requested, or a visible unresolved expression. It does not compile the input as
+C# or execute TSL scripts.
 
 The service uses **AngouriMath 2.6.0**, centrally pinned in
 `Directory.Packages.props`. Its managed `net10.0` and `netstandard2.0` builds allow
@@ -23,15 +24,15 @@ meaning of an ASCII caret.
 
 | Operation | Example input | Additional parameters / meaning |
 | --- | --- | --- |
-| `simplify` | `1/3 + 2/3`, `sin(x)^2 + cos(x)^2` | Algebraic simplification |
-| `expand` | `(x+y)^3` | Expand products and powers |
-| `factor` | `x^2-1` | Factor the expression where supported |
-| `differentiate` | `sin(x^2)` | Variable; derivative order 1–20 |
-| `integrate` | `x^2` | Variable; symbolic antiderivative including an arbitrary additive constant |
-| `definite-integrate` | `x^2` | Variable and symbolic lower/upper bounds |
+| `simplify` | `1/3 + 2/3`, `sin²(x) + cos²(x)` | Algebraic simplification |
+| `expand` | `(x+y)³` | Expand products and powers |
+| `factor` | `x²-1` | Factor the expression where supported |
+| `differentiate` | `sin(x²)` | Variable; derivative order 1–20 |
+| `integrate` | `x²` | Variable; symbolic antiderivative including an arbitrary additive constant |
+| `definite-integrate` | `x²` | Variable and symbolic lower/upper bounds |
 | `limit` | `sin(x)/x` | Variable, approach point, and `both`, `left` or `right` |
-| `solve` | `x^2=2`, `x^2-2`, `x^2<1` | Solve for one variable in the selected domain; a plain expression is equated to zero |
-| `substitute` | `x^2+y` | Simultaneous variable-to-expression replacements |
+| `solve` | `x²=2`, `x²-2`, `x²<1` | Solve for one variable in the selected domain; a plain expression is equated to zero |
+| `substitute` | `x²+y` | Simultaneous variable-to-expression replacements |
 | `evaluate` | `sqrt(2)` | Approximate to the requested precision; optional simultaneous substitutions |
 | `taylor` | `exp(x)` | Variable, expansion point and polynomial degree 0–20 |
 | `solve-system` | `x+y=3`, `x-y=1` | Equations and an ordered list of variables |
@@ -47,34 +48,61 @@ request, including concurrent requests, rather than changing global behavior for
 later calculations. A real-domain equation cannot acquire imaginary roots from
 an earlier complex-domain request.
 
-## Mathematical input
+## TSL mathematical notation
 
-Use `^` for a power, `/` for exact rational division, `*` for multiplication,
-parentheses for grouping, and names such as `sin`, `cos`, `exp`, `ln`, `sqrt`,
-`abs`, `pi`, `e` and `i`. Implicit multiplication such as `2x` and Unicode
-mathematical notation are accepted through the symbolic normalizer. Explicit
-operators remain the clearest way to disambiguate an expression.
+Use actual superscripts for powers, `·` for multiplication, `/` for exact
+rational division and parentheses for grouping. The symbolic adapter uses the
+same `SpecialSymbols` alphabet as the TSL editor, including operators, letters,
+decimal separators, argument commas and absolute-value bars inside exponents.
 
-**Logarithm convention:** `ln(x)` is natural logarithm, `log(x)` and `log10(x)`
-are base 10, and the symbolic two-argument form is **`log(base, argument)`**.
-For example, `log(2,8)` is `3`. This order is deliberately the CAS's canonical
-input/output syntax and differs from numerical TSL's `log(argument, base)`.
-Use `ln(argument)/ln(base)` when moving formulas between the two grammars.
+| TSL expression | Meaning |
+| --- | --- |
+| `2·x³` | Two times the cube of x |
+| `x⁻²` | Negative exponent |
+| `x⁽²˙ʸ⁺¹⁾` | x to the power `2·y+1` |
+| `x¹˸²` | x to the power `1/2` |
+| `4⁰ᱸ⁵` | A decimal exponent; `ᱸ` is TSL's superscript decimal point |
+| `sin²(x)` | Square of the function value |
+| `2ˡᵒᵍ⁽⁸ʹ²⁾` | A function inside an exponent, using the superscript argument comma |
+| `2Ꞌ⁻³Ꞌ` | Absolute value inside an exponent |
+| `x  ²  ˸  ʸ ˙  ²` | Whitespace inside a compound superscript exponent |
 
-Function powers can be written `sin(x)^2` or `sin²(x)`. A bare function name is
-not a free symbolic variable; unknown functions are rejected instead of silently
-turning `f(x)` into multiplication. Use an explicit `*` for a variable followed
-by a parenthesized factor, such as `x*(x+1)`. Elementary absolute values can be
-written `abs(x)` or `|x|`. Indexed variables use an underscore, for example `x_2`.
+Named functions such as `sin`, `cos`, `exp`, `ln`, `sqrt` and `abs`, implicit
+multiplication such as `2x`, and the constants `PI`, `e`, `i` and `∞` are
+supported. `π` and `pi` remain accepted input aliases for `PI`. The symbolic
+adapter also accepts ASCII `*` and `^` as multiplication and power aliases for
+pasted expressions. An ASCII caret in a numerical TSL script retains its existing
+meaning; the desktop editor's exponent mode produces actual superscripts.
+
+**The logarithm order matches TSL:** `ln(x)` is natural logarithm, `log(x)` and
+`log10(x)` are base 10, and the two-argument form is **`log(argument, base)`**.
+For example, `log(8,2)` is `3`. The adapter translates the library's different
+internal order in both directions, including nested expressions and outputs.
+
+A bare function name is not a free symbolic variable; unknown functions are
+rejected instead of silently turning `f(x)` into multiplication. Use an explicit
+`·` for a variable followed by a parenthesized factor, such as `x·(x+1)`.
+Elementary absolute values can be written `abs(x)` or `|x|`. Indexed variables
+use an underscore, for example `x_2`.
 
 Use a decimal **point**, independently of the application or operating-system
 culture. Matrix elements are comma-separated inside nested brackets.
 Equation systems are separate expressions and a list of target variables; their
-variable order determines the solution column order. The symbolic grammar is
-separate from custom C# function declarations and imperative TSL scripts.
+variable order determines the solution column order. Systems, solution sets and
+unresolved calculus expressions extend the scalar mathematical notation. Custom
+C# function declarations and imperative TSL scripts are handled by the existing
+numerical/script commands.
 
 Substitution is simultaneous: replacing `x` by `y` and `y` by `x` exchanges the
 names. It does not first replace `x`, then replace the newly inserted `y`.
+
+Results use the same TSL notation: for example, differentiating `sin(x²)` returns
+`2·x·cos(x²)` (spacing may vary). Copying a result preserves those Unicode
+characters. A power whose exponent cannot be represented safely with the TSL
+superscript alphabet uses `pow(base, exponent)`, retaining its complete meaning.
+Resolved scalar results using functions available in the selected numerical host
+can also be reused in the TSL calculator; equation systems and sets belong in the
+symbolic workspace. LaTeX remains available separately.
 
 ## CLI examples
 
@@ -88,14 +116,14 @@ Then run symbolic commands through the published CLI:
 
 ```sh
 dotnet artifacts/portable/computator.dll symbolic --operation simplify --expression '1/3+2/3'
-dotnet artifacts/portable/computator.dll symbolic --operation expand --expression '(x+y)^3'
+dotnet artifacts/portable/computator.dll symbolic --operation expand --expression '(x+y)³'
 dotnet artifacts/portable/computator.dll symbolic --operation differentiate --expression 'x³' --order 3
 dotnet artifacts/portable/computator.dll symbolic --operation integrate --expression 'sin(x)'
-dotnet artifacts/portable/computator.dll symbolic --operation definite-integrate --expression 'x^2' --lower 0 --upper 3
+dotnet artifacts/portable/computator.dll symbolic --operation definite-integrate --expression 'x²' --lower 0 --upper 3
 dotnet artifacts/portable/computator.dll symbolic --operation limit --expression 'sin(x)/x' --point 0
-dotnet artifacts/portable/computator.dll symbolic --operation solve --expression 'x^2=2' --domain real
+dotnet artifacts/portable/computator.dll symbolic --operation solve --expression 'x²=2' --domain real
 dotnet artifacts/portable/computator.dll symbolic --operation substitute --expression 'x+y' --substitutions '{"x":"1/3","y":"2/3"}'
-dotnet artifacts/portable/computator.dll symbolic --operation evaluate --expression 'pi' --precision 40
+dotnet artifacts/portable/computator.dll symbolic --operation evaluate --expression 'PI' --precision 40
 dotnet artifacts/portable/computator.dll symbolic --operation taylor --expression 'exp(x)' --order 4
 dotnet artifacts/portable/computator.dll symbolic --operation solve-system --equations '["x+y=3","x-y=1"]' --variables '["x","y"]'
 dotnet artifacts/portable/computator.dll symbolic --operation determinant --expression '[[1,2],[3,4]]'
@@ -113,7 +141,7 @@ Successful symbolic commands return a single JSON object with these fields:
 
 | Field | Meaning |
 | --- | --- |
-| `result` | Plain mathematical text; scalar expressions can be reused as input, while systems use the separate equations/variables fields |
+| `result` | TSL mathematical text with superscript powers and `·`; scalar expressions can be reused as input, while systems use the separate equations/variables fields |
 | `latex` | LaTeX representation when available; empty for an unsupported-operation fallback that retains the original request text |
 | `status` | `exact`, `approximate`, `unevaluated`, or `undefined` |
 | `warnings` | Result-specific mathematical caveats or unresolved-operation explanations |
@@ -168,6 +196,9 @@ The portable engine fixtures exercise actual mathematical behavior, including
 algebraic values, derivatives and antiderivative identities, real/complex domains,
 one-sided limits, equation/system results, matrices, simultaneous substitution,
 notation, culture, malformed input, work budgets, cancellation and recovery.
+TSL notation regressions cover the shared superscript alphabet, middle dots,
+compound exponents and logarithm order. Independent numerical TSL evaluation of
+symbolic results verifies that formatting preserves mathematical meaning.
 
 `build/portable/Test-SymbolicCli.ps1` runs the **published CLI as child processes**
 and covers all exposed operation names, exact and approximate results, Unicode,
