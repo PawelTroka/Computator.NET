@@ -37,6 +37,7 @@ Task("Portable-Publish")
         Configuration = configuration, NoRestore = true, OutputDirectory = "artifacts/portable"
     });
     PowerShell("build/portable/Test-Cli.ps1", "-PublishDirectory artifacts/portable");
+    PowerShell("build/portable/Test-SymbolicCli.ps1", "-PublishDirectory artifacts/portable");
 });
 Task("Portable-Validate")
     .Description("Any OS: run the complete portable engine and published CLI validation.")

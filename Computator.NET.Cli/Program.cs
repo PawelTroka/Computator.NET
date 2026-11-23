@@ -1,8 +1,11 @@
 using System.Globalization;
 using System.Numerics;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Unicode;
 using Computator.NET.Engine;
+using Computator.NET.Cli;
 
 const string help = """
 Computator portable scientific engine. Run only code you trust.
@@ -12,6 +15,18 @@ script --file <file.tsl> [--functions <file.tslf>]
 integrate --expression <TSL> --a <number> --b <number> [--steps <even integer>] [--functions <file.tslf>]
 differentiate --expression <TSL> --x <number> [--order <integer>] [--functions <file.tslf>]
 root --expression <TSL> --a <number> --b <number> [--tolerance <number>] [--iterations <integer>] [--functions <file.tslf>]
+symbolic --operation <operation> --expression <TSL math> [operation-specific options]
+
+Symbolic operations: simplify, expand, factor, differentiate, integrate, definite-integrate,
+limit, solve, substitute, evaluate, taylor, solve-system, determinant, inverse, transpose, trace.
+Options: --variable x; --order 1 (derivative order or Taylor degree); --point 0; --direction both|left|right;
+--domain complex|real; --precision 30 (evaluate); --lower <math> --upper <math> (definite integral);
+--substitutions '{"x":"2"}' (substitute/evaluate); --equations '["x+y=3","x-y=1"]'
+--variables '["x","y"]' (solve-system, which takes equations instead of --expression).
+Symbolic math uses TSL notation: x², 2·x, sin²(x), x⁽ʸ⁺¹⁾ and |x|. ASCII powers/products are also accepted.
+Results use TSL superscripts and ·; C# scripts/custom-function files are separate.
+TSL logarithms: ln(x) is natural, log(x) is base 10, log(argument, base) is two-argument; log(8,2)=3.
+Symbolic success adds latex, status and warnings to the JSON result. Unresolved expressions are retained.
 
 Numbers use an invariant decimal point and must be finite. Integration uses the shared Simpson method
 (default 10,000 steps, even 2..1,000,000). Derivatives use the shared derivative method (order 1..10).
@@ -45,6 +60,7 @@ try
         "integrate" => ["--expression", "--a", "--b", "--steps", "--functions"],
         "differentiate" => ["--expression", "--x", "--order", "--functions"],
         "root" => ["--expression", "--a", "--b", "--tolerance", "--iterations", "--functions"],
+        "symbolic" => SymbolicCommand.Options,
         _ => throw new ArgumentException("Unknown command: " + args[0])
     };
     if (args.Length == 2 && args[1] is "--help" or "-h") { protocolOutput.WriteLine(help); return 0; }
@@ -54,6 +70,16 @@ try
     {
         if (index + 1 >= args.Length || !allowed.Contains(args[index]) || !options.TryAdd(args[index], args[index + 1]))
             throw new ArgumentException("Invalid, duplicated or incomplete option for " + args[0] + ": " + args[index]);
+    }
+    if (args[0] == "symbolic")
+    {
+        var symbolic = SymbolicCommand.Execute(options);
+        protocolOutput.WriteLine(JsonSerializer.Serialize(symbolic, new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+        }));
+        return 0;
     }
     string Required(string key) => options.TryGetValue(key, out var value) ? value : throw new ArgumentException("Missing " + key);
     double Number(string key, double fallback = 0, bool required = false)
