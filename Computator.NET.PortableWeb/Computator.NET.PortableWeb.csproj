@@ -11,6 +11,7 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="../Shared/SymbolicRequestJson.cs" Link="Hosting/SymbolicRequestJson.cs" />
     <ProjectReference Include="../Computator.NET.Engine/Computator.NET.Engine.csproj" />
     <Content Include="../Computator.NET.WebClient/dist-portable/**/*" Link="wwwroot/%(RecursiveDir)%(Filename)%(Extension)"
              CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />

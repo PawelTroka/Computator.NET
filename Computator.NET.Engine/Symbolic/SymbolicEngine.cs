@@ -111,12 +111,14 @@ public sealed class SymbolicEngine
             Entity result;
             switch (request.Operation)
             {
-                case "simplify": result = expression.Simplify(); break;
-                case "expand": result = expression.Expand().InnerSimplified; break;
-                case "factor": result = expression.Factorize().InnerSimplified; break;
-                case "differentiate": result = expression.Differentiate(variable, request.Order).Simplify(); break;
+                case "simplify": result = TransformAlgebraically(expression, value => value.Simplify()); break;
+                case "expand": result = TransformAlgebraically(expression, value => value.Expand().InnerSimplified); break;
+                case "factor": result = TransformAlgebraically(expression, value => value.Factorize().InnerSimplified); break;
+                case "differentiate": result = TransformAlgebraically(expression.Differentiate(variable, request.Order), value => value.Simplify()); break;
                 case "integrate":
                     result = expression.Integrate(variable).InnerSimplified;
+                    result = PreserveIntegralParameters(expression, MathS.Integral(expression, variable), result,
+                        variable, warnings);
                     warnings.Add("An indefinite integral includes an arbitrary integration constant. It may depend on the other variables.");
                     break;
                 case "definite-integrate":
@@ -125,6 +127,8 @@ public sealed class SymbolicEngine
                     if (lower.ContainsNode(variable) || upper.ContainsNode(variable))
                         throw new ArgumentException("Integral bounds must not contain the integration variable.");
                     result = expression.Integrate(variable, lower, upper).InnerSimplified;
+                    result = PreserveIntegralParameters(expression, MathS.Integral(expression, variable, lower, upper), result,
+                        variable, warnings);
                     break;
                 case "limit":
                     var point = Parse(request.Point, token);
@@ -148,10 +152,11 @@ public sealed class SymbolicEngine
                     if (result.Vars.Any(value => value.Name.StartsWith("n_", StringComparison.Ordinal)))
                         warnings.Add("Generated n_ parameters range over all integers.");
                     break;
-                case "substitute": result = Substitute(expression, request, token).InnerSimplified; break;
+                case "substitute": result = TransformAlgebraically(Substitute(expression, request, token), value => value.InnerSimplified); break;
                 case "evaluate":
                     var substituted = Substitute(expression, request, token);
-                    using (MathS.Settings.DowncastingEnabled.Set(false)) result = Approximate(substituted.Evaled);
+                    using (MathS.Settings.DowncastingEnabled.Set(false))
+                        result = TransformAlgebraically(substituted, value => Approximate(value.Evaled));
                     status = "approximate";
                     if (result.Vars.Count != 0)
                     {
@@ -181,7 +186,10 @@ public sealed class SymbolicEngine
                 if (request.Operation == "substitute" || request.Operation == "evaluate") condition = Substitute(condition, request, token);
                 if (request.Operation == "taylor") condition = condition.Substitute(variable, Parse(request.Point, token));
                 condition = condition.InnerSimplified;
-                if (condition != Entity.Boolean.True) result = result.Provided(condition).InnerSimplified;
+                if (condition != Entity.Boolean.True)
+                {
+                    result = TransformAlgebraically(result.Provided(condition), value => value.InnerSimplified);
+                }
             }
             if (request.Domain == "real") result = RejectNonrealNumbers(result);
             if (request.Operation == "definite-integrate" && result is Entity.Number.Real real && !real.IsFinite && !real.IsNaN)
@@ -214,10 +222,18 @@ public sealed class SymbolicEngine
     {
         var values = new Dictionary<Entity.Variable, Entity>();
         foreach (var substitution in request.Substitutions) values.Add(MathS.Var(substitution.Key), Parse(substitution.Value, token));
+        return SubstituteSimultaneously(expression, values, token);
+    }
+
+    private static Entity SubstituteSimultaneously(Entity expression, IReadOnlyDictionary<Entity.Variable, Entity> values, CancellationToken token)
+    {
         // AngouriMath 2.6's dictionary overload is sequential. Fresh intermediate
         // symbols retain its binder/capture rules while making this operation
         // simultaneous: x→y,y→x swaps names, and replacements are not reprocessed.
         var reserved = new HashSet<string>(expression.VarsAndConsts.Select(variable => variable.Name), StringComparer.Ordinal);
+        // Even an unused substitution key must not capture an intermediate name:
+        // {x:y, ComputatorSubstitution_1:2} applied to x must still yield y.
+        foreach (var key in values.Keys) reserved.Add(key.Name);
         foreach (var value in values.Values)
             foreach (var variable in value.VarsAndConsts) reserved.Add(variable.Name);
         var replacements = new List<KeyValuePair<Entity.Variable, Entity>>();
@@ -225,13 +241,18 @@ public sealed class SymbolicEngine
         var suffix = 0;
         foreach (var value in values)
         {
+            token.ThrowIfCancellationRequested();
             string name;
             do name = "ComputatorSubstitution_" + (++suffix).ToString(CultureInfo.InvariantCulture); while (!reserved.Add(name));
             var temporary = MathS.Var(name);
             result = result.Substitute(value.Key, temporary);
             replacements.Add(new KeyValuePair<Entity.Variable, Entity>(temporary, value.Value));
         }
-        foreach (var value in replacements) result = result.Substitute(value.Key, value.Value);
+        foreach (var value in replacements)
+        {
+            token.ThrowIfCancellationRequested();
+            result = result.Substitute(value.Key, value.Value);
+        }
         CheckTree(result, 4096);
         return result;
     }
@@ -257,8 +278,22 @@ public sealed class SymbolicEngine
         Entity result = solutions;
         // A solver may cancel a common factor before finding roots. Its zeros are
         // still excluded from the original domain, including an identity x/x=1.
+        foreach (var denominator in NonzeroDomainFactors(original))
+            result = MathS.SetSubtraction(result, denominator.SolveEquation(variable)).InnerSimplified;
+        result = result.Replace(node => node is Entity.Set.ConditionalSet(_, Entity.Boolean truth)
+            ? truth.Value ? MathS.Sets.C : Entity.Set.Empty : node);
+        var condition = RealDomainCondition(original, realDomain).InnerSimplified;
+        if (condition != Entity.Boolean.True)
+            result = MathS.Intersection(result, condition.Solve(variable)).InnerSimplified;
+        if (result is Entity.Set.FiniteSet finite)
+            result = finite.Filter(original, variable).InnerSimplified;
+        return result;
+    }
+
+    private static IEnumerable<Entity> NonzeroDomainFactors(Entity expression)
+    {
         var denominators = new HashSet<Entity>();
-        foreach (var node in original.Nodes)
+        foreach (var node in expression.Nodes)
         {
             if (node is Entity.Divf(_, var denominator)) denominators.Add(denominator);
             if (node is Entity.Powf(var @base, var exponent) && TryNumber(exponent, out var power) && power <= 0) denominators.Add(@base);
@@ -269,16 +304,69 @@ public sealed class SymbolicEngine
             if (node is Entity.Secantf(var secant)) denominators.Add(MathS.Cos(secant));
             if (node is Entity.Cosecantf(var cosecant)) denominators.Add(MathS.Sin(cosecant));
         }
-        foreach (var denominator in denominators)
-            result = MathS.SetSubtraction(result, denominator.SolveEquation(variable)).InnerSimplified;
-        result = result.Replace(node => node is Entity.Set.ConditionalSet(_, Entity.Boolean truth)
-            ? truth.Value ? MathS.Sets.C : Entity.Set.Empty : node);
-        var condition = RealDomainCondition(original, realDomain).InnerSimplified;
-        if (condition != Entity.Boolean.True)
-            result = MathS.Intersection(result, condition.Solve(variable)).InnerSimplified;
-        if (result is Entity.Set.FiniteSet finite)
-            result = finite.Filter(original, variable).InnerSimplified;
-        return result;
+        return denominators;
+    }
+
+    private static Entity PreserveIntegralParameters(Entity integrand, Entity integral, Entity result,
+        Entity.Variable variable, List<string> warnings)
+    {
+        var parameters = new HashSet<Entity.Variable>(integrand.Vars.Where(value => value != variable));
+        Entity condition = Entity.Boolean.True;
+        foreach (var factor in NonzeroDomainFactors(result))
+            if (!factor.ContainsNode(variable) && factor.Vars.Any(parameters.Contains))
+                condition &= !factor.Equalizes(0);
+        condition = condition.InnerSimplified;
+        if (condition == Entity.Boolean.True) return result;
+        warnings.Add("The generic integral has parameter restrictions. Exceptional parameter cases retain the original integral; substitute parameter values before evaluating those cases.");
+        // Keep the original *definite* integral and its bounds when supplied,
+        // rather than substituting into a primitive singular at this parameter.
+        // No simplification here: it would re-integrate the unspecialized branch.
+        return new Entity.Piecewise(new[]
+        {
+            new Entity.Providedf(result, condition),
+            new Entity.Providedf(integral, !condition)
+        });
+    }
+
+    // A CAS simplifier may integrate every piecewise branch without adopting
+    // that branch's condition. In the exceptional a=0 branch of exp(a*x), this
+    // would recreate division by a and lose the valid value. Treat unresolved
+    // conditional integrals as opaque during algebraic/numeric transformations;
+    // restore their exact trees immediately afterwards. Once a substitution
+    // resolves a branch condition, the ordinary integral evaluation is safe.
+    // Do not use this to perform differentiation/integration on placeholders:
+    // those operations depend on the variables inside the original integral.
+    private static Entity TransformAlgebraically(Entity expression, Func<Entity, Entity> transform)
+    {
+        var reserved = new HashSet<string>(expression.VarsAndConsts.Select(variable => variable.Name), StringComparer.Ordinal);
+        var originals = new Dictionary<Entity.Variable, Entity>();
+        var suffix = 0;
+        Entity.Providedf Protect(Entity.Providedf branch)
+        {
+            var (value, condition) = branch;
+            if (condition.InnerSimplified is Entity.Boolean) return branch;
+            var protectedValue = value.Replace(child =>
+            {
+                if (child is not Entity.Integralf) return child;
+                string name;
+                do name = "ComputatorConditionalIntegral_" + (++suffix).ToString(CultureInfo.InvariantCulture); while (!reserved.Add(name));
+                var temporary = MathS.Var(name);
+                originals.Add(temporary, child);
+                return temporary;
+            });
+            return protectedValue == value ? branch : new Entity.Providedf(protectedValue, condition);
+        }
+        // Piecewise traverses its values/conditions directly: Providedf wrappers
+        // are not in Nodes or visited by Replace, so handle its Cases explicitly.
+        var protectedExpression = expression.Replace(node => node switch
+        {
+            Entity.Piecewise piecewise => new Entity.Piecewise(piecewise.Cases.Select(Protect)),
+            Entity.Providedf branch => Protect(branch),
+            _ => node
+        });
+        var result = transform(protectedExpression);
+        return originals.Count == 0 ? result : result.Replace(node =>
+            node is Entity.Variable variable && originals.TryGetValue(variable, out var original) ? original : node);
     }
 
     private static Entity RealDomainCondition(Entity expression, bool realDomain)
@@ -314,6 +402,34 @@ public sealed class SymbolicEngine
         return matrix;
     }
 
+    private static bool TrySelectSystemBranches(Entity expression, out Entity selected)
+    {
+        selected = expression.Replace(node =>
+        {
+            if (node is Entity.Piecewise piecewise)
+            {
+                foreach (var branch in piecewise.Cases)
+                {
+                    var (value, condition) = branch;
+                    var truth = condition.Simplify();
+                    if (truth == Entity.Boolean.True) return value;
+                    if (truth != Entity.Boolean.False) return node;
+                }
+                return MathS.NaN;
+            }
+            if (node is Entity.Providedf(var provided, var predicate))
+            {
+                var truth = predicate.Simplify();
+                if (truth == Entity.Boolean.True) return provided;
+                if (truth == Entity.Boolean.False) return MathS.NaN;
+            }
+            return node;
+        });
+        // Test the selected tree only: an unresolved condition in an inactive
+        // branch must not prevent validating the active branch.
+        return !selected.Nodes.Any(node => node is Entity.Piecewise || node is Entity.Providedf);
+    }
+
     private static SymbolicResult SolveSystem(SymbolicRequest request, CancellationToken token)
     {
         var expressions = request.Equations.Select(text => Parse(text, token)).ToArray();
@@ -321,6 +437,11 @@ public sealed class SymbolicEngine
         var equations = expressions.Select(expression => expression is Entity.Equalsf(var left, var right) ? left - right :
             expression is Entity.Statement ? throw new ArgumentException("A system must contain equations, not inequalities.") : expression).ToArray();
         var system = MathS.Equations(equations);
+        SymbolicResult Unresolved(string warning) => new SymbolicResult
+        {
+            Result = string.Join(Environment.NewLine, expressions.Select(SymbolicOutput.Format)),
+            Latex = system.Latexize(), Status = "unevaluated", Warnings = new[] { warning }
+        };
         var parameters = equations.SelectMany(equation => equation.Vars).Except(variables).Any();
         Entity.Matrix? solution = null;
         if (!parameters)
@@ -334,29 +455,81 @@ public sealed class SymbolicEngine
             }
         }
         if (solution == null)
-            return new SymbolicResult
-            {
-                Result = string.Join(Environment.NewLine, expressions.Select(SymbolicOutput.Format)), Latex = system.Latexize(), Status = "unevaluated",
-                Warnings = new[] { "The solver did not produce a complete explicit solution matrix. This does not prove that no solutions exist; dependent, inconsistent and parameter-dependent systems may require separate analysis." }
-            };
-        Entity result = solution;
-        if (request.Domain == "real")
+            return Unresolved("The solver did not produce a complete explicit solution matrix. This does not prove that no solutions exist; dependent, inconsistent and parameter-dependent systems may require separate analysis.");
+        if (solution.ColumnCount != variables.Length)
+            return Unresolved("The solver returned an incomplete candidate row; the original equations are retained.");
+
+        // Coordinates being real does not imply that the original real-domain
+        // equations are defined there: sqrt(x)^2=-1 must not admit x=-1.
+        // Likewise a cancelled denominator and a NaN coordinate cannot become
+        // an exact solution. Validate against the original trees, not only the
+        // transformed equations the algebraic solver worked with.
+        var constraints = expressions.Select(expression =>
         {
-            var rows = new List<Entity[]>();
-            for (var row = 0; row < solution.RowCount; row++)
+            // Conjoining constraints from all piecewise branches would wrongly
+            // reject valid values because of an inactive sqrt/log branch. If
+            // the original branch is symbolic, derive its constraints after
+            // substituting the candidate, when its condition may be decidable.
+            if (!TrySelectSystemBranches(expression, out var selected)) return (Entity)Entity.Boolean.True;
+            var condition = RealDomainCondition(selected, request.Domain == "real");
+            foreach (var factor in NonzeroDomainFactors(selected)) condition &= !factor.Equalizes(0);
+            return condition;
+        }).ToArray();
+        var rows = new List<Entity[]>();
+        for (var row = 0; row < solution.RowCount; row++)
+        {
+            token.ThrowIfCancellationRequested();
+            var values = Enumerable.Range(0, solution.ColumnCount).Select(column => solution[row, column]).ToArray();
+            if (values.Any(value => value.Nodes.Any(node => node.IsNaN) || value.Evaled is Entity.Number.Complex number &&
+                (!number.RealPart.IsFinite || !number.ImaginaryPart.IsFinite))) continue;
+            var substitutions = variables.Select((variable, column) => new KeyValuePair<Entity.Variable, Entity>(variable, values[column]))
+                .ToDictionary(pair => pair.Key, pair => pair.Value);
+            Entity validity = Entity.Boolean.True;
+            for (var index = 0; index < expressions.Length; index++)
             {
-                var values = Enumerable.Range(0, solution.ColumnCount).Select(column => solution[row, column]).ToArray();
-                if (values.All(value => value.Evaled is Entity.Number.Real)) rows.Add(values);
-                else if (values.Any(value => value.Evaled is not Entity.Number.Complex))
-                    return new SymbolicResult { Result = SymbolicOutput.Format(solution), Latex = solution.Latexize(), Status = "unevaluated",
-                        Warnings = new[] { "The reality of one or more system solutions could not be established." } };
+                var specialized = SubstituteSimultaneously(expressions[index], substitutions, token);
+                if (!TrySelectSystemBranches(specialized, out var selected))
+                    return Unresolved("A candidate's conditional branch could not be established. The original equations and their domain restrictions are retained.");
+                if (selected.IsNaN) { validity = Entity.Boolean.False; break; }
+                var condition = SubstituteSimultaneously(constraints[index], substitutions, token);
+                // Substitution may reveal a domain restriction that was not
+                // visible originally, e.g. y=1/2 turns x^y into an even root.
+                // Inspect this original specialized tree before simplifying
+                // its powers or equality, which could erase that restriction.
+                condition &= RealDomainCondition(selected, request.Domain == "real");
+                foreach (var factor in NonzeroDomainFactors(selected)) condition &= !factor.Equalizes(0);
+                condition = condition.Simplify();
+                if (condition == Entity.Boolean.False || condition.Nodes.Any(node => node.IsNaN))
+                { validity = Entity.Boolean.False; break; }
+                var equation = selected is Entity.Statement ? selected : selected.Equalizes(0);
+                var verified = equation.Simplify();
+                if (verified == Entity.Boolean.False || verified.Nodes.Any(node => node.IsNaN))
+                { validity = Entity.Boolean.False; break; }
+                if (verified != Entity.Boolean.True)
+                {
+                    // Equality simplification can leave 2*(2*t+6)=4*t+12.
+                    // After validating the original domain, an identically zero
+                    // expanded residual also proves a whole parameter family.
+                    var residual = (selected is Entity.Equalsf(var left, var right) ? left - right : selected).Expand().Simplify();
+                    if (residual == (Entity)0) verified = Entity.Boolean.True;
+                }
+                validity &= condition & verified;
             }
-            result = rows.Count == 0 ? Entity.Set.Empty : new Entity.Matrix(indices => rows[indices[0]][indices[1]], rows.Count, variables.Length);
+            validity = validity.InnerSimplified;
+            if (validity == Entity.Boolean.False) continue;
+            if (validity != Entity.Boolean.True)
+                return Unresolved("One or more candidate rows could not be verified against the original equations and their domain restrictions. The original system is retained; this does not prove that no solutions exist.");
+            if (request.Domain == "real" && !values.All(value => value.Evaled is Entity.Number.Real))
+            {
+                if (values.Any(value => value.Evaled is Entity.Number.Complex number && !number.ImaginaryPart.IsZero)) continue;
+                return Unresolved("The reality of one or more system solutions could not be established. The original equations and their domain restrictions are retained.");
+            }
+            rows.Add(values);
         }
-        return Format(result, "exact", new List<string>
-        {
-            "Each row is a solution; columns follow the variable order: " + string.Join(", ", request.Variables) + "."
-        }, token);
+        Entity result = rows.Count == 0 ? Entity.Set.Empty : new Entity.Matrix(indices => rows[indices[0]][indices[1]], rows.Count, variables.Length);
+        var warnings = new List<string>();
+        if (rows.Count != 0) warnings.Add("Each row is a solution; columns follow the variable order: " + string.Join(", ", request.Variables) + ".");
+        return Format(result, "exact", warnings, token);
     }
 
     private static SymbolicResult Format(Entity result, string status, List<string> warnings, CancellationToken token)

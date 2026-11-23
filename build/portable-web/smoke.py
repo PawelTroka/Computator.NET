@@ -163,6 +163,23 @@ def main() -> int:
                     isinstance(body.get('warnings'), list), f'Invalid symbolic result contract: {body}')
         return body
 
+    def oversized_request_is_rejected(path: str) -> None:
+        # Read the actual 413 before uploading bytes. Sending the whole body
+        # first races an early rejection with a macOS socket reset; a reset is
+        # never a passing substitute for the required HTTP response.
+        connection = http.client.HTTPConnection('127.0.0.1', port, timeout=5)
+        try:
+            connection.putrequest('POST', path)
+            connection.putheader('Content-Type', 'application/json')
+            connection.putheader('Content-Length', '262145')
+            connection.putheader('Expect', '100-continue')
+            connection.endheaders()
+            response = connection.getresponse()
+            require(response.status == 413, f'Oversized {path} request returned {response.status}, expected 413.')
+            response.read()
+        finally:
+            connection.close()
+
     def symbolic_algebra() -> None:
         require(symbolic({'expression': '1/3 + 1/6'})['result'].replace(' ', '') == '1/2', 'Exact rational sum differs.')
         for operation, expression, expected in [('simplify', '(x+1)^2-x^2', '7'),
@@ -234,11 +251,37 @@ def main() -> int:
         for payload in ({'expression': 'x' * 8193}, {'expression': 'x', 'operation': 'unknown'}, {'expression': 'x+'},
                         {'expression': 'x', 'operation': 'differentiate', 'order': 999}, {'expression': 'System.IO.File.Delete("x")'}):
             symbolic(payload, 400)
-        require(request('/api/v2/symbolic', {'expression': 'x' * 262145})[0] == 413, 'Symbolic body limit was not enforced.')
+        oversized_request_is_rejected('/api/v2/symbolic')
         require(request('/api/v2/execute', {'operation': 'symbolic', 'symbolic': {'expression': '1'}})[0] == 400,
                 'The ordinary execution route must retain its operation contract.')
         require(symbolic({'expression': '6*7'})['result'] == '42', 'Symbolic errors prevented a later valid request.')
         wait_workers(0)
+
+    def symbolic_raw_json_contract() -> None:
+        fixtures = json.loads((repository / 'tests/fixtures/symbolic-invalid-json.json').read_text(encoding='utf-8'))
+        for fixture in fixtures:
+            code, body, content_type = request('/api/v2/symbolic', raw=fixture['json'].encode('utf-8'),
+                                               headers={'Content-Type': 'application/json'})
+            require(code == 400 and isinstance(body, dict) and body.get('status') == 400 and body.get('detail') and
+                    'application/problem+json' in content_type,
+                    f"Raw symbolic JSON case {fixture['name']} was not rejected with an actionable 400: {code} {body}")
+        require(symbolic({'Expression': 'log(8,2)'})['result'] == '3', 'Symbolic field names lost case-insensitive compatibility.')
+        require(symbolic({'operation': 'substitute', 'expression': 'x-X',
+                          'substitutions': {'x': '3', 'X': '2'}})['result'] == '1',
+                'Case-sensitive mathematical variable names were incorrectly collapsed.')
+        wait_workers(0)
+
+    def symbolic_review_regressions() -> None:
+        for replacements in ({'x': 'y', 'ComputatorSubstitution_1': '2'}, {'ComputatorSubstitution_1': '2', 'x': 'y'}):
+            result = symbolic({'operation': 'substitute', 'expression': 'x', 'substitutions': replacements})
+            require(result['result'] == 'y' and result['status'] == 'exact', 'An internal substitution symbol captured user input.')
+        system = symbolic({'operation': 'solve-system', 'equations': ['sqrt(x)^2=-1', 'y=0'],
+                           'variables': ['x', 'y'], 'domain': 'real'})
+        require(system['status'] == 'exact' and system['result'].replace(' ', '') in ('{}', '∅'),
+                f'Real system accepted a candidate outside the original radical domain: {system}')
+        cotangent = symbolic({'operation': 'evaluate', 'expression': 'arccot(-1)'})
+        require(cotangent['status'] == 'approximate' and math.isclose(float(cotangent['result']), 3 * math.pi / 4, abs_tol=1e-14),
+                f'Inverse cotangent differs from the numerical TSL principal value: {cotangent}')
 
     def dependencies() -> None:
         config = json.loads((published / 'Computator.NET.PortableWeb.runtimeconfig.json').read_text())
@@ -321,23 +364,7 @@ def main() -> int:
                     f'Hostile browser request was accepted: {headers}')
         require(request('/api/v2/execute', raw=b'2+2', headers={'Content-Type': 'text/plain'})[0] == 415,
                 'Execution must require application/json.')
-        # A server may terminate an oversized request while replying 413
-        # (RFC9110 15.5.14). Sending the entire body first races that early
-        # response with a macOS socket reset. Read the actual response to an
-        # oversized Content-Length before uploading bytes; a reset is never a
-        # passing substitute for 413, and accepting the body times out/fails.
-        connection = http.client.HTTPConnection('127.0.0.1', port, timeout=5)
-        try:
-            connection.putrequest('POST', '/api/v2/execute')
-            connection.putheader('Content-Type', 'application/json')
-            connection.putheader('Content-Length', '262145')
-            connection.putheader('Expect', '100-continue')
-            connection.endheaders()
-            response = connection.getresponse()
-            require(response.status == 413, f'Oversized request returned {response.status}, expected 413.')
-            response.read()
-        finally:
-            connection.close()
+        oversized_request_is_rejected('/api/v2/execute')
         execute({'operation': 'calculate', 'expression': '1' * 65537}, 400)
         number(payload, 4)
 
@@ -516,6 +543,8 @@ def main() -> int:
             run('symbolic native TSL notation and reusable output', symbolic_tsl_notation)
             run('symbolic matrices, equation systems and arbitrary precision', symbolic_matrices_and_precision)
             run('symbolic request boundaries, worker cleanup and recovery', symbolic_boundaries_and_recovery)
+            run('symbolic raw JSON type and duplicate-member contract', symbolic_raw_json_contract)
+            run('symbolic substitution capture and original system domains', symbolic_review_regressions)
             run('local HTTP origin, host and source boundaries', local_boundary)
             run('explicit unsupported operations and error recovery', unsupported_and_recovery)
             run('execution deadline reaps worker and recovers', timeout_and_recovery)

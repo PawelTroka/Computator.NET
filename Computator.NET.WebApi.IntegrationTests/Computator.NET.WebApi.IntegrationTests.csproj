@@ -3,6 +3,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.TestHost" />
     <ProjectReference Include="..\Computator.NET.WebApi\Computator.NET.WebApi.csproj" />
+    <None Include="../tests/fixtures/symbolic-invalid-json.json" Link="fixtures/symbolic-invalid-json.json"
+          CopyToOutputDirectory="PreserveNewest" />
     <None Update="appsettings*.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

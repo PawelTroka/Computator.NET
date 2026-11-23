@@ -7,6 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="../Shared/OwnedProcessJob.cs" Link="Hosting/OwnedProcessJob.cs" />
+    <Compile Include="../Shared/SymbolicRequestJson.cs" Link="Hosting/SymbolicRequestJson.cs" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" />
     <PackageReference Include="Newtonsoft.Json" />

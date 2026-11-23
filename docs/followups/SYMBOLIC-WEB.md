@@ -43,6 +43,15 @@ Both the Windows API and portable local host accept `POST /api/v2/symbolic` with
 `Content-Type: application/json`. The request is the shared `SymbolicRequest`;
 the response is the complete `SymbolicResult` described in the mathematical guide.
 
+Both hosts read the same strict UTF-8 JSON contract. Expressions, bounds, points,
+variables, equation entries and substitution values must be JSON strings;
+`order` and `precision` must be integer JSON numbers. Nulls, unknown fields and
+duplicate members are rejected with 400 problem details before starting a worker.
+Request field names remain case-insensitive, so `expression` and `Expression`
+refer to the same field and cannot both occur. Mathematical variable names are
+case-sensitive: `x` and `X` are distinct substitutions. Duplicate names are checked
+after JSON escape decoding, so `x` and `\u0078` cannot overwrite one another.
+
 ```json
 {
   "operation": "differentiate",
@@ -64,9 +73,9 @@ limits, cancellation and cleanup. Cheap mathematical validation happens before
 allocating the worker. The existing numerical `/api/v2/execute` operation contract
 is unchanged.
 
-Errors use JSON problem details: invalid mathematical requests return 400,
-oversized HTTP bodies 413, unsupported media 415, exhausted worker capacity 429,
-worker failure 502, and exceeded deadlines 504. The portable status endpoint
+Invalid mathematical requests return 400 with JSON problem details. Other HTTP
+statuses identify oversized bodies (413), unsupported media (415), exhausted
+worker capacity (429), worker failure (502), and exceeded deadlines (504). The portable status endpoint
 advertises `symbolic: true` and the actual `symbolicOperations` list separately
 from the existing numerical operations.
 
@@ -96,6 +105,12 @@ optional substitutions, insertion caret/selection behavior, verbatim TSL copying
 cancellation races, inert result text and error recovery. Real API regressions
 exercise middle dots, negative and compound superscripts, function powers,
 TSL logarithm order and reuse of the returned native expression.
+The shared raw-JSON fixture checks the same duplicate-member and type-coercion
+failures in both hosts. Additional worker round trips cover internal substitution
+name collisions, original radical domains in real systems and inverse-cotangent
+branch parity. Oversized HTTP checks wait for the actual 413 response before
+uploading bytes, avoiding the macOS early-response/reset race without accepting
+a reset as a passing result.
 Scalar derivative and logarithm results also pass through the ordinary numerical
 `/api/v2/execute` endpoint with known answers, verifying the shared TSL notation
 across the two workflows.

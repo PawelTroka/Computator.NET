@@ -459,5 +459,6 @@
   </Folder>
   <Folder Name="/Shared/">
     <File Path="Shared/OwnedProcessJob.cs" />
+    <File Path="Shared/SymbolicRequestJson.cs" />
   </Folder>
 </Solution>

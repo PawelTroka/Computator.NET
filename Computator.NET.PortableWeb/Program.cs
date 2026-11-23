@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Text.Json;
 using Computator.NET.PortableWeb;
 using Computator.NET.Engine.Symbolic;
+using Computator.NET.Hosting;
 
 if (args is ["--execution-worker"]) return WorkerProcess.RunWorker();
 if (args is ["--help"])
@@ -127,8 +128,7 @@ app.MapPost("/api/v2/symbolic", async (HttpContext context, WorkerProcess worker
                 return Results.Problem(statusCode: 413, title: "Symbolic request exceeds 256 KiB.");
             await body.WriteAsync(buffer.AsMemory(0, count), context.RequestAborted);
         }
-        var request = JsonSerializer.Deserialize<SymbolicRequest>(body.ToArray(), Execution.JsonOptions)
-            ?? throw new ArgumentException("A JSON request is required.");
+        var request = SymbolicRequestJson.Parse(body.ToArray());
         // Cheap validation precedes child creation. Parsing and algebra run only
         // in the same bounded process slots used by ordinary calculations.
         SymbolicEngine.Validate(request);

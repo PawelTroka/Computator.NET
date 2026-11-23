@@ -1,4 +1,5 @@
 import { test, expect, type APIRequestContext, type Page } from '@playwright/test';
+import { readFileSync } from 'node:fs';
 
 async function symbolic(request: APIRequestContext, body: Record<string, unknown>) {
   const response = await request.post('/api/v2/symbolic', { data: body });
@@ -135,6 +136,37 @@ test('symbolic requests retain HTTP origin, media, size and mathematical input b
   expect(alternate.status()).toBe(400);
   expect((await symbolic(request, { expression: '7*6' })).result).toBe('42');
   expect((await (await request.get('/api/portable/status')).json()).symbolic).toBe(true);
+});
+
+test('raw symbolic JSON rejects duplicate assignments and mathematical value coercion', async ({ request }) => {
+  const fixtures = JSON.parse(readFileSync(new URL('../../tests/fixtures/symbolic-invalid-json.json', import.meta.url), 'utf8')) as
+    { name: string; json: string }[];
+  for (const fixture of fixtures) {
+    const invalid = await request.post('/api/v2/symbolic', {
+      headers: { 'Content-Type': 'application/json' }, data: fixture.json
+    });
+    expect(invalid.status(), `${fixture.name}: ${await invalid.text()}`).toBe(400);
+    expect(invalid.headers()['content-type']).toContain('application/problem+json');
+    expect(await invalid.json()).toMatchObject({ status: 400, detail: expect.any(String) });
+  }
+  expect((await symbolic(request, { Expression: 'log(8,2)' })).result).toBe('3');
+  expect((await symbolic(request, { operation: 'substitute', expression: 'x-X', substitutions: { x: '3', X: '2' } })).result).toBe('1');
+  expect((await (await request.get('/api/portable/status')).json()).activeWorkerCount).toBe(0);
+});
+
+test('shared engine domain and substitution fixes survive real HTTP worker transport', async ({ request }) => {
+  for (const substitutions of [{ x: 'y', ComputatorSubstitution_1: '2' }, { ComputatorSubstitution_1: '2', x: 'y' }]) {
+    const result = await symbolic(request, { operation: 'substitute', expression: 'x', substitutions });
+    expect(result.result).toBe('y');
+    expect(result.status).toBe('exact');
+  }
+  const system = await symbolic(request, { operation: 'solve-system', equations: ['sqrt(x)^2=-1', 'y=0'],
+    variables: ['x', 'y'], domain: 'real' });
+  expect(system.status).toBe('exact');
+  expect(['{}', '∅']).toContain(system.result.replace(/\s/g, ''));
+  const cotangent = await symbolic(request, { operation: 'evaluate', expression: 'arccot(-1)' });
+  expect(cotangent.status).toBe('approximate');
+  expect(Number(cotangent.result)).toBeCloseTo(3 * Math.PI / 4, 13);
 });
 
 test('matrix screen stays usable at a narrow viewport', async ({ page }) => {

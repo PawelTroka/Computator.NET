@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -98,6 +100,36 @@ namespace Computator.NET.WebApi.IntegrationTests
             NUnit.Framework.Assert.That(value.Result, Is.EqualTo("1"));
         }
 
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task SimultaneousSubstitutionCannotCaptureAUserNamedTemporary(bool reverse)
+        {
+            var substitutions = new Dictionary<string, string>();
+            if (reverse) substitutions.Add("ComputatorSubstitution_1", "2");
+            substitutions.Add("x", "y");
+            if (!reverse) substitutions.Add("ComputatorSubstitution_1", "2");
+            var result = await Execute(new SymbolicRequest { Operation = "substitute", Expression = "x", Substitutions = substitutions });
+            NUnit.Framework.Assert.That(result.Result, Is.EqualTo("y"));
+            NUnit.Framework.Assert.That(result.Status, Is.EqualTo("exact"));
+        }
+
+        [Test]
+        public async Task RealSystemRejectsSolutionsOutsideTheOriginalRadicalDomain()
+        {
+            var result = await Execute(new SymbolicRequest { Operation = "solve-system", Domain = "real",
+                Equations = new[] { "sqrt(x)^2=-1", "y=0" }, Variables = new[] { "x", "y" } });
+            NUnit.Framework.Assert.That(result.Result.Replace(" ", ""), Is.EqualTo("{}").Or.EqualTo("∅"));
+            NUnit.Framework.Assert.That(result.Status, Is.EqualTo("exact"));
+        }
+
+        [Test]
+        public async Task NegativeInverseCotangentUsesTheTslPrincipalValue()
+        {
+            var result = await Execute(new SymbolicRequest { Operation = "evaluate", Expression = "arccot(-1)" });
+            NUnit.Framework.Assert.That(result.Status, Is.EqualTo("approximate"));
+            NUnit.Framework.Assert.That(double.Parse(result.Result, CultureInfo.InvariantCulture), Is.EqualTo(3 * Math.PI / 4).Within(1e-14));
+        }
+
         [TestCase("2·x⁽ⁿ⁺¹⁾", "16")]
         [TestCase("2·x⁻²", "1/2")]
         [TestCase("sin²(x)+cos²(x)", "1")]
@@ -181,6 +213,52 @@ namespace Computator.NET.WebApi.IntegrationTests
             NUnit.Framework.Assert.That(media.StatusCode, Is.EqualTo(HttpStatusCode.UnsupportedMediaType));
             using var oversize = await _client.PostAsJsonAsync("/api/v2/symbolic", new { expression = new string('x', 8193) });
             NUnit.Framework.Assert.That(oversize.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+        }
+
+        private static IEnumerable<TestCaseData> InvalidJsonRequests()
+        {
+            var fixture = Path.Combine(AppContext.BaseDirectory, "fixtures", "symbolic-invalid-json.json");
+            using var json = JsonDocument.Parse(File.ReadAllText(fixture));
+            foreach (var item in json.RootElement.EnumerateArray())
+                yield return new TestCaseData(item.GetProperty("json").GetString())
+                    .SetName("SymbolicRawJsonRejects_" + item.GetProperty("name").GetString());
+        }
+
+        [TestCaseSource(nameof(InvalidJsonRequests))]
+        public async Task RawSymbolicJsonRejectsAmbiguousMembersAndImplicitStringCoercion(string raw)
+        {
+            using var response = await _client.PostAsync("/api/v2/symbolic", new StringContent(raw, Encoding.UTF8, "application/json"));
+            var body = await response.Content.ReadAsStringAsync();
+            NUnit.Framework.Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest), body);
+            NUnit.Framework.Assert.That(response.Content.Headers.ContentType.MediaType, Is.EqualTo("application/problem+json"));
+            using var problem = JsonDocument.Parse(body);
+            NUnit.Framework.Assert.That(problem.RootElement.GetProperty("status").GetInt32(), Is.EqualTo(400));
+            NUnit.Framework.Assert.That(problem.RootElement.GetProperty("title").GetString(), Is.Not.Empty);
+        }
+
+        [TestCase("{\"Expression\":\"log(8,2)\"}", "3")]
+        [TestCase("{\"operation\":\"substitute\",\"expression\":\"x-X\",\"substitutions\":{\"x\":\"3\",\"X\":\"2\"}}", "1")]
+        public async Task RawSymbolicJsonPreservesPropertyCasingAndDistinctVariableNames(string raw, string expected)
+        {
+            using var response = await _client.PostAsync("/api/v2/symbolic", new StringContent(raw, Encoding.UTF8, "application/json"));
+            var body = await response.Content.ReadAsStringAsync();
+            NUnit.Framework.Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK), body);
+            var result = JsonSerializer.Deserialize<SymbolicResult>(body, WorkerProcess.JsonOptions);
+            NUnit.Framework.Assert.That(result.Result, Is.EqualTo(expected));
+            NUnit.Framework.Assert.That(result.Status, Is.EqualTo("exact"));
+        }
+
+        [Test]
+        public async Task OversizedSymbolicJsonIsRejectedBeforeUploadingItsBody()
+        {
+            using var request = new HttpRequestMessage(HttpMethod.Post, "/api/v2/symbolic")
+            {
+                Content = new StringContent("{\"expression\":\"" + new string('x', 262145) + "\"}", Encoding.UTF8, "application/json")
+            };
+            request.Headers.ExpectContinue = true;
+            using var response = await _client.SendAsync(request);
+            NUnit.Framework.Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.RequestEntityTooLarge));
+            NUnit.Framework.Assert.That((await Execute(new SymbolicRequest { Expression = "6*7" })).Result, Is.EqualTo("42"));
         }
 
         [Test]
