@@ -69,6 +69,7 @@ rm -f -- "$results/production-complex-before.png" "$results/production-complex-a
     "$results/complex-visible-render-failure.png" "$results/complex-visible-after-render-failure.png"
 rm -f -- "$results/autocomplete-after.png"
 rm -f -- "$results/find-replace.png" "$results/find-replace-dialog.png"
+rm -f -- "$results/symbolic-calculations.png"
 
 mcs -nologo -out:"$validation_temp/NativeToolProcessTests.exe" \
     build/mono/NativeToolProcess.cs build/mono/NativeToolProcessTests.cs

@@ -82,6 +82,7 @@ namespace Computator.NET.Core.Presenters
                     case nameof(_sharedViewState.CurrentView):
                         Logger.Info($"Changing {nameof(_view.SelectedViewIndex)} {(ViewName)_view.SelectedViewIndex} to {_sharedViewState.CurrentView}");
                         _view.SelectedViewIndex = (int)_sharedViewState.CurrentView;
+                        UpdateModeText();
                         break;
                 }
             };
@@ -99,11 +100,18 @@ namespace Computator.NET.Core.Presenters
 
         private void SetMode(CalculationsMode mode)
         {
-            if (mode == _calculationsMode)
+            _calculationsMode = mode;
+            UpdateModeText();
+        }
+
+        private void UpdateModeText()
+        {
+            if (_sharedViewState.CurrentView == ViewName.SymbolicCalculations)
+            {
+                _view.ModeText = "Mode[Symbolic]";
                 return;
-
-
-            switch (mode)
+            }
+            switch (_calculationsMode)
             {
                 case CalculationsMode.Complex:
                     _view.ModeText = "Mode[Complex : f(z)]";
@@ -116,7 +124,6 @@ namespace Computator.NET.Core.Presenters
                     break;
             }
 
-            _calculationsMode = mode;
             //  _view.EditChartMenus.SetMode(_calculationsMode);
         }
     }

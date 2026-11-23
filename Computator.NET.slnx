@@ -160,6 +160,7 @@
     <File Path="build/mono/SmokeTests/MonoNumericLayoutTests.cs" />
     <File Path="build/mono/SmokeTests/MonoNumericParsingTests.cs" />
     <File Path="build/mono/SmokeTests/MonoScriptPlotTests.cs" />
+    <File Path="build/mono/SmokeTests/MonoSymbolicCalculationsTests.cs" />
     <File Path="build/mono/SmokeTests/LocalizationTests.cs" />
 
     <File Path="build/mono/SmokeTests/Program.cs" />
@@ -342,10 +343,17 @@
     <File Path="docs/BUILD.md" />
     <File Path="docs/DEVELOPING.md" />
     <File Path="docs/MONO-DESKTOP.md" />
+    <File Path="docs/SYMBOLIC-DESKTOP.md" />
     <File Path="docs/MACOS-APPLICATION.md" />
     <File Path="docs/WEB-DEVELOPMENT.md" />
   </Folder>
   <Folder Name="/Documentation/Evidence/">
+    <File Path="docs/evidence/symbolic-desktop/README.md" />
+    <File Path="docs/evidence/symbolic-desktop/provenance.json" />
+    <File Path="docs/evidence/symbolic-desktop/before.png" />
+    <File Path="docs/evidence/symbolic-desktop/after.png" />
+    <File Path="docs/evidence/symbolic-desktop/native-tests.xml" />
+    <File Path="docs/evidence/symbolic-desktop/native-smoke.log" />
     <File Path="docs/evidence/mono-drawing-2026-11-02.json" />
     <File Path="docs/followups/images/issue-255/evidence.json" />
     <File Path="docs/evidence/historical-upgrade-2026-10-16.json" />

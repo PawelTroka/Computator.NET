@@ -52,6 +52,9 @@ namespace Computator.NET.Core.Presenters
 
         private void ExpressionTextBox_TextChanged(object sender, EventArgs e)
         {
+            // Symbolic notation has its own parser and free variables. Do not
+            // compile or classify it as a numeric TSL function while editing.
+            if (_sharedViewState.CurrentView == ViewName.SymbolicCalculations) return;
             var mode = modeDeterminer.DetermineMode(_view.ExpressionTextBox.Text, _customFunctionsEditor.Text);
             if (mode == _sharedViewState.CalculationsMode) return;
             _sharedViewState.CalculationsMode = mode;

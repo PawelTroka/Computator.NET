@@ -266,7 +266,8 @@ execute the actual managed preflight and reject tampering, wrong architecture,
 unrecorded files, unsafe mappings and writes back through redirected caches.
 Use the final candidate's fresh workflow reports and archive hashes for release.
 
-The current suite requires at least 55 cases, including restored compiled 3D
+The current suite requires at least 56 cases, including the symbolic tab's native
+Calculate-button input and mathematical workflow, and restored compiled 3D
 plot commands, exact decimal-input rounding and numeric-control font layout.
 The layout regression shows the real chart-bounds view and checks all four
 numeric controls against their actual font heights at 9.75, 12 and 16 points,
@@ -305,7 +306,11 @@ The 3D software renderer supports explicit real `f(x,y)`, bounded meshes, point
 series, axes, rotation, pan, zoom and PNG export. It uses a painter's algorithm;
 intersecting geometry may order incorrectly. Implicit surfaces, hardware
 acceleration, lighting and surface picking are unavailable. Slow trusted functions
-can still block synchronous sampling. Symbolic calculations remain unavailable.
+can still block synchronous sampling. The [symbolic calculations tab](SYMBOLIC-DESKTOP.md)
+uses the shared algebra engine with asynchronous execution, cooperative cancellation,
+plain text and LaTeX results. Its native acceptance case verifies actual button
+input, all operation examples, errors and recovery. A closed form is not guaranteed
+for every mathematical request; unevaluated and undefined outcomes are explicit.
 
 Before advertising a release, also test backed-up real profiles/documents,
 long-running use, printing with a real configured CUPS printer, clipboard/IME,

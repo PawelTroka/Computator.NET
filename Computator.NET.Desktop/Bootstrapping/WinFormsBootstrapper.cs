@@ -12,6 +12,7 @@ using Computator.NET.Core.Menu.Commands;
 using Computator.NET.Core.Menu.Commands.EditCommands;
 using Computator.NET.Core.Menu.Commands.FileCommands;
 using Computator.NET.Core.Presenters;
+using Computator.NET.Core.SymbolicCalculations;
 using Computator.NET.DataTypes.Charts;
 using Computator.NET.Desktop.Controls;
 using Computator.NET.Desktop.Controls.AutocompleteMenu;
@@ -58,6 +59,7 @@ namespace Computator.NET.Desktop.Bootstrapping
             Container.ResolveComposed<ChartAreaValuesPresenter>();
             Container.ResolveComposed<CalculationsPresenter>();
             Container.ResolveComposed<NumericalCalculationsPresenter>();
+            Container.ResolveComposed<SymbolicCalculationsPresenter>();
             Container.ResolveComposed<ScriptingViewPresenter>();
             Container.ResolveComposed<CustomFunctionsPresenter>();
         }
@@ -69,6 +71,8 @@ namespace Computator.NET.Desktop.Bootstrapping
             Container.RegisterTypeLegacy<IChartAreaValuesView, ChartAreaValuesView>(new ContainerControlledLifetimeManager());
             Container.RegisterTypeLegacy<ICalculationsView, CalculationsView>(new ContainerControlledLifetimeManager());
             Container.RegisterTypeLegacy<INumericalCalculationsView, NumericalCalculationsView>(new ContainerControlledLifetimeManager());
+            Container.RegisterTypeLegacy<ISymbolicCalculationsView, SymbolicCalculationsView>(new ContainerControlledLifetimeManager());
+            Container.RegisterTypeLegacy<ISymbolicCalculationService, SymbolicCalculationService>(new ContainerControlledLifetimeManager());
             Container.RegisterTypeLegacy<IScriptingView, ScriptingView>(new ContainerControlledLifetimeManager());
             Container.RegisterTypeLegacy<ISolutionExplorerView, SolutionExplorerView>();
             Container.RegisterTypeLegacy<ICustomFunctionsView, CustomFunctionsView>(new ContainerControlledLifetimeManager());

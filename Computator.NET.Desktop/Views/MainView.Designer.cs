@@ -44,7 +44,6 @@ namespace Computator.NET.Desktop.Views
             this.calculationsTabPage = new System.Windows.Forms.TabPage();
             this.numericalCalculationsTabPage = new System.Windows.Forms.TabPage();
             this.symbolicCalculationsTabPage = new System.Windows.Forms.TabPage();
-            this.symbolicOperationButton = new System.Windows.Forms.Button();
             this.scriptingTabPage = new System.Windows.Forms.TabPage();
             this.customFunctionsTabPage = new System.Windows.Forms.TabPage();
             this.openCustomFunctionsFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -162,7 +161,6 @@ namespace Computator.NET.Desktop.Views
             // 
             // symbolicCalculationsTabPage
             // 
-            this.symbolicCalculationsTabPage.Controls.Add(this.symbolicOperationButton);
             this.symbolicCalculationsTabPage.Location = new System.Drawing.Point(4, 29);
             this.symbolicCalculationsTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.symbolicCalculationsTabPage.Name = "symbolicCalculationsTabPage";
@@ -171,19 +169,6 @@ namespace Computator.NET.Desktop.Views
             this.symbolicCalculationsTabPage.TabIndex = 3;
             this.symbolicCalculationsTabPage.Text = Localization.Views.MainView.symbolicCalculationsTabPage_Text;
             this.symbolicCalculationsTabPage.UseVisualStyleBackColor = true;
-            // 
-            // symbolicOperationButton
-            // 
-            this.symbolicOperationButton.Enabled = false;
-            this.symbolicOperationButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F);
-            this.symbolicOperationButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.symbolicOperationButton.Location = new System.Drawing.Point(501, 172);
-            this.symbolicOperationButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.symbolicOperationButton.Name = "symbolicOperationButton";
-            this.symbolicOperationButton.Size = new System.Drawing.Size(168, 73);
-            this.symbolicOperationButton.TabIndex = 0;
-            this.symbolicOperationButton.Text = Localization.Views.MainView.symbolicOperationButton_Text;
-            this.symbolicOperationButton.UseVisualStyleBackColor = true;
             // 
             // scriptingTabPage
             // 
@@ -260,7 +245,6 @@ namespace Computator.NET.Desktop.Views
         private System.Windows.Forms.TabPage calculationsTabPage;
         private System.Windows.Forms.TabPage numericalCalculationsTabPage;
         private System.Windows.Forms.TabPage symbolicCalculationsTabPage;
-        private System.Windows.Forms.Button symbolicOperationButton;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.TabPage scriptingTabPage;
         private System.Windows.Forms.TabPage customFunctionsTabPage;

@@ -122,6 +122,7 @@ internal static partial class Program
         Run("unicode-editor-documents-and-renaming", EditorDocuments);
         Run("unshown-editor-tabs-have-backed-documents", UnshownEditorDocuments);
         Run("desktop-visible-custom-functions-file-and-script-workflow", DesktopWorkflow);
+        Run("mono-symbolic-calculations-and-native-input", SymbolicDesktopWorkflow);
         Run("desktop-literal-find-and-replace", DesktopFindReplace);
         Run("unix-document-save-and-alias-protection", UnixDocumentSafety);
         Run("unix-document-hardlink-and-replacement-identity", UnixDocumentIdentity);

@@ -22,12 +22,11 @@ namespace Computator.NET.Desktop.Views
             // while the form auto-sizes: the tab area covers the input and menus.
             AutoSize = false;
 #endif
-            symbolicCalculationsTabPage.Enabled = false;
             this.MakeSureItsNotBiggerThanScreen();
             this.Icon = GraphicsResources.computator_net_icon;
         }
 
-        public MainView(MenuStripView menuStripView, ToolBarView toolbarView, CalculationsView calculationsView, NumericalCalculationsView numericalCalculationsView, ScriptingView scriptingView, CustomFunctionsView customFunctionsView, ChartingView chartingView, ExpressionView expressionView) : this()
+        public MainView(MenuStripView menuStripView, ToolBarView toolbarView, CalculationsView calculationsView, NumericalCalculationsView numericalCalculationsView, ScriptingView scriptingView, CustomFunctionsView customFunctionsView, ChartingView chartingView, ExpressionView expressionView, SymbolicCalculationsView symbolicCalculationsView) : this()
         {
             expressionView.Dock=DockStyle.Top;
             Controls.Add(expressionView);
@@ -46,6 +45,9 @@ namespace Computator.NET.Desktop.Views
 
             numericalCalculationsView.Dock = DockStyle.Fill;
             numericalCalculationsTabPage.Controls.Add(numericalCalculationsView);
+
+            symbolicCalculationsView.Dock = DockStyle.Fill;
+            symbolicCalculationsTabPage.Controls.Add(symbolicCalculationsView);
 
             scriptingView.Dock = DockStyle.Fill;
             scriptingTabPage.Controls.Add(scriptingView);
