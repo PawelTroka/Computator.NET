@@ -79,6 +79,13 @@ meaning; the desktop editor's exponent mode produces actual superscripts.
 For example, `log(8,2)` is `3`. The adapter translates the library's different
 internal order in both directions, including nested expressions and outputs.
 
+`arccot` and its TSL alias `arcctg` use the existing numerical TSL definition
+`PI/2 - arctan(z)`. For real arguments this selects the branch between zero and
+`PI`, so `arccot(-1)` is `3·PI/4`. An inverse cotangent produced internally by the
+algebra library has a different branch. Its output retains that meaning with an
+explicit piecewise `arctan(1/z)` expression and the value `PI/2` at zero, rather
+than changing the value by naming it `arccot`.
+
 A bare function name is not a free symbolic variable; unknown functions are
 rejected instead of silently turning `f(x)` into multiplication. Use an explicit
 `·` for a variable followed by a parenthesized factor, such as `x·(x+1)`.
@@ -95,6 +102,8 @@ numerical/script commands.
 
 Substitution is simultaneous: replacing `x` by `y` and `y` by `x` exchanges the
 names. It does not first replace `x`, then replace the newly inserted `y`.
+The order of JSON properties does not affect the answer, including when an
+unused substitution key resembles an internal temporary variable name.
 
 Results use the same TSL notation: for example, differentiating `sin(x²)` returns
 `2·x·cos(x²)` (spacing may vary). Copying a result preserves those Unicode
@@ -168,6 +177,20 @@ distinguish an inconsistent system from an unsupported one, the result remains
 `unevaluated`; this is not a claim that the solution set is empty. Retained system
 text is explanatory output, and should be resubmitted using the equations and
 variables fields rather than parsed as a single scalar expression.
+System candidates are checked against the original equations and their domain
+restrictions. Real-valued coordinates alone do not make a valid real solution:
+for example, `sqrt(x)^2=-1` cannot admit `x=-1` in the real domain. Undefined
+coordinates and excluded poles are rejected. If a candidate family cannot be
+verified, the original system remains `unevaluated` with an explanation.
+
+When a generic integral introduces a denominator that can vanish for a free
+parameter, the result retains the generic formula under its condition and the
+original integral for the exceptional case. The status remains `unevaluated`
+while such a case is unresolved. For example, integrating `exp(a*x)` from zero
+to one must retain the `a=0` case: substituting `a=0` into the returned result
+gives `1`, not an undefined division. Likewise `x^a` requires a separate case
+at `a=-1`. Keep the piecewise conditions when copying or simplifying these
+results; parameter specialization can resolve the retained integral.
 
 Factorization and simplification can change how removable singularities are
 displayed. Check the original expression's domain when reusing a transformed
@@ -198,7 +221,10 @@ one-sided limits, equation/system results, matrices, simultaneous substitution,
 notation, culture, malformed input, work budgets, cancellation and recovery.
 TSL notation regressions cover the shared superscript alphabet, middle dots,
 compound exponents and logarithm order. Independent numerical TSL evaluation of
-symbolic results verifies that formatting preserves mathematical meaning.
+symbolic results verifies that formatting preserves mathematical meaning,
+including inverse-cotangent branches. Mathematical safety regressions also cover
+original system domains, exceptional integral parameters and substitution keys
+that could otherwise capture internal names.
 
 `build/portable/Test-SymbolicCli.ps1` runs the **published CLI as child processes**
 and covers all exposed operation names, exact and approximate results, Unicode,

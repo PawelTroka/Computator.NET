@@ -111,7 +111,13 @@ internal static class SymbolicOutput
                 case Entity.Cotanf(var argument):
                     return Save(node, "cot(" + Read(argument).Text + ")", 100, Domain.Complex);
                 case Entity.Arccotanf(var argument):
-                    return Save(node, "arccot(" + Read(argument).Text + ")", 100, Domain.Complex);
+                    // Backend arccotan(z) is atan(1/z), with pi/2 at zero.
+                    // Calling this arccot(z) would silently select TSL's
+                    // different pi/2 - atan(z) branch. Keep both the backend
+                    // branch and its zero value explicit in symbolic output.
+                    var cotangentArgument = "(" + Read(argument).Text + ")";
+                    return Save(node, "piecewise(PI / 2 provided " + cotangentArgument + " = 0, arctan(1 / " +
+                        cotangentArgument + ") provided " + cotangentArgument + " != 0)", 100, Domain.Complex);
                 default: return node;
             }
         });
