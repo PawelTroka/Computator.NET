@@ -32,6 +32,7 @@ namespace Computator.NET.WebApi
             services.AddCors();
             services.AddControllers(options =>
             {
+                options.InputFormatters.Insert(0, new SymbolicJsonInputFormatter());
                 options.Filters.Add<ExecutionPolicyFilter>();
                 options.Filters.Add<Execution.WorkerExecutionFilter>();
             }).AddNewtonsoftJson();

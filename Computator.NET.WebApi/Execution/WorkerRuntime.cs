@@ -34,13 +34,21 @@ namespace Computator.NET.WebApi.Execution
                     source.Append(buffer, 0, count);
                 }
                 var message = JsonSerializer.Deserialize<WorkerRequest>(source.ToString(), WorkerProcess.JsonOptions);
-                if (message?.Request == null || !Validator.TryValidateObject(message.Request, new ValidationContext(message.Request), new List<ValidationResult>(), true))
+                if (message == null || (message.Request == null) == (message.Symbolic == null) ||
+                    (message.Request != null && !Validator.TryValidateObject(message.Request, new ValidationContext(message.Request), new List<ValidationResult>(), true)) ||
+                    (message.Symbolic != null && message.Chart))
                     throw new ArgumentException("Invalid worker request.");
-                GSLInitializer.Initialize();
-                var controller = new ExecutionV2Controller(new ModeDeterminer(new TslCompiler()), new ChartFactory());
-                // Calling the shared controller implementation directly deliberately
-                // bypasses MVC's worker dispatch filter, not its validation service.
-                var result = message.Chart ? controller.Chart(message.Request) : controller.Execute(message.Request);
+                IActionResult result;
+                if (message.Symbolic != null)
+                    result = new SymbolicController().Execute(message.Symbolic);
+                else
+                {
+                    GSLInitializer.Initialize();
+                    var controller = new ExecutionV2Controller(new ModeDeterminer(new TslCompiler()), new ChartFactory());
+                    // Calling shared controller implementations bypasses only
+                    // MVC's worker dispatch, not mathematical input validation.
+                    result = message.Chart ? controller.Chart(message.Request) : controller.Execute(message.Request);
+                }
                 WorkerReply reply;
                 if (result is FileContentResult image)
                     reply = new WorkerReply { Status = 200, Image = Convert.ToBase64String(image.FileContents) };

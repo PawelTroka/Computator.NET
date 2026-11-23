@@ -38,8 +38,10 @@ internal sealed class WorkerProcess(TimeSpan maximumTime, CancellationToken appl
             await Task.WhenAll(output, errors);
             if (process.ExitCode != 0) return new WorkerReply(502, Detail: "Execution worker exited unexpectedly; the local application remains available.");
             var reply = JsonSerializer.Deserialize<WorkerReply>(await output, Execution.JsonOptions);
-            if (reply == null || (reply.Status != 200 && reply.Status != 400) ||
-                (reply.Status == 200 && reply.Result == null) || reply.Result?.Length > 65536)
+            if (reply == null || (reply.Status != 200 && reply.Status != 400 && reply.Status != 504) ||
+                (reply.Status == 200 && reply.Result == null) || reply.Result?.Length > 65536 ||
+                (request.Operation == "symbolic" && reply.Status == 200 &&
+                    (reply.Symbolic == null || reply.Symbolic.Result != reply.Result || reply.Symbolic.Latex.Length > 65536)))
                 throw new IOException("Execution worker returned an invalid response.");
             return reply;
         }

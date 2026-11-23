@@ -1,0 +1,118 @@
+[
+  {
+    "name": "duplicate substitution",
+    "json": "{\"operation\":\"substitute\",\"expression\":\"x-y\",\"substitutions\":{\"x\":\"2\",\"x\":\"3\",\"y\":\"1\"}}"
+  },
+  {
+    "name": "reversed duplicate substitution",
+    "json": "{\"operation\":\"substitute\",\"expression\":\"x-y\",\"substitutions\":{\"x\":\"3\",\"x\":\"2\",\"y\":\"1\"}}"
+  },
+  {
+    "name": "escaped duplicate substitution",
+    "json": "{\"operation\":\"substitute\",\"expression\":\"x\",\"substitutions\":{\"x\":\"2\",\"\\u0078\":\"3\"}}"
+  },
+  {
+    "name": "duplicate top-level field",
+    "json": "{\"expression\":\"1\",\"expression\":\"2\"}"
+  },
+  {
+    "name": "case-insensitive duplicate field",
+    "json": "{\"expression\":\"1\",\"Expression\":\"2\"}"
+  },
+  {
+    "name": "escaped duplicate field",
+    "json": "{\"expression\":\"1\",\"\\u0065xpression\":\"2\"}"
+  },
+  {
+    "name": "numeric expression",
+    "json": "{\"expression\":123}"
+  },
+  {
+    "name": "boolean expression",
+    "json": "{\"expression\":true}"
+  },
+  {
+    "name": "null expression",
+    "json": "{\"expression\":null}"
+  },
+  {
+    "name": "object expression",
+    "json": "{\"expression\":{\"value\":\"1\"}}"
+  },
+  {
+    "name": "numeric substitution",
+    "json": "{\"operation\":\"substitute\",\"expression\":\"x\",\"substitutions\":{\"x\":2}}"
+  },
+  {
+    "name": "null substitution",
+    "json": "{\"operation\":\"substitute\",\"expression\":\"x\",\"substitutions\":{\"x\":null}}"
+  },
+  {
+    "name": "array substitutions",
+    "json": "{\"operation\":\"substitute\",\"expression\":\"x\",\"substitutions\":[]}"
+  },
+  {
+    "name": "null substitutions",
+    "json": "{\"expression\":\"1\",\"substitutions\":null}"
+  },
+  {
+    "name": "numeric equation",
+    "json": "{\"operation\":\"solve-system\",\"equations\":[1],\"variables\":[\"x\"]}"
+  },
+  {
+    "name": "null equation",
+    "json": "{\"operation\":\"solve-system\",\"equations\":[null],\"variables\":[\"x\"]}"
+  },
+  {
+    "name": "numeric variable",
+    "json": "{\"operation\":\"solve-system\",\"equations\":[\"x=1\"],\"variables\":[1]}"
+  },
+  {
+    "name": "scalar equations",
+    "json": "{\"operation\":\"solve-system\",\"equations\":\"x=1\",\"variables\":[\"x\"]}"
+  },
+  {
+    "name": "numeric lower bound",
+    "json": "{\"operation\":\"definite-integrate\",\"expression\":\"x\",\"lowerBound\":0,\"upperBound\":\"1\"}"
+  },
+  {
+    "name": "numeric upper bound",
+    "json": "{\"operation\":\"definite-integrate\",\"expression\":\"x\",\"lowerBound\":\"0\",\"upperBound\":1}"
+  },
+  {
+    "name": "numeric limit point",
+    "json": "{\"operation\":\"limit\",\"expression\":\"x\",\"point\":0}"
+  },
+  {
+    "name": "numeric variable field",
+    "json": "{\"operation\":\"differentiate\",\"expression\":\"x\",\"variable\":1}"
+  },
+  {
+    "name": "quoted order",
+    "json": "{\"operation\":\"differentiate\",\"expression\":\"x\",\"order\":\"1\"}"
+  },
+  {
+    "name": "fractional order",
+    "json": "{\"operation\":\"differentiate\",\"expression\":\"x\",\"order\":1.5}"
+  },
+  {
+    "name": "quoted precision",
+    "json": "{\"operation\":\"evaluate\",\"expression\":\"1/3\",\"precision\":\"30\"}"
+  },
+  {
+    "name": "unknown field",
+    "json": "{\"expression\":\"1\",\"expresion\":\"2\"}"
+  },
+  {
+    "name": "null root",
+    "json": "null"
+  },
+  {
+    "name": "array root",
+    "json": "[]"
+  },
+  {
+    "name": "malformed JSON",
+    "json": "{\"expression\":\"x\""
+  }
+]

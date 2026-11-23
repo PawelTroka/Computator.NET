@@ -44,6 +44,7 @@ Start with the task you want to complete. The entry-point guides describe the cu
 
 | [Web custom functions](followups/WEB-CUSTOM-FUNCTIONS.md) | Editing, session saves, import/export and request-local definitions |
 | [Web interface](WEB-UI.md) | Web shell and editor design decisions |
+| [Symbolic browser and API](followups/SYMBOLIC-WEB.md) | Symbolic controls, isolated request transport, browser tests and captured evidence |
 | [Real browser-to-API tests](followups/WEB-E2E.md) | Protected local proxy and actual mathematical execution |
 
 ## Platforms and native libraries

@@ -106,3 +106,9 @@ h2, h3 { color: var(--workspace-text); }
    the browser so resizing and camera movement never recompile user code. */
 .chart-surface { width: 100%; height: clamp(380px, 65vh, 760px); min-width: 0; border: 1px solid var(--workspace-line); border-radius: 6px; overflow: hidden; background: var(--workspace-surface); }
 .chart-surface:focus-visible { outline: 3px solid var(--workspace-accent); }
+
+.symbolic-input { font-family: ui-monospace, Consolas, monospace; font-size: 1rem; resize: vertical; }
+.symbolic-latex { white-space: pre-wrap; overflow-wrap: anywhere; padding: .75rem; background: var(--workspace-raised); border-radius: 6px; }
+.symbolic-warnings { color: var(--workspace-muted); }
+.symbolic-workspace code { color: inherit; }
+.symbolic-workspace summary { cursor: pointer; }

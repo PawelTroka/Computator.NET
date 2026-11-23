@@ -10,14 +10,16 @@ import { CustomFunctionsProvider } from './helpers/CustomFunctionsContext';
 import { ScriptDocumentProvider } from './helpers/ScriptDocumentContext';
 import { CalculatorDraftProvider } from './helpers/CalculatorDraftContext';
 import { ToolDraftProvider } from './helpers/ToolDraftContext';
+import { SymbolicCalculations } from './components/SymbolicCalculations';
+import { SymbolicDraftProvider } from './helpers/SymbolicDraftContext';
 
-export const routes = <CustomFunctionsProvider><ScriptDocumentProvider><CalculatorDraftProvider><ToolDraftProvider><Layout><Routes>
+export const routes = <CustomFunctionsProvider><ScriptDocumentProvider><CalculatorDraftProvider><ToolDraftProvider><SymbolicDraftProvider><Layout><Routes>
   <Route path="/" element={<Chart />} />
   <Route path="/calculate" element={<Calculate />} />
   <Route path="/scripting" element={<Scripting />} />
   <Route path="/numerical-calculations" element={<NumericalCalculations />} />
   <Route path="/fetchdata" element={<FetchData />} />
-  <Route path="/symbolic-calculations" element={<><h1>Symbolic calculations</h1><p>This web feature has not yet been implemented.</p></>} />
+  <Route path="/symbolic-calculations" element={<SymbolicCalculations />} />
   <Route path="/custom-functions" element={<CustomFunctions />} />
   <Route path="*" element={<><h1>Page not found</h1><Link to="/">Return to charting</Link></>} />
-</Routes></Layout></ToolDraftProvider></CalculatorDraftProvider></ScriptDocumentProvider></CustomFunctionsProvider>;
+</Routes></Layout></SymbolicDraftProvider></ToolDraftProvider></CalculatorDraftProvider></ScriptDocumentProvider></CustomFunctionsProvider>;

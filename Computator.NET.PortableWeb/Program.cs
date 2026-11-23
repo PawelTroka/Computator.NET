@@ -3,6 +3,8 @@ using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using Computator.NET.PortableWeb;
+using Computator.NET.Engine.Symbolic;
+using Computator.NET.Hosting;
 
 if (args is ["--execution-worker"]) return WorkerProcess.RunWorker();
 if (args is ["--help"])
@@ -71,7 +73,8 @@ app.MapGet("/api/portable/status", (WorkerProcess workers) => new
 {
     implementation = "portable-local-poc", os = RuntimeInformation.OSDescription,
     architecture = RuntimeInformation.ProcessArchitecture.ToString(), activeWorkerCount = workers.ActiveCount,
-    operations = Execution.Operations, chart = false, nativeGsl = false
+    operations = Execution.Operations, chart = false, nativeGsl = false,
+    symbolic = true, symbolicOperations = SymbolicEngine.Operations
 });
 app.MapGet("/api/numerical-calculations/integral/list-methods", () => new[] { Execution.IntegralMethod });
 app.MapGet("/api/numerical-calculations/derivative/list-methods", () => new[] { Execution.DerivativeMethod });
@@ -98,6 +101,7 @@ app.MapPost("/api/v2/execute", async (HttpContext context, WorkerProcess workers
         }
         var request = JsonSerializer.Deserialize<ExecutionRequest>(body.ToArray(), Execution.JsonOptions)
             ?? throw new ArgumentException("A JSON request is required.");
+        if (!Execution.Operations.Contains(request.Operation)) throw new ArgumentException("Unknown operation.");
         Execution.Validate(request);
         var reply = await workers.RunAsync(request, context.RequestAborted);
         return reply.Status == 200 ? Results.Ok(new { result = reply.Result })
@@ -108,6 +112,34 @@ app.MapPost("/api/v2/execute", async (HttpContext context, WorkerProcess workers
     { return Results.Problem(statusCode: 400, title: "Invalid execution request.", detail: exception.Message); }
     catch (BadHttpRequestException exception)
     { return Results.Problem(statusCode: exception.StatusCode, title: "Invalid execution request."); }
+});
+app.MapPost("/api/v2/symbolic", async (HttpContext context, WorkerProcess workers) =>
+{
+    if (!MediaTypeHeaderValue.TryParse(context.Request.ContentType, out var contentType) ||
+        !string.Equals(contentType.MediaType, "application/json", StringComparison.OrdinalIgnoreCase))
+        return Results.Problem(statusCode: 415, title: "Symbolic calculations require application/json.");
+    try
+    {
+        using var body = new MemoryStream();
+        var buffer = new byte[8192]; int count;
+        while ((count = await context.Request.Body.ReadAsync(buffer, context.RequestAborted)) != 0)
+        {
+            if (body.Length + count > Execution.MaximumBodyBytes)
+                return Results.Problem(statusCode: 413, title: "Symbolic request exceeds 256 KiB.");
+            await body.WriteAsync(buffer.AsMemory(0, count), context.RequestAborted);
+        }
+        var request = SymbolicRequestJson.Parse(body.ToArray());
+        // Cheap validation precedes child creation. Parsing and algebra run only
+        // in the same bounded process slots used by ordinary calculations.
+        SymbolicEngine.Validate(request);
+        var reply = await workers.RunAsync(new ExecutionRequest { Operation = "symbolic", Symbolic = request }, context.RequestAborted);
+        return reply.Status == 200 ? Results.Ok(reply.Symbolic)
+            : Results.Problem(statusCode: reply.Status, title: "Symbolic calculation failed.", detail: reply.Detail);
+    }
+    catch (Exception exception) when (exception is JsonException or ArgumentException)
+    { return Results.Problem(statusCode: 400, title: "Invalid symbolic request.", detail: exception.Message); }
+    catch (BadHttpRequestException exception)
+    { return Results.Problem(statusCode: exception.StatusCode, title: "Invalid symbolic request."); }
 });
 app.Map("/api/{**path}", () => Results.NotFound());
 app.MapGet("/", () => Results.Redirect("/calculate"));
