@@ -131,6 +131,24 @@ namespace Computator.NET.Desktop.Tests
             NUnit.Framework.Assert.That(Find<TextBox>("symbolicResult").Text, Is.EqualTo("15"));
         }
 
+        [TestCase(false)]
+        [TestCase(true)]
+        public void ExpressionTextContractAcceptsNullAndTheNativeClearMethod(bool clearMethod)
+        {
+            var input = (TextBox)_expression;
+            input.Text = "2*x";
+            NUnit.Framework.Assert.That(input.Text, Is.EqualTo("2·x"));
+
+            // Windows TextBoxBase.Clear() assigns null through the virtual Text
+            // setter. Exercise both paths: Mono's Clear implementation differs.
+            if (clearMethod) input.Clear();
+            else input.Text = null;
+            NUnit.Framework.Assert.That(input.Text, Is.Empty);
+
+            input.Text = "3*x";
+            NUnit.Framework.Assert.That(input.Text, Is.EqualTo("3·x"));
+        }
+
         [Test]
         public void NativeParameterFieldsAcceptTslPowersAndProducts()
         {

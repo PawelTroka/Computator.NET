@@ -169,6 +169,11 @@ internal static class SymbolicInput
             if (symbol == "=" && index + 1 < text.Length && text[index + 1] == '=') index++;
             else if ((symbol == "<" || symbol == ">" || symbol == "!") && index + 1 < text.Length && text[index + 1] == '=')
             { symbol += "="; index++; }
+            else if (symbol == "<" && index + 1 < text.Length && text[index + 1] == '>')
+            { symbol = "<>"; index++; }
+            // Angouri spells inequality <>. Passing TSL's != through would
+            // parse as a postfix factorial followed by equality (x! = 0).
+            if (symbol == "!=") symbol = "<>";
             var kind = symbol == "(" ? Kind.Open : symbol == ")" ? Kind.Close :
                 symbol == "]" || symbol == "}" ? Kind.CollectionClose : Kind.Operator;
             if ("+-*/^!=<>:,;|&()[]{}\\".IndexOf(symbol[0]) < 0)
@@ -221,6 +226,14 @@ internal static class SymbolicInput
                 .Select(argument => TranslateCalls(argument, recursion + 1)).ToArray();
             if (name == "log" && arguments.Length == 2)
                 output.Append("log(").Append(arguments[1]).Append(", ").Append(arguments[0]).Append(')');
+            else if (name == "arccot" || name == "arcctg")
+            {
+                if (arguments.Length != 1) throw new ArgumentException(name + " requires one argument.");
+                // Native TSL defines arccot(z) as pi/2 - atan(z), with its real
+                // branch in (0, pi). Angouri's arccotan instead uses atan(1/z)
+                // away from zero, which differs by pi on negative real inputs.
+                output.Append("(pi / 2 - arctan(").Append(arguments[0]).Append("))");
+            }
             else if (name == "root")
             {
                 if (arguments.Length != 2) throw new ArgumentException("root(value, index) requires two arguments.");
@@ -228,7 +241,7 @@ internal static class SymbolicInput
                 var degree = "(" + arguments[1] + ")";
                 // TSL's real root overload preserves the real odd root for a
                 // negative radicand; the complex principal power alone does not.
-                var oddReal = value + " in RR and " + degree + " in ZZ and (" + degree + " mod 2) != 0";
+                var oddReal = value + " in RR and " + degree + " in ZZ and (" + degree + " mod 2) <> 0";
                 output.Append("piecewise(sgn(").Append(value).Append(") * abs(").Append(value)
                     .Append(")^(1/").Append(degree).Append(") provided ").Append(oddReal)
                     .Append(", ").Append(value).Append("^(1/").Append(degree)
@@ -238,7 +251,7 @@ internal static class SymbolicInput
             {
                 name = name switch
                 {
-                    "tg" => "tan", "ctg" => "cotan", "arctg" => "arctan", "arcctg" => "arccotan",
+                    "tg" => "tan", "ctg" => "cotan", "arctg" => "arctan",
                     "tgh" => "tanh", "ctgh" => "coth", "artgh" => "atanh", "arctgh" => "acoth", _ => name
                 };
                 output.Append(name).Append('(').Append(string.Join(", ", arguments)).Append(')');

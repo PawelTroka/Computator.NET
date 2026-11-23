@@ -89,7 +89,7 @@ namespace Computator.NET.Desktop.Controls
         public override string Text
         {
             get { return base.Text.Replace('*', SpecialSymbols.DotSymbol); }
-            set { base.Text = value.Replace('*', SpecialSymbols.DotSymbol); }
+            set { base.Text = (value ?? string.Empty).Replace('*', SpecialSymbols.DotSymbol); }
         }
 
 

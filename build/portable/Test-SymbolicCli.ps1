@@ -89,6 +89,46 @@ $none = Invoke-Calculation @('--operation','solve','--expression','x^2+1=0','--d
 if ($none.status -ne 'exact' -or ($none.result -replace '\s', '') -ne '{}') { throw 'Real and complex solving domains were confused.' }
 $system = Invoke-Calculation @('--operation','solve-system','--equations','["x+y=3","x-y=1"]','--variables','["x","y"]')
 if ($system.status -ne 'exact' -or $system.result -notmatch '2' -or $system.result -notmatch '1') { throw 'The actual system solver did not return its solution.' }
+# Check candidates against the original expressions, not just their real-valued
+# coordinates or a simplified equation that has lost a radical or a pole.
+$null = Assert-Exact @('--operation','solve-system','--equations','["sqrt(x)^2=-1","y=0"]','--variables','["x","y"]','--domain','real') '{}'
+$null = Assert-Exact @('--operation','solve-system','--equations','["sqrt(x)^2=-1","y=0"]','--variables','["x","y"]','--domain','complex') '[[-1,0]]'
+$null = Assert-Exact @('--operation','solve-system','--equations','["(x^y)^2=-1","y=1/2"]','--variables','["x","y"]','--domain','real') '{}'
+$null = Assert-Exact @('--operation','solve-system','--equations','["(x^y)^2=-1","y=1/2"]','--variables','["x","y"]','--domain','complex') '[[-1,1/2]]'
+$piecewiseSystem = Invoke-Calculation @('--operation','solve-system','--equations','["piecewise(sqrt(x)^2 provided x>=0,-x provided x<0)=1","y=0"]','--variables','["x","y"]','--domain','real')
+if ($piecewiseSystem.status -ne 'exact' -or ($piecewiseSystem.result -replace '\s', '') -notin @('[[1,0],[-1,0]]','[[-1,0],[1,0]]')) {
+    throw 'An inactive piecewise branch incorrectly excluded a valid real system solution.'
+}
+foreach ($domain in @('real', 'complex')) {
+    $excluded = Assert-Exact @('--operation','solve-system','--equations','["x^2=0","1/x=y"]','--variables','["x","y"]','--domain',$domain) '{}'
+    if ($excluded.warnings -match '^Each row') { throw 'An undefined system row was described as a solution.' }
+}
+
+# The order of unused user keys must not capture temporary names used to make
+# substitution simultaneous. Exercise both exact replacement and evaluation.
+foreach ($replacements in @('{"x":"y","ComputatorSubstitution_1":"2"}', '{"ComputatorSubstitution_1":"2","x":"y"}')) {
+    $null = Assert-Exact @('--operation','substitute','--expression','x','--substitutions',$replacements) 'y'
+}
+foreach ($replacements in @('{"x":"3","ComputatorSubstitution_1":"2"}', '{"ComputatorSubstitution_1":"2","x":"3"}')) {
+    $value = Invoke-Calculation @('--operation','evaluate','--expression','x','--substitutions',$replacements)
+    if ($value.status -ne 'approximate' -or $value.result -ne '3') { throw 'Evaluation captured an unused substitution key.' }
+}
+
+# Generic integral formulas must retain exceptional parameter cases through the
+# public JSON/text round trip, with the original definite bounds intact.
+foreach ($example in @(
+    @{ Expression='exp(a*x)'; Lower='0'; Upper='1'; Parameter='0'; Expected='1' },
+    @{ Expression='exp(a*x)'; Lower='2'; Upper='5'; Parameter='0'; Expected='3' },
+    @{ Expression='x^a'; Lower='1'; Upper='2'; Parameter='-1'; Expected='ln(2)' },
+    @{ Expression='x^a'; Lower='1'; Upper='2'; Parameter='2'; Expected='7/3' }
+)) {
+    $generic = Invoke-Calculation @('--operation','definite-integrate','--expression',$example.Expression,'--lower',$example.Lower,'--upper',$example.Upper,'--domain','real')
+    if ($generic.status -ne 'unevaluated' -or !$generic.warnings.Count) { throw 'An integral with unresolved parameter cases was presented as unconditional.' }
+    $replacements = @{ a = $example.Parameter } | ConvertTo-Json -Compress
+    $specialized = Invoke-Calculation @('--operation','substitute','--expression',$generic.result,'--substitutions',$replacements,'--domain','real')
+    if ($specialized.status -ne 'exact') { throw 'A resolved exceptional integral case did not become exact.' }
+    $null = Assert-Exact @('--operation','simplify','--expression',("(" + $specialized.result + ")- (" + $example.Expected + ")")) '0'
+}
 $inverse = Invoke-Calculation @('--operation','inverse','--expression','[[1,0],[0,1]]')
 $null = Assert-Exact @('--operation','determinant','--expression',$inverse.result) '1'
 $transpose = Invoke-Calculation @('--operation','transpose','--expression','[[1,2],[3,4]]')
@@ -109,7 +149,10 @@ foreach ($example in @(
     @{ Expression='2ˡᵒᵍ⁽⁸ʹ²⁾'; Expected='8' },
     @{ Expression='log(8,2)'; Expected='3' },
     @{ Expression='log²(8,2)'; Expected='9' },
-    @{ Expression='log(log(256,2),2)'; Expected='3' }
+    @{ Expression='log(log(256,2),2)'; Expected='3' },
+    @{ Expression='arccot(-1)-3·PI/4'; Expected='0' },
+    @{ Expression='arcctg(-1)-3·PI/4'; Expected='0' },
+    @{ Expression='arccot²(-1)-(3·PI/4)²'; Expected='0' }
 )) {
     $null = Assert-Exact @('--operation','simplify','--expression',$example.Expression) $example.Expected
 }
@@ -169,5 +212,5 @@ foreach ($arguments in @(
 
 # A rejected request must not break a later published-process invocation.
 $null = Assert-Exact @('--operation','simplify','--expression','2+3') '5'
-if ($script:cases -lt 78) { throw "Expected at least 78 symbolic CLI process checks; ran $script:cases." }
+if ($script:cases -lt 104) { throw "Expected at least 104 symbolic CLI process checks; ran $script:cases." }
 Write-Host "Published symbolic CLI passed $script:cases process checks, including all operations, native TSL notation and numerical round trips, exact/approximate results, domains, strict options and recovery."
